@@ -1,0 +1,142 @@
+# Aliases and functions for .bashrc
+# ====================================
+
+# -------------------------------------------------------
+# Prompt / Xterm
+# -------------------------------------------------------
+
+# Returns the current git branch.
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+# Returns the current ruby version.
+parse_ruby_version() {
+  ruby -v | cut -d ' ' -f2
+}
+
+# Colored Prompt
+force_color_prompt=yes
+if [ "$force_color_prompt" = yes ]; then
+    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\w\[\033[0;36m\] $(parse_git_branch)\[\033[00m\]$ "
+else
+    PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\$(parse_git_branch)r\$(parse_ruby_version)$ "
+fi
+unset color_prompt force_color_prompt
+
+# Custom Xterm Title
+case "$TERM" in
+xterm*|rxvt*)
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+    ;;
+*)
+    ;;
+esac
+
+? () { echo "$*" | bc -l; }
+
+# -------------------------------------------------------
+# Aliases
+# -------------------------------------------------------
+
+# -- bash
+
+alias ll='ls -l --color=auto'
+alias n='nautilus .'
+alias del='gvfs-trash'
+
+# -- git
+
+alias gs='gst'
+alias gc='git commit -m '
+alias gca='git commit -am '
+alias gpom='git push origin master'
+alias pdpreview='git push origin master; cap preview deploy'
+alias pdbeta='git push origin master; cap beta deploy'
+alias pdlive='git push origin master; cap live deploy'
+
+# -- rvm / ruby / rails
+
+alias s='./script/server -u '
+alias cdgem='cd $GEM_HOME/gems'
+
+# This loads RVM into the shell session.
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+# -- CR
+
+export http_proxy="http://proxy01.crossroadsint.org:3128"
+
+
+# -------------------------------------------------------
+# Custom Functions
+# -------------------------------------------------------
+
+
+# Search and replace strings within all files in current dir (recursive).
+# =======================================================================
+function gsed () {
+  if [ -z "$3" ]
+  then
+    echo "== Usage:    gsed search_string replace_string [path]"
+  else
+    egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s/$1/$2/g"
+  fi
+}
+
+# Processes your git status output, exporting bash variables
+# for the filepaths of each modified file.
+# Written by Nathan D. Broadbent (www.f-77.com)
+# =======================================================================
+function gst () {
+  pfix="e" # Set your preferred shortcut letter here  
+
+  IFS=$'\n '   # Split by newline and space.
+  f=0          # Counter for the number of files
+  status=`git status --porcelain`   # Get the 'script' version of git status
+  
+  c=1 
+  for file in $status; do
+    # All actions will be on odd lines, all filenames are on even lines.
+    let mod=$c%2
+    if [ $mod = "0" ]; then
+      let f++
+      files[$f]=$file        # Array for formatting the output
+      export $pfix$f=$file   # Exporting variable for use.
+    fi
+    let c++
+  done
+  
+  IFS=$'\n'              # Now split only by newline for full git status.
+  status=`git status`    # Fetch full status
+
+  # Search and replace each line, showing the exported variable name next to files.
+  for line in $status; do   
+    i=1
+    while [ $i -le $f ]; do
+      search=${files[$i]}
+      replace="[\$$pfix$i] ${files[$i]}"
+      # (fixes a case when a file contains another file as a substring)
+      line=${line/$search /$replace }   # Substitution for files with a space suffix.
+      line=${line/%$search/$replace}    # Substitution for files with a newline suffix.
+      let i++
+    done    
+    echo $line                        # Print the final transformed line.
+  done
+}
+
+# Adds the current user's public SSH key to the authorized_keys list on a given server.
+# =======================================================================
+function authorize () {
+  if [ $1 ]; then 
+    echo "=== Copying and authorizing public key on server..."
+    public_key_file=`ls ~/.ssh/id*.pub`
+    cat $public_key_file | \
+    ssh $1 'cat > /tmp/$USER.pub && mkdir -p ~/.ssh && \
+            cat /tmp/$USER.pub >> ~/.ssh/authorized_keys && \
+            rm /tmp/$USER.pub'
+    echo "===== $USER's public key is now authorized on $1."
+  else
+    echo "Please specify user@server" 
+  fi  
+}
