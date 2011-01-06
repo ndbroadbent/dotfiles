@@ -43,6 +43,7 @@ esac
 
 alias ll='ls -l --color=auto'
 alias n='nautilus .'
+alias g='gedit'
 alias del='gvfs-trash'
 
 # -- git
