@@ -1,8 +1,8 @@
 #!/bin/bash
-cp -f ndb_bashrc ~/.ndb_bashrc
-# Check if ndb_bashrc is already installed.
-if ! grep ". ~/.ndb_bashrc" ~/.bashrc; then
-    echo ". ~/.ndb_bashrc" >> ~/.bashrc
+cp -f ubuntu_bashrc ~/.ubuntu_bashrc
+# Check if ubuntu_bashrc is already installed.
+if ! grep ". ~/.ubuntu_bashrc" ~/.bashrc; then
+    echo ". ~/.ubuntu_bashrc" >> ~/.bashrc
     echo "== Installed custom bashrc."
 else
     echo "== Updated custom bashrc."
