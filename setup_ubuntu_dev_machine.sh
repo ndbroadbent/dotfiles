@@ -16,7 +16,8 @@ sudo apt-get -ym install git-core gitk libyaml-ruby \
 libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
 ack-grep vim gedit-plugins xclip mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
-sun-java6-jdk apache2
+sun-java6-jdk apache2 \
+trash-cli
 
 echo "== Installing custom bashrc..."
 ./setup_ubuntu_bashrc.sh
