@@ -53,32 +53,32 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-# -- directory shortcuts
+# -- directory aliases
 # ======================
 
-# Add a directory shortcut. Use '.' for current working directory.
-function add_shortcut() {
+# Adds a directory alias to ~/.dir_aliases. Use '.' for current working directory.
+function add_dir_alias() {
   if [ $1 ] && [ $2 ]; then
     path=`cd $2; pwd`   # Fetches absolute path.
-    touch ~/.dir_shortcuts
-    echo "alias $1=\"cd $path\"" >> ~/.dir_shortcuts
+    touch ~/.dir_aliases
+    echo "alias $1=\"cd $path\"" >> ~/.dir_aliases
     source ~/.bashrc
   else
-    echo "Usage: add_shortcut <shortcut> <path>" 
+    echo "Usage: add_alias <alias> <path>" 
   fi
 }
-# Remove a directory shortcut
-function rm_shortcut() {
+# Remove a directory alias
+function rm_dir_alias() {
   if [ $1 ]; then 
-    grep -Ev "alias $1=" ~/.dir_shortcuts > ~/.dir_shortcuts.tmp
-    mv ~/.dir_shortcuts.tmp ~/.dir_shortcuts
+    grep -Ev "alias $1=" ~/.dir_aliases > ~/.dir_aliases.tmp
+    mv ~/.dir_aliases.tmp ~/.dir_aliases
     source ~/.bashrc
   else
-    echo "Usage: rm_shortcut <shortcut>" 
+    echo "Usage: rm_alias <alias>" 
   fi 
 }
-# Include directory shortcuts if any have been configured
-if [ -f ~/.dir_shortcuts ]; then . ~/.dir_shortcuts; fi
+# Include directory aliases if any have been configured
+if [ -f ~/.dir_aliases ]; then . ~/.dir_aliases; fi
 
 # -- git
 
