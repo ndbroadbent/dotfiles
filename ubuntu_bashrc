@@ -128,36 +128,44 @@ function gst () {
 
   IFS=$'\n '   # Split by newline and space.
   f=0          # Counter for the number of files
-  status=`git status --porcelain`   # Get the 'script' version of git status
+  max_changes=15
   
-  c=1 
-  for file in $status; do
-    # All actions will be on odd lines, all filenames are on even lines.
-    let mod=$c%2
-    if [ $mod = "0" ]; then
-      let f++
-      files[$f]=$file        # Array for formatting the output
-      export $pfix$f=$file   # Exporting variable for use.
-    fi
-    let c++
-  done
-  
-  IFS=$'\n'              # Now split only by newline for full git status.
-  status=`git status`    # Fetch full status
+  # Only export variables for less than $max_changes
+  if [ `git status --porcelain | wc -l` -lt $max_changes ]; then
+    status=`git status --porcelain`   # Get the 'script' version of git status
+    c=1 
+    for file in $status; do
+      # All actions will be on odd lines, all filenames are on even lines.
+      let mod=$c%2
+      if [ $mod = "0" ]; then
+        let f++
+        files[$f]=$file        # Array for formatting the output
+        export $pfix$f=$file   # Exporting variable for use.
+      fi
+      let c++
+    done
+    
+    IFS=$'\n'              # Now split only by newline for full git status.
+    status=`git status`    # Fetch full status
 
-  # Search and replace each line, showing the exported variable name next to files.
-  for line in $status; do   
-    i=1
-    while [ $i -le $f ]; do
-      search=${files[$i]}
-      replace="[\$$pfix$i] ${files[$i]}"
-      # (fixes a case when a file contains another file as a substring)
-      line=${line/$search /$replace }   # Substitution for files with a space suffix.
-      line=${line/%$search/$replace}    # Substitution for files with a newline suffix.
-      let i++
-    done    
-    echo $line                        # Print the final transformed line.
-  done
+    # Search and replace each line, showing the exported variable name next to files.
+    for line in $status; do   
+      i=1
+      while [ $i -le $f ]; do
+        search=${files[$i]}
+        replace="[\$$pfix$i] ${files[$i]}"
+        # (fixes a case when a file contains another file as a substring)
+        line=${line/$search /$replace }   # Substitution for files with a space suffix.
+        line=${line/%$search/$replace}    # Substitution for files with a newline suffix.
+        let i++
+      done    
+      echo $line                        # Print the final transformed line.
+    done
+  else
+    # If there are too many changed files, this function will slow down.
+    # In this case, fall back to plain 'git status'
+    git status
+  fi
 }
 
 # Adds the current user's public SSH key to the authorized_keys list on a given server.
