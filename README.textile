@@ -1,1 +1,1 @@
-Setup scripts and terminal configuration for my Ubuntu development machine.
+Setup scripts and bash config for my Ubuntu dev machine (& iPhone)
