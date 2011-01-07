@@ -1,11 +1,18 @@
 #!/bin/bash
+
 # Sets up gedit for RoR development.
+# (prompt-less version of gmate 'install.sh')
+# ===========================================================
+
 SCRIPT_DIR=$(pwd)
-cd ~
-echo "==== Cloning gmate repository and installing package.."
+cd /tmp
+echo "==== Cloning gmate repository.."
 git clone git://github.com/lexrupy/gmate.git
 cd gmate
 echo "==== Setting up gedit plugins and configuration."
+    # Kill all runing instances if exists
+    killall gedit
+    
     sudo cp mime/rails.xml /usr/share/mime/packages
     sudo cp lang-specs/*.lang /usr/share/gtksourceview-2.0/language-specs/
     sudo mkdir -p /usr/share/gedit-2/gmate
