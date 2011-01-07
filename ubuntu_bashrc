@@ -46,6 +46,11 @@ alias n='nautilus .'
 alias g='gedit'
 alias del='gvfs-trash'
 function cs() { if [ $1 ]; then cd $1; fi && ll; }  # (c)hange directory & li(s)t contents
+alias ~='cd ~'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 # -- git
 
