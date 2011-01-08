@@ -229,7 +229,7 @@ function authorize () {
     echo "===== $USER's public key is now authorized on $1."
   else
     echo "Please specify user@server" 
-  fi  
+  fi
 }
 
 

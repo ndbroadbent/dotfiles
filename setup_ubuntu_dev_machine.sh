@@ -34,6 +34,8 @@ rvm use 1.9.2
 echo "== Setting up git and ssh.."
 git config --global user.name "$git_name"
 git config --global user.email "$git_email"
+git config --global branch.master.remote origin
+git config --global branch.master.merge refs/heads/master
 ssh-keygen -t rsa -C "$git_email"
 
 echo "== Installing rails and other commonly used gems.."
