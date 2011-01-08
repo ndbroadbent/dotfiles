@@ -38,6 +38,13 @@ if [ -f /etc/bash_completion ]; then
  . /etc/bash_completion
 fi
 
+# Correct spelling errors for 'cd' command
+shopt -s cdspell
+
+# Common 'cd' paths
+# -------------------------------------------------------
+CDPATH=.:~:/opt/rails:/opt/scripts/:/mnt
+
 
 # -------------------------------------------------------
 # Share Bash history across sessions
