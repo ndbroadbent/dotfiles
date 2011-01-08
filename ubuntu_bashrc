@@ -27,13 +27,40 @@ unset color_prompt force_color_prompt
 # Custom Xterm Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007";'
     ;;
 *)
     ;;
 esac
 
-? () { echo "$*" | bc -l; }
+# Bash tab completion
+if [ -f /etc/bash_completion ]; then
+ . /etc/bash_completion
+fi
+
+
+# -------------------------------------------------------
+# Share Bash history across sessions
+# -------------------------------------------------------
+
+export HISTSIZE=9000
+export HISTFILESIZE=$HISTSIZE
+export HISTCONTROL=ignorespace:ignoredups
+
+history() {
+  _bash_history_sync
+  builtin history "$@"
+}
+
+_bash_history_sync() {
+  builtin history -a         #[1]
+  HISTFILESIZE=$HISTFILESIZE #[2]
+  builtin history -c         #[3]
+  builtin history -r         #[4]
+}
+
+export PROMPT_COMMAND+='_bash_history_sync'
+
 
 # -------------------------------------------------------
 # Aliases (& functions)
@@ -45,7 +72,8 @@ alias ll='ls -l --color=auto'
 alias rm='trash'
 alias n='nautilus .'
 alias g='gedit'
-function cs() { if [ $1 ]; then cd $1; fi && ll; }  # (c)hange directory & li(s)t contents
+# (c)hange directory & list contents
+function c() { if [ $1 ]; then cd $1; fi && ll; }
 alias ~='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -53,32 +81,8 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-# -- directory aliases
-# ======================
-
-# Adds a directory alias to ~/.dir_aliases. Use '.' for current working directory.
-function add_dir_alias() {
-  if [ $1 ] && [ $2 ]; then
-    path=`cd $2; pwd`   # Fetches absolute path.
-    touch ~/.dir_aliases
-    echo "alias $1=\"cd $path\"" >> ~/.dir_aliases
-    source ~/.bashrc
-  else
-    echo "Usage: add_alias <alias> <path>" 
-  fi
-}
-# Remove a directory alias
-function rm_dir_alias() {
-  if [ $1 ]; then 
-    grep -Ev "alias $1=" ~/.dir_aliases > ~/.dir_aliases.tmp
-    mv ~/.dir_aliases.tmp ~/.dir_aliases
-    source ~/.bashrc
-  else
-    echo "Usage: rm_alias <alias>" 
-  fi 
-}
-# Include directory aliases if any have been configured
-if [ -f ~/.dir_aliases ]; then . ~/.dir_aliases; fi
+# Include configurable bash aliases, if file exists
+if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
 # -- git
 
@@ -98,14 +102,56 @@ alias cdgem='cd $GEM_HOME/gems'
 # This loads RVM into the shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-# -- CR
-
-export http_proxy="http://proxy01.crossroadsint.org:3128"
-
 
 # -------------------------------------------------------
 # Custom Functions
 # -------------------------------------------------------
+
+# Little calculator function - "$ ? 1337 - 1295" prints "42".
+# ===========================================================
+? () { echo "$*" | bc -l; }
+
+
+# Alias management
+# ===========================================================
+
+# Adds an alias to ~/.bash_aliases.
+# ------------------------------------------------
+function add_alias() {
+  if [ $1 ] && [ $2 ]; then
+    touch ~/.bash_aliases
+    echo "alias $1=\"$2\"" >> ~/.bash_aliases
+    source ~/.bashrc
+  else
+    echo "Usage: add_alias <alias> <command>" 
+  fi
+}
+# Adds a change directory alias to ~/.bash_aliases. 
+# Use '.' for current working directory.
+# Changes directory, then lists directory contents.
+# ------------------------------------------------
+function add_dir_alias() {
+  if [ $1 ] && [ $2 ]; then
+    path=`cd $2; pwd`   # Fetches absolute path.
+    touch ~/.bash_aliases
+    echo "alias $1=\"cd $path; ll\"" >> ~/.bash_aliases
+    source ~/.bashrc
+  else
+    echo "Usage: add_dir_alias <alias> <path>" 
+  fi
+}
+# Remove an alias
+# ------------------------------------------------
+function rm_alias() {
+  if [ $1 ]; then 
+    grep -Ev "alias $1=" ~/.bash_aliases > ~/.bash_aliases.tmp
+    mv ~/.bash_aliases.tmp ~/.bash_aliases
+    unalias $1
+    source ~/.bashrc
+  else
+    echo "Usage: rm_alias <alias>" 
+  fi 
+}
 
 
 # Search and replace strings within all files in current dir (recursive).
@@ -118,6 +164,7 @@ function gsed () {
     egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s/$1/$2/g"
   fi
 }
+
 
 # Processes your git status output, exporting bash variables
 # for the filepaths of each modified file.
@@ -162,11 +209,12 @@ function gst () {
       echo $line                        # Print the final transformed line.
     done
   else
-    # If there are too many changed files, this function will slow down.
+    # If there are too many changed files, this 'gst' function will slow down.
     # In this case, fall back to plain 'git status'
     git status
   fi
 }
+
 
 # Adds the current user's public SSH key to the authorized_keys list on a given server.
 # =======================================================================
@@ -183,3 +231,30 @@ function authorize () {
     echo "Please specify user@server" 
   fi  
 }
+
+
+# -------------------------------------------------------
+# Tab Completion for Rake / Capistrano / Thor
+# source: https://github.com/sgruhier/rake_cap_bash_autocomplete
+# -------------------------------------------------------
+
+export COMP_WORDBREAKS=${COMP_WORDBREAKS/\:/}
+
+_rakecomplete() {
+  COMPREPLY=($(compgen -W "`rake -s -T 2>/dev/null | awk '{{print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
+  return 0
+}
+
+_capcomplete() {
+  COMPREPLY=($(compgen -W "`cap  -T  2>/dev/null| awk '{{ if ( $3 ~ /\#/ ) print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
+  return 0
+}
+
+_thorcomplete() {
+  COMPREPLY=($(compgen -W "`THOR_COLUMNS=1000 thor -T 2>/dev/null| awk '{{ if ( $2 ~ /./ ) print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
+  return 0
+}
+
+complete -o default -o nospace -F _rakecomplete rake
+complete -o default -o nospace -F _capcomplete cap
+complete -o default -o nospace -F _thorcomplete thor
