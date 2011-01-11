@@ -16,11 +16,12 @@ sudo apt-get -ym install git-core gitk libyaml-ruby \
 libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
 ack-grep vim gedit-plugins xclip mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
-sun-java6-jdk apache2 \
+sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
+python-webkit python-webkit-dev python-pyinotify \
 trash-cli
 
 echo "== Installing custom bashrc..."
-./setup_ubuntu_bashrc.sh
+./setup_bashrc.sh
 source ~/.bashrc
 
 echo "== Installing rvm and ruby 1.9.2..."
@@ -44,12 +45,8 @@ gemcutter authlogic sqlite3-ruby mime-types rmagick \
 capistrano capistrano_colors mislav-will_paginate ruby-debug \
 heroku mechanize nokogiri
 
-echo "== Installing Python and required libraries for gedit plugins.."
-sudo apt-get -,y install python python-dev python-gtk2 python-gtk2-dev \
-python-webkit python-webkit-dev python-pyinotify
-
 echo "== Setting up gmate for gedit (RoR colors, etc).."
-./setup_ubuntu_gedit.sh
+./setup_gedit.sh
 
 echo "== Setting Capistrano to require colours.."
 cat >> ~/.caprc <<!
@@ -63,11 +60,11 @@ Autotest.add_hook :initialize do |at|
 end
 !
 
-echo "== Installing Firefox extensions (Firebug and Web Developer Toolbar).."
-cd ~
-wget https://addons.mozilla.org/en-US/firefox/downloads/latest/60/addon-60-latest.xpi?src=addondetail
-wget https://addons.mozilla.org/en-US/firefox/downloads/latest/1843/addon-1843-latest.xpi?src=addondetail
-sudo firefox -install-global-extension *.xpi
-rm -f *.xpi
+# -- -install-global-extensions has been removed from firefox.
+#echo "== Installing Firefox extensions (Firebug and Web Developer Toolbar).."
+#cd ~
+#wget https://addons.mozilla.org/en-US/firefox/downloads/latest/60/addon-60-latest.xpi?src=addondetail
+#wget https://addons.mozilla.org/en-US/firefox/downloads/latest/1843/addon-1843-latest.xpi?src=addondetail
+# ~/.mozilla/firefox/<profile folder>/extensions
 
 echo "===== Ubuntu development machine has been set up."
