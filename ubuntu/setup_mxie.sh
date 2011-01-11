@@ -1,7 +1,7 @@
 # Requires 'alien', to install rpm packages on debian-based systems
 sudo apt-get install -ym alien
 cd /tmp
-rm mxie*.deb
+rm -f mxie*.deb
 
 # Fetch mxie index page
 wget http://mx250/provisioning -O mxie_index.html
