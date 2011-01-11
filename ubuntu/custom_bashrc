@@ -42,11 +42,6 @@ fi
 shopt -s cdspell
 shopt -s autocd
 
-# Common 'cd' paths
-# -------------------------------------------------------
-CDPATH=.:~:/opt/rails:/opt/scripts/:/mnt
-
-
 # -------------------------------------------------------
 # Share Bash history across sessions
 # -------------------------------------------------------
