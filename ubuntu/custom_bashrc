@@ -107,6 +107,33 @@ alias cdgem='cd $GEM_HOME/gems'
 
 
 # -------------------------------------------------------
+# Tab Completion for Rake / Capistrano / Thor
+# source: https://github.com/sgruhier/rake_cap_bash_autocomplete
+# -------------------------------------------------------
+
+export COMP_WORDBREAKS=${COMP_WORDBREAKS/\:/}
+
+_rakecomplete() {
+  COMPREPLY=($(compgen -W "`rake -s -T 2>/dev/null | awk '{{print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
+  return 0
+}
+
+_capcomplete() {
+  COMPREPLY=($(compgen -W "`cap  -T  2>/dev/null | awk '{{ if ( $3 ~ /\#/ ) print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
+  return 0
+}
+
+_thorcomplete() {
+  COMPREPLY=($(compgen -W "`THOR_COLUMNS=1000 thor -T 2>/dev/null | awk '{{ if ( $2 ~ /./ ) print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
+  return 0
+}
+
+complete -o default -o nospace -F _rakecomplete rake
+complete -o default -o nospace -F _capcomplete cap
+complete -o default -o nospace -F _thorcomplete thor
+
+
+# -------------------------------------------------------
 # Custom Functions
 # -------------------------------------------------------
 
@@ -235,29 +262,14 @@ function authorize () {
   fi
 }
 
-
-# -------------------------------------------------------
-# Tab Completion for Rake / Capistrano / Thor
-# source: https://github.com/sgruhier/rake_cap_bash_autocomplete
-# -------------------------------------------------------
-
-export COMP_WORDBREAKS=${COMP_WORDBREAKS/\:/}
-
-_rakecomplete() {
-  COMPREPLY=($(compgen -W "`rake -s -T 2>/dev/null | awk '{{print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
-  return 0
+# Download stream from grooveshark, sanitize with ffmpeg
+# ------------------------------------------------------
+function grooveshark_dl() {
+  if [ $1 ] && [ $2 ]; then
+    axel $1 -o /tmp/$2.tmp.mp3
+    ffmpeg -ab 128000 -i /tmp/$2.tmp $2.mp3
+    rm /tmp/$2.tmp.mp3
+  else
+    echo "Usage: grooveshark_dl <url> <title (w/o .mp3)>" 
+  fi
 }
-
-_capcomplete() {
-  COMPREPLY=($(compgen -W "`cap  -T  2>/dev/null | awk '{{ if ( $3 ~ /\#/ ) print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
-  return 0
-}
-
-_thorcomplete() {
-  COMPREPLY=($(compgen -W "`THOR_COLUMNS=1000 thor -T 2>/dev/null | awk '{{ if ( $2 ~ /./ ) print $2}}'`" -- ${COMP_WORDS[COMP_CWORD]}))
-  return 0
-}
-
-complete -o default -o nospace -F _rakecomplete rake
-complete -o default -o nospace -F _capcomplete cap
-complete -o default -o nospace -F _thorcomplete thor
