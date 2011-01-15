@@ -24,6 +24,9 @@ echo "== Installing custom bashrc..."
 ./setup_bashrc.sh
 source ~/.bashrc
 
+echo "== Setting up .gemrc to use --no-ri and --no-rdoc..."
+echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
+
 echo "== Installing rvm and ruby 1.9.2..."
 bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
 
