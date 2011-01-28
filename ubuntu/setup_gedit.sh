@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Install tabsextend plugin
+cd /tmp
+wget "http://gedit-tabsextend.googlecode.com/files/gedit-tabsextend-0.1.tar.gz" -O  gedit-tabsextend.tar.gz
+cd nuxlli-gedit*
+cp -f * /home/ndbroadbent/.gnome2/gedit/plugins/
+cd ..
+rm -rf nuxlli-gedit*
+rm -f gedit-tabsextend.tar.gz
+
 # Sets up gedit for RoR development.
 # (prompt-less version of gmate 'install.sh')
 # ===========================================================
@@ -60,3 +69,4 @@ echo "==== Setting up gedit plugins and configuration."
     gconftool-2 --set /apps/gedit-2/preferences/editor/save/create_backup_copy -t bool false
 cd ..
 rm -rf gmate
+
