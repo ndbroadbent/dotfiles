@@ -292,7 +292,7 @@ function restart_bamboo() {
     echo "=== Restarting (& re-registering) build agents at: $agent ..."
     ssh $agent \
       "agent_pid=$(pidof /opt/bamboo-remote-agent/bin/./wrapper); \
-       sudo kill -9 $agent_pid; \
+       kill -9 $agent_pid; \
        /etc/init.d/bamboo-agent restart"
   done
 }
