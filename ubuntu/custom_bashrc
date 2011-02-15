@@ -153,10 +153,10 @@ function add_alias() {
     echo "alias $1=\"$2\"" >> ~/.bash_aliases
     source ~/.bashrc
   else
-    echo "Usage: add_alias <alias> <command>" 
+    echo "Usage: add_alias <alias> <command>"
   fi
 }
-# Adds a change directory alias to ~/.bash_aliases. 
+# Adds a change directory alias to ~/.bash_aliases.
 # Use '.' for current working directory.
 # Changes directory, then lists directory contents.
 # ------------------------------------------------
@@ -167,20 +167,20 @@ function add_dir_alias() {
     echo "alias $1=\"cd $path; ll\"" >> ~/.bash_aliases
     source ~/.bashrc
   else
-    echo "Usage: add_dir_alias <alias> <path>" 
+    echo "Usage: add_dir_alias <alias> <path>"
   fi
 }
 # Remove an alias
 # ------------------------------------------------
 function rm_alias() {
-  if [ $1 ]; then 
+  if [ $1 ]; then
     grep -Ev "alias $1=" ~/.bash_aliases > ~/.bash_aliases.tmp
     mv ~/.bash_aliases.tmp ~/.bash_aliases
     unalias $1
     source ~/.bashrc
   else
-    echo "Usage: rm_alias <alias>" 
-  fi 
+    echo "Usage: rm_alias <alias>"
+  fi
 }
 
 
@@ -201,16 +201,16 @@ function gsed () {
 # Written by Nathan D. Broadbent (www.f-77.com)
 # =======================================================================
 function gst () {
-  pfix="e" # Set your preferred shortcut letter here  
+  pfix="e" # Set your preferred shortcut letter here
 
   IFS=$'\n '   # Split by newline and space.
   f=0          # Counter for the number of files
   max_changes=15
-  
+
   # Only export variables for less than $max_changes
   if [ `git status --porcelain | wc -l` -lt $max_changes ]; then
     status=`git status --porcelain`   # Get the 'script' version of git status
-    c=1 
+    c=1
     for file in $status; do
       # All actions will be on odd lines, all filenames are on even lines.
       let mod=$c%2
@@ -221,12 +221,12 @@ function gst () {
       fi
       let c++
     done
-    
+
     IFS=$'\n'              # Now split only by newline for full git status.
     status=`git status`    # Fetch full status
 
     # Search and replace each line, showing the exported variable name next to files.
-    for line in $status; do   
+    for line in $status; do
       i=1
       while [ $i -le $f ]; do
         search=${files[$i]}
@@ -235,7 +235,7 @@ function gst () {
         line=${line/$search /$replace }   # Substitution for files with a space suffix.
         line=${line/%$search/$replace}    # Substitution for files with a newline suffix.
         let i++
-      done    
+      done
       echo $line                        # Print the final transformed line.
     done
   else
@@ -250,7 +250,7 @@ function gst () {
 # authorized_keys list on a given server.
 # ==============================================
 function authorize () {
-  if [ $1 ]; then 
+  if [ $1 ]; then
     echo "=== Copying and authorizing public key on server..."
     public_key_file=`ls ~/.ssh/id*.pub`
     cat $public_key_file | \
@@ -259,7 +259,7 @@ function authorize () {
             rm /tmp/$USER.pub'
     echo "===== $USER's public key is now authorized on $1."
   else
-    echo "Please specify user@server" 
+    echo "Please specify user@server"
   fi
 }
 
@@ -274,7 +274,7 @@ function grooveshark_dl() {
     rm "/tmp/$2.tmp"
     echo "== Finished!"
   else
-    echo "Usage: grooveshark_dl <url> <title (w/o .mp3)>" 
+    echo "Usage: grooveshark_dl <url> <title (w/o .mp3)>"
   fi
 }
 
@@ -288,6 +288,7 @@ function restart_bamboo() {
   echo "=== Restarting Bamboo server at: $bamboo_server ..."
   ssh root@integration.crossroadsint.org \
     "/etc/init.d/bamboo restart" && \
+  sleep 30 && \
   for agent in ${build_agents[@]}; do
     echo "=== Restarting (& re-registering) build agents at: $agent ..."
     ssh $agent \
@@ -296,3 +297,4 @@ function restart_bamboo() {
        /etc/init.d/bamboo-agent restart"
   done
 }
+
