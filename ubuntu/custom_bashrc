@@ -71,7 +71,7 @@ export PROMPT_COMMAND+='_bash_history_sync'
 
 # -- bash
 
-alias ll='ls -l --color=auto'
+alias ll='ls -l'
 alias rm='trash'
 alias n='nautilus .'
 alias g='gedit'
