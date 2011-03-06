@@ -90,8 +90,9 @@ if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 # -- git
 
 alias gs='gst'
-alias gc='git commit -m '
-alias gca='git commit -am '
+alias gc='git commit -m'
+alias gca='git commit -am'
+alias gd='git diff'
 alias gpom='git push origin master'
 alias pdpreview='git push origin master; cap preview deploy'
 alias pdbeta='git push origin master; cap beta deploy'
