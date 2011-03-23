@@ -75,6 +75,7 @@ alias ll='ls -l'
 ###alias rm='trash'
 alias n='nautilus .'
 alias g='gedit'
+alias apt-install='sudo apt-get install -y '
 # (c)hange directory & list contents
 function c() { if [ $1 ]; then cd $1; fi && ll; }
 alias ~='cd ~'
