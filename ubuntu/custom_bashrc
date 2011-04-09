@@ -34,9 +34,9 @@ xterm*|rxvt*)
 esac
 
 # Bash tab completion
-if [ -f /etc/bash_completion ]; then
- . /etc/bash_completion
-fi
+#if [ -f /etc/bash_completion ]; then
+# . /etc/bash_completion
+#fi
 
 # Correct spelling errors for 'cd' command, and auto cd to directory
 shopt -s cdspell
