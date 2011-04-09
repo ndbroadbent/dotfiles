@@ -220,25 +220,6 @@ function gst () {
 }
 
 
-# Adds the current user's public SSH key to the
-# authorized_keys list on a given server.
-# ==============================================
-# [[OBSOLETE]] - the `ssh-copy-id` command already does this :/
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function authorize () {
-  if [ $1 ]; then
-    echo "=== Copying and authorizing public key on server..."
-    public_key_file=`ls ~/.ssh/id*.pub`
-    cat $public_key_file | \
-    ssh $1 'cat > /tmp/$USER.pub && mkdir -p ~/.ssh && \
-            cat /tmp/$USER.pub >> ~/.ssh/authorized_keys && \
-            rm /tmp/$USER.pub'
-    echo "===== $USER's public key is now authorized on $1."
-  else
-    echo "Please specify user@server"
-  fi
-}
-
 # Download stream from grooveshark, sanitize with ffmpeg
 # ======================================================
 function grooveshark_dl() {
