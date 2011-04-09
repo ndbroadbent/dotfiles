@@ -85,6 +85,8 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
+alias ak='ack-grep'
+
 # Include configurable bash aliases, if file exists
 if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
