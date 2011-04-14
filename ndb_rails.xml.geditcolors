@@ -27,11 +27,11 @@
  Boston, MA 02111-1307, USA.
 -->
 
-<style-scheme id="nathan" _name="Nathan's Ruby on Rails Colors" version="1.0">
+<style-scheme id="ndb_rails" _name="NDB Ruby on Rails Colors" version="1.0">
   <author>Nathan B</author>
   <_description>Nathan's Ruby on Rails Colors</_description>
 
-  <color name="gray"                    value="#bbbbbb"/>
+  <color name="gray"                    value="#999999"/>
   <color name="white"                   value="#eeeeee"/>
   <color name="full_white"              value="#eeeeee"/>
   <color name="yellow"                  value="#fce94f"/>
