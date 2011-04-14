@@ -8,7 +8,7 @@ this_dir=$(pwd)
 killall gedit
 
 # Add ubuntu-on-rails ppa
-if ! (apt-cache search gedit-gmate); then
+if ! (apt-cache search gedit-gmate | grep gedit-gmate); then
     sudo apt-add-repository ppa:ubuntu-on-rails/ppa
     sudo apt-get update
 fi
