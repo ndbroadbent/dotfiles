@@ -21,8 +21,8 @@ python-webkit python-webkit-dev python-pyinotify \
 trash-cli
 
 echo "== Installing custom bashrc..."
-./setup_bashrc.sh
-source ~/.bashrc
+bashrc_setup.sh
+
 
 echo "== Setting up .gemrc to use --no-ri and --no-rdoc..."
 echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
@@ -49,7 +49,7 @@ capistrano capistrano_colors mislav-will_paginate ruby-debug \
 heroku mechanize nokogiri
 
 echo "== Setting up gmate for gedit (RoR colors, etc).."
-./setup_gedit.sh
+./gedit_setup.sh
 
 echo "== Setting Capistrano to require colours.."
 cat >> ~/.caprc <<!
@@ -71,3 +71,4 @@ end
 # ~/.mozilla/firefox/<profile folder>/extensions
 
 echo "===== Ubuntu development machine has been set up."
+
