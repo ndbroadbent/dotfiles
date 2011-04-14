@@ -108,6 +108,10 @@ alias cdgem='cd $GEM_HOME/gems'
 
 # This loads RVM into the shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+# Execute .rvmrc if exists
+if [ -f .rvmrc ]; then
+  . .rvmrc
+fi
 
 # -------------------------------------------------------
 # Custom Functions
