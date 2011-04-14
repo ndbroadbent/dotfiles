@@ -33,7 +33,7 @@
 
   <color name="gray"                    value="#999999"/>
   <color name="white"                   value="#eeeeee"/>
-  <color name="full_white"              value="#eeeeee"/>
+  <color name="full_white"              value="#f7f7f7"/>
   <color name="yellow"                  value="#fce94f"/>
   <color name="senape"                  value="#acc900"/>
   <color name="lime"                    value="#96ff00"/>
@@ -47,30 +47,31 @@
   <color name="magenta"                 value="#ff79d9"/>
   <color name="light_blue"              value="#bdb2ff"/>
   <color name="red"                     value="#ff1f2a"/>
-  <color name="orange"                  value="#ff6100"/>
+  <color name="orange"                  value="#ff6120"/>
   <color name="ambra"                   value="#ff9900"/>
   <color name="asfalto"                 value="#555753"/>
-  <color name="blue"					          value="#97e1ff"/>
-  <color name="bright_blue"				      value="#00fffa"/>
+  <color name="asfalto_dark"            value="#353733"/>
+  <color name="blue"					value="#97e1ff"/>
+  <color name="bright_blue"				value="#00fffa"/>
   <color name="carbon"                  value="#232323"/>
   <color name="pink"                    value="#ff3a35"/>
-  <color name="less_grey"               value="#2b2b2b"/>
+  <color name="less_grey"               value="#171717"/>
   <color name="black"                   value="#000000"/>
 
 <!--GUI styles-->
 
   <style name="text"                        foreground="full_white" background="black"/>
-  <style name="selection"                   background="asfalto"/>
-  <style name="selection-unfocused"         foreground="cyan" background="gray"/>
+  <style name="selection"                   foreground="full_white" background="asfalto"/>
+  <style name="selection-unfocused"         foreground="gray"       background="asfalto_dark"/>
   <style name="cursor"                      foreground="cyan"/>
   <style name="secondary-cursor"            foreground="white"/>
   <style name="current-line"                background="less_grey"/>
-  <style name="line-numbers"                foreground="gray" background="asfalto"/>
-  <style name="bracket-match"               foreground="purple" background="carbon" bold="true"/>
-  <style name="bracket-mismatch"            foreground="white" background="carbon" bold="true"/>
-  <style name="search-match"                foreground="carbon" background="yellow"/>
+  <style name="line-numbers"                foreground="gray"       background="asfalto"/>
+  <style name="bracket-match"               foreground="purple"     background="carbon" bold="true"/>
+  <style name="bracket-mismatch"            foreground="white"      background="carbon" bold="true"/>
+  <style name="search-match"                foreground="carbon"     background="yellow" bold="true"/>
 
-<!--Default styles-->
+<!--Default language styles-->
 
   <style name="def:keyword"                 foreground="ambra" bold="true"/>
   <style name="def:statement"               foreground="alga"/>
@@ -105,7 +106,24 @@
   <style name="diff:special-case"           use-style="def:string"/>
   <style name="diff:location"               use-style="def:keyword"/>
 
-<!--TODO - Add lots of language specific code, coming soon-->
+<!-- Ruby / Rails styles -->
+
+  <style name="ruby:global-variable"        foreground="green"   bold="true"/>
+  <style name="ruby:regex"                  foreground="lime"/>
+  <style name="ruby:symbol"                 foreground="alga"/>
+  <style name="rubyonrails:symbol"          use-style="ruby:symbol"/>
+  <style name="rubyonrails:regex"           use-style="ruby:regex"/>
+  <style name="rubyonrails:class-inherit"   foreground="blue"    bold="true"/>
+
+
+<!-- HTML / CSS / JS styles -->
+
+  <style name="html:dtd"                    italic="true"/>
+  <style name="html:tag"                    foreground="green"/>
+  <style name="css:at-rules"                foreground="green"   bold="true"/>
+  <style name="css:color"                   foreground="pink"    bold="true"/>
+  <style name="css:keyword"                 foreground="ambra"   bold="true"/>
+  <style name="js:function"                 foreground="ambra"/>
 
 </style-scheme>
 
