@@ -51,8 +51,8 @@
   <color name="ambra"                   value="#ff9900"/>
   <color name="asfalto"                 value="#555753"/>
   <color name="asfalto_dark"            value="#353733"/>
-  <color name="blue"					value="#97e1ff"/>
-  <color name="bright_blue"				value="#00fffa"/>
+  <color name="blue"                    value="#97e1ff"/>
+  <color name="bright_blue"             value="#00fffa"/>
   <color name="carbon"                  value="#232323"/>
   <color name="pink"                    value="#ff3a35"/>
   <color name="less_grey"               value="#171717"/>
@@ -81,9 +81,9 @@
   <style name="def:character"               foreground="ambra"/>
   <style name="def:comment"                 foreground="purple"/>
   <style name="def:number"                  foreground="red"/>
-  <style name="def:decimal"					foreground="red"/>
+  <style name="def:decimal"                 foreground="red"/>
   <style name="def:base-n-integer"          foreground="senape"/>
-  <style name="def:floating-point"			foreground="bright_blue"/>
+  <style name="def:floating-point"          foreground="bright_blue"/>
   <style name="def:complex"                 foreground="light_blue"/>
   <style name="def:string"                  foreground="red"/>
   <style name="def:net-address-in-comment"  foreground="violet" italic="true" underline="true"/>
@@ -93,7 +93,7 @@
   <style name="def:shebang"                 foreground="blue" bold="true"/>
   <style name="def:doc-comment-element"     italic="true"/>
   <style name="def:identifier"              foreground="green" bold="true"/>
-  <style name="def:builtin"					foreground="green" bold="true"/>
+  <style name="def:builtin"                 foreground="green" bold="true"/>
   <style name="def:specials"                foreground="cyan" background="magenta"/>
   <style name="def:variable"                foreground="cyan"/>
   <style name="def:boolean"                 foreground="fuchsia" bold="true"/>
