@@ -1,0 +1,9 @@
+[Gedit Plugin]
+Loader=python
+Module=tabs_extend
+IAge=2
+Name=Tabs Extend
+Description=Tabs extend options for gedit editor
+Authors=Éverton Ribeiro <nuxlli@gmail.com>
+Copyright=Copyright © 2008 Éverton Ribeiro <nuxlli@gmail.com>
+Website=http://github.com/nuxlli/gedit-tabsextend

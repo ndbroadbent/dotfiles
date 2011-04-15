@@ -21,14 +21,14 @@ python-webkit python-webkit-dev python-pyinotify \
 trash-cli
 
 echo "== Installing custom bashrc..."
-bashrc_setup.sh
+./bashrc_setup.sh
 
 
 echo "== Setting up .gemrc to use --no-ri and --no-rdoc..."
 echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
 
 echo "== Installing rvm and ruby 1.9.2..."
-bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 
