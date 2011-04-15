@@ -229,6 +229,26 @@ function gst () {
 }
 
 
+# Permanently remove files/folders from git repository
+# ======================================================
+# Author: David Underhill
+# Script to permanently delete files/folders from your git repository.  To use
+# it, cd to your repository's root and then run the script with a list of paths
+# you want to delete, e.g., git-delete-history path1 path2
+
+function git-remove-history() {
+  # Make sure we're at the root of a git repo
+  if [ ! -d .git ]; then
+      echo "Error: must run this script from the root of a git repository"
+      return
+  fi
+  # Remove all paths passed as arguments from the history of the repo
+  files=$@
+  git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch $files" HEAD
+  # Remove the temporary history git-filter-branch otherwise leaves behind for a long time
+  rm -rf .git/refs/original/ && git reflog expire --all &&  git gc --aggressive --prune
+}
+
 # Download stream from grooveshark, sanitize with ffmpeg
 # ======================================================
 function grooveshark_dl() {
