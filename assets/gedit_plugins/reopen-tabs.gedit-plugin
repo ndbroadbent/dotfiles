@@ -1,0 +1,13 @@
+[Gedit Plugin]
+Loader=python
+Module=reopen-tabs
+IAge=2
+Name=Reopen Tabs
+Name[it]=Riapri schede
+Description=Saves opened tabs on exit to restore them on next run
+Description[it]=Salva le schede aperte all'uscita del programma per ripristinarle alla prossima esecuzione
+Icon=gedit-plugin
+Authors=Eugene Khorev <eugene.khorev@gmail.com>
+Copyright=Copyright © 2008 Eugene Khorev
+Website=http://www.gedit.org
+

@@ -53,6 +53,7 @@
   <color name="asfalto_dark"            value="#353733"/>
   <color name="blue"                    value="#97e1ff"/>
   <color name="bright_blue"             value="#00fffa"/>
+  <color name="dark_blue"               value="#001f4a"/>
   <color name="carbon"                  value="#232323"/>
   <color name="pink"                    value="#ff3a35"/>
   <color name="less_grey"               value="#171717"/>
@@ -113,7 +114,7 @@
   <style name="ruby:symbol"                 foreground="alga"/>
   <style name="rubyonrails:symbol"          use-style="ruby:symbol"/>
   <style name="rubyonrails:regex"           use-style="ruby:regex"/>
-  <style name="rubyonrails:class-inherit"   foreground="blue"    bold="true"/>
+  <style name="rubyonrails:class-inherit"   foreground="dark_blue" bold="true"/>
 
 
 <!-- HTML / CSS / JS styles -->
