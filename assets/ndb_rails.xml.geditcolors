@@ -114,7 +114,7 @@
   <style name="ruby:symbol"                 foreground="alga"/>
   <style name="rubyonrails:symbol"          use-style="ruby:symbol"/>
   <style name="rubyonrails:regex"           use-style="ruby:regex"/>
-  <style name="rubyonrails:class-inherit"   foreground="dark_blue" bold="true"/>
+  <style name="rubyonrails:class-inherit"   foreground="bright_blue" bold="true"/>
 
 
 <!-- HTML / CSS / JS styles -->
