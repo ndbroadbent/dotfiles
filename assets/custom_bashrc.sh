@@ -8,9 +8,17 @@ alias pull_bashrc='cd --MYNIX_DIR-- && git pull origin master && ./bashrc_setup.
 # Prompt / Xterm
 # -------------------------------------------------------
 
-# Returns the current git branch.
+# -----------------
+# Prompt colors
+_text_col="\[\033[00m\]"      # Std text (white)
+_user_col="\[\033[01;32m\]"   # Username
+_host_col="\[\033[01;32m\]"   # Host
+_env_col="\[\033[0;36m\]"     # Env (git branch, ruby version)
+_sep_col="\[\033[01;34m\]"    # Separator
+
+# Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1|/'
 }
 
 # Returns the current ruby version.
@@ -18,23 +26,18 @@ parse_ruby_version() {
   ruby -v | cut -d ' ' -f2
 }
 
-# Colored Prompt
-force_color_prompt=yes
-if [ "$force_color_prompt" = yes ]; then
-    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\w\[\033[0;36m\] $(parse_git_branch)\[\033[00m\]$ "
-else
-    PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\$(parse_git_branch)r\$(parse_ruby_version)$ "
-fi
-unset color_prompt force_color_prompt
+# Custom Prompt with git branch and ruby version
+export PROMPT_COMMAND='PS1="${debian_chroot:+($debian_chroot)}$_user_col\u$_host_col@\h$_text_col:\w $_env_col(`parse_git_branch``parse_ruby_version`)$_text_col$ ";'
 
-# Custom Xterm Title
+# Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007";'
+    PROMPT_COMMAND+='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007";'
     ;;
 *)
     ;;
 esac
+
 
 # Bash tab completion
 #if [ -f /etc/bash_completion ]; then
@@ -65,7 +68,7 @@ _bash_history_sync() {
   builtin history -r         #[4]
 }
 
-export PROMPT_COMMAND+='_bash_history_sync'
+export PROMPT_COMMAND+='_bash_history_sync;'
 
 
 # -------------------------------------------------------
