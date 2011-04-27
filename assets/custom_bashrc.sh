@@ -98,7 +98,8 @@ if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 # -- git
 alias gpl='git pull'
 alias gps='git push'
-alias gpom='git push origin master'
+alias gpsom='git pull origin master'
+alias gplom='git push origin master'
 alias gs='gst'
 alias ga='git add '
 alias gaa='git add -A'
