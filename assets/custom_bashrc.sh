@@ -96,20 +96,22 @@ alias ak='ack-grep'
 if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
 # -- git
-
+alias gpl='git pull'
+alias gps='git push'
+alias gpom='git push origin master'
 alias gs='gst'
+alias ga='git add '
+alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gd='git diff'
-alias gpom='git push origin master'
-alias pdpreview='git push origin master; cap preview deploy'
-alias pdbeta='git push origin master; cap beta deploy'
-alias pdlive='git push origin master; cap live deploy'
+alias pdp='git push origin master; cap preview deploy'
+alias pdl='git push origin master; cap live deploy'
 
 # -- rvm / ruby / rails
-
-alias s='./script/server -u '
-alias cdgem='cd $GEM_HOME/gems'
+alias rs='rails s -u '
+alias rs2='./script/server -u '
+alias gemdir='cd $GEM_HOME/gems'
 
 # This loads RVM into the shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
