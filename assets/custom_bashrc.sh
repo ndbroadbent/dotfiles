@@ -27,7 +27,7 @@ parse_ruby_version() {
 }
 
 # Custom Prompt with git branch and ruby version
-export PROMPT_COMMAND='PS1="${debian_chroot:+($debian_chroot)}$_user_col\u$_host_col@\h$_text_col:\w $_env_col(`parse_git_branch``parse_ruby_version`)$_text_col$ ";'
+PROMPT_COMMAND='PS1="${debian_chroot:+($debian_chroot)}$_user_col\u$_host_col@\h$_text_col:\w $_env_col(`parse_git_branch``parse_ruby_version`)$_text_col$ ";'
 
 # Custom Xterm/RXVT Title
 case "$TERM" in
