@@ -33,7 +33,7 @@ set_ps1() {
   user_str="$_usr_col\u$_hst_col@\h$_txt_col"
   dir_str="$_cwd_col\w"
   env_str="$_env_col[`parse_git_branch``parse_ruby_version`$_env_col]"
-  PS1="${debian_chroot:+($debian_chroot)}$user_str$_sep_col:$dir_str $env_str$_sep_col$ $_txt_col"
+  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str$_sep_col$ $_txt_col"
 }
 
 # Set custom prompt
