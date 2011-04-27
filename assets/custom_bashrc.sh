@@ -110,9 +110,14 @@ alias pdp='git push origin master; cap preview deploy'
 alias pdl='git push origin master; cap live deploy'
 
 # -- rvm / ruby / rails
-alias rs='rails s -u '
-alias rs2='./script/server -u '
 alias gemdir='cd $GEM_HOME/gems'
+
+# Rails 3
+alias rs='rails s -u'
+alias rc='rails c'
+# Rails 2.x.x
+alias rs2='./script/server -u'
+alias rc2='./script/console'
 
 # This loads RVM into the shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
