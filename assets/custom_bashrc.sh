@@ -106,6 +106,7 @@ alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gd='git diff'
+alias gdc='git diff --cached'
 alias pdp='git push origin master; cap preview deploy'
 alias pdl='git push origin master; cap live deploy'
 
