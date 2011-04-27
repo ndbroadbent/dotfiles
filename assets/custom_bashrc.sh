@@ -38,15 +38,12 @@ xterm*|rxvt*)
     ;;
 esac
 
-
-# Bash tab completion
-#if [ -f /etc/bash_completion ]; then
-# . /etc/bash_completion
-#fi
-
 # Correct spelling errors for 'cd' command, and auto cd to directory
-shopt -s cdspell
-shopt -s autocd
+# Only run this for debian systems (AWS doesn't have 'shopt')
+if [ -f /etc/debian_version ]; then
+  shopt -s cdspell
+  shopt -s autocd
+fi
 
 # -------------------------------------------------------
 # Share Bash history across sessions
