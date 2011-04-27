@@ -8,17 +8,19 @@ alias pull_bashrc='cd --MYNIX_DIR-- && git pull origin master && ./bashrc_setup.
 # Prompt / Xterm
 # -------------------------------------------------------
 
-# -----------------
 # Prompt colors
-_text_col="\[\033[00m\]"      # Std text (white)
-_user_col="\[\033[01;32m\]"   # Username
-_host_col="\[\033[01;32m\]"   # Host
-_env_col="\[\033[0;36m\]"     # Env (git branch, ruby version)
-_sep_col="\[\033[01;34m\]"    # Separator
+_txt_col="\[\033[00m\]"    # Std text (white)
+_sep_col=$_txt_col         # Separators
+_usr_col="\[\033[01;32m\]" # Username
+_cwd_col=$_txt_col         # Current directory
+_hst_col="\[\033[0;32m\]"  # Host
+_env_col="\[\033[0;36m\]"  # Prompt environment
+_git_col="\[\033[01;36m\]" # Git branch
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1|/'
+  branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+  if ! [ -z $branch ]; then echo "$_git_col$branch$_env_col|"; else echo ""; fi
 }
 
 # Returns the current ruby version.
@@ -26,8 +28,16 @@ parse_ruby_version() {
   ruby -v | cut -d ' ' -f2
 }
 
-# Custom Prompt with git branch and ruby version
-PROMPT_COMMAND='PS1="${debian_chroot:+($debian_chroot)}$_user_col\u$_host_col@\h$_text_col:\w $_env_col(`parse_git_branch``parse_ruby_version`)$_text_col$ ";'
+# Set the prompt string (PS1)
+set_ps1() {
+  user_str="$_usr_col\u$_hst_col@\h$_txt_col"
+  dir_str="$_cwd_col\w"
+  env_str="$_env_col[`parse_git_branch``parse_ruby_version`$_env_col]"
+  PS1="${debian_chroot:+($debian_chroot)}$user_str$_sep_col:$dir_str $env_str$_sep_col$ $_txt_col"
+}
+
+# Set custom prompt
+PROMPT_COMMAND='set_ps1;'
 
 # Custom Xterm/RXVT Title
 case "$TERM" in
