@@ -99,7 +99,7 @@ alias g='gedit'
 alias apt-install='sudo apt-get install -y '
 
 # (c)hange directory & (l)ist contents
-function cdl() { if [ $1 ]; then cd $1; fi && ll; }
+function cdl() { if [ -n "$1" ]; then cd $1; fi && ll; }
 
 alias ~='cd ~'
 alias src='cd ~/src && ll'
@@ -161,7 +161,7 @@ fi
 # Adds an alias to ~/.bash_aliases.
 # ------------------------------------------------
 function add_alias() {
-  if [ $1 ] && [ $2 ]; then
+  if [ -n "$1" ] && [ -n "$2" ]; then
     touch ~/.bash_aliases
     echo "alias $1=\"$2\"" >> ~/.bash_aliases
     source ~/.bashrc
@@ -174,7 +174,7 @@ function add_alias() {
 # Changes directory, then lists directory contents.
 # ------------------------------------------------
 function add_dir_alias() {
-  if [ $1 ] && [ $2 ]; then
+  if [ -n "$1" ] && [ -n "$2" ]; then
     path=`cd $2; pwd`   # Fetches absolute path.
     touch ~/.bash_aliases
     echo "alias $1=\"cd $path; ll\"" >> ~/.bash_aliases
@@ -186,7 +186,7 @@ function add_dir_alias() {
 # Remove an alias
 # ------------------------------------------------
 function rm_alias() {
-  if [ $1 ]; then
+  if [ -n "$1" ]; then
     grep -Ev "alias $1=" ~/.bash_aliases > ~/.bash_aliases.tmp
     mv ~/.bash_aliases.tmp ~/.bash_aliases
     unalias $1
@@ -200,11 +200,10 @@ function rm_alias() {
 # Search and replace strings within all files in current dir (recursive).
 # =======================================================================
 function gsed () {
-  if [ -z "$3" ]
-  then
-    echo "== Usage:    gsed search_string replace_string [path]"
-  else
+  if [ -n "$3" ]; then
     egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s/$1/$2/g"
+  else
+    echo "== Usage:    gsed search_string replace_string [path]"
   fi
 }
 
@@ -284,7 +283,7 @@ function git-remove-history() {
 # Download stream from grooveshark, sanitize with ffmpeg
 # ======================================================
 function grooveshark_dl() {
-  if [ $1 ] && [ '$2' ]; then
+  if [ -n "$1" ] && [ -n "$2" ]; then
     echo "== Downloading .."
     axel $1 -o "/tmp/$2.tmp"
     echo "== Converting .."
