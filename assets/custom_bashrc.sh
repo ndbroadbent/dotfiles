@@ -175,7 +175,7 @@ function add_alias() {
 # ------------------------------------------------
 function add_dir_alias() {
   if [ -n "$1" ] && [ -n "$2" ]; then
-    path=`cd $2; pwd`   # Fetches absolute path.
+    path=`dirname $2/.`   # Fetches absolute path.
     touch ~/.bash_aliases
     echo "alias $1=\"cd $path; ll\"" >> ~/.bash_aliases
     source ~/.bashrc
