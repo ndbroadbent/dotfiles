@@ -19,20 +19,29 @@ _git_col="\[\033[01;36m\]" # Git branch
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-  if ! [ -z $branch ]; then echo "$_git_col$branch$_env_col|"; else echo ""; fi
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 # Returns the current ruby version.
 parse_ruby_version() {
-  ruby -v | cut -d ' ' -f2
+  if (which ruby | grep -q ruby); then
+    ruby -v | cut -d ' ' -f2
+  fi
 }
 
 # Set the prompt string (PS1)
 set_ps1() {
   user_str="$_usr_col\u$_hst_col@\h$_txt_col"
   dir_str="$_cwd_col\w"
-  env_str="$_env_col[`parse_git_branch``parse_ruby_version`$_env_col]"
+  git_branch=`parse_git_branch`
+  ruby=`parse_ruby_version`
+  if [ -n "$git_branch" ]; then git_branch="$_git_col$git_branch$_env_col"; fi  # -- colorize
+  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then git_branch="$git_branch|"; fi    # -- separator
+  if [ -n "$git_branch" ] || [ -n "$ruby" ]; then
+    env_str="$_env_col[$git_branch$ruby$_env_col]"
+  else
+    unset env_str
+  fi
   PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str$_sep_col$ $_txt_col"
 }
 
