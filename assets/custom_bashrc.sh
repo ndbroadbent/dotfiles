@@ -35,8 +35,8 @@ set_ps1() {
   dir_str="$_cwd_col\w"
   git_branch=`parse_git_branch`
   ruby=`parse_ruby_version`
-  if [ -n "$git_branch" ]; then git_branch="$_git_col$git_branch$_env_col"; fi  # -- colorize
-  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then git_branch="$git_branch|"; fi    # -- separator
+  if [ -n "$git_branch" ]; then git_branch="$_git_col$git_branch$_env_col"; fi   # -- colorize
+  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then git_branch="$git_branch|"; fi  # -- separator
   if [ -n "$git_branch" ] || [ -n "$ruby" ]; then
     env_str="$_env_col[$git_branch$ruby$_env_col]"
   else
