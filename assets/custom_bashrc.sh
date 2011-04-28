@@ -64,6 +64,24 @@ if [ -f /etc/debian_version ]; then
   shopt -s autocd
 fi
 
+# XClip clipboard helper function
+function cb(){
+  _success_col="\e[1;32m"
+  _warn_col='\e[1;31m'
+  if [ -n "$1" ]; then
+    # Check user is not root (root doesn't have access to user xorg server)
+    if [[ $(whoami) == root ]]; then
+      echo -e "$_warn_col Must be regular user to copy a file to the clipboard!\e[0m"
+      exit
+    fi
+    # Copy text to clipboard
+    echo -n $1 | xclip -selection c
+    echo -ne $_success_col; echo -e "Copied to clipboard:\e[0m $1"
+  else
+    echo "Copies first argument to clipboard. Usage: cb <string>"
+  fi
+}
+
 # -------------------------------------------------------
 # Share Bash history across sessions
 # -------------------------------------------------------
