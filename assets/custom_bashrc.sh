@@ -2,7 +2,7 @@
 # ====================================
 
 # Command to update this file from GitHub
-alias pull_bashrc='cd --MYNIX_DIR-- && git pull origin master && ./bashrc_setup.sh'
+alias pull_bashrc='cd --MYNIX_DIR-- && git pull origin master && ./bashrc_setup.sh && cd -'
 
 # -------------------------------------------------------
 # Prompt / Xterm
