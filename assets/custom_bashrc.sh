@@ -1,8 +1,10 @@
 # Aliases and functions for .bashrc
 # ====================================
 
-# Command to update this file from GitHub
+# Update this file from GitHub
 alias pull_bashrc='cd --MYNIX_DIR-- && git pull origin master && ./bashrc_setup.sh && cd -'
+# Update gedit configuration from GitHub
+alias pull_gedit='cd --MYNIX_DIR-- && git pull origin master && ./gedit_setup.sh && cd -'
 
 # -------------------------------------------------------
 # Prompt / Xterm
