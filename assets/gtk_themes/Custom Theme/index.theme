@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Custom Theme
+Type=X-GNOME-Metatheme
+Comment=
+
+[X-GNOME-Metatheme]
+GtkTheme=BSM Simple Dark Panel
+MetacityTheme=Clearlooks
+IconTheme=ubuntu-mono-dark
+GtkColorScheme=fg_color:#101010101010,bg_color:#e0e0e0,text_color:#1a1a1a1a1a1a,base_color:#ffffffffffff,selected_fg_color:#ffffff,selected_bg_color:#444444,tooltip_fg_color:#000000000000,tooltip_bg_color:#f1f1f1
+CursorTheme=DMZ-Black
+CursorSize=24
