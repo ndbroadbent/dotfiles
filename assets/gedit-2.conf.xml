@@ -76,6 +76,12 @@
       </value>
     </entry>
     <entry>
+      <key>plugins/align_columns/last_separator</key>
+      <value>
+        <string> = </string>
+      </value>
+    </entry>
+    <entry>
       <key>plugins/drawspaces/draw_leading</key>
       <schema_key>/schemas/apps/gedit-2/plugins/drawspaces/draw_leading</schema_key>
       <value>
@@ -177,7 +183,7 @@
       <key>plugins/filebrowser/on_load/virtual_root</key>
       <schema_key>/schemas/apps/gedit-2/plugins/filebrowser/on_load/virtual_root</schema_key>
       <value>
-        <string>file:////home/ndbroadbent/src</string>
+        <string>file:////home/nathan/src</string>
       </value>
     </entry>
     <entry>
@@ -376,6 +382,54 @@
     </entry>
     <entry>
       <key>plugins/smart_indent/cucumber_use_space</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_crop_spaces_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_indent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_insert_newline_eof</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_remove_blank_lines_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_tab_size</key>
+      <value>
+        <int>2</int>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_unindent_keystrokes</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_unindent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/gtkrc_use_space</key>
       <value>
         <bool>true</bool>
       </value>
@@ -856,6 +910,54 @@
     </entry>
     <entry>
       <key>plugins/smart_indent/sh_use_space</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_crop_spaces_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_indent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_insert_newline_eof</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_remove_blank_lines_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_tab_size</key>
+      <value>
+        <int>2</int>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_unindent_keystrokes</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_unindent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/vhdl_use_space</key>
       <value>
         <bool>true</bool>
       </value>
