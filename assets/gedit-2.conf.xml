@@ -177,7 +177,56 @@
       <key>plugins/filebrowser/on_load/virtual_root</key>
       <schema_key>/schemas/apps/gedit-2/plugins/filebrowser/on_load/virtual_root</schema_key>
       <value>
-        <string>file:////media/sdb1/ndbroadbent/src</string>
+        <string>file:////home/ndbroadbent/src</string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/openfiles/exclude_list</key>
+      <value>
+        <list type="string">
+            <value>
+              <string>*pyc</string>
+            </value>
+            <value>
+              <string>*.class</string>
+            </value>
+            <value>
+              <string>*.swp</string>
+            </value>
+            <value>
+              <string>.svn</string>
+            </value>
+            <value>
+              <string>.git</string>
+            </value>
+            <value>
+              <string>*.gif</string>
+            </value>
+            <value>
+              <string>*.png</string>
+            </value>
+            <value>
+              <string>*.jpg</string>
+            </value>
+            <value>
+              <string>*.jpeg</string>
+            </value>
+            <value>
+              <string>*.ico</string>
+            </value>
+        </list>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/openfiles/static_root_path</key>
+      <value>
+        <string>/</string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/openfiles/use_filebrowser</key>
+      <value>
+        <bool>true</bool>
       </value>
     </entry>
     <entry>
@@ -524,6 +573,54 @@
       </value>
     </entry>
     <entry>
+      <key>plugins/smart_indent/rhtml_crop_spaces_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_indent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_insert_newline_eof</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_remove_blank_lines_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_tab_size</key>
+      <value>
+        <int>2</int>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_unindent_keystrokes</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_unindent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/rhtml_use_space</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
       <key>plugins/smart_indent/ruby_crop_spaces_eol</key>
       <value>
         <bool>true</bool>
@@ -809,6 +906,30 @@
       <key>plugins/smart_indent/yaml_use_space</key>
       <value>
         <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/tm_autocomplete/order</key>
+      <value>
+        <string>proximity</string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/tm_autocomplete/promote</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/tm_autocomplete/scope</key>
+      <value>
+        <string>application</string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/tm_autocomplete/trigger</key>
+      <value>
+        <string>Escape</string>
       </value>
     </entry>
     <entry>
