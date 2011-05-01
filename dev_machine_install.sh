@@ -61,11 +61,11 @@ heroku mechanize nokogiri
 # Require colors for capistrano
 echo "require 'capistrano_colors'" > ~/.caprc
 # Autotest config
-cat > ~/.autotest <<!
+cat > ~/.autotest <<EOF
 Autotest.add_hook :initialize do |at|
   %w{.svn .hg .git vendor}.each {|exception| at.add_exception(exception)}
 end
-!
+EOF
 
 if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
   echo "== Setting up gedit customizations (RoR colors, etc)..."
