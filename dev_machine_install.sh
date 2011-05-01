@@ -14,6 +14,8 @@ read -p "Set up gedit customizations? (default='y') (y/n):"
 setup_gedit="$REPLY"
 read -p "Set up gtk themes and fonts? (default='y') (y/n):"
 setup_themes="$REPLY"
+read -p "Set up conky (system stats)? (default='y') (y/n):"
+setup_conky="$REPLY"
 read -p "Set up reddit wallpapers? (default='y') (y/n):"
 setup_wallpapers="$REPLY"
 
@@ -84,6 +86,13 @@ if [ "$setup_themes" != "n" ] && [ "$setup_themes" != "no" ]; then
   ./gtk_setup.sh
 else
   echo "==! Skipping gtk fonts and themes setup."
+fi
+
+if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
+  echo "== Setting up conky..."
+  ./conky_setup.sh
+else
+  echo "==! Skipping conky setup."
 fi
 
 if [ "$setup_wallpapers" != "n" ] && [ "$setup_wallpapers" != "no" ]; then
