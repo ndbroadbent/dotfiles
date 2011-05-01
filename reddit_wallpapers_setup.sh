@@ -23,6 +23,6 @@ if ! (grep -q background_fetch.py /etc/rc.local); then
   sudo sed "s%exit 0$%$install_dir/background_fetch.py\nexit 0%g" -i /etc/rc.local
 fi
 
-echo "Please check your '/etc/rc.local' file to make sure the startup process was added correctly."
-echo -e "It should look like:\n    $install_dir/background_fetch.py\n    exit 0"
+echo -e "\n===== Please check your '/etc/rc.local' file to make sure the startup process was added correctly.\n"
+echo -e "It should look like:\n\n        $install_dir/background_fetch.py\n        exit 0"
 
