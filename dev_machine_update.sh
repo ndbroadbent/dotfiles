@@ -16,5 +16,8 @@ echo "== Updating gedit customizations (RoR colors, etc).."
 echo "== Updating gtk fonts and themes.."
 ./gtk_setup.sh
 
+echo "== Setting up reddit wallpapers..."
+./reddit_wallpapers_setup.sh
+
 echo "===== Ubuntu development machine has been updated."
 
