@@ -27,7 +27,5 @@ sudo mv /tmp/reddit_wallpapers.sh /etc/init.d/reddit_wallpapers
 sudo chmod +x /etc/init.d/reddit_wallpapers
 sudo update-rc.d reddit_wallpapers defaults
 
-echo -e "\n===== Please check your '/etc/rc.local' file to make sure the startup process was added correctly.\n"
-echo -e "It should look like:\n\n        $install_dir/background_fetch.py\n        exit 0"
 echo -e "\nTo run the script now:  $ $install_dir/background_fetch.py\n"
 
