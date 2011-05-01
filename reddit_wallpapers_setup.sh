@@ -18,10 +18,14 @@ sudo sed "s%DURATION = '[^']*'%DURATION = '$duration'%g" -i background_fetch.py
 # Setting desktop background to generated xml.
 gconftool-2 --type string --set /desktop/gnome/background/picture_filename $photo_dir/EarthPorn.xml
 
-# Make script run on startup (if not added already)
-if ! (grep -q background_fetch.py /etc/rc.local); then
-  sudo sed "s%exit 0$%$install_dir/background_fetch.py\nexit 0%g" -i /etc/rc.local
-fi
+# Make script run on startup
+cat > /tmp/reddit_wallpapers.sh <<EOF
+#!/bin/sh
+$install_dir/background_fetch.py
+EOF
+sudo mv /tmp/reddit_wallpapers.sh /etc/init.d/reddit_wallpapers
+sudo chmod +x /etc/init.d/reddit_wallpapers
+sudo update-rc.d reddit_wallpapers defaults
 
 echo -e "\n===== Please check your '/etc/rc.local' file to make sure the startup process was added correctly.\n"
 echo -e "It should look like:\n\n        $install_dir/background_fetch.py\n        exit 0"
