@@ -1,3 +1,5 @@
+#!/bin/bash
+
 install_dir=/opt/Wallpaper-Downloader-and-Rotator-for-Gnome
 photo_dir=~/Pictures/RedditWallpapers/
 duration=600

@@ -27,7 +27,8 @@ libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
 ack-grep vim gedit-plugins xclip gtk-theme-switch mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
 sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
-python-webkit python-webkit-dev python-pyinotify
+python-webkit python-webkit-dev python-pyinotify \
+conky-all
 
 echo "== Setting up git and ssh..."
 git config --global user.name "$git_name"
@@ -39,6 +40,22 @@ ssh-keygen -t rsa -C "$git_email"
 echo "== Installing custom bashrc..."
 ./bashrc_setup.sh
 
+
+echo "== Setting up ~/ config files..."
+# Require colors for capistrano
+echo "require 'capistrano_colors'" > ~/.caprc
+# Autotest config
+cat > ~/.autotest <<EOF
+Autotest.add_hook :initialize do |at|
+  %w{.svn .hg .git vendor}.each {|exception| at.add_exception(exception)}
+end
+EOF
+# Set .gemrc to use --no-ri and --no-rdoc
+echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+# Conky system monitor
+cp assets/conkyrc ~/.conkyrc
+
+
 if [ -z `which rvm` ]; then
   echo "== Installing rvm and ruby 1.9.2..."
   bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
@@ -49,23 +66,11 @@ else
   echo == "RVM already installed."
 fi
 
-# Set .gemrc to use --no-ri and --no-rdoc
-echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-
 echo "== Installing rails and other commonly used gems..."
 gem install rails cucumber cucumber-rails spree \
 gemcutter authlogic sqlite3-ruby mime-types rmagick \
 capistrano capistrano_colors mislav-will_paginate ruby-debug \
 heroku mechanize nokogiri
-
-# Require colors for capistrano
-echo "require 'capistrano_colors'" > ~/.caprc
-# Autotest config
-cat > ~/.autotest <<EOF
-Autotest.add_hook :initialize do |at|
-  %w{.svn .hg .git vendor}.each {|exception| at.add_exception(exception)}
-end
-EOF
 
 if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
   echo "== Setting up gedit customizations (RoR colors, etc)..."

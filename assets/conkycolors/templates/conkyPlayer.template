@@ -1,0 +1,9 @@
+${if_running exaile}
+${voffset -12}${color0}${font Webdings:size=16}U${font}${color}${voffset -2}${goto 32}Status:${alignr}${color2}[--datatype=ST]${color}
+${voffset 4}${color0}${color0}${font Musicelements:size=19}z${font}${color}${voffset -8}${goto 32}Song:${alignr}${color2}[--datatype=AR]${color}
+${color2}${alignr}[--datatype=AL]${color}
+${color2}${alignr}[--datatype=TI]${color}
+${voffset -7}${color0}${font Martin Vogel's Symbols:size=19}U${font}${color}${voffset -4}${goto 32}Time:${alignr}${color2}[--datatype=PT]/[--datatype=LE]${color}${voffset 2}$else
+${voffset -12}${color0}${font Webdings:size=16}U${font}${color}${voffset -2}${goto 32}Status:${alignr}${color2}off${color}
+${voffset 12}$alignc${font Droid Sans:style=Bold:size=8}${color2}${color}${font}${voffset -10}
+$endif
