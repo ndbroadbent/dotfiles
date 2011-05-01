@@ -12,8 +12,10 @@ sudo git clone https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for
 
 cd $install_dir
 # Configure script (photo_dir, duration)
-sudo sed "s%PHOTO_DIR = '[^']*'%PHOTO_DIR = '$photo_dir'%g" -i background_fetch.py
-sudo sed "s%DURATION = '[^']*'%DURATION = '$duration'%g" -i background_fetch.py
+sudo sed -e "s%PHOTO_DIR = '[^']*'%PHOTO_DIR = '$photo_dir'%g" \
+         -e "s%DURATION = '[^']*'%DURATION = '$duration'%g"  \
+         -e "s%SIZE_THRESHOLD = ([^)]*)$%SIZE_THRESHOLD = (1600, 1200)%g" \
+         -i background_fetch.py
 
 # Setting desktop background to generated xml.
 gconftool-2 --type string --set /desktop/gnome/background/picture_filename $photo_dir/EarthPorn.xml
