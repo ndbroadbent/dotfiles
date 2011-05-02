@@ -21,6 +21,13 @@ cd $this_dir
 rm -rf ~/.conkycolors
 cp -rf assets/conkycolors ~/.conkycolors
 
+# Create conky start script.
+cat > ~/.start_conky <<EOF
+#!/bin/sh
+sleep 10 && conky -c $HOME/.conkycolors/conkyrc
+EOF
+chmod +x ~/.start_conky
+
 # Set home directory placeholder
 sed "s%@HOME@%$HOME%g" -i ~/.conkycolors/conkyrc
 
@@ -34,5 +41,5 @@ else
   mv /tmp/conkyrc ~/.conkycolors/conkyrc
 fi
 
-echo -e "== Add the following command to your startup applications:\n    conky -c ~/.conkycolors/conkyrc"
+echo -e "== Add the following command to your startup applications:\n    $HOME/.start_conky"
 
