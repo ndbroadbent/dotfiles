@@ -18,7 +18,7 @@ corner_r=20
 -- Set the colour and transparency (alpha) of your background.
 
 bg_colour=0x000000
-bg_alpha=0.46
+bg_alpha=0.52
 
 require 'cairo'
 function rgb_to_r_g_b(colour,alpha)

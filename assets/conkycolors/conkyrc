@@ -35,10 +35,10 @@ own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 alignment top_right
-gap_x 37
-gap_y 20
-minimum_size 192 300
-maximum_width 192
+gap_x 50
+gap_y 160
+minimum_size 200 300
+maximum_width 200
 
 border_outer_margin 10
 
@@ -49,34 +49,38 @@ default_bar_size 50 8
 #########################
 draw_shades no
 
-default_color cccccc
+default_color d9d9d9
 
 color0 white
 color1 white
 color2 white
 
 TEXT
+#############
+# - CLOCK - #
+#############
+${voffset -2}${color2}${font Droid Sans:size=28}${alignc}${offset -2}${time %H:%M}${font}
+${font Droid Sans:size=11}${alignc}${time %d %B %Y}${font}
 ##############
 # - SYSTEM - #
 ##############
-${color1}${font Droid Sans:style=Bold:size=8}SYSTEM  ${color}$stippled_hr${font}
-${voffset 3}${color0}${font Poky:size=15}S${font}${color}${goto 44}${voffset -12}Kernel:  ${alignr}${color2}${kernel}${color}
+${color1}${voffset 10}${font Droid Sans:style=Bold:size=9}SYSTEM  ${color}$stippled_hr${font}
+${voffset 8}${color0}${font Poky:size=15}S${font}${color}${goto 44}${voffset -12}Kernel:  ${alignr}${color2}${kernel}${color}
 ${goto 44}Uptime: ${alignr}${color2}${uptime}${color}
 # |--CPU
-${offset 1}${voffset 7}${color0}${font Poky:size=16}P${font}${offset -19}${voffset 5}${cpubar cpu0 4,18}${color}${voffset -15}${goto 44}CPU1: ${font Droid Sans:style=Bold:size=8}${color1}${cpu cpu1}%${color}${font} ${alignr}${color2}${cpugraph cpu1 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}CPU2: ${font Droid Sans:style=Bold:size=8}${color1}${cpu cpu2}%${color}${font} ${alignr}${color2}${cpugraph cpu2 8,60 5C3566 77507B}${color}
+${offset 1}${voffset 11}${color0}${font Poky:size=16}P${font}${offset -20}${color}${voffset -12}${goto 44}CPU1: ${font Droid Sans:style=Bold:size=9}${color1}${cpu cpu1}%${color}${font} ${alignr}${color2}${cpugraph cpu1 8,60 5C3566 77507B}${color}
+${goto 44}CPU2: ${font Droid Sans:style=Bold:size=9}${color1}${cpu cpu2}%${color}${font} ${alignr}${color2}${cpugraph cpu2 8,60 5C3566 77507B}${color}
 # |--MEM
-${color0}${font Poky:size=16}M${font}${color}${goto 44}${voffset -5}RAM: ${font Droid Sans:style=Bold:size=8}${color1}$memperc%${color}${font}
-${offset 1}${voffset 5}${color0}${membar 4,18}${color}${goto 44}${voffset -2}F: ${font Droid Sans:style=Bold:size=8}${color2}${memeasyfree}${color}${font}
-${offset 1}${voffset 2}${color0}${membar 4,18}${color}${goto 44}${voffset -2}U: ${font Droid Sans:style=Bold:size=8}${color2}${mem}${color}${font}
+${voffset 8}${color0}${font Poky:size=16}M${font}${color}${goto 44}${voffset -12}RAM: ${font Droid Sans:style=Bold:size=9}${color1}$memperc%${color}${font}${alignr}${color0}${membar 8,60}
+${goto 44}${color}${voffset -2}Free:  ${font Droid Sans:style=Bold:size=9}${color2}${memeasyfree}${color}${font}${color0}${color}${alignr}Used: ${font Droid Sans:style=Bold:size=9}${color2}${mem}${color}${font}
 #################
 # - PROCESSES - #
 #################
-${color1}${voffset 12}${font Droid Sans:style=Bold:size=8}PROCESSES  ${color}$stippled_hr${font}
-${voffset 5}${color0}${font Poky:size=15}z${font}${color}${goto 44}${voffset -13}Processes:  ${alignr}${color2}$processes${color}
-${goto 44}Running: ${alignr}${color2}$running_processes ${color}
+${color1}${voffset 11}${font Droid Sans:style=Bold:size=9}PROCESSES  ${color}$stippled_hr${font}
+${voffset 9}${color0}${font Poky:size=15}z${font}${color}${goto 44}${voffset -14}Processes: ${font Droid Sans:style=Bold:size=9}${color1}$processes${color}${font}
+${goto 44}Running: ${font Droid Sans:style=Bold:size=9}${color1}$running_processes ${color}${font}
 # |-- Process list
-${offset 1}${voffset 3}Name${goto 123}PID${alignr}CPU%${font Droid Sans:size=9}${color1}
+${voffset 7}Name${goto 123}PID${alignr}CPU%${font Droid Sans:size=9}${color1}
 ${top name 1}${goto 120}${top pid 1}${alignr}${top cpu 1}
 ${top name 2}${goto 120}${top pid 2}${alignr}${top cpu 2}
 ${top name 3}${goto 120}${top pid 3}${alignr}${top cpu 3}
@@ -84,25 +88,24 @@ ${top name 4}${goto 120}${top pid 4}${alignr}${top cpu 4}${font}${color}
 ###############
 # - NETWORK - #
 ###############
-${color1}${voffset 15}${font Droid Sans:style=Bold:size=8}NETWORK  ${color}$stippled_hr${font}
+${color1}${voffset 12}${font Droid Sans:style=Bold:size=9}NETWORK  ${color}$stippled_hr${font}
 # |--WLAN0
 ${if_up wlan0}
-${voffset -14}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=8}${color1}${upspeed wlan0}${color}${font} ${alignr}${color2}${upspeedgraph wlan0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=8}${color2}${totalup wlan0}${color}${font}
-${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=8}${color1}${downspeed wlan0}${color}${font} ${alignr}${color2}${downspeedgraph wlan0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=8}${color2}${totaldown wlan0}${color}${font}
-${voffset 3}${color0}${font Poky:size=14}Y${font}${color}${goto 44}${voffset -2}Signal: ${font Droid Sans:style=Bold:size=8}${color1}${wireless_link_qual wlan0}%${color}${font} ${alignr}${color2}${wireless_link_bar 8,60 wlan0}${color}
+${voffset -10}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=9}${color1}${upspeed wlan0}${color}${font} ${alignr}${color2}${upspeedgraph wlan0 8,60 5C3566 77507B}${color}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totalup wlan0}${color}${font}
+${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=9}${color1}${downspeed wlan0}${color}${font} ${alignr}${color2}${downspeedgraph wlan0 8,60 5C3566 77507B}${color}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown wlan0}${color}${font}
+${voffset 3}${color0}${font Poky:size=14}Y${font}${color}${goto 44}${voffset -2}Signal: ${font Droid Sans:style=Bold:size=9}${color1}${wireless_link_qual wlan0}%${color}${font} ${alignr}${color2}${wireless_link_bar 8,60 wlan0}${color}
 ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -13}Local IP: ${alignr}${color2}${addr wlan0}${color}
 ${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}
 # |--ETH0
 ${else}${if_up eth0}
-${voffset -14}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=8}${color1}${upspeed eth0}${color}${font} ${alignr}${color2}${upspeedgraph eth0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=8}${color2}${totalup eth0}${color}${font}
-${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=8}${color1}${downspeed eth0}${color}${font} ${alignr}${color2}${downspeedgraph eth0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=8}${color2}${totaldown eth0}${color}${font}
+${voffset -10}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=9}${color1}${upspeed eth0}${color}${font} ${alignr}${color2}${upspeedgraph eth0 8,60 5C3566 77507B}${color}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totalup eth0}${color}${font}
+${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=9}${color1}${downspeed eth0}${color}${font} ${alignr}${color2}${downspeedgraph eth0 8,60 5C3566 77507B}${color}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown eth0}${color}${font}
 ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -14}Local IP: ${alignr}${color2}${addr eth0}${color}
 ${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}
 # |--Else, no network available
-${else}${voffset 4}${color0}${font PizzaDude Bullets:size=12}4${font}${color}${goto 44}Network Unavailable${voffset 14}${endif}${endif}
-${goto 2}
+${else}${voffset 6}${color0}${font PizzaDude Bullets:size=12}4${font}${color}${goto 44}Network Unavailable${voffset 14}${endif}${endif}
 
