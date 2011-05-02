@@ -67,12 +67,6 @@ ${goto 32}CPU2: ${font Droid Sans:style=Bold:size=8}${color1}${cpu cpu2}%${color
 ${color0}${font Poky:size=16}M${font}${color}${goto 32}${voffset -7}RAM: ${font Droid Sans:style=Bold:size=8}${color1}$memperc%${color}${font}
 ${offset 1}${voffset 2}${color0}${membar 4,18}${color}${goto 32}${voffset -2}F: ${font Droid Sans:style=Bold:size=8}${color2}${memeasyfree}${color}${font}
 ${offset 1}${voffset 2}${color0}${membar 4,18}${color}${goto 32}${voffset -2}U: ${font Droid Sans:style=Bold:size=8}${color2}${mem}${color}${font}
-#############
-# - CLOCK - #
-#############
-${voffset 4}${font Droid Sans:style=Bold:size=8}DATE $stippled_hr${font}
-${voffset -10}${alignc 46}${color2}${font Arial Black:size=30}${time %H:%M}${font}${color}
-${alignc}${time %d %B %Y}
 ###############
 # - NETWORK - #
 ###############

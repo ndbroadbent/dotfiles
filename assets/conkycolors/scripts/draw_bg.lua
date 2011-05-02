@@ -14,7 +14,7 @@ Changelog:
 -- Change these settings to affect your background.
 -- "corner_r" is the radius, in pixels, of the rounded corners. If you don't want rounded corners, use 0.
 
-corner_r=0
+corner_r=10
 
 -- Set the colour and transparency (alpha) of your background.
 
