@@ -21,5 +21,14 @@ cd $this_dir
 rm -rf ~/.conkycolors
 cp -rf assets/conkycolors ~/.conkycolors
 
+# Set home directory placeholder
+sed "s%@HOME@%$HOME%g" -i ~/.conkycolors/conkyrc
+
+# Find out how many CPUs this computer has, and link the correct cpu config (default = 2 cpus).
+cpus=`grep ^processor -i /proc/cpuinfo | wc -l`
+if [ $cpus -eq 1 ]; then
+  sed "s%/2cpu%/1cpu%g" -i ~/.conkycolors/conkyrc
+fi
+
 echo -e "== Add the following command to your startup applications:\n    conky -c ~/.conkycolors/conkyrc"
 
