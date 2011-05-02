@@ -2,7 +2,7 @@
 
 install_dir=/opt/Wallpaper-Downloader-and-Rotator-for-Gnome
 photo_dir=~/Pictures/RedditWallpapers/
-duration=600
+duration=600.0
 
 mkdir -p $photo_dir
 
