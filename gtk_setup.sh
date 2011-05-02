@@ -1,5 +1,4 @@
 #!/bin/bash
-this_dir=$(pwd)
 echo "Copying themes..."
 cp -rf assets/gtk_themes/* ~/.themes
 echo "Configuring gtk fonts, etc..."
