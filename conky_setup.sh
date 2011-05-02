@@ -24,10 +24,14 @@ cp -rf assets/conkycolors ~/.conkycolors
 # Set home directory placeholder
 sed "s%@HOME@%$HOME%g" -i ~/.conkycolors/conkyrc
 
-# Find out how many CPUs this computer has, and link the correct cpu config (default = 2 cpus).
+# Find out how many CPUs this computer has, and set the @CPU@ placeholder to the correct template.
 cpus=`grep ^processor -i /proc/cpuinfo | wc -l`
 if [ $cpus -eq 1 ]; then
-  sed "s%/2cpu%/1cpu%g" -i ~/.conkycolors/conkyrc
+  awk '/@CPU@/{system("cat ~/.conkycolors/1cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc && \
+  mv /tmp/conkyrc ~/.conkycolors/conkyrc
+else
+  awk '/@CPU@/{system("cat ~/.conkycolors/2cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc && \
+  mv /tmp/conkyrc ~/.conkycolors/conkyrc
 fi
 
 echo -e "== Add the following command to your startup applications:\n    conky -c ~/.conkycolors/conkyrc"
