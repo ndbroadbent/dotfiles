@@ -1,1 +1,9 @@
-Setup scripts and bash config for my Ubuntu dev machine (& iPhone)
+h3. Setup scripts and configuration for Ubuntu development machine
+
+* Base packages
+* Git & SSH setup
+* Well-honed .bashrc
+* RVM & ruby 1.9.2
+* gedit tweaked to perfection for Ruby on Rails
+* Gnome themes, icons & conky
+
