@@ -23,14 +23,21 @@ echo "== Please enter your sudo password =>"
 sudo echo "== Thanks. Now let me install some things for you..."
 
 echo "== Installing required software and development packages."
+# Add extra ppas first.
+sudo add-apt-repository ppa:cs-sniffer/cortina # Wallpaper switcher
+# Dropbox
+echo "deb http://linux.dropbox.com/ubuntu $(lsb_release -cs) main" | sudo tee "/etc/apt/sources.list.d/dropbox.list" > /dev/null
+sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
+
 sudo apt-get update
-sudo apt-get -ym install git-core gitk libyaml-ruby \
+sudo apt-get -y --force-yes install git-core gitk libyaml-ruby \
 libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
 ack-grep vim gedit-plugins xclip gtk-theme-switch mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
 sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
 python-webkit python-webkit-dev python-pyinotify \
-conky-all drapes
+conky-all cortina nautilus-dropbox
+
 
 echo "== Setting up git and ssh..."
 git config --global user.name "$git_name"
@@ -68,11 +75,6 @@ else
   echo == "RVM already installed."
 fi
 
-echo "== Installing rails and other commonly used gems..."
-gem install rails cucumber cucumber-rails spree \
-gemcutter authlogic sqlite3-ruby mime-types rmagick \
-capistrano capistrano_colors mislav-will_paginate ruby-debug \
-heroku mechanize nokogiri
 
 if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
   echo "== Setting up gedit customizations (RoR colors, etc)..."
