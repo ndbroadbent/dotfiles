@@ -30,7 +30,7 @@ ack-grep vim gedit-plugins xclip gtk-theme-switch mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
 sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
 python-webkit python-webkit-dev python-pyinotify \
-conky-all
+conky-all drapes
 
 echo "== Setting up git and ssh..."
 git config --global user.name "$git_name"
