@@ -1,6 +1,6 @@
 [decoration]
-as_shadow_radius = 14.514700
-as_shadow_opacity = 0.732200
+as_shadow_radius = 9.566300
+as_shadow_opacity = 0.463100
 
 [opacify]
 as_timeout = 721
