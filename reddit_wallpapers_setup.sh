@@ -1,6 +1,6 @@
 #!/bin/bash
 
-install_dir=/opt/Wallpaper-Downloader-and-Rotator-for-Gnome
+install_dir="/opt/Wallpaper-Downloader-and-Rotator-for-Gnome"
 photo_dir=~/Pictures/RedditWallpapers/
 duration=600.0
 
@@ -10,7 +10,7 @@ echo "== Installing required python libraries..."
 sudo apt-get -ym install python-beautifulsoup python-lxml
 
 echo "== Downloading and configuring 'Wallpaper-Downloader-and-Rotator-for-Gnome'..."
-sudo git clone https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome.git $install_dir
+sudo git clone "https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome.git" $install_dir
 
 cd $install_dir
 # Configure script (photo_dir, duration)
