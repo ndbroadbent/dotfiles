@@ -36,7 +36,7 @@ ack-grep vim gedit-plugins xclip gtk-theme-switch mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
 sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
 python-webkit python-webkit-dev python-pyinotify \
-conky-all cortina nautilus-dropbox
+compiz conky-all cortina nautilus-dropbox
 
 
 echo "== Setting up git and ssh..."
@@ -61,8 +61,6 @@ end
 EOF
 # Set .gemrc to use --no-ri and --no-rdoc
 echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-# Conky system monitor
-cp assets/conkyrc ~/.conkyrc
 
 
 if [ -z `which rvm` ]; then
