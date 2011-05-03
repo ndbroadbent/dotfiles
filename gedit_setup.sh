@@ -1,8 +1,9 @@
 #!/bin/bash
-this_dir=$(pwd)
-
 # Sets up gedit for RoR development.
 # -------------------------------------------
+echo "== Setting up gedit customizations (RoR colors, etc)..."
+
+this_dir=$(pwd)
 
 # Kill all running gedit processes
 killall gedit

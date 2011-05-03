@@ -1,97 +1,80 @@
 #!/bin/bash
-# This bash script will run all the commands to
-# setup your development environment on Ubuntu (v=>9.10)
+# This bash script will set up your development environment for Ubuntu (v=>9.10)
 
 echo "[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
-read -p "Please enter your name (for git account):"
-git_name="$REPLY"
-read -p "Please enter your email (for git account):"
-git_email="$REPLY"
-echo
 
-read -p "Set up gedit customizations? (default='y') (y/n):"
+read -p "Set up Git & SSH? (default='y') (y/n): "
+setup_gitssh="$REPLY"
+if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
+  echo
+  read -p "    Please enter your name (for git account): "
+  git_name="$REPLY"
+  read -p "    Please enter your email (for git account): "
+  git_email="$REPLY"
+  echo
+fi
+read -p "Set up RVM? (default='y') (y/n): "
+setup_rvm="$REPLY"
+read -p "Set up gedit customizations? (default='y') (y/n): "
 setup_gedit="$REPLY"
-read -p "Set up gtk themes and fonts? (default='y') (y/n):"
+read -p "Set up gtk themes and fonts? (default='y') (y/n): "
 setup_themes="$REPLY"
-read -p "Set up conky (system stats)? (default='y') (y/n):"
+read -p "Set up conky (system stats on wallpaper)? (default='y') (y/n): "
 setup_conky="$REPLY"
+read -p "Set up MXIE (internal CR comms app)? (default='y') (y/n): "
+setup_mxie="$REPLY"
 
-echo "== Please enter your sudo password =>"
-sudo echo "== Thanks. Now let me install some things for you..."
+echo -e "\n== Please enter your sudo password: "
+sudo echo -e "===== Thanks. Now let me install some things for you...\n"
 
-echo "== Installing required software and development packages."
-# Add extra ppas first.
-sudo add-apt-repository ppa:cs-sniffer/cortina # Wallpaper switcher
-# Dropbox
-echo "deb http://linux.dropbox.com/ubuntu $(lsb_release -cs) main" | sudo tee "/etc/apt/sources.list.d/dropbox.list" > /dev/null
-sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
+# Packages
+# --------------------------------------------------------------
+./packages_setup.sh
 
-sudo apt-get update
-sudo apt-get -y --force-yes install git-core gitk libyaml-ruby \
-libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
-ack-grep vim gedit-plugins xclip gtk-theme-switch mysql-server libmysql-ruby \
-libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
-sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
-python-webkit python-webkit-dev python-pyinotify \
-compiz conky-all cortina nautilus-dropbox
-
-
-echo "== Setting up git and ssh..."
-git config --global user.name "$git_name"
-git config --global user.email "$git_email"
-git config --global branch.master.remote origin
-git config --global branch.master.merge refs/heads/master
-ssh-keygen -t rsa -C "$git_email"
-
-echo "== Installing custom bashrc..."
+# Bashrc
+# --------------------------------------------------------------
 ./bashrc_setup.sh
 
+# Ruby dotfiles
+# --------------------------------------------------------------
+./ruby_dotfiles_setup.sh
 
-echo "== Setting up ~/ config files..."
-# Require colors for capistrano
-echo "require 'capistrano_colors'" > ~/.caprc
-# Autotest config
-cat > ~/.autotest <<EOF
-Autotest.add_hook :initialize do |at|
-  %w{.svn .hg .git vendor}.each {|exception| at.add_exception(exception)}
-end
-EOF
-# Set .gemrc to use --no-ri and --no-rdoc
-echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+# Git & SSH
+# --------------------------------------------------------------
+if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
+  ./git_ssh_setup.sh $git_name $git_email
+else echo "==! Skipping git & ssh setup."; fi
 
+# RVM
+# --------------------------------------------------------------
+if [ "$setup_rvm" != "n" ] && [ "$setup_rvm" != "no" ]; then
+  ./rvm_setup.sh
+else echo "==! Skipping RVM setup."; fi
 
-if [ -z `which rvm` ]; then
-  echo "== Installing rvm and ruby 1.9.2..."
-  bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # Loads RVM into shell
-  rvm install 1.9.2
-  rvm use 1.9.2
-else
-  echo == "RVM already installed."
-fi
-
-
+# Gedit
+# --------------------------------------------------------------
 if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
-  echo "== Setting up gedit customizations (RoR colors, etc)..."
   ./gedit_setup.sh
-else
-  echo "==! Skipping gedit setup."
-fi
+else echo "==! Skipping gedit setup."; fi
 
+# GTK themes / fonts
+# --------------------------------------------------------------
 if [ "$setup_themes" != "n" ] && [ "$setup_themes" != "no" ]; then
-  echo "== Setting up gtk fonts and themes..."
   ./gtk_setup.sh
-else
-  echo "==! Skipping gtk fonts and themes setup."
-fi
+else echo "==! Skipping gtk fonts and themes setup."; fi
 
+# Conky system stats
+# --------------------------------------------------------------
 if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
-  echo "== Setting up conky..."
   ./conky_setup.sh
-else
-  echo "==! Skipping conky setup."
-fi
+else echo "==! Skipping conky setup."; fi
+
+# MXIE
+# --------------------------------------------------------------
+if [ "$setup_mxie" != "n" ] && [ "$setup_mxie" != "no" ]; then
+  ./mxie_setup.sh
+else echo "==! Skipping MXIE setup."; fi
 
 
 echo -e "\n===== Ubuntu development machine has been set up!"

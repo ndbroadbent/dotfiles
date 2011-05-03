@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "== Setting up conky..."
 # Install conky & conky-colors
 sudo apt-get install -ym conky-all
 if (which conky-colors); then
