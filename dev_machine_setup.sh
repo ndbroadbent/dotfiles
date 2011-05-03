@@ -22,8 +22,6 @@ read -p "Set up gtk themes and fonts? (default='y') (y/n): "
 setup_themes="$REPLY"
 read -p "Set up conky (system stats on wallpaper)? (default='y') (y/n): "
 setup_conky="$REPLY"
-read -p "Set up MXIE (internal CR comms app)? (default='y') (y/n): "
-setup_mxie="$REPLY"
 
 echo -e "\n== Please enter your sudo password: "
 sudo echo -e "===== Thanks. Now let me install some things for you...\n"
@@ -69,12 +67,6 @@ else echo "==! Skipping gtk fonts and themes setup."; fi
 if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
   ./conky_setup.sh
 else echo "==! Skipping conky setup."; fi
-
-# MXIE
-# --------------------------------------------------------------
-if [ "$setup_mxie" != "n" ] && [ "$setup_mxie" != "no" ]; then
-  ./mxie_setup.sh
-else echo "==! Skipping MXIE setup."; fi
 
 
 echo -e "\n===== Ubuntu development machine has been set up!"
