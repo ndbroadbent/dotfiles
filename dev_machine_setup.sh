@@ -16,8 +16,6 @@ read -p "Set up gtk themes and fonts? (default='y') (y/n):"
 setup_themes="$REPLY"
 read -p "Set up conky (system stats)? (default='y') (y/n):"
 setup_conky="$REPLY"
-read -p "Set up reddit wallpapers? (default='y') (y/n):"
-setup_wallpapers="$REPLY"
 
 echo "== Please enter your sudo password =>"
 sudo echo "== Thanks. Now let me install some things for you..."
@@ -93,13 +91,6 @@ if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
   ./conky_setup.sh
 else
   echo "==! Skipping conky setup."
-fi
-
-if [ "$setup_wallpapers" != "n" ] && [ "$setup_wallpapers" != "no" ]; then
-  echo "== Setting up reddit wallpapers..."
-  ./reddit_wallpapers_setup.sh
-else
-  echo "==! Skipping reddit wallpapers setup."
 fi
 
 
