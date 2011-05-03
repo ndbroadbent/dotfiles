@@ -18,8 +18,8 @@ read -p "Set up RVM? (default='y') (y/n): "
 setup_rvm="$REPLY"
 read -p "Set up gedit customizations? (default='y') (y/n): "
 setup_gedit="$REPLY"
-read -p "Set up gtk themes and fonts? (default='y') (y/n): "
-setup_themes="$REPLY"
+read -p "Set up gnome themes and fonts? (default='y') (y/n): "
+setup_gnome="$REPLY"
 read -p "Set up conky (system stats on wallpaper)? (default='y') (y/n): "
 setup_conky="$REPLY"
 
@@ -56,11 +56,11 @@ if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
   ./gedit_setup.sh
 else echo "==! Skipping gedit setup."; fi
 
-# GTK themes / fonts
+# Gnome themes / fonts
 # --------------------------------------------------------------
-if [ "$setup_themes" != "n" ] && [ "$setup_themes" != "no" ]; then
-  ./gtk_setup.sh
-else echo "==! Skipping gtk fonts and themes setup."; fi
+if [ "$setup_gnome" != "n" ] && [ "$setup_gnome" != "no" ]; then
+  ./gnome_setup.sh
+else echo "==! Skipping gnome fonts and themes setup."; fi
 
 # Conky system stats
 # --------------------------------------------------------------
