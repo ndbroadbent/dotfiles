@@ -14,5 +14,5 @@ else
 fi
 source ~/.bashrc
 
-echo "===== If you did not run: [ . bashrc_setup.sh ], then run this command: [ source ~/.bashrc ]"
+echo "===== If you did not run: [ . bashrc_setup.sh ], please run this command: [ source ~/.bashrc ]"
 
