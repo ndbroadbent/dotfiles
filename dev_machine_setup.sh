@@ -69,5 +69,9 @@ if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
 else echo "==! Skipping conky setup."; fi
 
 
-echo -e "\n===== Ubuntu development machine has been set up!"
+echo -e "\n===== Ubuntu development machine has been set up!\n"
+echo -e "Further manual configuration might be needed:\n"
+echo "    Compiz - Import settings from './assets/compiz.profile'"
+echo "    Conky  - Add this command to your startup applications: $HOME/.start_conky"
+echo
 
