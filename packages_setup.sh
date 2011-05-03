@@ -10,9 +10,9 @@ sudo apt-get update
 
 sudo apt-get -y --force-yes install git-core gitk libyaml-ruby \
 libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
-ack-grep vim gedit-plugins xclip gtk-theme-switch mysql-server libmysql-ruby \
+ack-grep vim gedit-plugins xclip mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
-sun-java6-jdk apache2 python python-dev python-gtk2 python-gtk2-dev \
+postgresql sun-java6-jdk apache2 python \
 python-webkit python-webkit-dev python-pyinotify \
 compiz conky-all cortina nautilus-dropbox
 
