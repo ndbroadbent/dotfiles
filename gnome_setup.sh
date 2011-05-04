@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "== Copying themes..."
+mkdir -p ~/.themes
 cp -rf assets/gtk_themes/* ~/.themes
 echo "== Installing icons..."
 if ! (apt-cache search faenza-icon-theme | grep -q faenza); then
