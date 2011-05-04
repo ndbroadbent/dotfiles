@@ -73,7 +73,10 @@ echo -e "\n===== Ubuntu development machine has been set up!\n"
 echo -e "Further manual configuration might be needed:\n"
 echo "    Gnome   - Set theme to 'Custom Theme'"
 echo "    Compiz  - Import settings from './assets/compiz.profile'"
-echo "    Conky   - Add this command to your startup applications: $HOME/.start_conky"
+echo "    Conky   - Add this command to your startup applications:"
+echo "              $HOME/.start_conky"
 echo "    Cortina - Run cortina, set wallpaper dir and run on startup"
+echo "    Synergy - Copy your synergy conf to '/etc/synergy.conf' & add to startup:"
+echo "              synergys --config '/etc/synergy.conf'"
 echo
 
