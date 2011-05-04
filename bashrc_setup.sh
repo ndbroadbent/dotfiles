@@ -3,7 +3,7 @@ echo "== Installing custom bashrc..."
 this_dir=$(pwd)
 cp -f assets/custom_bashrc.sh ~/.custom_bashrc
 # Update the 'update' command with the current directory. (# delimiter)
-sed -i s#--MYNIX_DIR--#$this_dir#g ~/.custom_bashrc
+sed -i s#--UBUNTUCONF_DIR--#$this_dir#g ~/.custom_bashrc
 
 # Check if ubuntu_bashrc is already installed.
 if ! (grep -q ". ~/.custom_bashrc" ~/.bashrc); then
