@@ -36,7 +36,7 @@ own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 alignment top_right
 gap_x 50
-gap_y 130
+gap_y 60
 minimum_size 200 300
 maximum_width 200
 
@@ -104,7 +104,12 @@ ${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${tot
 ${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=9}${color1}${downspeed eth0}${color}${font} ${alignr}${color2}${downspeedgraph eth0 8,60 5C3566 77507B}${color}
 ${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown eth0}${color}${font}
 ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -14}Local IP: ${alignr}${color2}${addr eth0}${color}
-${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}
+${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}\
 # |--Else, no network available
 ${else}${voffset 6}${color0}${font PizzaDude Bullets:size=12}4${font}${color}${goto 44}Network Unavailable${voffset 14}${endif}${endif}
+#############
+# - Other - #
+#############
+${color1}${voffset 14}${font Droid Sans:style=Bold:size=9}${execi 10800 ~/.conkycolors/scripts/verse.rb ref}  ${color}$stippled_hr${font}
+${color2}${voffset 3}${execi 10800 ~/.conkycolors/scripts/verse.rb verse}${color}
 
