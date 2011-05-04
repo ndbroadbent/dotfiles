@@ -1,0 +1,13 @@
+[Gedit Plugin]
+Loader=python
+Module=TextWrap
+IAge=2
+Icon=gtk-ok
+Authors=Christian Hartmann <gedit@hartmann-it-design.de>
+Copyright=Copyright (C) 2008-2009 Christian Hartmann
+Website=http://hartmann-it-design.de/gedit/
+Name=Text Wrap
+Name[de]=Textumbruch
+Description=Toggle Text Wrap Setting by Menu Entry or Toolbar Button
+Description[de]=Textumbruch über Menü-Eintrag oder Werkzeugleiste umschalten
+
