@@ -51,6 +51,9 @@
               <string>rails_hotkeys</string>
             </value>
             <value>
+              <string>TextWrap</string>
+            </value>
+            <value>
               <string>filebrowser</string>
             </value>
             <value>
@@ -183,7 +186,7 @@
       <key>plugins/filebrowser/on_load/virtual_root</key>
       <schema_key>/schemas/apps/gedit-2/plugins/filebrowser/on_load/virtual_root</schema_key>
       <value>
-        <string>file:////home/nathan/src</string>
+        <string>file:////media/sdb1/ndbroadbent/src</string>
       </value>
     </entry>
     <entry>
