@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "== Setting up conky..."
 # Install conky & conky-colors
-sudo apt-get install -ym conky-all
+sudo apt-get install -ym conky-all verse
 if (which conky-colors); then
   echo "== conky-colors is already installed."
 else
