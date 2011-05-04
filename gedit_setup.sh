@@ -14,7 +14,7 @@ if ! (apt-cache search gedit-gmate | grep gedit-gmate); then
     sudo apt-get update
 fi
 echo "Installing gedit-gmate..."
-sudo apt-get install -y gedit-gmate
+sudo apt-get install -ym gedit-gmate
 
 echo "Copying extra gedit plugins and colors..."
 mkdir -p ~/.gnome2/gedit/plugins
