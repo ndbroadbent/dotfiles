@@ -11,5 +11,5 @@ sudo apt-get install -ym faenza-icon-theme
 echo "== Configuring gnome font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml
 
-echo "===== GTK preferences installed."
+echo "===== Gnome preferences installed."
 
