@@ -1,7 +1,7 @@
 #!/bin/bash
 # This bash script will set up your development environment for Ubuntu (v=>9.10)
 
-echo "[ Ubuntu Developer Setup Script ]"
+echo -e "\n[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
 
 read -p "Set up Git & SSH? (default='y') (y/n): "
