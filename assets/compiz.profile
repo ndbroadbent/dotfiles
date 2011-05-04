@@ -9,7 +9,7 @@ s0_passive_opacity = 27
 
 [obs]
 s0_opacity_matches = dock;DropdownMenu;popupmenu;
-s0_opacity_values = 85;94;94;
+s0_opacity_values = 85;95;95;
 
 [core]
 as_active_plugins = core;ccp;move;resize;place;decoration;text;mousepoll;imgjpeg;commands;water;dbus;png;gnomecompat;resizeinfo;svg;session;workarounds;vpswitch;regex;shift;blur;wall;animation;neg;obs;expo;ezoom;fade;scale;staticswitcher;scaleaddon;
