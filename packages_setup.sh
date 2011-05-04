@@ -8,7 +8,7 @@ sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
 
 sudo apt-get update
 
-sudo apt-get -y --force-yes install git-core gitk libyaml-ruby \
+sudo apt-get -ym install git-core gitk libyaml-ruby \
 libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
 ack-grep vim gedit-plugins xclip mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \

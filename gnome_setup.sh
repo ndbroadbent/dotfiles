@@ -6,7 +6,7 @@ if ! (apt-cache search faenza-icon-theme | grep -q faenza); then
   sudo add-apt-repository ppa:tiheum/equinox
   sudo apt-get update
 fi
-sudo apt-get install faenza-icon-theme
+sudo apt-get install -ym faenza-icon-theme
 
 echo "== Configuring gnome font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml
