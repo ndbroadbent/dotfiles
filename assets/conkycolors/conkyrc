@@ -71,7 +71,10 @@ ${goto 44}Uptime: ${alignr}${color2}${uptime}${color}
 @CPU@
 # |--MEM
 ${voffset 8}${color0}${font Poky:size=16}M${font}${color}${goto 44}${voffset -12}RAM: ${font Droid Sans:style=Bold:size=9}${color1}$memperc%${color}${font}${alignr}${color0}${membar 8,60}
-${goto 44}${color}${voffset -2}Free:  ${font Droid Sans:style=Bold:size=9}${color2}${memeasyfree}${color}${font}${color0}${color}${alignr}Used: ${font Droid Sans:style=Bold:size=9}${color2}${mem}${color}${font}
+${goto 45}${color}${voffset -2}${font Droid Sans:style=Bold:size=9}${color2}${mem}${color} / ${color0}$memmax${color}${font}
+# |--FS
+${voffset 6}${color0}${font Poky:size=16}y${font}${color}${goto 44}${voffset -12}HDD: ${font Droid Sans:style=Bold:size=9}${color1}$fs_used_perc%${color}${font}${alignr}${color0}${fs_bar 8, 60}
+${goto 45}${color}${voffset -2}${font Droid Sans:style=Bold:size=9}${color2}${fs_used}${color} / ${color0}${fs_size}${color}${font}
 #################
 # - PROCESSES - #
 #################
