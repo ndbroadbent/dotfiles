@@ -13,5 +13,5 @@ libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
 curl ack-grep vim gedit-plugins xclip mysql-server libmysql-ruby \
 libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
 postgresql apache2 python python-webkit python-webkit-dev python-pyinotify \
-compiz cortina nautilus-dropbox
+compiz compizconfig-settings-manager cortina nautilus-dropbox
 
