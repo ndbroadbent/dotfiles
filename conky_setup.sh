@@ -34,12 +34,13 @@ sed "s%@HOME@%$HOME%g" -i ~/.conkycolors/conkyrc
 # Find out how many CPUs this computer has, and set the @CPU@ placeholder to the correct template.
 cpus=`grep ^processor -i /proc/cpuinfo | wc -l`
 if [ $cpus -eq 1 ]; then
-  awk '/@CPU@/{system("cat ~/.conkycolors/1cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc && \
-  mv /tmp/conkyrc ~/.conkycolors/conkyrc
+  awk '/@CPU@/{system("cat ~/.conkycolors/1cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc
+elif [ $cpus -eq 2 ]; then
+  awk '/@CPU@/{system("cat ~/.conkycolors/2cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc
 else
-  awk '/@CPU@/{system("cat ~/.conkycolors/2cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc && \
-  mv /tmp/conkyrc ~/.conkycolors/conkyrc
+  awk '/@CPU@/{system("cat ~/.conkycolors/4cpu");next}1' ~/.conkycolors/conkyrc > /tmp/conkyrc
 fi
+mv /tmp/conkyrc ~/.conkycolors/conkyrc
 
 echo -e "== Add the following command to your startup applications:\n    $HOME/.start_conky"
 
