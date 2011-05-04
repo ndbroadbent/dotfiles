@@ -8,10 +8,11 @@ sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
 
 sudo apt-get update
 
-sudo apt-get -ym install git-core gitk libyaml-ruby \
-libzlib-ruby libopenssl-ruby libxslt1-dev libxml2-dev \
-curl ack-grep vim gedit-plugins xclip mysql-server libmysql-ruby \
-libmysqlclient15-dev imagemagick libsqlite3-dev sqlite3 \
-postgresql apache2 python python-webkit python-webkit-dev python-pyinotify \
+sudo apt-get -ym install git-core curl ack-grep vim \
+gedit-plugins xclip synergy gitk \
+libyaml-ruby libzlib-ruby libopenssl-ruby libmysql-ruby \
+imagemagick libxslt1-dev libxml2-dev \
+mysql-server postgresql sqlite3 libmysqlclient15-dev libsqlite3-dev \
+apache2 python python-webkit python-webkit-dev python-pyinotify \
 compiz compizconfig-settings-manager cortina nautilus-dropbox
 
