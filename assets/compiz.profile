@@ -26,7 +26,7 @@ s0_spring_k = 10.000000
 s0_grid_resolution = 42
 s0_min_grid_size = 40
 s0_map_effect = 1
-s0_move_window_match = any | normal
+s0_move_window_match = 
 s0_maximize_effect = false
 
 [core]
@@ -38,6 +38,11 @@ as_maximize_window_key = Disabled
 as_toggle_window_maximized_key = <Alt>F10
 as_toggle_window_shaded_key = Disabled
 s0_outputs = 1280x1024+0+0;
+
+[minimize]
+s0_speed = 2.139200
+s0_timestep = 0.459900
+s0_shade_resistance = 60
 
 [decoration]
 as_shadow_radius = 9.566300
