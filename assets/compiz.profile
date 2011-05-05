@@ -21,10 +21,10 @@ s0_active_opacity = 78
 s0_passive_opacity = 27
 
 [wobbly]
-s0_friction = 4.988300
+s0_friction = 8.740900
 s0_spring_k = 10.000000
-s0_grid_resolution = 42
-s0_min_grid_size = 40
+s0_grid_resolution = 56
+s0_min_grid_size = 100
 s0_map_effect = 1
 s0_move_window_match = 
 s0_maximize_effect = false
