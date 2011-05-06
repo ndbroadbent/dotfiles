@@ -99,7 +99,7 @@ ${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}$
 ${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown wlan0}${color}${font}
 ${voffset 3}${color0}${font Poky:size=14}Y${font}${color}${goto 44}${voffset -2}Signal: ${font Droid Sans:style=Bold:size=9}${color1}${wireless_link_qual wlan0}%${color}${font} ${alignr}${color2}${wireless_link_bar 8,60 wlan0}${color}
 ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -13}Local IP: ${alignr}${color2}${addr wlan0}${color}
-${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}
+${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}\
 # |--ETH0
 ${else}${if_up eth0}
 ${voffset -10}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=9}${color1}${upspeed eth0}${color}${font} ${alignr}${color2}${upspeedgraph eth0 8,60 5C3566 77507B}${color}
