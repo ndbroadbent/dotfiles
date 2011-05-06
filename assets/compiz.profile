@@ -1,6 +1,6 @@
 [obs]
-s0_opacity_matches = dock;DropdownMenu;popupmenu;
-s0_opacity_values = 85;95;95;
+s0_opacity_matches = dock;DropdownMenu;popupmenu;title=IM with;title=MXIE User;
+s0_opacity_values = 85;95;95;90;72;
 
 [gnomecompat]
 as_run_command_terminal_key = <Control><Alt>t
