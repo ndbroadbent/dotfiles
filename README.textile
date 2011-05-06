@@ -9,9 +9,5 @@ h3. Setup scripts and configuration for Ubuntu development machine
 
 h2. Run the following command to set up a freshly installed machine:
 
-bc. bash < <(wget -qO- http://bit.ly/setupdev)
-
-which runs the following script:
-
 bc. sudo apt-get install -ym git-core && git clone https://github.com/ndbroadbent/ubuntu_config.git /tmp/ubuntu_config && cd /tmp/ubuntu_config && ./dev_machine_setup.sh
 
