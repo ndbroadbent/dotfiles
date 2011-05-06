@@ -42,5 +42,17 @@ else
 fi
 mv /tmp/conkyrc ~/.conkycolors/conkyrc
 
-echo -e "== Add the following command to your startup applications:\n    $HOME/.start_conky"
+# Run final user-specific sed script. (Each of my machines need a slightly different layout.)
+if [ -e ~/.conkycolors.sed ]; then
+  sed -i -f ~/.conkycolors.sed ~/.conkycolors/conkyrc
+else
+  cat > ~/.conkycolors.sed <<EOF
+s%gap_x [0-9]*%gap_x 50%g
+s%gap_y [0-9]*%gap_y 50%g
+EOF
+
+fi
+
+echo -e "== Add the following command to your startup applications:\n    $HOME/.start_conky\n"
+echo -e "== If you have any specific customizations (e.g. layout),\n   add them to the ~/.conkycolors.sed file and run this setup script again.\n"
 
