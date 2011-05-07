@@ -116,5 +116,3 @@ ${else}${voffset 6}${color0}${font PizzaDude Bullets:size=12}4${font}${color}${g
 ${color1}${voffset 14}${font Droid Sans:style=Bold:size=9}${execi 10800 ruby ~/.conkycolors/scripts/verse.rb ref}  ${color}$stippled_hr${font}
 ${color2}${voffset 3}${execi 10800 ruby ~/.conkycolors/scripts/verse.rb verse}${color}
 
-${color}
-

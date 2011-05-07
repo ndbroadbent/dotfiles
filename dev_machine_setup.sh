@@ -18,6 +18,8 @@ read -p "Set up RVM? (default='y') (y/n): "
 setup_rvm="$REPLY"
 read -p "Set up gedit customizations? (default='y') (y/n): "
 setup_gedit="$REPLY"
+read -p "Set up vim customizations? (default='y') (y/n): "
+setup_vim="$REPLY"
 read -p "Set up gnome themes and fonts? (default='y') (y/n): "
 setup_gnome="$REPLY"
 read -p "Set up conky (system stats on wallpaper)? (default='y') (y/n): "
@@ -55,6 +57,12 @@ else echo "==! Skipping RVM setup."; fi
 if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
   ./gedit_setup.sh
 else echo "==! Skipping gedit setup."; fi
+
+# Vim
+# --------------------------------------------------------------
+if [ "$setup_vim" != "n" ] && [ "$setup_vim" != "no" ]; then
+  ./vim_setup.sh
+else echo "==! Skipping vim setup."; fi
 
 # Gnome themes / fonts
 # --------------------------------------------------------------
