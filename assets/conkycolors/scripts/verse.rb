@@ -3,7 +3,7 @@
 verse = `verse`
 ref = verse[Regexp.new('"  +(.*)$', Regexp::MULTILINE),1].to_s.strip
 verse = verse.gsub(ref, "").strip
-verse=verse.gsub(/  +/," ").gsub("\n","").scan(/.{1,33}/).
+verse=verse.gsub(/  +/," ").gsub("\n","").scan(/.{1,30}/).
   join("\n<br>").gsub(/([^ ]*)\n<br>/m,"\n"<<"\\1").strip
 ref=ref.strip
 case ARGV.first
