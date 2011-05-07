@@ -110,9 +110,6 @@ ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -1
 ${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}\
 # |--Else, no network available
 ${else}${voffset 6}${color0}${font PizzaDude Bullets:size=12}4${font}${color}${goto 44}Network Unavailable${voffset 14}${endif}${endif}
-#############
-# - Other - #
-#############
-${color1}${voffset 14}${font Droid Sans:style=Bold:size=9}${execi 10800 ruby ~/.conkycolors/scripts/verse.rb ref}  ${color}$stippled_hr${font}
-${color2}${voffset 3}${execi 10800 ruby ~/.conkycolors/scripts/verse.rb verse}${color}
+
+${color}\
 
