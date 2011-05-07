@@ -2,7 +2,6 @@
 " Maintainer:   Justin Constantino <goflyapig-at-gmail-com>
 " Last Change:  2006 Aug 12
 
-set background=dark
 highlight clear
 let g:colors_name="candycode"
 
@@ -14,10 +13,10 @@ set cpo&vim
 " text {{{
 
 hi Normal       guifg=#ffffff       guibg=#050505       gui=NONE
-            \   ctermfg=white       ctermbg=black       cterm=NONE
+            \   ctermfg=white       ctermbg=NONE       cterm=NONE
 
 hi Folded       guifg=#c2bfa5       guibg=#050505       gui=underline
-            \   ctermfg=lightgray   ctermbg=black       cterm=underline
+            \   ctermfg=lightgray   ctermbg=NONE       cterm=underline
 
 hi LineNr       guifg=#928c75       guibg=NONE          gui=NONE
             \   ctermfg=darkgray    ctermbg=NONE        cterm=NONE
@@ -34,9 +33,9 @@ hi SpellBad     guifg=NONE          guibg=NONE          gui=undercurl
 hi SpellCap     guifg=NONE          guibg=NONE          gui=undercurl
             \   ctermfg=white       ctermbg=darkblue    guisp=#0044ff
 hi SpellLocal   guifg=NONE          guibg=NONE          gui=undercurl
-            \   ctermfg=black       ctermbg=cyan        guisp=#00dd99   
+            \   ctermfg=black       ctermbg=cyan        guisp=#00dd99
 hi SpellRare    guifg=NONE          guibg=NONE          gui=undercurl
-            \   ctermfg=white       ctermbg=darkmagenta guisp=#ff22ee   
+            \   ctermfg=white       ctermbg=darkmagenta guisp=#ff22ee
 
 hi DiffAdd      guifg=#ffffff       guibg=#126493       gui=NONE
             \   ctermfg=white       ctermbg=darkblue    cterm=NONE
@@ -50,7 +49,7 @@ hi DiffText     guifg=#ffffff       guibg=#976398       gui=bold
 " }}}
 " borders / separators / menus {{{
 
-hi FoldColumn   guifg=#c8bcb9       guibg=#786d65       gui=bold            
+hi FoldColumn   guifg=#c8bcb9       guibg=#786d65       gui=bold
             \   ctermfg=lightgray   ctermbg=darkgray    cterm=NONE
 hi SignColumn   guifg=#c8bcb9       guibg=#786d65       gui=bold
             \   ctermfg=lightgray   ctermbg=darkgray    cterm=NONE
@@ -64,9 +63,9 @@ hi PmenuSbar    guifg=NONE          guibg=#555555       gui=NONE
 hi PmenuThumb   guifg=NONE          guibg=#cccccc       gui=NONE
             \   ctermfg=gray        ctermbg=gray        cterm=NONE
 
-hi StatusLine   guifg=#000000       guibg=#c2bfa5       gui=bold    
+hi StatusLine   guifg=#000000       guibg=#c2bfa5       gui=bold
             \   ctermfg=black       ctermbg=white       cterm=bold
-hi StatusLineNC guifg=#444444       guibg=#c2bfa5       gui=NONE    
+hi StatusLineNC guifg=#444444       guibg=#c2bfa5       gui=NONE
             \   ctermfg=darkgray    ctermbg=white       cterm=NONE
 hi WildMenu     guifg=#ffffff       guibg=#133293       gui=bold
             \   ctermfg=white       ctermbg=darkblue    cterm=bold
@@ -99,7 +98,7 @@ hi CursorColumn guifg=NONE          guibg=#1b1b1b       gui=NONE
 hi Visual       guifg=#ffffff       guibg=#606070       gui=NONE
             \   ctermfg=white       ctermbg=lightblue   cterm=NONE
 
-hi IncSearch    guifg=#000000       guibg=#eedd33       gui=bold 
+hi IncSearch    guifg=#000000       guibg=#eedd33       gui=bold
             \   ctermfg=white       ctermbg=yellow      cterm=NONE
 hi Search       guifg=#efefd0       guibg=#937340       gui=NONE
             \   ctermfg=white       ctermbg=darkgreen   cterm=NONE
@@ -123,7 +122,7 @@ hi MoreMsg      guifg=#39d049       guibg=NONE          gui=NONE
 
 hi ErrorMsg     guifg=#ffffff       guibg=#ff0000       gui=bold
             \   ctermfg=white       ctermbg=red         cterm=bold
-hi WarningMsg   guifg=#ccae22       guibg=NONE          gui=bold    
+hi WarningMsg   guifg=#ccae22       guibg=NONE          gui=bold
             \   ctermfg=yellow      ctermbg=NONE        cterm=bold
 
 " }}}
@@ -136,7 +135,7 @@ hi Comment      guifg=#ff9922       guibg=NONE          gui=NONE
 
 hi Constant     guifg=#ff6050       guibg=NONE          gui=NONE
             \   ctermfg=red         ctermbg=NONE        cterm=NONE
-hi Boolean      guifg=#ff6050       guibg=NONE          gui=bold  
+hi Boolean      guifg=#ff6050       guibg=NONE          gui=bold
             \   ctermfg=red         ctermbg=NONE        cterm=bold
 
 hi Identifier   guifg=#eecc44       guibg=NONE          gui=NONE
@@ -151,12 +150,12 @@ hi PreProc      guifg=#bb88dd       guibg=NONE          gui=NONE
 hi Type         guifg=#4093cc       guibg=NONE          gui=bold
             \   ctermfg=lightblue   ctermbg=NONE        cterm=bold
 
-hi Special      guifg=#9999aa       guibg=NONE          gui=bold  
+hi Special      guifg=#9999aa       guibg=NONE          gui=bold
             \   ctermfg=lightgray   ctermbg=NONE        cterm=bold
 
 hi Underlined   guifg=#80a0ff       guibg=NONE          gui=underline
             \   ctermfg=NONE        ctermbg=NONE        cterm=underline
-            \   term=underline 
+            \   term=underline
 
 hi Ignore       guifg=#888888       guibg=NONE          gui=NONE
             \   ctermfg=darkgray    ctermbg=NONE        cterm=NONE
@@ -172,3 +171,4 @@ hi Todo         guifg=#ffffff       guibg=#ee7700       gui=bold
 let &cpo = save_cpo
 
 " vim: fdm=marker fdl=0
+
