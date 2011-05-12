@@ -116,7 +116,8 @@ export PROMPT_COMMAND+='_bash_history_sync;'
 alias ll='ls -l'
 alias n='nautilus .'
 alias g='gedit'
-alias apt-install='sudo apt-get install -y '
+alias apt-install='sudo apt-get install -y'
+alias apt-search='apt-cache search'
 
 # (c)hange directory & (l)ist contents
 function cdl() { if [ -n "$1" ]; then cd $1; fi && ll; }
