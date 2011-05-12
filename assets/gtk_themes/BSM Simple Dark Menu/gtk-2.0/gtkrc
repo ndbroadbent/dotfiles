@@ -135,15 +135,15 @@ style "clearlooks-notebook-bg"
 {
 	bg[NORMAL]	= shade (1.10, @bg_color) # Tab background.
 	bg[ACTIVE]	= shade (0.94, @bg_color) # Unfocused tab background.
-	bg[SELECTED] = shade (1.10, @bg_color) # Tab Selected Frame
-
 }
 
 style "clearlooks-notebook" = "clearlooks-notebook-bg"
 {
 	xthickness = 2 # Width of tabs and notebook borders.
 	ythickness = 1 # Height of tabs and notebook borders.
-	
+
+	bg[SELECTED] = shade (1.10, @bg_color)
+
 	engine "clearlooks" 
 	{
 		radius = 2.0 # Roundness of menu items.
@@ -153,7 +153,7 @@ style "clearlooks-notebook" = "clearlooks-notebook-bg"
 
 style "clearlooks-menu" = "clearlooks-wider"
 {
-	bg[NORMAL] = shade (1.05, @bg_color)  # Color of menu background.
+	bg[NORMAL] = shade (0.2, @bg_color)  # Color of menu background.
 	engine "clearlooks" 
 	{
 		radius = 1.0 # Roundness of menu items.
@@ -166,26 +166,36 @@ style "clearlooks-menu-item" = "clearlooks-wider"
 	fg[PRELIGHT]	= @selected_fg_color  # Color of selected menu item text.
 	bg[SELECTED]	= shade (1.25, @selected_bg_color)  # Color of menu items.
 	bg[PRELIGHT]	= shade (1.25, @selected_bg_color)  # Color of menu items.
+
+	fg[NORMAL]	= "#D0D0D0"
+	fg[ACTIVE]	= "#F0F0F0"
+	fg[PRELIGHT]	= "#FFFFFF"
+	fg[SELECTED]	= "#D0D0D0"
 	xthickness = 0
 	ythickness = 4
 }
 
 style "clearlooks-separator-menu-item"
 {
-	bg[NORMAL] = "#ffffff"
+	fg[NORMAL]	= "#D0D0D0"
 	xthickness = 0
 	ythickness = 2
 }
 
 style "clearlooks-menubar"
 {
+	bg[NORMAL]	= shade(0.282,@bg_color)
+	
+	fg[NORMAL]	= "#D0D0D0"
+	fg[ACTIVE]	= "#F0F0F0"
+	fg[PRELIGHT]	= "#FFFFFF"
+	fg[SELECTED]	= "#D0D0D0"
 	xthickness = 1
 	ythickness = 0
 	engine "clearlooks"
 	{
 		hint	= "menubar"
 	}
-
 }
 
 style "clearlooks-treeview"
@@ -225,9 +235,8 @@ style "clearlooks-frame-title"
 
 style "clearlooks-tooltips" = "clearlooks-wider"
 {
-	bg[NORMAL]	= lighter(@tooltip_fg_color)
-	fg[NORMAL]	= @tooltip_bg_color
-
+	bg[NORMAL]	= @tooltip_bg_color
+	fg[NORMAL]	= @tooltip_fg_color
 }
 
 style "metacity-frame"# = "clearlooks-default"
@@ -321,13 +330,11 @@ style "clearlooks-scrollbar"
 	bg[PRELIGHT]	= shade (1.08, @bg_color) # Color for scrollbar prelight? (probably obsolete)
 	bg[ACTIVE]	= shade (0.85, @bg_color) # Color for pressed scrollbar buttons.
 #	bg[SELECTED]	= @selected_bg_color # You can change the color of colorized scrollbars here.
-
 	engine "clearlooks"
 	{
 #		colorize_scrollbar	= TRUE # Uncommenting this gives you colorful scrollbars.
 		radius	= 1.0  # Roundness of scrollbars.
 		hint	= "scrollbar"
-
 	}
 }
 
@@ -354,7 +361,7 @@ style "clearlooks-vscrollbar" = "clearlooks-scrollbar"
 
 style "clearlooks-toolbar" = "clearlooks-default"
 {
-	bg[NORMAL] = "#E1E1E1"
+	bg[NORMAL] = @bg_color
 	#bg[NORMAL]   = shade (0.965, @bg_color)  # Darkens gradient toolbars to match with unified metacity theme.
 	#engine "clearlooks"
 	#{
@@ -374,9 +381,7 @@ style "clearlooks-evo-new-button-workaround"
 
 style "opera"
 {
-	#GtkToolbar     ::shadow-type		= GTK_SHADOW_NONE  # Makes toolbars flat and unified.
-	bg[NORMAL] = "#CDCDCD"
-	#bg[ACTIVE] = "#cdcdcd"
+	bg[NORMAL]   = "#3D3D3D"
 }
 
 widget_class "EShellWindow.GtkVBox.BonoboDock.BonoboDockBand.BonoboDockItem*" style "clearlooks-evo-new-button-workaround"
@@ -484,7 +489,7 @@ widget_class "*.<GtkComboBox>.<GtkCellView>"   style "clearlooks-text-is-fg-colo
 
 style "clearlooks-menuitem-text-is-fg-color-workaround"
 {
-	text[NORMAL]        = @fg_color
+	text[NORMAL] = darker (@selected_fg_color)
 	text[PRELIGHT]      = @selected_fg_color
 	text[SELECTED]      = @selected_fg_color
 	text[ACTIVE]        = @fg_color
@@ -508,6 +513,6 @@ widget_class "*<GtkListItem>*" style "clearlooks-fg-is-text-color-workaround"
 widget_class "*<GtkCList>" style "clearlooks-fg-is-text-color-workaround"
 widget_class "*<EelEditableLabel>" style "clearlooks-fg-is-text-color-workaround"
 
-#widget "*GtkToolbar*"   style "opera" #Enable this if you use Opera
 
+#widget "*GtkToolbar*"	style "opera" #Enable this if you use Opera
 # The answer to the ultimate question of life, the universe, and everything is 42.

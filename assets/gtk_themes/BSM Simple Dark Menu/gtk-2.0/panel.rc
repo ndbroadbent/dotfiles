@@ -18,6 +18,11 @@ style "theme-panel"
 	fg[ACTIVE]	= "#F0F0F0"
 	fg[PRELIGHT]	= "#FFFFFF"
 	fg[SELECTED]	= "#D0D0D0"	
+
+	text[NORMAL]	= "#D0D0D0"
+	text[ACTIVE]	= "#F0F0F0"
+	text[PRELIGHT]	= "#FFFFFF"
+	text[SELECTED]	= "#D0D0D0"
 }
 
 style "theme-panel2" = "theme-panel"
