@@ -11,7 +11,7 @@ sudo apt-get update
 sudo apt-get -ym install git-core curl ack-grep vim \
 gedit-plugins xclip synergy gitk \
 libyaml-ruby libzlib-ruby libopenssl-ruby libmysql-ruby \
-imagemagick libxslt1-dev libxml2-dev \
+imagemagick libmagickwand-dev libmagickcore-dev libxslt1-dev libxml2-dev \
 mysql-server postgresql sqlite3 libmysqlclient15-dev libpq-dev libsqlite3-dev \
 apache2 python python-webkit python-webkit-dev python-pyinotify \
 compiz ttf-droid compizconfig-settings-manager cortina nautilus-dropbox
