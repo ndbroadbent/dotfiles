@@ -321,18 +321,8 @@ function grooveshark_dl() {
 function restart_bamboo() {
   # Configure Bamboo and CI Hosts in the following variables.
   bamboo_server="root@integration.crossroadsint.org"
-  build_agents=(root@ci-host-001 root@ci-host-002)
-  # --------------------------------------------------------
   echo "=== Restarting Bamboo server at: $bamboo_server ..."
-  ssh root@integration.crossroadsint.org \
-    "/etc/init.d/bamboo restart" && \
-  sleep 30 && \
-  for agent in ${build_agents[@]}; do
-    echo "=== Restarting (& re-registering) build agents at: $agent ..."
-    ssh $agent \
-      "agent_pid=$(pidof /opt/bamboo-remote-agent/bin/./wrapper); \
-       kill -9 $agent_pid; \
-       /etc/init.d/bamboo-agent restart"
-  done
+  ssh root@integration.crossroadsint.org "/etc/init.d/bamboo restart"
+  echo "===== Done. Bamboo agents will automatically restart."
 }
 
