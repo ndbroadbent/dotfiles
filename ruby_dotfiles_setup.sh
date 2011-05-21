@@ -14,3 +14,8 @@ Autotest.add_hook :initialize do |at|
 end
 EOF
 
+cat > ~/.rvmrc <<EOF
+export rvm_path="`echo ~/.rvm`"
+rvm_trust_rvmrcs_flag=1
+EOF
+
