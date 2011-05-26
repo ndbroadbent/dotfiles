@@ -18,7 +18,7 @@
       <key>monospace_font_name</key>
       <schema_key>/schemas/desktop/gnome/interface/monospace_font_name</schema_key>
       <value>
-        <string>Monospace 10</string>
+        <string>Inconsolata Medium 12</string>
       </value>
     </entry>
   </entrylist>
