@@ -147,6 +147,7 @@ alias gc='git commit -m'
 alias gca='git commit -am'
 alias gd='git diff'
 alias gdc='git diff --cached'
+alias rebase_live='git checkout live && git rebase master && git checkout master'
 
 # -- capistrano
 alias cpd='cap preview deploy'
