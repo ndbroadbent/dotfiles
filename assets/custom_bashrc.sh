@@ -147,8 +147,14 @@ alias gc='git commit -m'
 alias gca='git commit -am'
 alias gd='git diff'
 alias gdc='git diff --cached'
-alias pdp='git push origin master; cap preview deploy'
-alias pdl='git push origin master; cap live deploy'
+
+# -- capistrano
+alias cpd='cap preview deploy'
+alias cld='cap live deploy'
+alias cpdm='cap preview deploy:migrations'
+alias cldm='cap live deploy:migrations'
+alias cpr='cap preview revisions'
+alias clr='cap live revisions'
 
 # -- rvm / ruby / rails
 alias gemdir='cd $GEM_HOME/gems'
