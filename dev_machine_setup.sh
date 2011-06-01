@@ -4,7 +4,7 @@
 echo -e "\n[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
 
-if ! [ "$UPDATE" = "true" ]; then
+if ! [ "$UPDATE" = "true" ] && ! [ "$1" = "--update" ]; then
   read -p "Set up Git & SSH? (default='y') (y/n): "
   setup_gitssh="$REPLY"
   if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
@@ -27,6 +27,8 @@ if ! [ "$UPDATE" = "true" ]; then
   setup_conky="$REPLY"
 else
   echo "== Updating packages, bashrc, ruby dotfiles, gedit, vim, gnome themes and fonts, and conky..."
+  setup_rvm="n"
+  setup_gitssh="n"
   setup_gedit="y"
   setup_vim="y"
   setup_gnome="y"
