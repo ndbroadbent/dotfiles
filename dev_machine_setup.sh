@@ -1,5 +1,5 @@
 #!/bin/bash
-# This bash script will set up your development environment for Ubuntu (v=>9.10)
+# This bash script will set up (or update) your development environment for Ubuntu (v=>9.10)
 
 echo -e "\n[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
