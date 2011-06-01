@@ -19,3 +19,10 @@ export rvm_path="`echo ~/.rvm`"
 rvm_trust_rvmrcs_flag=1
 EOF
 
+# Ruby-debug
+cat > ~/.rdebugrc <<EOF
+set autoeval
+set autolist
+set autoreload
+EOF
+
