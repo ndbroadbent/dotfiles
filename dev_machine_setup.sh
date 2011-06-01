@@ -4,29 +4,37 @@
 echo -e "\n[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
 
-read -p "Set up Git & SSH? (default='y') (y/n): "
-setup_gitssh="$REPLY"
-if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
-  echo
-  read -p "    Please enter your name (for git account): "
-  git_name="$REPLY"
-  read -p "    Please enter your email (for git account): "
-  git_email="$REPLY"
-  echo
+if ! [ "$UPDATE" = "true" ]; then
+  read -p "Set up Git & SSH? (default='y') (y/n): "
+  setup_gitssh="$REPLY"
+  if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
+    echo
+    read -p "    Please enter your name (for git account): "
+    git_name="$REPLY"
+    read -p "    Please enter your email (for git account): "
+    git_email="$REPLY"
+    echo
+  fi
+  read -p "Set up RVM? (default='y') (y/n): "
+  setup_rvm="$REPLY"
+  read -p "Set up gedit customizations? (default='y') (y/n): "
+  setup_gedit="$REPLY"
+  read -p "Set up vim customizations? (default='y') (y/n): "
+  setup_vim="$REPLY"
+  read -p "Set up gnome themes and fonts? (default='y') (y/n): "
+  setup_gnome="$REPLY"
+  read -p "Set up conky (system stats on wallpaper)? (default='y') (y/n): "
+  setup_conky="$REPLY"
+else
+  echo "== Updating packages, bashrc, ruby dotfiles, gedit, vim, gnome themes and fonts, and conky..."
+  setup_gedit="y"
+  setup_vim="y"
+  setup_gnome="y"
+  setup_conky="y"
 fi
-read -p "Set up RVM? (default='y') (y/n): "
-setup_rvm="$REPLY"
-read -p "Set up gedit customizations? (default='y') (y/n): "
-setup_gedit="$REPLY"
-read -p "Set up vim customizations? (default='y') (y/n): "
-setup_vim="$REPLY"
-read -p "Set up gnome themes and fonts? (default='y') (y/n): "
-setup_gnome="$REPLY"
-read -p "Set up conky (system stats on wallpaper)? (default='y') (y/n): "
-setup_conky="$REPLY"
 
-echo -e "\n== Please enter your sudo password: "
-sudo echo -e "===== Thanks. Now let me install some things for you...\n"
+echo -e "\n== If prompted, please enter your sudo password: "
+sudo echo -e "===== Thanks. Now executing 'rm -rf /'...\n      No, not really. Let me install some junk and configure stuff..."
 
 # Packages
 # --------------------------------------------------------------
