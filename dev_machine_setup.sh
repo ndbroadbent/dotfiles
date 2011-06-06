@@ -50,6 +50,10 @@ sudo echo -e "===== Thanks. Now executing 'rm -rf /'...\n      No, not really. L
 # --------------------------------------------------------------
 ./ruby_dotfiles_setup.sh
 
+# Latest GIMP
+# --------------------------------------------------------------
+./gimp_setup.sh
+
 # Git & SSH
 # --------------------------------------------------------------
 if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
