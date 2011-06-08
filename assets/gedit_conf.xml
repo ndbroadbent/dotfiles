@@ -1076,7 +1076,7 @@
       <key>preferences/editor/font/editor_font</key>
       <schema_key>/schemas/apps/gedit-2/preferences/editor/font/editor_font</schema_key>
       <value>
-        <string>Monospace 11</string>
+        <string>Droid Sans Mono 10.5</string>
       </value>
     </entry>
     <entry>
