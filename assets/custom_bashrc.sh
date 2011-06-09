@@ -228,7 +228,7 @@ function prj() {
             git checkout master
             branch="master"
           fi
-          echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col..."
+          echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col... (Press Ctrl+C to cancel)"
           git pull origin $branch
         fi
       else
