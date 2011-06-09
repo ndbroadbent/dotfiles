@@ -1,8 +1,11 @@
 #!/bin/bash
-echo "== Installing custom bashrc..."
+echo "== Installing custom bashrc (and inputrc)..."
 this_dir=$(pwd)
+# Copy custom_bashrc as well as inputrc with readline key bindings
 cp -f assets/custom_bashrc.sh ~/.custom_bashrc
-# Update the 'update' command with the current directory. (# delimiter)
+cp -f assets/inputrc.sh ~/.inputrc
+
+# Update the 'update' command in custom_bashrc with the current directory.
 sed -i s#--UBUNTUCONF_DIR--#$this_dir#g ~/.custom_bashrc
 
 # Check if ubuntu_bashrc is already installed.
