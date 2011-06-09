@@ -90,6 +90,8 @@ if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
   ./conky_setup.sh
 else echo "==! Skipping conky setup."; fi
 
+# Restarting nautilus for dropbox and image resizer
+nautilus -q; nautilus &
 
 echo -e "\n===== Ubuntu development machine has been set up!\n"
 echo -e "Further manual configuration might be needed:\n"
