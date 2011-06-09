@@ -13,13 +13,14 @@ src_dir=`echo ~/src`
 # -------------------------------------------------------
 
 # Prompt colors
-_txt_col="\[\033[00m\]"    # Std text (white)
-_sep_col=$_txt_col         # Separators
-_usr_col="\[\033[01;32m\]" # Username
-_cwd_col=$_txt_col         # Current directory
-_hst_col="\[\033[0;32m\]"  # Host
-_env_col="\[\033[0;36m\]"  # Prompt environment
-_git_col="\[\033[01;36m\]" # Git branch
+_txt_col="\033[00m"     # Std text (white)
+_bld_col="\033[01;32m"  # Bold text (white)
+_sep_col=$_txt_col      # Separators
+_usr_col="\033[01;32m"  # Username
+_cwd_col=$_txt_col      # Current directory
+_hst_col="\033[0;32m"   # Host
+_env_col="\033[0;36m"   # Prompt environment
+_git_col="\033[01;36m"  # Git branch
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
@@ -212,7 +213,13 @@ function prj() {
     else
       # If there are no changes, pull the latest code from the server.
       branch=`parse_git_branch`
-      echo "== Updating code in $path from origin/$branch..."
+      if [ "$branch" = "(no branch)" ]; then
+        # If we aren't on any branch, checkout master.
+        echo -e "=== Checking out$_git_col master$_txt_col branch."
+        git checkout master
+        branch="master"
+      fi
+      echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col..."
       git pull origin $branch
     fi
   else
