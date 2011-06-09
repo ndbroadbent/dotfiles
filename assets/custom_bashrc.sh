@@ -14,7 +14,7 @@ src_dir=`echo ~/src`
 
 # Prompt colors
 _txt_col="\033[00m"     # Std text (white)
-_bld_col="\033[01;32m"  # Bold text (white)
+_bld_col="\033[01;37m"  # Bold text (white)
 _sep_col=$_txt_col      # Separators
 _usr_col="\033[01;32m"  # Username
 _cwd_col=$_txt_col      # Current directory
@@ -36,18 +36,18 @@ parse_ruby_version() {
 
 # Set the prompt string (PS1)
 set_ps1() {
-  user_str="$_usr_col\u$_hst_col@\h$_txt_col"
-  dir_str="$_cwd_col\w"
+  user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
+  dir_str="\[$_cwd_col\]\w"
   git_branch=`parse_git_branch`
   ruby=`parse_ruby_version`
-  if [ -n "$git_branch" ]; then git_branch="$_git_col$git_branch$_env_col"; fi   # -- colorize
+  if [ -n "$git_branch" ]; then git_branch="\[$_git_col\]$git_branch\[$_env_col\]"; fi   # -- colorize
   if [ -n "$git_branch" ] && [ -n "$ruby" ]; then git_branch="$git_branch|"; fi  # -- separator
   if [ -n "$git_branch" ] || [ -n "$ruby" ]; then
-    env_str="$_env_col[$git_branch$ruby$_env_col]"
+    env_str="\[$_env_col\][$git_branch$ruby\[$_env_col\]]"
   else
     unset env_str
   fi
-  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str$_sep_col$ $_txt_col"
+  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str\[$_sep_col\]$ \[$_txt_col\]"
 }
 
 # Set custom prompt
