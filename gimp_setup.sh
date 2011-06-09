@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install latest version Gimp
+# Install latest version of Gimp
 # -------------------------------------------
 echo "== Installing latest version of gimp..."
 
