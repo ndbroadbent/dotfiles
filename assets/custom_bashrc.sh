@@ -15,6 +15,7 @@ src_dir=`echo ~/src`
 # Prompt colors
 _txt_col="\033[00m"     # Std text (white)
 _bld_col="\033[01;37m"  # Bold text (white)
+_wrn_col="\033[01;31m"  # Warning
 _sep_col=$_txt_col      # Separators
 _usr_col="\033[01;32m"  # Username
 _cwd_col=$_txt_col      # Current directory
@@ -126,7 +127,6 @@ alias apt-search='apt-cache search'
 function cdl() { if [ -n "$1" ]; then cd $1; fi && ll; }
 
 alias ~='cd ~'
-alias src='cd ~/src && ll'
 alias ..='cd ..'
 alias ...='..;..';
 alias ....='...;..'
@@ -181,7 +181,8 @@ fi
 
 
 # -------------------------------------------------------
-# Project Management
+# Project Management scripts
+# Written by Nathan D. Broadbent (www.madebynathan.com)
 # -------------------------------------------------------
 
 # * The prj function makes it easy to list / switch between
@@ -189,7 +190,8 @@ fi
 # * Provides tab completion for all git repos,
 #   including nested directories and submodules.
 # * Git repo index is cached in $src_dir/.git_index
-#   Cache can be rebuilt by running $ prj_rebuild_cache
+#   Cache can be rebuilt by running $ prj --rebuild-cache
+#   ('--' commands have autocompletion too!)
 #
 # Examples:
 #
@@ -201,29 +203,41 @@ fi
 #
 #     $ prj ubuntu_config
 #     # => Changes directory to ubuntu_config, updates code from git remote.
+#
+#     $ prj buntu_conf
+#     # => Works exactly the same as `prj ubuntu_config`
 
 function prj() {
   if [ -n "$1" ]; then
-    path=`grep "$1\$" $src_dir/.git_index`
-    # Change to project directory. This will automatically execute the .rvmrc
-    cd $src_dir/$path
-    if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
-      # If there are any local changes, print them.
-      git status
+    if [ "$1" = "--rebuild-cache" ]; then
+      _prj_rebuild_cache
     else
-      # If there are no changes, pull the latest code from the server.
-      branch=`parse_git_branch`
-      if [ "$branch" = "(no branch)" ]; then
-        # If we aren't on any branch, checkout master.
-        echo -e "=== Checking out$_git_col master$_txt_col branch."
-        git checkout master
-        branch="master"
+      path=`grep "$1" $src_dir/.git_index`
+      if [ -n "$path" ]; then
+        # Change to project directory. This will automatically execute the .rvmrc
+        cd $src_dir/$path
+        if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
+          # If there are any local changes, print them.
+          git status
+        else
+          # If there are no changes, pull the latest code from the server.
+          branch=`parse_git_branch`
+          if [ "$branch" = "(no branch)" ]; then
+            # If we aren't on any branch, checkout master.
+            echo -e "=== Checking out$_git_col master$_txt_col branch."
+            git checkout master
+            branch="master"
+          fi
+          echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col..."
+          git pull origin $branch
+        fi
+      else
+        echo -e "$_wrn_col'$1' did not match any git repos in $src_dir$_txt_col"
       fi
-      echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col..."
-      git pull origin $branch
     fi
   else
-    list_git_projects
+
+    cat $src_dir/.git_index | sed -e "s/.*\///" -e "s/--.*/" | sort
   fi
 }
 
@@ -235,20 +249,25 @@ function list_git_projects() {
 }
 
 # Rebuilds cache of git repos in $src_dir.
-function prj_rebuild_cache() {
+function _prj_rebuild_cache() {
+  echo -e "== Scanning $src_dir for git repos..."
   list_git_projects > $src_dir/.git_index
+  # Extra commands
+  echo "--rebuild-cache" >> $src_dir/.git_index
+  echo -e "===== Cached $_bld_col`cat $src_dir/.git_index | wc -l`$_txt_col repos in $src_dir/.git_index"
 }
 
 # Tab completion function for prj()
-_prj() {
+_prj_tab_completion() {
   local curw
   COMPREPLY=()
   curw=${COMP_WORDS[COMP_CWORD]}
+  # Tab completes all the lowest-level directories in .git_index
   COMPREPLY=($(compgen -W '$(cat $src_dir/.git_index | sed -e "s/.*\///" | sort)' -- $curw))
   return 0
 }
 
-complete -F _prj -o dirnames prj
+complete -F _prj_tab_completion -o dirnames prj
 
 
 # -------------------------------------------------------
@@ -315,7 +334,7 @@ function gsed () {
 
 # Processes your git status output, exporting bash variables
 # for the filepaths of each modified file.
-# Written by Nathan D. Broadbent (www.f-77.com)
+# Written by Nathan D. Broadbent (www.madebynathan.com)
 # =======================================================================
 function gst () {
   pfix="e" # Set your preferred shortcut letter here
