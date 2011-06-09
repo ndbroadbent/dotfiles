@@ -6,6 +6,8 @@ alias pull_bashrc='cd --UBUNTUCONF_DIR-- && git pull origin master && ./bashrc_s
 # Update gedit configuration from GitHub
 alias pull_gedit='cd --UBUNTUCONF_DIR-- && git pull origin master && ./gedit_setup.sh && cd -'
 
+src_dir=`echo ~/src`
+
 # -------------------------------------------------------
 # Prompt / Xterm
 # -------------------------------------------------------
@@ -99,7 +101,7 @@ history() {
 
 _bash_history_sync() {
   builtin history -a         #[1]
-  HISTFILESIZE=$HISTFILESIZE #[2]
+  HISTFILESIZE=$HISTFILESIZE   #[2]
   builtin history -c         #[3]
   builtin history -r         #[4]
 }
@@ -176,8 +178,74 @@ if [ -f .rvmrc ]; then
   . .rvmrc
 fi
 
+
 # -------------------------------------------------------
-# Custom Functions
+# Project Management
+# -------------------------------------------------------
+
+# * The prj function makes it easy to list / switch between
+#   git projects in $src_dir (default = ~/src)
+# * Provides tab completion for all git repos,
+#   including nested directories and submodules.
+# * Git repo index is cached in $src_dir/.git_index
+#   Cache can be rebuilt by running $ prj_rebuild_cache
+#
+# Examples:
+#
+#     $ prj
+#     # => Lists all git projects in $src_dir
+#
+#     $ prj ub[TAB]
+#     # => Lists all git repos that begin with 'ub'
+#
+#     $ prj ubuntu_config
+#     # => Changes directory to ubuntu_config, updates code from git remote.
+
+function prj() {
+  if [ -n "$1" ]; then
+    path=`grep "$1\$" $src_dir/.git_index`
+    # Change to project directory. This will automatically execute the .rvmrc
+    cd $src_dir/$path
+    if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
+      # If there are any local changes, print them.
+      git status
+    else
+      # If there are no changes, pull the latest code from the server.
+      branch=`parse_git_branch`
+      echo "== Updating code in $path from origin/$branch..."
+      git pull origin $branch
+    fi
+  else
+    list_git_projects
+  fi
+}
+
+# Rescursively lists git repos in $src_dir
+function list_git_projects() {
+  for repo in `find $src_dir -mindepth 2 -type d -name .git`; do
+    expr match "$repo" "$src_dir\/\(.*\)/.git"
+  done
+}
+
+# Rebuilds cache of git repos in $src_dir.
+function prj_rebuild_cache() {
+  list_git_projects > $src_dir/.git_index
+}
+
+# Tab completion function for prj()
+_prj() {
+  local curw
+  COMPREPLY=()
+  curw=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=($(compgen -W '$(cat $src_dir/.git_index | sed -e "s/.*\///" | sort)' -- $curw))
+  return 0
+}
+
+complete -F _prj -o dirnames prj
+
+
+# -------------------------------------------------------
+# Other Functions
 # -------------------------------------------------------
 
 # Little calculator function - "$ ? 1337 - 1295" prints "42".
@@ -325,13 +393,12 @@ function grooveshark_dl() {
   fi
 }
 
-# Restart Bamboo and CI Hosts
+# Restart Atlassian Bamboo
 # ======================================================
 function restart_bamboo() {
-  # Configure Bamboo and CI Hosts in the following variables.
   bamboo_server="root@integration.crossroadsint.org"
   echo "=== Restarting Bamboo server at: $bamboo_server ..."
   ssh root@integration.crossroadsint.org "/etc/init.d/bamboo restart"
-  echo "===== Done. Bamboo agents will automatically restart."
+  echo "===== Restarted. Bamboo agents will automatically restart."
 }
 
