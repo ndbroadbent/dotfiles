@@ -250,11 +250,13 @@ function list_git_projects() {
 
 # Rebuilds cache of git repos in $src_dir.
 function _prj_rebuild_cache() {
+  local repo_count
   echo -e "== Scanning $src_dir for git repos..."
   list_git_projects > $src_dir/.git_index
+  repo_count=`cat $src_dir/.git_index | wc -l`
   # Extra commands
   echo "--rebuild-cache" >> $src_dir/.git_index
-  echo -e "===== Cached $_bld_col`cat $src_dir/.git_index | wc -l`$_txt_col repos in $src_dir/.git_index"
+  echo -e "===== Cached $_bld_col$repo_count$_txt_col repos in $src_dir/.git_index"
 }
 
 # Tab completion function for prj()
