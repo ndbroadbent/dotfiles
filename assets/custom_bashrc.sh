@@ -212,8 +212,7 @@ function prj() {
     if [ "$1" = "--rebuild-cache" ]; then
       _prj_rebuild_cache
     else
-      # Build cache if file doesn't exist.
-      if [ -e $src_dir/.git_index ]; then _prj_rebuild_cache; fi
+      _prj_check_cache
       path=`grep -m1 "$1" $src_dir/.git_index`
       if [ -n "$path" ]; then
         # Change to project directory. This will automatically execute the .rvmrc
@@ -260,8 +259,16 @@ function _prj_rebuild_cache() {
   echo -e "===== Cached $_bld_col$repo_count$_txt_col repos in $src_dir/.git_index"
 }
 
+# Build cache if cache file doesn't exist.
+function _prj_check_cache() {
+  if [ -e $src_dir/.git_index ]; then
+    _prj_rebuild_cache
+  fi
+}
+
 # Tab completion function for prj()
 _prj_tab_completion() {
+  _prj_check_cache
   local curw
   COMPREPLY=()
   curw=${COMP_WORDS[COMP_CWORD]}
