@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "== Setting up ~/.***** config files..."
+echo "== Setting up ~/.xxxxxx config files..."
 
 # Rubygems
 echo "gem: --no-ri --no-rdoc" > ~/.gemrc
