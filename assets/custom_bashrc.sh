@@ -261,7 +261,7 @@ function _prj_rebuild_cache() {
 
 # Build cache if cache file doesn't exist.
 function _prj_check_cache() {
-  if [ -e $src_dir/.git_index ]; then
+  if [ ! -f $src_dir/.git_index ]; then
     _prj_rebuild_cache
   fi
 }
