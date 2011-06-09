@@ -128,10 +128,10 @@ function cdl() { if [ -n "$1" ]; then cd $1; fi && ll; }
 alias ~='cd ~'
 alias src='cd ~/src && ll'
 alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
+alias ...='..;..';
+alias ....='...;..'
+alias .....='....;..'
+alias ......='.....;..'
 
 alias ak='ack-grep'
 
