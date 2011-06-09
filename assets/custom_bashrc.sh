@@ -217,13 +217,12 @@ function prj() {
       if [ -n "$path" ]; then
         # Change to project directory. This will automatically execute the .rvmrc
         cd $src_dir/$path
-        # Check that 'origin' remote exists.
-        if (git remote -v | grep -q origin); then
-          # If there are any local changes, print them.
-          if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
-            git status
-          else
-            # If there are no changes, pull the latest code from the server.
+        # If there are any local changes, print them.
+        if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
+          gst
+        else
+          # Check that a local 'origin' remote exists.
+          if (git remote -v | grep -q origin); then
             branch=`parse_git_branch`
             # If we aren't on any branch, checkout master.
             if [ "$branch" = "(no branch)" ]; then
@@ -232,6 +231,7 @@ function prj() {
               branch="master"
             fi
             echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col... (Press Ctrl+C to cancel)"
+            # Pull the latest code from the server for the checked out branch.
             git pull origin $branch
           fi
         fi
