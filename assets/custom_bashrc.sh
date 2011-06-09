@@ -212,7 +212,7 @@ function prj() {
     if [ "$1" = "--rebuild-cache" ]; then
       _prj_rebuild_cache
     else
-      path=`grep "$1" $src_dir/.git_index`
+      path=`grep -m1 "$1" $src_dir/.git_index`
       if [ -n "$path" ]; then
         # Change to project directory. This will automatically execute the .rvmrc
         cd $src_dir/$path
@@ -236,7 +236,6 @@ function prj() {
       fi
     fi
   else
-
     cat $src_dir/.git_index | sed -e "s/.*\///" -e "s/--.*/" | sort
   fi
 }
