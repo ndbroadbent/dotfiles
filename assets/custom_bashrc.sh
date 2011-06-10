@@ -277,9 +277,12 @@ function _prj_git_pull_or_status() {
         git checkout master
         branch="master"
       fi
-      echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col... (Press Ctrl+C to cancel)"
-      # Pull the latest code from the server for the checked out branch.
-      git pull origin $branch
+      # Only update the git repo if it hasn't been touched for at least 5 hours.
+      if test `find ".git" -maxdepth 0 -type d -mmin +300`; then
+        echo -e "=== Updating code in $_bld_col$path$_txt_col from$_git_col origin/$branch$_txt_col... (Press Ctrl+C to cancel)"
+        # Pull the latest code from the server for the checked out branch.
+        git pull origin $branch
+      fi
     fi
   fi
 }
