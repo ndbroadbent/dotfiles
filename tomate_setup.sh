@@ -17,5 +17,19 @@ sed -i "s/env python2/env python/g" tomate.py
 # Run install script
 sudo ./install.sh
 
-echo -e "\n== Installed! Now add 'tomate' to your startup applications."
+
+# Run Tomate on startup
+cat > ~/.config/autostart/tomate.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Exec=tomate
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Tomate
+Comment=Productivity Helper
+EOF
+
+
+echo -e "\n== Installed! Tomate will run on system startup."
 
