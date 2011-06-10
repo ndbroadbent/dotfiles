@@ -26,6 +26,7 @@ parse_ruby_version() {
 }
 
 # Set the prompt string (PS1)
+# The '\['s are needed to keep colors reusable outside of the prompt.
 set_ps1() {
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
