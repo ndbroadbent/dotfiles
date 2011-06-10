@@ -57,6 +57,9 @@ sudo echo -e "===== Thanks. Now executing 'rm -rf /'...\n      No, not really. L
 # --------------------------------------------------------------
 ./gimp_setup.sh
 
+# Other
+./tomate_setup.sh
+
 # Git & SSH
 # --------------------------------------------------------------
 if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
@@ -90,7 +93,7 @@ else echo "==! Skipping gnome fonts and themes setup."; fi
 # Conky system stats
 # --------------------------------------------------------------
 if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
-  ./conky_setup.sh
+  sudo ./conky_setup.sh
 else echo "==! Skipping conky setup."; fi
 
 # Startup applications
