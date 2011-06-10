@@ -112,7 +112,7 @@ export PROMPT_COMMAND+='_bash_history_sync;'
 
 
 # -------------------------------------------------------
-# Aliases (& functions)
+# Aliases, functions & key bindings
 # -------------------------------------------------------
 
 # -- bash
@@ -153,6 +153,9 @@ alias gdc='git diff --cached'
 alias gb='git branch'
 alias gco='git checkout'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
+
+bind '"\C-xc": "gca "\"\C-b"'  # ctrl+x, c    => gca "|"
+bind '"\C-xcc": "gc "\"\C-b"'  # ctrl+x, cc   => gc "|"
 
 # -- capistrano
 alias cpd='cap preview deploy'
