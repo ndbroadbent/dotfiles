@@ -17,7 +17,7 @@ EOF
 cat > ~/.config/autostart/terminal.desktop <<EOF
 [Desktop Entry]
 Type=Application
-Exec=sleep 12 && gnome-terminal
+Exec=gnome-terminal
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
