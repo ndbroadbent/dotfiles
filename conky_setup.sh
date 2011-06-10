@@ -21,13 +21,6 @@ fi
 rm -rf ~/.conkycolors
 cp -rf assets/conkycolors ~/.conkycolors
 
-# Create conky start script.
-cat > ~/.start_conky <<EOF
-#!/bin/sh
-sleep 10 && conky -c $HOME/.conkycolors/conkyrc
-EOF
-chmod +x ~/.start_conky
-
 # Set home directory placeholder
 sed "s%@HOME@%$HOME%g" -i ~/.conkycolors/conkyrc
 
@@ -53,6 +46,26 @@ EOF
 
 fi
 
-echo -e "== Add the following command to your startup applications:\n    $HOME/.start_conky\n"
+# Create conky start script.
+cat > ~/.start_conky <<EOF
+#!/bin/sh
+sleep 10 && conky -c $HOME/.conkycolors/conkyrc
+EOF
+chmod +x ~/.start_conky
+
+
+# Run conky on startup
+cat > ~/.config/autostart/conky.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Exec=$HOME/.start_conky
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Conky
+Comment=System monitor for X
+EOF
+
+
 echo -e "== If you have any specific customizations (e.g. layout),\n   add them to the ~/.conkycolors.sed file and run this setup script again.\n"
 

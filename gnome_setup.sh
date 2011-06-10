@@ -18,5 +18,19 @@ ttf-droid ttf-inconsolata
 echo "== Configuring gnome font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml
 
+
+# Run Cortina on startup
+cat > ~/.config/autostart/cortina.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/cortina
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Cortina
+Comment=Rotates wallpaper periodically
+EOF
+
+
 echo "===== Gnome preferences installed."
 
