@@ -1,20 +1,15 @@
 #!/bin/bash
+. _shared.sh
 # Sets up gedit for RoR development.
 # -------------------------------------------
-echo "== Setting up gedit customizations (RoR colors, etc)..."
+echo "== Setting up gedit plugins, settings and assets (RoR colors, etc)..."
 
 this_dir=$(pwd)
+killall -q gedit
 
-# Kill all running gedit processes
-killall gedit
-
-# Add ubuntu-on-rails ppa
-if ! (apt-cache search gedit-gmate | grep gedit-gmate); then
-    sudo apt-add-repository ppa:ubuntu-on-rails/ppa
-    sudo apt-get update
-fi
-echo "Installing gedit-gmate..."
-sudo apt-get install -ym gedit-gmate
+# Add ppa and install packages
+apt_add_new_ppa "ubuntu-on-rails" "ppa"
+apt_queue_or_install "gedit-gmate"
 
 echo "Copying extra gedit plugins and colors..."
 mkdir -p ~/.gnome2/gedit/plugins

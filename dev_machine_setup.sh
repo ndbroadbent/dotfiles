@@ -1,6 +1,12 @@
 #!/bin/bash
 # This bash script will set up (or update) your development environment for Ubuntu (v=>9.10)
 
+# Check for root user
+if [[ $EUID -ne 0 ]]; then
+  echo -e "\n\033[01;31mYou must be root to run this script!\033[00m\n" 2>&1
+  exit 1
+fi
+
 echo -e "\n[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
 
@@ -38,70 +44,77 @@ else
   setup_startup_dev="y"
 fi
 
-echo -e "\n== If prompted, please enter your sudo password: "
-sudo echo -e "===== Thanks. Now executing 'rm -rf /'...\n      No, not really. Let me install some junk and configure stuff..."
+echo -e "===== Thanks. Now executing 'rm -rf /'...\n      No, not really. Let me install some junk and configure stuff..."
+
+# Install all packages as a transation (only run one apt-get update & one apt-get install)
+apt_packages=""
 
 # Packages
 # --------------------------------------------------------------
-./packages_setup.sh
+. packages_setup.sh
 
 # Bashrc
 # --------------------------------------------------------------
-./bashrc_setup.sh
+. bashrc_setup.sh
 
 # Ruby dotfiles
 # --------------------------------------------------------------
-./ruby_dotfiles_setup.sh
+. ruby_dotfiles_setup.sh
 
 # Latest GIMP
 # --------------------------------------------------------------
-./gimp_setup.sh
+. gimp_setup.sh
 
 # Other
-./tomate_setup.sh
+. tomate_setup.sh
 
 # Git & SSH
 # --------------------------------------------------------------
 if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
-  ./git_ssh_setup.sh $git_name $git_email
+  . git_ssh_setup.sh $git_name $git_email
 else echo "==! Skipping git & ssh setup."; fi
 
 # RVM
 # --------------------------------------------------------------
 if [ "$setup_rvm" != "n" ] && [ "$setup_rvm" != "no" ]; then
-  ./rvm_setup.sh
+  . rvm_setup.sh
 else echo "==! Skipping RVM setup."; fi
 
 # Gedit
 # --------------------------------------------------------------
 if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
-  ./gedit_setup.sh
+  . gedit_setup.sh
 else echo "==! Skipping gedit setup."; fi
 
 # Vim
 # --------------------------------------------------------------
 if [ "$setup_vim" != "n" ] && [ "$setup_vim" != "no" ]; then
-  ./vim_setup.sh
+  . vim_setup.sh
 else echo "==! Skipping vim setup."; fi
 
 # Gnome themes / fonts
 # --------------------------------------------------------------
 if [ "$setup_gnome" != "n" ] && [ "$setup_gnome" != "no" ]; then
-  ./gnome_setup.sh
+  . gnome_setup.sh
 else echo "==! Skipping gnome fonts and themes setup."; fi
 
 # Conky system stats
 # --------------------------------------------------------------
 if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
-  sudo ./conky_setup.sh
+  . conky_setup.sh
 else echo "==! Skipping conky setup."; fi
 
 # Startup applications
 # --------------------------------------------------------------
 if [ "$setup_startup_dev" != "n" ] && [ "$setup_startup_dev" != "no" ]; then
-  ./startup_dev_setup.sh
+  . startup_dev_setup.sh
 else echo "==! Skipping startup applications setup."; fi
 
+
+echo "== Retrieving updated list of apt packages..."
+apt-get update -qq
+echo "== Installing packages..."
+apt-get install -ym $apt_packages
 
 # Restarting nautilus for dropbox and image resizer
 nautilus -q

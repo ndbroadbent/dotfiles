@@ -1,19 +1,26 @@
 #!/bin/bash
+. _shared.sh
 echo "== Copying themes..."
 mkdir -p ~/.themes
 cp -rf assets/gtk_themes/* ~/.themes
+
 echo "== Installing icons, fonts, compiz, etc..."
+
 # PPAs
 # --------------------------------------------------------------
 # Faenza icons
-sudo add-apt-repository ppa:tiheum/equinox
+if ! (apt-cache search faenza-icon-theme | grep -q faenza-icon-theme); then
+  sudo add-apt-repository ppa:tiheum/equinox
+fi
 # Cortina (wallpaper switcher)
-sudo add-apt-repository ppa:cs-sniffer/cortina
-sudo apt-get update
+if ! (apt-cache search cortina | grep -q cortina); then
+  sudo add-apt-repository ppa:cs-sniffer/cortina
+fi
 
-sudo apt-get install -ym faenza-icon-theme \
-compiz compizconfig-settings-manager cortina \
-ttf-droid ttf-inconsolata
+# Queue or install apt packages
+apt_queue_or_install "faenza-icon-theme
+compiz compizconfig-settings-manager cortina
+ttf-droid ttf-inconsolata"
 
 echo "== Configuring gnome font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml

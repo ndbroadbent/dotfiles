@@ -1,9 +1,9 @@
 #!/bin/bash
+. _shared.sh
 # Install latest version of Gimp
 # -------------------------------------------
-echo "== Installing latest version of gimp..."
+echo "== Installing latest version of gimp from ppa..."
 
-sudo add-apt-repository ppa:matthaeus123/mrw-gimp-svn
-sudo apt-get update
-sudo apt-get install -ym gimp
+apt_add_new_ppa "matthaeus123" "mrw-gimp-svn"
+apt_queue_or_install "gimp"
 

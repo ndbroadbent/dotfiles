@@ -1,7 +1,11 @@
 #!/bin/bash
+. _shared.sh
 echo "== Setting up conky..."
-# Install conky & conky-colors
-sudo apt-get install -ym conky-all verse
+
+# Queue or install apt packages
+apt_queue_or_install "conky-all verse"
+
+# Install conky-colors from source
 if (which conky-colors); then
   echo "== conky-colors is already installed."
 else
@@ -18,7 +22,7 @@ else
 fi
 
 # Copy conky config files.
-rm -rf ~/.conkycolors
+sudo rm -rf ~/.conkycolors
 cp -rf assets/conkycolors ~/.conkycolors
 
 # Set home directory placeholder
