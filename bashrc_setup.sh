@@ -17,9 +17,17 @@ EOF
 # Copy inputrc
 cp -f assets/inputrc.sh ~/.inputrc
 
-echo "===== Installed ~/.bashrc & ~/.inputrc."
+echo "=== Installed."
 
-source ~/.bashrc
 
-echo "===== If you did not run: [ . bashrc_setup.sh ], please run this command: [ source ~/.bashrc ]"
+# If run from dev_machine_setup, we cannot update current shell.
+if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
+  # If this script was sourced properly from the terminal, update current shell
+  if [[ "$0" = "bash" ]]; then
+    source ~/.bashrc
+  else
+    echo "===== Please run this command to update your current shell: $ source ~/.bashrc"
+    echo "      In the future, you should run this script like this:  $ . bashhrc_setup.sh"
+  fi
+fi
 
