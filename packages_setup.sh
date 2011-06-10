@@ -12,7 +12,21 @@ libyaml-ruby libzlib-ruby libopenssl-ruby libmysql-ruby \
 imagemagick libmagickwand-dev libmagickcore-dev libxslt1-dev libxml2-dev \
 mysql-server postgresql sqlite3 libmysqlclient15-dev libpq-dev libsqlite3-dev \
 apache2 python python-webkit python-webkit-dev python-pyinotify \
-nautilus-dropbox nautilus-image-converter vlc thunderbird libnotify-bin \
+nautilus-dropbox nautilus-image-converter libnotify-bin \
 avant-window-navigator avant-window-navigator-data awn-settings \
-awn-applets-c-core libawn1 vala-awn
+awn-applets-c-core libawn1 vala-awn \
+vlc thunderbird skype
+
+
+# Start skype on system startup
+cat > ~/.config/autostart/skype.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Exec=skype
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Skype
+Comment=
+EOF
 

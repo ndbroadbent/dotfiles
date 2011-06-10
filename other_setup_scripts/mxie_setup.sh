@@ -20,3 +20,16 @@ sudo ln -fs /usr/lib/libcrypto.so /usr/lib/libcrypto.so.0.9.7
 wget http://ftp.us.debian.org/debian/pool/main/g/gcc-3.3/libstdc++5_3.3.6-18_i386.deb -O /tmp/libstdc++5.deb
 sudo dpkg -i /tmp/libstdc++5.deb
 
+
+# Start MXIE on system startup
+cat > ~/.config/autostart/mxie.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Exec=/usr/local/bin/mxie
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=MXIE
+Comment=
+EOF
+
