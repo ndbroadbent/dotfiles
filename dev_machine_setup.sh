@@ -1,14 +1,13 @@
 #!/bin/bash
 # This bash script will set up (or update) your development environment for Ubuntu (v=>9.10)
 
-# Check for root user
-if [[ $EUID -ne 0 ]]; then
-  echo -e "\n\033[01;31mYou must be root to run this script!\033[00m\n" 2>&1
-  exit 1
-fi
-
 scripts=""
 apt_packages=""  # Installs all packages in a single transaction
+
+if [[ $EUID -eq 0 ]]; then
+  echo -e "\033[01;31mPlease do not use sudo to run this script!\033[00m" 2>&1
+  exit 1
+fi
 
 # User confirmation for optional scripts.
 function confirm_by_default() {
@@ -25,8 +24,12 @@ function prompt_for_git_user() {
   read -p "===== [Git config] Please enter your email: "; git_email="$REPLY"
 }
 
-echo -e "\n[ Ubuntu Developer Setup Script ]"
-echo -e "=================================\n"
+echo -e "---------------------------------"
+echo -e "| Ubuntu Developer Setup Script |"
+echo -e "---------------------------------\n"
+
+# Requires root permissions
+sudo true
 
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
@@ -80,9 +83,9 @@ done
 # Update sources and install apt packages
 # --------------------------------------------------------------
 echo "== Updating apt sources..."
-apt-get update -qq
+sudo apt-get update -qq
 echo "== Installing apt packages..."
-apt-get install -ym $apt_packages | grep -v "is already the newest version"
+sudo apt-get install -ym $apt_packages | grep -v "is already the newest version"
 
 
 # Restarting nautilus for dropbox and image resizer

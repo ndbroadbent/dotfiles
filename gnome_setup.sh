@@ -13,13 +13,9 @@ echo "==== Installing icons, fonts, software..."
 # PPAs
 # --------------------------------------------------------------
 # Faenza icons
-if ! (apt-cache search faenza-icon-theme | grep -q faenza-icon-theme); then
-  sudo add-apt-repository ppa:tiheum/equinox
-fi
+apt_add_new_ppa "tiheum" "equinox"
 # Cortina (wallpaper switcher)
-if ! (apt-cache search cortina | grep -q cortina); then
-  sudo add-apt-repository ppa:cs-sniffer/cortina
-fi
+apt_add_new_ppa "cs-sniffer" "cortina"
 
 # Queue or install apt packages
 apt_queue_or_install "faenza-icon-theme
