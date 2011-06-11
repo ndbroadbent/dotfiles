@@ -38,6 +38,7 @@ bind '"\C-xcc": "gc "\"\C-b"'  # ctrl+x, cc   => gc "|"
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gb='git branch'
+alias gl='git log'
 alias gco='git checkout'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 
