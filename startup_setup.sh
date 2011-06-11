@@ -1,6 +1,7 @@
 #!/bin/bash
 # The following programs will run on system startup
 
+echo "== Configuring firefox, terminal & gedit to run on startup..."
 # Firefox
 cat > ~/.config/autostart/firefox.desktop <<EOF
 [Desktop Entry]

@@ -1,10 +1,14 @@
 #!/bin/bash
 . _shared.sh
-echo "== Copying themes..."
+# Install Gnome preferences
+# -------------------------------------------
+echo "== Setting up gnome preferences..."
+
+echo "==== Copying themes..."
 mkdir -p ~/.themes
 cp -rf assets/gtk_themes/* ~/.themes
 
-echo "== Installing icons, fonts, compiz, etc..."
+echo "==== Installing icons, fonts, software..."
 
 # PPAs
 # --------------------------------------------------------------
@@ -22,10 +26,10 @@ apt_queue_or_install "faenza-icon-theme
 compiz compizconfig-settings-manager cortina
 ttf-droid ttf-inconsolata"
 
-echo "== Configuring gnome font preferences..."
+echo "==== Configuring font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml
 
-
+echo "==== Configuring cortina to run on startup..."
 # Run Cortina on startup
 cat > ~/.config/autostart/cortina.desktop <<EOF
 [Desktop Entry]
@@ -37,7 +41,4 @@ X-GNOME-Autostart-enabled=true
 Name=Cortina
 Comment=Rotates wallpaper periodically
 EOF
-
-
-echo "===== Gnome preferences installed."
 

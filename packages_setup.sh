@@ -1,6 +1,6 @@
 #!/bin/bash
 . _shared.sh
-echo "== Processing required software packages..."
+echo "== Setting up default software packages..."
 
 if ! (apt-cache search nautilus-dropbox | grep -q nautilus-dropbox); then
   # Dropbox source
