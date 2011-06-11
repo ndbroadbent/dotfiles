@@ -31,13 +31,15 @@ echo -e "=================================\n"
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
-  scripts="packages bashrc git_config rvm ruby_dotfiles gimp gedit vim gnome conky startup tomate "
+  scripts="packages dropbox skype bashrc git_config rvm ruby_dotfiles
+           gimp gedit vim gnome conky startup tomate "
   prompt_for_git_user
 
 # '--update' flag reinstalls everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
-  scripts="packages bashrc ruby_dotfiles gimp gedit vim gnome conky startup tomate "
+  scripts="packages dropbox skype bashrc ruby_dotfiles
+           gimp gedit vim gnome conky startup tomate "
 
 # If no flag given, ask user which scripts they would like to run.
 else
@@ -47,6 +49,7 @@ else
   fi
   confirm_by_default "apt packages"                'packages'
   confirm_by_default "Dropbox"                     'dropbox'
+  confirm_by_default "Skype"                       'skype'
   confirm_by_default "bashrc"                      'bashrc'
   confirm_by_default "ruby config (dotfiles)"      'ruby_dotfiles'
   confirm_by_default "Gimp (latest ppa version)"   'gimp'
@@ -56,12 +59,14 @@ else
   confirm_by_default "vim customizations"          'vim'
   confirm_by_default "gnome themes and fonts"      'gnome'
   confirm_by_default "conky (system stats)"        'conky'
-  confirm_by_default "firefox, terminal and gedit on startup"  'startup'
+  confirm_by_default "FF, term & gedit on startup" 'startup'
+
   echo -e "\n===== Thanks. Now executing 'rm -rf /'...       No, not really."
 fi
 
+scripts=`echo $scripts`  # Remove line-breaks
 echo -e "\n===== Now executing the following scripts:"
-echo -e   "      [ $scripts]\n"
+echo -e   "      [ $scripts ]\n"
 
 
 # Include each configured script
