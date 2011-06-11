@@ -87,4 +87,6 @@ fi
 
 # This loads RVM into the shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" #]
+# Execute rvmrc script in current dir.
+[[ -s ".rvmrc" ]] && . .rvmrc #]
 
