@@ -47,8 +47,8 @@ function gst () {
   pfix="e" # Set your preferred shortcut letter here
 
   IFS=$'\n '
-  f=0          # Counter for the number of files
-  max_changes=15
+  f=0             # Counter for the number of files
+  max_changes=15  # Max changes before reverting to standard 'git status' (can be very slow otherwise)
 
   # Only export variables for less than $max_changes
   if [ `git status --porcelain | wc -l` -lt $max_changes ]; then
