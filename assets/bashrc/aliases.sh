@@ -3,9 +3,9 @@
 # -------------------------------------------------------
 
 # -- bash
-alias l='ls -CF'
-alias ll='ls -l'
-alias la='ls -la'
+alias l='ls -Cv --group-directories-first'
+alias ll='ls -lvA --group-directories-first'
+
 alias ~='cd ~'
 alias ..='cd ..'
 alias ...='..;..';
