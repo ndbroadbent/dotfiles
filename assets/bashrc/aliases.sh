@@ -42,7 +42,9 @@ alias gco='git checkout'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 
 # -- capistrano
+alias cdd='cap dev deploy'
 alias cpd='cap preview deploy'
+alias csd='cap staging deploy'
 alias cld='cap live deploy'
 alias cpdm='cap preview deploy:migrations'
 alias cldm='cap live deploy:migrations'
