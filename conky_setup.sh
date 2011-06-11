@@ -58,7 +58,6 @@ chmod +x ~/.start_conky
 
 
 echo "==== Configuring conky to run on startup..."
-# Run conky on startup
 cat > ~/.config/autostart/conky.desktop <<EOF
 [Desktop Entry]
 Type=Application

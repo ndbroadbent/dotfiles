@@ -30,7 +30,6 @@ echo "==== Configuring font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml
 
 echo "==== Configuring cortina to run on startup..."
-# Run Cortina on startup
 cat > ~/.config/autostart/cortina.desktop <<EOF
 [Desktop Entry]
 Type=Application
