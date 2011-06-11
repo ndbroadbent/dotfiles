@@ -46,7 +46,7 @@ function gsed () {
 function gst () {
   pfix="e" # Set your preferred shortcut letter here
 
-  IFS=$'\n '   # Split by newline and space.
+  IFS=$'\n '
   f=0          # Counter for the number of files
   max_changes=15
 
