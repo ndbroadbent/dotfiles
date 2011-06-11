@@ -41,15 +41,13 @@ alias gb='git branch'
 alias gco='git checkout'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 
-# -- capistrano
-alias cdd='cap dev deploy'
-alias cpd='cap preview deploy'
-alias csd='cap staging deploy'
-alias cld='cap live deploy'
-alias cpdm='cap preview deploy:migrations'
-alias cldm='cap live deploy:migrations'
-alias cpr='cap preview revisions'
-alias clr='cap live revisions'
+# -- capistrano commands for each stage
+for stage in $(echo "dev preview staging live"); do
+  char=`echo $stage | head -c 1`
+  alias c$char\d="cap  $stage deploy"
+  alias c$char\dm="cap $stage deploy:migrations"
+  alias c$char\r="cap  $stage revisions"
+done
 
 # -- rvm / ruby / rails
 alias r='rake'
