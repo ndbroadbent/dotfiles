@@ -23,7 +23,7 @@ awn-applets-c-core libawn1 vala-awn"
 pkg_addons="nautilus-image-converter gedit-plugins"
 
 # Applications
-pkg_apps="vlc thunderbird"
+pkg_apps="vlc thunderbird chromium-browser"
 
 # -----------------------------------------------------------------------------------
 # Queue or install apt packages
