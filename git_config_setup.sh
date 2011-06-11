@@ -36,7 +36,7 @@ if [ -n "$git_name" ]; then
   changed = green
   untracked = cyan
 EOF
-chown $USER:$USER ~/.gitconfig
+  chown $USER:$USER ~/.gitconfig
 
 else
   echo "Usage:  $0 <user name> <user email>"
