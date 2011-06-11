@@ -5,14 +5,16 @@ if [ -n "$2" ]; then
 fi
 if [ -n "$git_name" ]; then
   echo "== Setting up git config..."
-  git config --global user.name "$git_name"
-  git config --global user.email "$git_email"
-  git config --global branch.master.remote origin
-  git config --global branch.master.merge refs/heads/master
-  git config --global core.editor vim
+  cat > ~/.gitconfig <<EOF
+[user]
+	name = $git_name
+	email = $git_email
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[core]
+	editor = vim
 
-  # Git colors
-  cat >> ~/.gitconfig <<EOF
 [color]
   branch = auto
   diff = auto
@@ -34,6 +36,7 @@ if [ -n "$git_name" ]; then
   changed = green
   untracked = cyan
 EOF
+chown $USER:$USER ~/.gitconfig
 
 else
   echo "Usage:  $0 <user name> <user email>"
