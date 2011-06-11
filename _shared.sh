@@ -8,7 +8,7 @@ function apt_queue_or_install() {
       sudo apt-get install -ym $1
     fi
   else
-    echo "queue_or_isolated_install() requires a list of packages"
+    echo "apt_queue_or_install() requires a list of packages"
   fi
 }
 
@@ -19,7 +19,7 @@ function apt_add_new_ppa() {
       sudo add-apt-repository ppa:$1/$2
     fi
   else
-    echo "apt_add_new_ppa() requires: < user > < ppa_name >"
+    echo "Usage: apt_add_new_ppa < user > < ppa_name >"
   fi
 }
 
