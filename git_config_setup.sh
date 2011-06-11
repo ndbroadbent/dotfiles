@@ -35,7 +35,6 @@ if [ -n "$git_name" ]; then
   untracked = cyan
 EOF
 
-  echo "===== Done."
 else
   echo "Usage:  $0 <user name> <user email>"
 fi
