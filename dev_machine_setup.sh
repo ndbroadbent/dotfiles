@@ -46,6 +46,7 @@ else
     prompt_for_git_user    # If installing git, prompt for name and email
   fi
   confirm_by_default "apt packages"                'packages'
+  confirm_by_default "Dropbox"                     'dropbox'
   confirm_by_default "bashrc"                      'bashrc'
   confirm_by_default "ruby config (dotfiles)"      'ruby_dotfiles'
   confirm_by_default "Gimp (latest ppa version)"   'gimp'
