@@ -1,5 +1,4 @@
 #!/bin/bash
-src_dir=`echo ~/src`
 
 if [ -z `which rvm` ]; then
   echo "== Installing rvm and ruby 1.9.2..."
@@ -14,5 +13,8 @@ fi
 
 # RVM after_use hook: updates a symlink to point to the current gemset
 # ---------------------------------------------------------------------
+sudo mkdir -p ~/.rvm/hooks
+sudo chown $USER:$USER ~/.rvm/hooks
+src_dir=`echo ~/src`
 echo "ln -nfs \$rvm_ruby_gem_home/gems $src_dir/current_gemset" > ~/.rvm/hooks/after_use
 
