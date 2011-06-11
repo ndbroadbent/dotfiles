@@ -1,5 +1,4 @@
 #!/bin/bash
-
 if [ -z `which rvm` ]; then
   echo "== Installing rvm and ruby 1.9.2..."
   bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
