@@ -9,7 +9,7 @@ Exec=cd `pwd` && git pull origin master && sudo ./dev_machine_setup.sh --update
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
-Name=Firefox
+Name=Auto-update system config from GitHub
 Comment=
 EOF
 
