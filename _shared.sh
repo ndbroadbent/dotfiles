@@ -2,7 +2,7 @@
 function apt_queue_or_install() {
   if [ -n "$1" ]; then
     if [[ "$0" =~ "dev_machine_setup.sh" ]]; then
-      apt_packages+="$1 "   # (trailing space is important.)
+      apt_packages+="$1 "
     else
       sudo apt-get update
       sudo apt-get install -ym $1
