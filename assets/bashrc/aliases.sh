@@ -4,7 +4,8 @@
 
 # -- bash
 alias l='ls -Cv --group-directories-first'
-alias ll='ls -lvA --group-directories-first'
+alias ll='ls -lv --group-directories-first'
+alias la='ls -lvA --group-directories-first'
 
 alias ~='cd ~'
 alias ..='cd ..'
