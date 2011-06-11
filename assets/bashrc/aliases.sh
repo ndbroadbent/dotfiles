@@ -50,6 +50,7 @@ alias cpr='cap preview revisions'
 alias clr='cap live revisions'
 
 # -- rvm / ruby / rails
+alias r='rake'
 alias gemdir='cd $GEM_HOME/gems'
 
 # Rails 3
