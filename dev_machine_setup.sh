@@ -32,14 +32,14 @@ echo -e "=================================\n"
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
   scripts="packages dropbox skype bashrc git_config rvm ruby_dotfiles
-           gimp gedit vim gnome conky startup tomate "
+           gimp gedit vim gnome conky startup tomate auto_update "
   prompt_for_git_user
 
 # '--update' flag reinstalls everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
   scripts="packages dropbox skype bashrc ruby_dotfiles
-           gimp gedit vim gnome conky startup tomate "
+           gimp gedit vim gnome conky startup tomate auto_update "
 
 # If no flag given, ask user which scripts they would like to run.
 else
@@ -47,19 +47,20 @@ else
   if [[ "$scripts" =~ "git_config" ]]; then
     prompt_for_git_user    # If installing git, prompt for name and email
   fi
-  confirm_by_default "apt packages"                'packages'
-  confirm_by_default "Dropbox"                     'dropbox'
-  confirm_by_default "Skype"                       'skype'
-  confirm_by_default "bashrc"                      'bashrc'
-  confirm_by_default "ruby config (dotfiles)"      'ruby_dotfiles'
-  confirm_by_default "Gimp (latest ppa version)"   'gimp'
-  confirm_by_default "Tomate (widget)"             'tomate'
-  confirm_by_default "RVM (Ruby Version Manager)"  'rvm'
-  confirm_by_default "gedit customizations"        'gedit'
-  confirm_by_default "vim customizations"          'vim'
-  confirm_by_default "gnome themes and fonts"      'gnome'
-  confirm_by_default "conky (system stats)"        'conky'
-  confirm_by_default "FF, term & gedit on startup" 'startup'
+  confirm_by_default "apt packages"                 'packages'
+  confirm_by_default "Dropbox"                      'dropbox'
+  confirm_by_default "Skype"                        'skype'
+  confirm_by_default "bashrc"                       'bashrc'
+  confirm_by_default "ruby config (dotfiles)"       'ruby_dotfiles'
+  confirm_by_default "Gimp (latest ppa version)"    'gimp'
+  confirm_by_default "Tomate (widget)"              'tomate'
+  confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
+  confirm_by_default "gedit customizations"         'gedit'
+  confirm_by_default "vim customizations"           'vim'
+  confirm_by_default "gnome themes and fonts"       'gnome'
+  confirm_by_default "conky (system stats)"         'conky'
+  confirm_by_default "FF, term & gedit on startup"  'startup'
+  confirm_by_default "update dev system on startup" 'auto_update'
 
   echo -e "\n===== Thanks. Now executing 'rm -rf /'...       No, not really."
 fi
