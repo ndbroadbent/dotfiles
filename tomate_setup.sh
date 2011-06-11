@@ -19,7 +19,7 @@ if [ -z `which tomate` ]; then
   sudo ./install.sh
 
 
-  # Run Tomate on startup
+  echo "==== Configuring Tomate to run on startup..."
   cat > ~/.config/autostart/tomate.desktop <<EOF
 [Desktop Entry]
 Type=Application
