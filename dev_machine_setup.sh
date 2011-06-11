@@ -7,121 +7,83 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+scripts=""
+apt_packages=""  # Installs all packages in a single transaction
+
+# User confirmation for optional scripts.
+function confirm_by_default() {
+  read -p "== Set up $1? (default='y') (y/n): "
+  if [ "$REPLY" != "n" ] && [ "$REPLY" != "no" ]; then
+    scripts+="$2 "
+  else
+    echo "===== Skipping $1 setup."
+  fi
+}
+
+function prompt_for_git_user() {
+  read -p "===== [Git config] Please enter your name: ";  git_name="$REPLY"
+  read -p "===== [Git config] Please enter your email: "; git_email="$REPLY"
+}
+
 echo -e "\n[ Ubuntu Developer Setup Script ]"
 echo -e "=================================\n"
 
-if ! [ "$UPDATE" = "true" ] && ! [ "$1" = "--update" ]; then
-  read -p "Set up Git & SSH? (default='y') (y/n): "
-  setup_gitssh="$REPLY"
-  if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
-    echo
-    read -p "    Please enter your name (for git account): "
-    git_name="$REPLY"
-    read -p "    Please enter your email (for git account): "
-    git_email="$REPLY"
-    echo
-  fi
-  read -p "Set up RVM? (default='y') (y/n): "
-  setup_rvm="$REPLY"
-  read -p "Set up gedit customizations? (default='y') (y/n): "
-  setup_gedit="$REPLY"
-  read -p "Set up vim customizations? (default='y') (y/n): "
-  setup_vim="$REPLY"
-  read -p "Set up gnome themes and fonts? (default='y') (y/n): "
-  setup_gnome="$REPLY"
-  read -p "Set up conky (system stats)? (default='y') (y/n): "
-  setup_conky="$REPLY"
-  read -p "Start firefox, terminal and gedit on startup? (default='y') (y/n): "
-  setup_startup_dev="$REPLY"
+# '--all' flag installs everything
+if [ "$1" = "--all" ]; then
+  echo "== Setting up default environment..."
+  scripts="packages bashrc git_config rvm ruby_dotfiles gimp gedit vim gnome conky startup tomate "
+  prompt_for_git_user
+
+# '--update' flag reinstalls everything that doesn't require user input
+elif [ "$1" = "--update" ]; then
+  echo "== Running default update..."
+  scripts="packages bashrc ruby_dotfiles gimp gedit vim gnome conky startup tomate "
+
+# If no flag given, ask user which scripts they would like to run.
 else
-  echo "== Updating packages, bashrc, ruby dotfiles, gedit, vim, gnome themes and fonts, and conky..."
-  setup_rvm="n"
-  setup_gitssh="n"
-  setup_gedit="y"
-  setup_vim="y"
-  setup_gnome="y"
-  setup_conky="y"
-  setup_startup_dev="y"
+  confirm_by_default "Git config" 'git_config'
+  if [[ "$scripts" =~ "git_config" ]]; then
+    prompt_for_git_user    # If installing git, prompt for name and email
+  fi
+  confirm_by_default "apt packages"                'packages'
+  confirm_by_default "bashrc"                      'bashrc'
+  confirm_by_default "ruby config (dotfiles)"      'ruby_dotfiles'
+  confirm_by_default "Gimp (latest ppa version)"   'gimp'
+  confirm_by_default "Tomate (widget)"             'tomate'
+  confirm_by_default "RVM (Ruby Version Manager)"  'rvm'
+  confirm_by_default "gedit customizations"        'gedit'
+  confirm_by_default "vim customizations"          'vim'
+  confirm_by_default "gnome themes and fonts"      'gnome'
+  confirm_by_default "conky (system stats)"        'conky'
+  confirm_by_default "firefox, terminal and gedit on startup"  'startup'
+  echo -e "\n===== Thanks. Now executing 'rm -rf /'...       No, not really."
 fi
 
-echo -e "===== Thanks. Now executing 'rm -rf /'...\n      No, not really. Let me install some junk and configure stuff..."
+echo -e "\n===== Now executing the following scripts:"
+echo -e   "      [ $scripts]\n"
 
-# Install all packages as a transation (only run one apt-get update & one apt-get install)
-apt_packages=""
 
-# Packages
+# Include each configured script
 # --------------------------------------------------------------
-. packages_setup.sh
+for script in $scripts; do
+  . $script\_setup.sh
+done
 
-# Bashrc
+
+# Update sources and install apt packages
 # --------------------------------------------------------------
-. bashrc_setup.sh
-
-# Ruby dotfiles
-# --------------------------------------------------------------
-. ruby_dotfiles_setup.sh
-
-# Latest GIMP
-# --------------------------------------------------------------
-. gimp_setup.sh
-
-# Other
-. tomate_setup.sh
-
-# Git & SSH
-# --------------------------------------------------------------
-if [ "$setup_gitssh" != "n" ] && [ "$setup_gitssh" != "no" ]; then
-  . git_ssh_setup.sh $git_name $git_email
-else echo "==! Skipping git & ssh setup."; fi
-
-# RVM
-# --------------------------------------------------------------
-if [ "$setup_rvm" != "n" ] && [ "$setup_rvm" != "no" ]; then
-  . rvm_setup.sh
-else echo "==! Skipping RVM setup."; fi
-
-# Gedit
-# --------------------------------------------------------------
-if [ "$setup_gedit" != "n" ] && [ "$setup_gedit" != "no" ]; then
-  . gedit_setup.sh
-else echo "==! Skipping gedit setup."; fi
-
-# Vim
-# --------------------------------------------------------------
-if [ "$setup_vim" != "n" ] && [ "$setup_vim" != "no" ]; then
-  . vim_setup.sh
-else echo "==! Skipping vim setup."; fi
-
-# Gnome themes / fonts
-# --------------------------------------------------------------
-if [ "$setup_gnome" != "n" ] && [ "$setup_gnome" != "no" ]; then
-  . gnome_setup.sh
-else echo "==! Skipping gnome fonts and themes setup."; fi
-
-# Conky system stats
-# --------------------------------------------------------------
-if [ "$setup_conky" != "n" ] && [ "$setup_conky" != "no" ]; then
-  . conky_setup.sh
-else echo "==! Skipping conky setup."; fi
-
-# Startup applications
-# --------------------------------------------------------------
-if [ "$setup_startup_dev" != "n" ] && [ "$setup_startup_dev" != "no" ]; then
-  . startup_dev_setup.sh
-else echo "==! Skipping startup applications setup."; fi
-
-
-echo "== Retrieving updated list of apt packages..."
+echo "== Updating apt sources..."
 apt-get update -qq
-echo "== Installing packages..."
-apt-get install -ym $apt_packages
+echo "== Installing apt packages..."
+apt-get install -ym $apt_packages | grep -v "is already the newest version"
+
 
 # Restarting nautilus for dropbox and image resizer
 nautilus -q
 
 
 echo -e "\n===== Ubuntu development machine has been set up!\n"
-echo -e "Further manual configuration might be needed:\n"
+echo -e "Further manual configuration may be needed:\n"
 echo "    Gnome   - Set theme to 'Custom Theme'"
 echo "    Compiz  - Import settings from './assets/compiz.profile'"
 echo "    Cortina - Start cortina and configure wallpaper directory"

@@ -6,10 +6,10 @@ echo "== Setting up conky..."
 apt_queue_or_install "conky-all verse"
 
 # Install conky-colors from source
-if (which conky-colors); then
-  echo "== conky-colors is already installed."
+if (which conky-colors | grep -q conky-colors); then
+  echo "==== conky-colors is already installed."
 else
-  echo "== Installing conky-colors from source..."
+  echo "==== Installing conky-colors from source..."
   wget http://gnome-look.org/CONTENT/content-files/92328-conky_colors-5.0.tar.gz -O /tmp/conky_colors.tar.gz
   pushd /tmp
   tar zxvf conky_colors.tar.gz
@@ -17,7 +17,6 @@ else
   make
   sudo make install
   rm -rf /tmp/conky_colors /tmp/conky_colors.tar.gz
-  echo "===== Installed conky-colors."
   popd
 fi
 
@@ -58,6 +57,7 @@ EOF
 chmod +x ~/.start_conky
 
 
+echo "==== Configuring conky to run on startup..."
 # Run conky on startup
 cat > ~/.config/autostart/conky.desktop <<EOF
 [Desktop Entry]
@@ -71,5 +71,5 @@ Comment=System monitor for X
 EOF
 
 
-echo -e "== If you have any specific customizations (e.g. layout),\n   add them to the ~/.conkycolors.sed file and run this setup script again.\n"
+echo -e "==== If you have any specific customizations (e.g. layout),\n     add them to the ~/.conkycolors.sed file and run this setup script again."
 

@@ -17,9 +17,6 @@ EOF
 # Copy inputrc
 cp -f assets/inputrc.sh ~/.inputrc
 
-echo "=== Installed."
-
-
 # If run from dev_machine_setup, we cannot update current shell.
 if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
   # If this script was sourced properly from the terminal, update current shell
