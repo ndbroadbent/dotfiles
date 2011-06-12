@@ -4,9 +4,13 @@
 # -------------------------------------------
 echo "== Setting up gnome preferences..."
 
-echo "==== Setting gnome-terminal preferences..."
+echo "==== Setting terminal preferences..."
 echo "     (to update these preferences, run: gconftool-2 --dump /apps/gnome-terminal > assets/terminal_conf.xml)"
 gconftool-2 --load assets/terminal_conf.xml
+
+echo "==== Setting up gnome panels..."
+echo "     (to update these preferences, run: gconftool-2 --dump /apps/panel > assets/panel_conf.xml)"
+gconftool-2 --load assets/panel_conf.xml
 
 echo "==== Copying nautilus UI preferences (adds more toolbar buttons)..."
 sudo cp -f assets/nautilus_ui.xml /usr/share/nautilus/ui/nautilus-navigation-window-ui.xml
