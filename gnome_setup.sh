@@ -22,10 +22,26 @@ apt_queue_or_install "faenza-icon-theme
 compiz compizconfig-settings-manager cortina
 ttf-droid ttf-inconsolata"
 
-echo "==== Configuring font preferences..."
+echo "==== Loading font preferences..."
 gconftool-2 --load assets/gnome_fonts_conf.xml
 
-echo "==== Configuring cortina to run on startup..."
+echo "==== Loading compiz preferences..."
+echo "     (to update these preferences, run: gconftool-2 --dump /apps/compiz > assets/compiz_conf.xml)"
+gconftool-2 --load assets/compiz_conf.xml
+
+
+echo "==== Configuring cortina settings & run on startup..."
+cat > ~/.config/Cortina/Cortina.conf <<EOF
+[General]
+listWidget_Dirs=$HOME/Dropbox/Wallpapers
+listWidget_Dirs_flags=2
+checkBox_changeWPOnStartup=2
+checkBox_loadOnStartup=2
+horizontalSlider_interval=7
+comboBox_wpstyle=0
+randomOrNot=2
+EOF
+
 cat > ~/.config/autostart/cortina.desktop <<EOF
 [Desktop Entry]
 Type=Application

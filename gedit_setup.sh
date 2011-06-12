@@ -17,7 +17,7 @@ mkdir -p ~/.gnome2/gedit/styles
 cp -R $this_dir/assets/gedit_plugins/* ~/.gnome2/gedit/plugins
 cp $this_dir/assets/ndb_rails.xml.geditcolors ~/.gnome2/gedit/styles/ndb_rails.xml
 
-echo "==== Configuring gedit preferences and plugin settings..."
+echo "==== Loading gedit preferences and plugin settings..."
 echo "     (to update these preferences, run: gconftool-2 --dump /apps/gedit-2 > assets/gedit_conf.xml)"
 gconftool-2 --load assets/gedit_conf.xml
 # Set gedit root dir to $HOME/src
