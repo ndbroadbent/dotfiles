@@ -94,7 +94,6 @@ nautilus -q
 
 echo -e "\n===== Ubuntu development machine has been set up!\n"
 echo -e "Further manual configuration may be needed:\n"
-echo "    Gnome   - Set theme to 'Custom Theme'"
 echo "    Synergy - Copy your synergy conf to '/etc/synergy.conf' & add to startup:"
 echo "              synergys --config '/etc/synergy.conf'"
 echo
