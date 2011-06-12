@@ -22,9 +22,6 @@ apt_queue_or_install "faenza-icon-theme
 compiz compizconfig-settings-manager cortina
 ttf-droid ttf-inconsolata"
 
-echo "==== Loading font preferences..."
-gconftool-2 --load assets/gnome_fonts_conf.xml
-
 echo "==== Loading compiz preferences..."
 echo "     (to update these preferences, run: gconftool-2 --dump /apps/compiz > assets/compiz_conf.xml)"
 gconftool-2 --load assets/compiz_conf.xml
@@ -52,4 +49,12 @@ X-GNOME-Autostart-enabled=true
 Name=Cortina
 Comment=Rotates wallpaper periodically
 EOF
+
+echo "==== Setting fonts..."
+gconftool-2 --load assets/gnome_fonts_conf.xml
+echo "==== Setting icons..."
+gconftool-2 --type=string -s /desktop/gnome/interface/icon_theme "Faenza-Darkest"
+echo "==== Setting GTK & Metacity themes..."
+gconftool-2 --type=string -s /desktop/gnome/interface/gtk_theme "BSM Simple Dark Menu"
+gconftool-2 --type=string -s /apps/metacity/general/theme "Clearlooks"
 
