@@ -20,7 +20,7 @@ avant-window-navigator avant-window-navigator-data awn-settings
 awn-applets-c-core libawn1 vala-awn"
 
 # Addons / Tweaks
-pkg_addons="nautilus-image-converter nautilus-open-terminal nautilus-gksu nautilus-pastebin"
+pkg_addons="nautilus-image-converter nautilus-open-terminal nautilus-gksu"
 
 # Applications
 pkg_apps="vlc thunderbird chromium-browser"
