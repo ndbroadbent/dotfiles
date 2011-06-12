@@ -4,12 +4,15 @@
 # -------------------------------------------
 echo "== Setting up gnome preferences..."
 
+echo "==== Setting gnome-terminal preferences..."
+echo "     (to update these preferences, run: gconftool-2 --dump /apps/gnome-terminal > assets/terminal_conf.xml)"
+gconftool-2 --load assets/terminal_conf.xml
+
 echo "==== Copying themes..."
 mkdir -p ~/.themes
 cp -rf assets/gtk_themes/* ~/.themes
 
 echo "==== Installing icons, fonts, software..."
-
 # PPAs
 # --------------------------------------------------------------
 # Faenza icons
@@ -25,7 +28,6 @@ ttf-droid ttf-inconsolata"
 echo "==== Loading compiz preferences..."
 echo "     (to update these preferences, run: gconftool-2 --dump /apps/compiz > assets/compiz_conf.xml)"
 gconftool-2 --load assets/compiz_conf.xml
-
 
 echo "==== Configuring cortina settings & run on startup..."
 cat > ~/.config/Cortina/Cortina.conf <<EOF
