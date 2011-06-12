@@ -7,7 +7,7 @@ echo "== Setting up default software packages..."
 pkg_base="curl vim ack-grep xclip synergy apache2"
 
 # Development
-pkg_dev="git-core git-gui gitk tig svn gedit-plugins python"
+pkg_dev="git-core git-gui gitk tig subversion gedit-plugins python"
 
 # Ruby Libraries
 pkg_ruby_libs="libyaml-ruby libzlib-ruby libruby
