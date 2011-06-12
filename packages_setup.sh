@@ -4,10 +4,10 @@ echo "== Setting up default software packages..."
 
 # -----------------------------------------------------------------------------------
 # Base
-pkg_base="curl ack-grep vim xclip synergy apache2 python"
+pkg_base="curl vim ack-grep xclip synergy apache2"
 
-# Git
-pkg_git="git-core git-gui gitk tig"
+# Development
+pkg_dev="git-core git-gui gitk tig svn gedit-plugins python"
 
 # Ruby Libraries
 pkg_ruby_libs="libyaml-ruby libzlib-ruby libruby
@@ -20,12 +20,12 @@ avant-window-navigator avant-window-navigator-data awn-settings
 awn-applets-c-core libawn1 vala-awn"
 
 # Addons / Tweaks
-pkg_addons="nautilus-image-converter gedit-plugins"
+pkg_addons="nautilus-image-converter nautilus-open-terminal nautilus-gksu nautilus-pastebin"
 
 # Applications
 pkg_apps="vlc thunderbird chromium-browser"
 
 # -----------------------------------------------------------------------------------
 # Queue or install apt packages
-apt_queue_or_install "$pkg_base $pkg_git $pkg_ruby_libs $pkg_gnome $pkg_addons $pkg_apps"
+apt_queue_or_install "$pkg_base $pkg_dev $pkg_ruby_libs $pkg_gnome $pkg_addons $pkg_apps"
 

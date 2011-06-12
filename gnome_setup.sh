@@ -8,6 +8,9 @@ echo "==== Setting gnome-terminal preferences..."
 echo "     (to update these preferences, run: gconftool-2 --dump /apps/gnome-terminal > assets/terminal_conf.xml)"
 gconftool-2 --load assets/terminal_conf.xml
 
+echo "==== Copying nautilus UI preferences (adds more toolbar buttons)..."
+sudo cp -f assets/nautilus_ui.xml /usr/share/nautilus/ui/nautilus-navigation-window-ui.xml
+
 echo "==== Copying themes..."
 mkdir -p ~/.themes
 cp -rf assets/gtk_themes/* ~/.themes
