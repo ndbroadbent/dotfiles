@@ -14,11 +14,16 @@ Name=Firefox
 Comment=
 EOF
 
-# Terminal
+# Terminal (requires a delay)
+cat > ~/.start_terminal_delayed <<EOF
+#!/bin/sh
+sleep 11 && gnome-terminal
+EOF
+chmod +x ~/.start_terminal_delayed
 cat > ~/.config/autostart/terminal.desktop <<EOF
 [Desktop Entry]
 Type=Application
-Exec=gnome-terminal
+Exec=$HOME/.start_terminal_delayed
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
