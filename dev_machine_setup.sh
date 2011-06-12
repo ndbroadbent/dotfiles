@@ -96,7 +96,6 @@ echo -e "\n===== Ubuntu development machine has been set up!\n"
 echo -e "Further manual configuration may be needed:\n"
 echo "    Gnome   - Set theme to 'Custom Theme'"
 echo "    Compiz  - Import settings from './assets/compiz.profile'"
-echo "    Cortina - Start cortina and configure wallpaper directory"
 echo "    Synergy - Copy your synergy conf to '/etc/synergy.conf' & add to startup:"
 echo "              synergys --config '/etc/synergy.conf'"
 echo
