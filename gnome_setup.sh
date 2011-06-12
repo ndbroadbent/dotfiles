@@ -19,7 +19,7 @@ echo "==== Copying themes..."
 mkdir -p ~/.themes
 cp -rf assets/gtk_themes/* ~/.themes
 
-echo "==== Installing icons, fonts, software..."
+echo "==== Installing icons, fonts & software..."
 # PPAs
 # --------------------------------------------------------------
 # Faenza icons
