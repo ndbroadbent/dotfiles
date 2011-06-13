@@ -4,7 +4,7 @@ echo "== Setting up default software packages..."
 
 # -----------------------------------------------------------------------------------
 # Base
-pkg_base="curl vim ack-grep xclip synergy apache2"
+pkg_base="curl vim ack-grep xclip ssh synergy apache2"
 
 # Development
 pkg_dev="git-core git-gui gitk tig subversion gedit-plugins python"
