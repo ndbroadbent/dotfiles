@@ -69,3 +69,6 @@ echo "==== Setting GTK & Metacity themes..."
 gconftool-2 --type=string -s /desktop/gnome/interface/gtk_theme "BSM Simple Dark Menu"
 gconftool-2 --type=string -s /apps/metacity/general/theme "Clearlooks"
 
+echo "==== Setting GL Slideshow image directory to ~/Dropbox/Wallpapers..."
+echo "imageDirectory: $HOME/Dropbox/Wallpapers" > ~/.xscreensaver
+
