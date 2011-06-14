@@ -15,8 +15,12 @@ echo -e "
 | Ubuntu Developer Setup Script |
 ---------------------------------\n"
 
+# --------- Initial setup -----------
 # Requires root permissions
 sudo true
+# Ensure autostart directory exists
+mkdir -p ~/.config/autostart
+
 
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
