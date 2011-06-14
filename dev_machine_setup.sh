@@ -1,4 +1,5 @@
 #!/bin/bash
+. _shared.sh
 # This bash script will set up (or update) your development environment for Ubuntu (v=>9.10)
 
 scripts=""
@@ -8,21 +9,6 @@ if [[ $EUID -eq 0 ]]; then
   echo -e "\033[01;31mPlease do not use sudo to run this script!\033[00m" 2>&1
   exit 1
 fi
-
-# User confirmation for optional scripts.
-function confirm_by_default() {
-  read -p "== Set up $1? (default='y') (y/n): "
-  if [ "$REPLY" != "n" ] && [ "$REPLY" != "no" ]; then
-    scripts+="$2 "
-  else
-    echo "===== Skipping $1 setup."
-  fi
-}
-
-function prompt_for_git_user() {
-  read -p "===== [Git config] Please enter your name: ";  git_name="$REPLY"
-  read -p "===== [Git config] Please enter your email: "; git_email="$REPLY"
-}
 
 echo -e "---------------------------------"
 echo -e "| Ubuntu Developer Setup Script |"
@@ -34,25 +20,27 @@ sudo true
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
-  scripts="packages dropbox skype bashrc git_config rvm ruby_dotfiles
+  scripts="packages dropbox skype keepass2 netrc bashrc git_config rvm ruby_dotfiles
            gimp gedit vim gnome conky startup tomate auto_update "
-  prompt_for_git_user
+  prompt_for_git
+  prompt_for_netrc
 
-# '--update' flag reinstalls everything that doesn't require user input
+# '--update' flag updates everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
-  scripts="packages dropbox skype bashrc ruby_dotfiles
-           gimp gedit vim gnome conky startup tomate auto_update "
+  scripts="packages bashrc ruby_dotfiles gedit vim gnome conky startup tomate auto_update "
 
 # If no flag given, ask user which scripts they would like to run.
 else
   confirm_by_default "Git config" 'git_config'
-  if [[ "$scripts" =~ "git_config" ]]; then
-    prompt_for_git_user    # If installing git, prompt for name and email
-  fi
+  if [[ "$scripts" =~ "git_config" ]]; then prompt_for_git; fi # prompt for git user details
+  confirm_by_default "~/.netrc"   'netrc'
+  if [[ "$scripts" =~ "netrc" ]]; then prompt_for_netrc; fi # prompt for git user details
+
   confirm_by_default "apt packages"                 'packages'
   confirm_by_default "Dropbox"                      'dropbox'
   confirm_by_default "Skype"                        'skype'
+  confirm_by_default "Keepass 2"                    'keepass2'
   confirm_by_default "bashrc"                       'bashrc'
   confirm_by_default "ruby config (dotfiles)"       'ruby_dotfiles'
   confirm_by_default "Gimp (latest ppa version)"    'gimp'
