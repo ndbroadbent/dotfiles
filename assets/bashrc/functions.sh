@@ -15,7 +15,7 @@ function cb(){
     fi
     # Copy text to clipboard
     echo -n $1 | xclip -selection c
-    echo -ne $_success_col; echo -e "Copied to clipboard:\e[0m $1"
+    echo -e "$_success_col\Copied to clipboard:\e[0m $1"
   else
     echo "Copies first argument to clipboard. Usage: cb <string>"
   fi
