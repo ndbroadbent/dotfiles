@@ -1,11 +1,9 @@
 #!/bin/bash
-if [ -n "$2" ]; then
-  git_name=$1
-  git_email=$2
-fi
-if [ -n "$git_name" ]; then
-  echo "== Setting up git config..."
-  cat > ~/.gitconfig <<EOF
+. _shared.sh
+if [ -z "$git_name" ]; then prompt_for_git; fi
+
+echo "== Setting up git config..."
+cat > ~/.gitconfig <<EOF
 [user]
 	name = $git_name
 	email = $git_email
@@ -36,9 +34,4 @@ if [ -n "$git_name" ]; then
   changed = green
   untracked = cyan
 EOF
-  chown $USER:$USER ~/.gitconfig
-
-else
-  echo "Usage:  $0 <user name> <user email>"
-fi
 
