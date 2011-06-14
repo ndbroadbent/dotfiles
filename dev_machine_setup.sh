@@ -10,9 +10,10 @@ if [[ $EUID -eq 0 ]]; then
   exit 1
 fi
 
-echo -e "---------------------------------"
-echo -e "| Ubuntu Developer Setup Script |"
-echo -e "---------------------------------\n"
+echo -e "
+---------------------------------
+| Ubuntu Developer Setup Script |
+---------------------------------\n"
 
 # Requires root permissions
 sudo true
