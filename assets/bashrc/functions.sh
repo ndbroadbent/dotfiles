@@ -10,12 +10,12 @@ function cb(){
   if [ -n "$1" ]; then
     # Check user is not root (root doesn't have access to user xorg server)
     if [[ $(whoami) == root ]]; then
-      echo -e "$_warn_col Must be regular user to copy a file to the clipboard!\e[0m"
+      echo -e "$_warn_col  Must be regular user to copy a file to the clipboard!\e[0m"
       exit
     fi
     # Copy text to clipboard
     echo -n $1 | xclip -selection c
-    echo -e "$_success_col\Copied to clipboard:\e[0m $1"
+    echo -e "$_success_col  Copied to clipboard:\e[0m $1"
   else
     echo "Copies first argument to clipboard. Usage: cb <string>"
   fi
