@@ -37,6 +37,7 @@ echo "     (to update these preferences, run: gconftool-2 --dump /apps/compiz > 
 gconftool-2 --load assets/compiz_conf.xml
 
 echo "==== Configuring cortina settings & run on startup..."
+mkdir -p ~/.config/Cortina
 cat > ~/.config/Cortina/Cortina.conf <<EOF
 [General]
 listWidget_Dirs=$HOME/Dropbox/Wallpapers
@@ -48,6 +49,7 @@ comboBox_wpstyle=0
 randomOrNot=2
 EOF
 
+mkdir -p ~/.config/autostart
 cat > ~/.config/autostart/cortina.desktop <<EOF
 [Desktop Entry]
 Type=Application
