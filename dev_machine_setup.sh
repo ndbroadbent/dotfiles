@@ -19,8 +19,6 @@ echo -e "
 # -------------------------------------
 # Requires root permissions
 sudo true
-# Critical packages
-sudo apt-get install curl
 
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
