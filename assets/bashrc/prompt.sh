@@ -26,19 +26,28 @@ parse_ruby_version() {
 }
 
 # Set the prompt string (PS1)
-# The '\['s are needed to keep colors reusable outside of the prompt.
+# Looks like:
+#     ndbroadbent@ndb-laptop ~/src/ubuntu_config [master|1.8.7]$
+
+# (Prompt strings need '\['s around colors.)
 set_ps1() {
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
   git_branch=`parse_git_branch`
   ruby=`parse_ruby_version`
-  if [ -n "$git_branch" ]; then git_branch="\[$_git_col\]$git_branch\[$_env_col\]"; fi   # -- colorize
-  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then git_branch="$git_branch|"; fi  # -- separator
-  if [ -n "$git_branch" ] || [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][$git_branch$ruby\[$_env_col\]]"
+  # Git repo & ruby version
+  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then
+    env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_env_col\]|$ruby]"
+  # Just git repo
+  elif [ -n "$git_branch" ]; then
+    env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_env_col\]]"
+  # Just ruby version
+  elif [ -n "$ruby" ]; then
+    env_str="\[$_env_col\][$ruby]"
   else
     unset env_str
   fi
+
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
   PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str\[$_sep_col\]$ \[$_txt_col\]"
 }
