@@ -29,3 +29,6 @@ pkg_apps="vlc thunderbird chromium-browser"
 # Queue or install apt packages
 apt_queue_or_install "$pkg_base $pkg_dev $pkg_ruby_libs $pkg_gnome $pkg_addons $pkg_apps"
 
+# Add Canonical Partners repository
+add-apt-repository "deb http://archive.canonical.com/ $ubuntu_codename partner"
+

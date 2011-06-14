@@ -5,6 +5,8 @@
 if [ -z "$_shared_functions" ]; then
   _shared_functions="true"
 
+  ubuntu_codename=`cat /etc/lsb-release | grep DISTRIB_CODENAME= | sed s/DISTRIB_CODENAME=//`
+
   # Prompts
   # --------------------------------------------
 
