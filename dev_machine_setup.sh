@@ -55,7 +55,7 @@ else
   confirm_by_default "FF, term & gedit on startup"  'startup'
   confirm_by_default "update dev system on startup" 'auto_update'
   # Defines the point where script should install packages
-  apt_packages+="apt-install "
+  scripts+="apt-install "
   confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
 
   echo -e "\n===== Thanks. Now executing 'rm -rf /'...       No, not really."
