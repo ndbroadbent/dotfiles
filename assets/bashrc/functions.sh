@@ -135,3 +135,7 @@ function restart_bamboo() {
   echo "===== Restarted. Bamboo agents will automatically restart."
 }
 
+
+# Look busy
+function look_busy() { cat /dev/urandom | hexdump -C | grep --color=auto "ca fe"; }
+
