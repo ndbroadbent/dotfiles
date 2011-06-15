@@ -76,6 +76,7 @@ for script in $scripts; do
     sudo apt-get update -qq
     echo "== Installing apt packages..."
     sudo apt-get install -ym $apt_packages | grep -v "is already the newest version"
+    sudo apt-get autoremove -ym
   else
     . $script\_setup.sh
   fi
