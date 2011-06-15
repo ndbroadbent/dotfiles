@@ -66,7 +66,7 @@ function _src_rebuild_cache() {
   echo -e "== Scanning $src_dir for git repos..."
   _src_find_git_repos > $src_dir/.git_index
   # Append extra commands
-  cat >>$src_dir/.git_index <<EOF
+  cat >>$src_dir/.git_index <<-EOF
 --rebuild-cache
 --update-all
 EOF
