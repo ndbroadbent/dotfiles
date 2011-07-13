@@ -4,7 +4,7 @@
 # -------------------------------------------------------
 src_dir=`echo ~/src`
 
-# * The src function makes it easy to list / switch between
+# * The `src` function makes it easy to list / switch between
 #   git projects in $src_dir (default = ~/src)
 # * Provides tab completion for all git repos,
 #   including nested directories and submodules.
@@ -25,6 +25,23 @@ src_dir=`echo ~/src`
 #
 #     $ src buntu_conf
 #     # => Works exactly the same as `src ubuntu_config`
+#
+#
+# * The `design` function manages the 'Design' directory tree for the current project,
+#   including folders such as Backgrounds, Logos, Icons, and Samples. The actual directories are
+#   created in ~/Design, symlinked into the project, and ignored from source control. 
+#   This is because we usually don't want to check in large bitmaps or wav files into our code repository,
+#   and it also gives us the option to sync ~/Design via Dropbox.
+#
+# Examples: 
+#
+#    $ design init        # Creates default directory structure at ~/Design/**/ubuntu_config and symlinks into project.
+#                           (Backgrounds Logos Icons Mockups Screenshots)
+#    $ design init --av   # Adds extra directories for audio/video assets
+#                           (Backgrounds Logos Icons Mockups Screenshots Music AudioSamples Animations VideoClips)
+#    $ design rm          # Removes any design directories for ubuntu_config
+#    $ design trim        # Trims empty design directories for ubuntu_config
+#
 
 function src() {
   if [ -n "$1" ]; then
@@ -120,7 +137,7 @@ function _src_git_update_all() {
 }
 
 # Tab completion function for src()
-_src_tab_completion() {
+function _src_tab_completion() {
   _src_check_cache
   local curw
   COMPREPLY=()
@@ -131,4 +148,56 @@ _src_tab_completion() {
 }
 
 complete -F _src_tab_completion -o dirnames src
+
+
+# Manage 'Design' directories for project.
+function design {
+  project=`basename $(pwd)`
+  base_dirs="Backgrounds Logos Icons Mockups Screenshots"
+  av_dirs="Music AudioSamples Animations VideoClips" 
+  if [ -z "$1" ]; then
+    echo "design: Manage design directories for project assets that are external to source control."
+    echo "  Examples:"
+    echo "    $ design init        # Creates default directory structure at ~/Design/**/$project and symlinks into project."
+    echo "                           ($base_dirs)"
+    echo "    $ design init --av   # Adds extra directories for audio/video assets"
+    echo "                           ($base_dirs $av_dirs)"    
+    echo "    $ design rm          # Removes any design directories for $project"
+    echo "    $ design trim        # Trims empty design directories for $project"
+  else
+    if [ "$1" = "init" ]; then
+      if [ "$2" = "--av" ]; then base_dirs+=" $av_dirs"; fi
+      echo "Creating the following design directories for $project: $base_dirs"
+      mkdir -p Design
+      # Create and symlink each directory
+      for dir in $base_dirs; do 
+        mkdir -p ~/Design/$dir/$project
+        if [ ! -e Design/$dir ]; then ln -sf ~/Design/$dir/$project Design/$dir; fi
+      done
+      # Add rule to .gitignore if not already present
+      if ! $(touch .gitignore && cat .gitignore | grep -q "Design"); then
+        echo "Design" >> .gitignore
+      fi
+    elif [ "$1" = "rm" ]; then
+      echo "Removing all design directories for $project..."
+      base_dirs+=" $av_dirs"
+      for dir in $base_dirs; do 
+        rm -rf ~/Design/$dir/$project
+      done
+      rm -rf Design
+    elif [ "$1" = "trim" ]; then
+      echo "Trimming empty design directories for $project..."
+      base_dirs+=" $av_dirs"
+      for dir in $base_dirs; do
+        if ! [ -e ~/Design/$dir/$project/* ]; then
+          rm -rf ~/Design/$dir/$project
+          rm -f Design/$dir
+        fi
+      done
+    else
+      echo "Invalid command. Valid commands are: init, rm, trim"
+    fi
+  fi
+}
+
 

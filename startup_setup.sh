@@ -2,45 +2,27 @@
 # The following programs will run on system startup
 
 echo "== Configuring firefox, terminal & gedit to run on startup..."
-# Firefox
-cat > ~/.config/autostart/firefox.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Exec=firefox
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=Firefox
-Comment=
-EOF
 
-# Terminal (requires a delay)
-cat > ~/.start_terminal_delayed <<EOF
+# Create startup script including delay (wait for panels to be shown, otherwise app title bar is hidden.)
+cat > ~/.start_dev_applications.sh <<EOF
 #!/bin/sh
-sleep 11 && gnome-terminal
+sleep 15
+gnome-terminal &
+firefox &
+gedit --display=:0.0 &
 EOF
-chmod +x ~/.start_terminal_delayed
-cat > ~/.config/autostart/terminal.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Exec=$HOME/.start_terminal_delayed
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name[en_HK]=Terminal
-Name=Terminal
-Comment=
-EOF
+chmod +x ~/.start_dev_applications.sh
 
-# Gedit
-cat > ~/.config/autostart/gedit.desktop <<EOF
+# Start applications on startup
+cat > ~/.config/autostart/dev_applications.desktop <<EOF
 [Desktop Entry]
 Type=Application
-Exec=gedit --display=:0.0
+Exec=$HOME/.start_dev_applications.sh
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
-Name=Gedit
-Comment=Start gedit on display 0
+Name[en_HK]=Development Applications
+Name=Development Applications
+Comment=
 EOF
 
