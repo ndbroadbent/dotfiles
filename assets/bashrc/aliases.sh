@@ -48,6 +48,8 @@ for stage in $(echo "dev preview staging live"); do
   alias c$char\d="cap  $stage deploy"
   alias c$char\dm="cap $stage deploy:migrations"
   alias c$char\r="cap  $stage revisions"
+  # Push, then deploy
+  alias pc$char\d="git push; cap  $stage deploy"
 done
 
 # -- rvm / ruby / rails
