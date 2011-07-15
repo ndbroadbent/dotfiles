@@ -29,11 +29,11 @@ src_dir=`echo ~/src`
 #
 # * The `design` function manages the 'Design' directory tree for the current project,
 #   including folders such as Backgrounds, Logos, Icons, and Samples. The actual directories are
-#   created in ~/Design, symlinked into the project, and ignored from source control. 
+#   created in ~/Design, symlinked into the project, and ignored from source control.
 #   This is because we usually don't want to check in large bitmaps or wav files into our code repository,
 #   and it also gives us the option to sync ~/Design via Dropbox.
 #
-# Examples: 
+# Examples:
 #
 #    $ design init        # Creates default directory structure at ~/Design/**/ubuntu_config and symlinks into project.
 #                           (Backgrounds Logos Icons Mockups Screenshots)
@@ -49,6 +49,8 @@ function src() {
       _src_rebuild_cache
     elif [ "$1" = "--update-all" ]; then
       _src_git_update_all
+    elif [ "$1" = "--migrate-remotes" ]; then
+      _src_git_migrate_remotes
     else
       _src_check_cache
       # Match full argument before trying a partial match.
@@ -86,6 +88,7 @@ function _src_rebuild_cache() {
   cat >>$src_dir/.git_index <<-EOF
 --rebuild-cache
 --update-all
+--migrate-remotes
 EOF
   echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
 }
@@ -136,6 +139,23 @@ function _src_git_update_all() {
   done
 }
 
+# Updates all git repositories where possible
+function _src_git_migrate_remotes() {
+  echo -e "== Updating repo url for $_bld_col$(_src_repo_count)$_txt_col repos..."
+  echo "   (from  svn.globalhand.org/git  to  code.crossroads.org.hk/git)"
+  for path in $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort); do
+    cd $src_dir/$path
+    int_url=$(ruby -e 'puts `git remote -v`[/(https:\/\/svn.globalhand.org[^ ]*)/, 1]')
+    # If git repo has svn.globalhand.org
+    if echo $int_url | grep -q svn.globalhand.org; then
+      new_remote=$(echo $int_url | sed s%svn.globalhand.org/git%code.crossroads.org.hk/git%g)
+      echo "Setting git remote (origin): $new_remote"
+      git remote set-url origin $new_remote
+    fi
+  done
+}
+
+
 # Tab completion function for src()
 function _src_tab_completion() {
   _src_check_cache
@@ -154,14 +174,14 @@ complete -F _src_tab_completion -o dirnames src
 function design {
   project=`basename $(pwd)`
   base_dirs="Backgrounds Logos Icons Mockups Screenshots"
-  av_dirs="Music AudioSamples Animations VideoClips" 
+  av_dirs="Music AudioSamples Animations VideoClips"
   if [ -z "$1" ]; then
     echo "design: Manage design directories for project assets that are external to source control."
     echo "  Examples:"
     echo "    $ design init        # Creates default directory structure at ~/Design/**/$project and symlinks into project."
     echo "                           ($base_dirs)"
     echo "    $ design init --av   # Adds extra directories for audio/video assets"
-    echo "                           ($base_dirs $av_dirs)"    
+    echo "                           ($base_dirs $av_dirs)"
     echo "    $ design rm          # Removes any design directories for $project"
     echo "    $ design trim        # Trims empty design directories for $project"
   else
@@ -170,7 +190,7 @@ function design {
       echo "Creating the following design directories for $project: $base_dirs"
       mkdir -p Design
       # Create and symlink each directory
-      for dir in $base_dirs; do 
+      for dir in $base_dirs; do
         mkdir -p ~/Design/$dir/$project
         if [ ! -e Design/$dir ]; then ln -sf ~/Design/$dir/$project Design/$dir; fi
       done
@@ -181,7 +201,7 @@ function design {
     elif [ "$1" = "rm" ]; then
       echo "Removing all design directories for $project..."
       base_dirs+=" $av_dirs"
-      for dir in $base_dirs; do 
+      for dir in $base_dirs; do
         rm -rf ~/Design/$dir/$project
       done
       rm -rf Design
@@ -199,5 +219,4 @@ function design {
     fi
   fi
 }
-
 
