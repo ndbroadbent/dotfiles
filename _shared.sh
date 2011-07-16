@@ -26,8 +26,8 @@ if [ -z "$_shared_functions" ]; then
   }
 
   function prompt_for_netrc() {
-    read -p "===== [.netrc config] Machine (default = svn.globalhand.org): " netrc_machine
-    if [ -z "$netrc_machine" ]; then netrc_machine="svn.globalhand.org"; fi
+    read -p "===== [.netrc config] Machine (default = code.globalhand.org): " netrc_machine
+    if [ -z "$netrc_machine" ]; then netrc_machine="code.globalhand.org"; fi
     read -p "===== [.netrc config] Login: " netrc_login
     stty -echo; read -p "===== [.netrc config] Password: " netrc_password; stty echo; echo
   }
