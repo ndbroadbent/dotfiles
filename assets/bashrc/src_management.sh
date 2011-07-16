@@ -11,6 +11,7 @@ src_dir=`echo ~/src`
 # * Git repo index is cached in $src_dir/.git_index
 #   Cache can be rebuilt by running $ src --rebuild-cache
 #   ('--' commands have autocompletion too!)
+# * Ignores any projects within an 'archive' folder.
 #
 # Examples:
 #
@@ -49,6 +50,8 @@ function src() {
       _src_rebuild_cache
     elif [ "$1" = "--update-all" ]; then
       _src_git_update_all
+    elif [ "$1" = "--batch-cmd" ]; then
+      _src_git_batch_cmd $2
     elif [ "$1" = "--migrate-remotes" ]; then
       _src_git_migrate_remotes
     else
@@ -76,7 +79,10 @@ function src() {
 # Rescursively searches for git repos in $src_dir
 function _src_find_git_repos() {
   for repo in $(find $src_dir -mindepth 2 -type d -name .git); do
-    expr match "$repo" "$src_dir\/\(.*\)/.git"
+    # grep -v is an inverse match (i.e. ignore all projects in 'archive/')
+    if echo $repo | grep -qv "archive/"; then
+      expr match "$repo" "$src_dir\/\(.*\)/.git"
+    fi
   done
 }
 
@@ -89,6 +95,7 @@ function _src_rebuild_cache() {
 --rebuild-cache
 --update-all
 --migrate-remotes
+--batch-cmd
 EOF
   echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
 }
@@ -139,7 +146,20 @@ function _src_git_update_all() {
   done
 }
 
-# Updates all git repositories where possible
+# Runs a command for all git repos
+function _src_git_batch_cmd() {
+  if [ -n "$1" ]; then
+    echo -e "== Running command for $_bld_col$(_src_repo_count)$_txt_col repos...\n"
+    for path in $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort); do
+      cd $src_dir/$path
+      $1
+    done
+  else
+    echo "Please give a command to run for all repos. (It may be useful to write your command as a function.)"
+  fi
+}
+
+# Migrates git remotes to new url
 function _src_git_migrate_remotes() {
   echo -e "== Updating repo url for $_bld_col$(_src_repo_count)$_txt_col repos..."
   echo "   (from  svn.globalhand.org/git  to  code.crossroads.org.hk/git)"
