@@ -15,7 +15,7 @@ echo "==== Copying extra gedit plugins and colors..."
 mkdir -p ~/.gnome2/gedit/plugins
 mkdir -p ~/.gnome2/gedit/styles
 # Remove old 'FindInFiles' plugin
-rm -f /usr/lib/gedit-2/plugins/FindInFiles*
+sudo rm -f /usr/lib/gedit-2/plugins/FindInFiles*
 cp -R $this_dir/assets/gedit_plugins/* ~/.gnome2/gedit/plugins
 cp $this_dir/assets/ndb_rails.xml.geditcolors ~/.gnome2/gedit/styles/ndb_rails.xml
 
