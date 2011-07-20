@@ -33,6 +33,7 @@ alias ga='git add '
 alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
+alias gcam='git commit --amend'
 bind '"\C-xc": "gca "\"\C-b"'  # ctrl+x, c    => gca "|"
 bind '"\C-xcc": "gc "\"\C-b"'  # ctrl+x, cc   => gc "|"
 alias gd='git diff'
@@ -41,6 +42,8 @@ alias gb='git branch'
 alias gl='git log'
 alias gco='git checkout'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
+ours (){ gco --ours $1; ga $1; }
+theirs (){ gco --theirs $1; ga $1; }
 
 # -- capistrano commands for each stage
 for stage in $(echo "dev preview staging live"); do
@@ -56,6 +59,7 @@ done
 alias r='rake'
 alias gemdir='cd $GEM_HOME/gems'
 alias bi="bundle install"
+alias be="bundle exec"
 
 # Rails 3
 alias rs='./script/rails s -u'
