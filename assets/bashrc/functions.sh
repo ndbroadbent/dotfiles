@@ -4,7 +4,7 @@
 
 # XClip clipboard helper function
 # ------------------------------------------------
-function cb(){
+cb() {
   _success_col="\e[1;32m"
   _warn_col='\e[1;31m'
   if [ -n "$1" ]; then
@@ -30,7 +30,7 @@ function cb(){
 
 # Search and replace strings recursively in current dir
 # -----------------------------------------------------
-function gsed () {
+gsed() {
   if [ -n "$3" ]; then
     egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s~$1~$2~g"
   else
@@ -43,7 +43,7 @@ function gsed () {
 # for the filepaths of each modified file.
 # Written by Nathan D. Broadbent (www.madebynathan.com)
 # -----------------------------------------------------------
-function gst () {
+gst() {
   pfix="e" # Set your preferred shortcut letter here
 
   IFS=$'\n '
@@ -98,7 +98,7 @@ function gst () {
 # it, cd to your repository's root and then run the script with a list of paths
 # you want to delete, e.g., git-delete-history path1 path2
 
-function git-remove-history() {
+git-remove-history() {
   # Make sure we're at the root of a git repo
   if [ ! -d .git ]; then
       echo "Error: must run this script from the root of a git repository"
@@ -113,7 +113,7 @@ function git-remove-history() {
 
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
-function grooveshark_dl() {
+grooveshark_dl() {
   if [ -n "$1" ] && [ -n "$2" ]; then
     echo "== Downloading .."
     axel $1 -o "/tmp/$2.tmp"
@@ -128,7 +128,7 @@ function grooveshark_dl() {
 
 # Restart Atlassian Bamboo server
 # -----------------------------------------------------------
-function restart_bamboo() {
+restart_bamboo() {
   bamboo_server="root@integration.crossroadsint.org"
   echo "=== Restarting Bamboo server at: $bamboo_server ..."
   ssh root@integration.crossroadsint.org "/etc/init.d/bamboo restart"
@@ -137,5 +137,6 @@ function restart_bamboo() {
 
 
 # Look busy
-function look_busy() { cat /dev/urandom | hexdump -C | grep --color=auto "ca fe"; }
+random_hex() { for i in $(seq 1 2); do echo -n $(echo "obase=16; $(($RANDOM % 16))" | bc | tr '[A-Z]' '[a-z]'); done; }
+look_busy() { clear; while true; do head -n 500 /dev/urandom | hexdump -C | grep --color=auto "`random_hex` `random_hex`"; done; }
 
