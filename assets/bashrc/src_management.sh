@@ -159,23 +159,6 @@ function _src_git_batch_cmd() {
   fi
 }
 
-# Migrates git remotes to new url
-function _src_git_migrate_remotes() {
-  echo -e "== Updating repo url for $_bld_col$(_src_repo_count)$_txt_col repos..."
-  echo "   (from  svn.globalhand.org/git  to  code.crossroads.org.hk/git)"
-  for path in $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort); do
-    cd $src_dir/$path
-    int_url=$(ruby -e 'puts `git remote -v`[/(https:\/\/svn.globalhand.org[^ ]*)/, 1]')
-    # If git repo has svn.globalhand.org
-    if echo $int_url | grep -q svn.globalhand.org; then
-      new_remote=$(echo $int_url | sed s%svn.globalhand.org/git%code.crossroads.org.hk/git%g)
-      echo "Setting git remote (origin): $new_remote"
-      git remote set-url origin $new_remote
-    fi
-  done
-}
-
-
 # Tab completion function for src()
 function _src_tab_completion() {
   _src_check_cache
