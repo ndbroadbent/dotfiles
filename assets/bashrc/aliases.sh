@@ -29,7 +29,7 @@ alias gps='git push'
 alias gpsom='git pull origin master'
 alias gplom='git push origin master'
 alias gs='gst'
-alias ga='git add '
+alias ga='git add'
 alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
@@ -42,8 +42,8 @@ alias gb='git branch'
 alias gl='git log'
 alias gco='git checkout'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
-ours (){ gco --ours $1; ga $1; }
-theirs (){ gco --theirs $1; ga $1; }
+ours (){ git checkout --ours $1; git add $1; }
+theirs (){ git checkout --theirs $1; git add $1; }
 
 # -- capistrano commands for each stage
 for stage in $(echo "dev preview staging live"); do
