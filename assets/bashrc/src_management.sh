@@ -52,8 +52,6 @@ function src() {
       _src_git_update_all
     elif [ "$1" = "--batch-cmd" ]; then
       _src_git_batch_cmd $2
-    elif [ "$1" = "--migrate-remotes" ]; then
-      _src_git_migrate_remotes
     else
       _src_check_cache
       # Match full argument before trying a partial match.
@@ -94,7 +92,6 @@ function _src_rebuild_cache() {
   cat >>$src_dir/.git_index <<-EOF
 --rebuild-cache
 --update-all
---migrate-remotes
 --batch-cmd
 EOF
   echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
