@@ -34,8 +34,6 @@ alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gcam='git commit --amend'
-bind "\"\C- \": \"gca ''\C-b\""  # ctrl+[SPACE] => gca '|'
-bind "\"\C-xc\": \"gc ''\C-b\""  # ctrl+x, c    => gc '|'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gb='git branch'
@@ -45,6 +43,8 @@ alias gcp='git cherry-pick'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 ours (){ git checkout --ours $1; git add $1; }
 theirs (){ git checkout --theirs $1; git add $1; }
+bind "\"\C- \": \"gca ''\C-b\""  # ctrl+[SPACE] => gca '|'
+bind "\"\C-xc\": \"gc ''\C-b\""  # ctrl+x, c    => gc '|'
 
 # -- capistrano commands for each stage
 for stage in $(echo "dev preview staging live"); do
