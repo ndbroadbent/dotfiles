@@ -20,8 +20,10 @@ cp -R $this_dir/assets/gedit_plugins/* ~/.gnome2/gedit/plugins
 cp $this_dir/assets/ndb_rails.xml.geditcolors ~/.gnome2/gedit/styles/ndb_rails.xml
 
 echo "==== Loading gedit preferences and plugin settings..."
-echo "     (to update these preferences, run: gconftool-2 --dump /apps/gedit-2 > assets/gedit_conf.xml)"
-gconftool-2 --load assets/gedit_conf.xml
+echo "     (to update these preferences, run the following command:"
+echo "          gconftool-2 --dump /apps/gedit-2 | sed s/\$USER/@USER@/g > assets/gedit_conf.xml)"
+# (load config with substituted username)
+sed s/@USER@/$USER/g assets/gedit_conf.xml | gconftool-2 --load -
 # Set gedit root dir to $HOME/src
 gconftool-2 --set /apps/gedit-2/plugins/filebrowser/on_load/virtual_root -t string file:///$HOME/src
 
