@@ -26,8 +26,8 @@ parse_ruby_version() {
 }
 
 # Set the prompt string (PS1)
-# Looks like:
-#     ndbroadbent@ndb-laptop ~/src/ubuntu_config [master|1.8.7]$
+# Looks like this:
+#     user@computer ~/src/ubuntu_config [master|1.8.7]$
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {
