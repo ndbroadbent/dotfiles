@@ -43,7 +43,7 @@ gsed() {
 # for the filepaths of each modified file.
 # Written by Nathan D. Broadbent (www.madebynathan.com)
 # -----------------------------------------------------------
-gst() {
+gs() {
   pfix="e" # Set your preferred shortcut letter here
 
   IFS=$'\n '
