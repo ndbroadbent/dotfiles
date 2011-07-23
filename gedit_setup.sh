@@ -18,6 +18,8 @@ mkdir -p ~/.gnome2/gedit/styles
 sudo rm -f /usr/lib/gedit-2/plugins/FindInFiles*
 cp -R $this_dir/assets/gedit_plugins/* ~/.gnome2/gedit/plugins
 cp $this_dir/assets/ndb_rails.xml.geditcolors ~/.gnome2/gedit/styles/ndb_rails.xml
+# Installing configured key accelerators
+cp $this_dir/gedit_accels ~/.gnome2/accels/gedit
 
 echo "==== Loading gedit preferences and plugin settings..."
 echo "     (to update these preferences, run the following command:"
