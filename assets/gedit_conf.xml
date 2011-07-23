@@ -12,10 +12,16 @@
               <string>tabs_extend</string>
             </value>
             <value>
+              <string>editshortcut</string>
+            </value>
+            <value>
               <string>TextWrap</string>
             </value>
             <value>
               <string>pair_char_completion</string>
+            </value>
+            <value>
+              <string>FindInFiles</string>
             </value>
             <value>
               <string>snippets</string>
@@ -55,9 +61,6 @@
             </value>
             <value>
               <string>wordcompletion</string>
-            </value>
-            <value>
-              <string>FindInFiles</string>
             </value>
             <value>
               <string>taglist</string>
