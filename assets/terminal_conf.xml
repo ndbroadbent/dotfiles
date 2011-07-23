@@ -96,14 +96,14 @@
       <key>keybindings/move_tab_left</key>
       <schema_key>/schemas/apps/gnome-terminal/keybindings/move_tab_left</schema_key>
       <value>
-        <string>&lt;Control&gt;&lt;Alt&gt;Page_Down</string>
+        <string>&lt;Shift&gt;&lt;Control&gt;Page_Down</string>
       </value>
     </entry>
     <entry>
       <key>keybindings/move_tab_right</key>
       <schema_key>/schemas/apps/gnome-terminal/keybindings/move_tab_right</schema_key>
       <value>
-        <string>&lt;Control&gt;&lt;Alt&gt;Page_Up</string>
+        <string>&lt;Shift&gt;&lt;Control&gt;Page_Up</string>
       </value>
     </entry>
     <entry>
@@ -128,7 +128,7 @@
       <key>keybindings/next_tab</key>
       <schema_key>/schemas/apps/gnome-terminal/keybindings/next_tab</schema_key>
       <value>
-        <string>&lt;Alt&gt;Page_Up</string>
+        <string>&lt;Control&gt;&lt;Alt&gt;Page_Up</string>
       </value>
     </entry>
     <entry>
@@ -142,7 +142,7 @@
       <key>keybindings/prev_tab</key>
       <schema_key>/schemas/apps/gnome-terminal/keybindings/prev_tab</schema_key>
       <value>
-        <string>&lt;Alt&gt;Page_Down</string>
+        <string>&lt;Control&gt;&lt;Alt&gt;Page_Down</string>
       </value>
     </entry>
     <entry>
