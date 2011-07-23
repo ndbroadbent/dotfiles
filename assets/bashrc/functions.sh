@@ -114,7 +114,7 @@ git-remove-history() {
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
 grooveshark_dl() {
-  if [ -n "$1" ] && [ -n "$2" ]; then
+  if [ -n "$2" ]; then
     echo "== Downloading .."
     axel $1 -o "/tmp/$2.tmp"
     echo "== Converting .."
@@ -139,4 +139,18 @@ restart_bamboo() {
 # Look busy
 random_hex() { for i in $(seq 1 2); do echo -n $(echo "obase=16; $(($RANDOM % 16))" | bc | tr '[A-Z]' '[a-z]'); done; }
 look_busy() { clear; while true; do head -n 500 /dev/urandom | hexdump -C | grep --color=auto "`random_hex` `random_hex`"; done; }
+
+
+# Archive and backup all iPhone applications
+# ------------------------------------------
+idevicearchiveallapps() {
+  if [ -n "$1" ]; then
+    for app in $(ideviceinstaller -l | grep " - " | sed "s/ - .*//g"); do
+      echo "== Archiving and backing up: $app ..."
+      ideviceinstaller -a $app -o copy=$1 -o remove
+    done
+  else
+    echo "Usage: $0 <backup path>"
+  fi
+}
 
