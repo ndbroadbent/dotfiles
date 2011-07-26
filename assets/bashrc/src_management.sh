@@ -113,7 +113,7 @@ function _src_repo_count() {
 # If the working directory is clean, update the git repository. Otherwise, show changes.
 function _src_git_pull_or_status() {
   if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
-    gst
+    gs
   else
     # Check that a local 'origin' remote exists.
     if (git remote -v | grep -q origin); then
