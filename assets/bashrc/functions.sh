@@ -82,7 +82,7 @@ gs() {
       echo $line                        # Print the final transformed line.
     done
   else
-    # If there are too many changed files, this 'gst' function will slow down.
+    # If there are too many changed files, this 'gs' function will slow down.
     # In this case, fall back to plain 'git status'
     git status
   fi

@@ -90,5 +90,6 @@ echo -e "\n===== Ubuntu development machine has been set up!\n"
 echo -e "Further manual configuration may be needed:\n"
 echo "    Synergy - Copy your synergy conf to '/etc/synergy.conf' & add to startup:"
 echo "              synergys --config '/etc/synergy.conf'"
+echo "    Dropbox Symlinks - Run 'dropbox_links_setup.sh' after you have set up your Dropbox account."
 echo
 
