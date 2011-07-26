@@ -17,7 +17,7 @@ ln -fs /home/$USER/Dropbox/UbuntuSync/gtk-bookmarks /home/$USER/.gtk-bookmarks
 mkdir -p ~/.mozilla/firefox
 profile=$(grep "Path=" ~/.mozilla/firefox/profiles.ini | sed "s/Path=//g")
 if [ -n "$profile" ]; then
-  profile_path=~/.mozilla/firefox/$profile
+  profile_path=/home/$USER/.mozilla/firefox/$profile
   for file in /home/$USER/Dropbox/UbuntuSync/firefox_profile/*; do
     rm -rf $profile_path/$(basename $file)
     ln -fs $file $profile_path/$(basename $file)
