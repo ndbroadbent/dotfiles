@@ -7,7 +7,7 @@ if [ -z `which rvm` ]; then
   rvm use 1.9.2
 else
   echo "== Updating rvm..."
-  rvm update
+  rvm get latest
 fi
 
 # RVM after_use hook: updates a symlink to point to the current gemset
