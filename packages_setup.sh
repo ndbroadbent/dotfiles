@@ -15,9 +15,7 @@ imagemagick libmagickwand-dev libmagickcore-dev libxslt1-dev libxml2-dev
 mysql-server libmysql-ruby libmysqlclient-dev postgresql libpq-dev sqlite3 libsqlite3-dev"
 
 # Gnome (OS UI)
-pkg_gnome="libnotify-bin python-pyinotify python-webkit python-webkit-dev
-avant-window-navigator avant-window-navigator-data awn-settings
-awn-applets-c-core libawn1 vala-awn"
+pkg_gnome="libnotify-bin python-pyinotify python-webkit python-webkit-dev"
 
 # Addons / Tweaks
 pkg_addons="nautilus-image-converter nautilus-open-terminal nautilus-gksu"
