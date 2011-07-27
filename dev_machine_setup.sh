@@ -24,14 +24,14 @@ sudo true
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
   scripts="packages dropbox skype keepass2 netrc bashrc git_config ruby_dotfiles
-           gimp gedit vim gnome conky startup tomate auto_update apt-install rvm "
+           gimp gedit vim gnome conky startup tomate apt-install rvm "
   prompt_for_git
   prompt_for_netrc
 
 # '--update' flag updates everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
-  scripts="packages bashrc ruby_dotfiles gedit vim gnome conky startup tomate auto_update apt-install "
+  scripts="packages bashrc ruby_dotfiles gedit vim gnome conky startup tomate apt-install "
 
 # If no flag given, ask user which scripts they would like to run.
 else
@@ -53,7 +53,6 @@ else
   confirm_by_default "gnome themes and fonts"       'gnome'
   confirm_by_default "conky (system stats)"         'conky'
   confirm_by_default "FF, term & gedit on startup"  'startup'
-  confirm_by_default "update dev system on startup" 'auto_update'
   # Defines the point where script should install packages
   scripts+="apt-install "
   confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
