@@ -18,6 +18,10 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
+parse_git_dirty() {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
 # Returns the current ruby version.
 parse_ruby_version() {
   if (which ruby | grep -q ruby); then
@@ -34,10 +38,11 @@ set_ps1() {
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
   git_branch=`parse_git_branch`
+  git_dirty=`parse_git_dirty`
   ruby=`parse_ruby_version`
   # Git repo & ruby version
   if [ -n "$git_branch" ] && [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_env_col\]|$ruby]"
+    env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty\[$_env_col\]|$ruby]"
   # Just git repo
   elif [ -n "$git_branch" ]; then
     env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_env_col\]]"
