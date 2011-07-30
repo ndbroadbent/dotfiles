@@ -58,7 +58,7 @@ done
 # -- rvm / ruby / rails
 alias r='rake'
 alias gemdir='cd $GEM_HOME/gems'
-alias bi="bundle install"
+alias bi="if ! which bundle; then gem install bundler; fi; bundle install"
 alias be="bundle exec"
 
 # Rails 3
