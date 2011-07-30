@@ -58,8 +58,9 @@ done
 # -- rvm / ruby / rails
 alias r='rake'
 alias gemdir='cd $GEM_HOME/gems'
-alias bi="if ! test $(which bundle); then gem install bundler; fi; bundle install"
-alias be="bundle exec"
+ensure_bundler() { if ! test $(which bundle); then gem install bundler; fi; }
+alias bi="ensure_bundler; bundle install"
+alias be="ensure_bundler; bundle exec"
 
 # Rails 3
 alias rs='./script/rails s -u'
