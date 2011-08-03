@@ -12,7 +12,7 @@ pkg_dev="git-core git-gui gitk tig subversion gedit-plugins python"
 # Ruby Libraries
 pkg_ruby_libs="libyaml-ruby libzlib-ruby libruby
 imagemagick libmagickwand-dev libmagickcore-dev libxslt1-dev libxml2-dev
-mysql-server libmysql-ruby libmysqlclient-dev postgresql sqlite3 libsqlite3-dev"
+mysql-server libmysql-ruby libmysqlclient-dev postgresql libpq-dev sqlite3 libsqlite3-dev"
 
 # Gnome (OS UI)
 pkg_gnome="libnotify-bin python-pyinotify python-webkit python-webkit-dev"
