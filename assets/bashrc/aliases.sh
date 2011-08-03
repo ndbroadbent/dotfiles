@@ -70,9 +70,9 @@ rails_cmd(){
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
 }
-rs() { rails_cmd server -u $@; }
-rc() { rails_cmd console $@; }
-rg() { rails_cmd generate $@; }
+rs() { rails_cmd server -u "$@"; }
+rc() { rails_cmd console "$@"; }
+rg() { rails_cmd generate "$@"; }
 
 
 # Include configurable bash aliases, if file exists
