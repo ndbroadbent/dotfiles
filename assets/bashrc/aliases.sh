@@ -62,14 +62,17 @@ ensure_bundler() { if ! test $(which bundle); then gem install bundler; fi; }
 alias bi="ensure_bundler; bundle install"
 alias be="ensure_bundler; bundle exec"
 
-# Rails 3
-alias rs='./script/rails s -u'
-alias rc='./script/rails c'
-alias rg='./script/rails g'
-# Rails 2.x.x
-alias rs2='./script/server -u'
-alias rc2='./script/console'
-alias rg2='./script/generate'
+# Run a rails command for either 2.x or 3.x
+rails_cmd(){
+  char=`echo $1 | head -c 1`
+  if [ -e ./script/rails ]; then ./script/rails $char $(echo $@ | sed "s/$1 //g" )
+  elif [ -e ./script/$1 ]; then ./script/$@
+  else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
+  fi
+}
+rs() { rails_cmd server -u $@; }
+rc() { rails_cmd console $@; }
+rg() { rails_cmd generate $@; }
 
 
 # Include configurable bash aliases, if file exists
