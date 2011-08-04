@@ -65,7 +65,7 @@ alias be="ensure_bundler; bundle exec"
 # Run a rails command for either 2.x or 3.x
 rails_cmd(){
   char=`echo $1 | head -c 1`
-  if [ -e ./script/rails ]; then ./script/rails $char $(echo $@ | sed "s/$1 //g" )
+  if [ -e ./script/rails ]; then ./script/rails $char $(echo $@ | sed "s/$1//g" )
   elif [ -e ./script/$1 ]; then ./script/$@
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
