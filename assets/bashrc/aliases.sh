@@ -74,6 +74,8 @@ rs() { rails_cmd server -u "$@"; }
 rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
 
+# Automatically invoke bundler for rake, if necessary.
+rake() { if [ -e ./Gemfile.lock ]; then bundle exec rake "$@"; else /usr/bin/env rake "$@"; fi; }
 
 # Include configurable bash aliases, if file exists
 if [ -f ~/.bash_aliases ]; then
