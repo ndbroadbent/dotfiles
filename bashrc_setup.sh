@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "== Installing ~/.bashrc & ~/.inputrc..."
+echo "== Installing ~/.bashrc & other related dot files..."
 this_dir=$(pwd)
 
 # Assemble bashrc from parts
@@ -14,8 +14,9 @@ cat >> ~/.bashrc <<EOF
 alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh && cd -'
 EOF
 
-# Copy inputrc
-cp -f assets/inputrc.sh ~/.inputrc
+# Copy other related *rc files
+cp -f assets/inputrc ~/.inputrc
+cp -f assets/ackrc ~/.ackrc
 
 # If run from dev_machine_setup, we cannot update current shell.
 if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
