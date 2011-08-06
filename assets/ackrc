@@ -1,0 +1,6 @@
+# Use less to page
+results--pager=less -r
+# Add file types
+--type-set=haml=.haml
+--type-set=sass=.sass,.scss
+
