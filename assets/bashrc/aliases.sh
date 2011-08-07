@@ -44,6 +44,13 @@ ours (){ git checkout --ours $1; git add $1; }
 theirs (){ git checkout --theirs $1; git add $1; }
 bind "\"\C- \": \"gca ''\C-b\""  # ctrl+[SPACE] => gca '|'
 bind "\"\C-xc\": \"gc ''\C-b\""  # ctrl+x, c    => gc '|'
+# Attach git tab completion to aliases
+complete -o default -o nospace -F _git_pull gpl
+complete -o default -o nospace -F _git_push gps
+complete -o default -o nospace -F _git_branch gb
+complete -o default -o nospace -F _git_log gl
+complete -o default -o nospace -F _git_checkout gco
+
 
 # -- capistrano commands for each stage
 for stage in $(echo "dev preview staging live"); do
