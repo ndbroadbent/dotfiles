@@ -35,9 +35,12 @@ alias gca='git commit -am'
 alias gcam='git commit --amend'
 alias gd='git diff'
 alias gdc='git diff --cached'
-alias gb='git branch'
 alias gl='git log'
 alias gco='git checkout'
+alias gcl='git clone'
+alias gb='git branch'
+alias gm='git merge'
+alias grb='git rebase'
 alias gcp='git cherry-pick'
 alias gr='git remote'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
@@ -49,6 +52,8 @@ bind "\"\C-xc\": \"gc ''\C-b\""  # ctrl+x, c    => gc '|'
 complete -o default -o nospace -F _git_pull gpl
 complete -o default -o nospace -F _git_push gps
 complete -o default -o nospace -F _git_branch gb
+complete -o default -o nospace -F _git_rebase grb
+complete -o default -o nospace -F _git_merge gm
 complete -o default -o nospace -F _git_log gl
 complete -o default -o nospace -F _git_checkout gco
 complete -o default -o nospace -F _git_remote gr
