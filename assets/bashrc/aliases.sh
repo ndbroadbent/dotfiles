@@ -39,6 +39,7 @@ alias gb='git branch'
 alias gl='git log'
 alias gco='git checkout'
 alias gcp='git cherry-pick'
+alias gr='git remote'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 ours (){ git checkout --ours $1; git add $1; }
 theirs (){ git checkout --theirs $1; git add $1; }
@@ -50,6 +51,7 @@ complete -o default -o nospace -F _git_push gps
 complete -o default -o nospace -F _git_branch gb
 complete -o default -o nospace -F _git_log gl
 complete -o default -o nospace -F _git_checkout gco
+complete -o default -o nospace -F _git_remote gr
 
 
 # -- capistrano commands for each stage
