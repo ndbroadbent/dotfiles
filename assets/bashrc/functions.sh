@@ -111,6 +111,13 @@ git-remove-history() {
   rm -rf .git/refs/original/ && git reflog expire --all &&  git gc --aggressive --prune
 }
 
+# Strip whitespace from all ruby files in the current directory (and subdirectories)
+# ----------------------------------------------------------------------------------
+ruby-strip-whitespace() {
+  find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i 's/[[:space:]]*$//'
+}
+
+
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
 grooveshark_dl() {
