@@ -28,6 +28,7 @@ alias gpl='git pull'
 alias gps='git push'
 alias gpsom='git pull origin master'
 alias gplom='git push origin master'
+alias gf='git fetch'
 alias ga='git add'
 alias gaa='git add -A'
 alias gc='git commit -m'
@@ -51,6 +52,7 @@ bind "\"\C-xc\": \"gc ''\C-b\""  # ctrl+x, c    => gc '|'
 # Attach git tab completion to aliases
 complete -o default -o nospace -F _git_pull gpl
 complete -o default -o nospace -F _git_push gps
+complete -o default -o nospace -F _git_fetch gf
 complete -o default -o nospace -F _git_branch gb
 complete -o default -o nospace -F _git_rebase grb
 complete -o default -o nospace -F _git_merge gm
