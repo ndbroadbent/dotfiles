@@ -62,7 +62,7 @@ complete -o default -o nospace -F _git_remote gr
 
 
 # -- capistrano commands for each stage
-for stage in $(echo "dev preview staging live"); do
+for stage in dev preview staging live; do
   char=`echo $stage | head -c 1`
   alias c$char\d="cap  $stage deploy"
   alias c$char\dm="cap $stage deploy:migrations"
@@ -77,8 +77,16 @@ alias gemdir='cd $GEM_HOME/gems'
 ensure_bundler() { if ! test $(which bundle); then gem install bundler; fi; }
 alias bi="ensure_bundler; bundle install"
 alias be="ensure_bundler; bundle exec"
+# Automatically invoke bundler for rake, if necessary.
+rake() { if [ -e ./Gemfile.lock ]; then bundle exec rake "$@"; else /usr/bin/env rake "$@"; fi; }
 
-# Run a rails command for either 2.x or 3.x
+# RVM ruby versions
+alias 192='rvm use ruby-1.9.2'
+alias 187='rvm use ruby-1.8.7'
+alias 186='rvm use ruby-1.8.6'
+alias jr='rvm use jruby'
+
+# Use the same rails command for both 2.x and 3.x
 rails_cmd(){
   char=`echo $1 | head -c 1`
   if [ -e ./script/rails ]; then ./script/rails $char $(echo $@ | sed "s/$1//g" )
@@ -90,9 +98,8 @@ rs() { rails_cmd server -u "$@"; }
 rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
 
-# Automatically invoke bundler for rake, if necessary.
-rake() { if [ -e ./Gemfile.lock ]; then bundle exec rake "$@"; else /usr/bin/env rake "$@"; fi; }
 
+# -------------------------------------------------
 # Include configurable bash aliases, if file exists
 if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
