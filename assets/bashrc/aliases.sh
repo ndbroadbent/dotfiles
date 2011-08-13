@@ -34,6 +34,7 @@ alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gcam='git commit --amend'
+alias gsh='git show'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gl='git log'
@@ -47,8 +48,14 @@ alias gr='git remote'
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 ours (){ git checkout --ours $1; git add $1; }
 theirs (){ git checkout --theirs $1; git add $1; }
-bind "\"\C- \": \"gca ''\C-b\""  # ctrl+[SPACE] => gca '|'
-bind "\"\C-xc\": \"gc ''\C-b\""  # ctrl+x, c    => gc '|'
+
+# Ctrl~>[space] or Ctrl~>a~>[space] gives a git commit prompt,
+# where you don't have to worry about escaping anything.
+# See here for more info about why this is cool: http://qntm.org/bash#sec1
+bind "\"\C- \":  \"git_prompt 'git commit'\n\""
+bind "\"\C-a \": \"git_prompt 'git commit -a'\n\""
+git_prompt(){ read -e -p "Commit message for '$1':  " git_msg; echo $git_msg | $1 -F -; }
+
 # Attach git tab completion to aliases
 complete -o default -o nospace -F _git_pull gpl
 complete -o default -o nospace -F _git_push gps
@@ -59,6 +66,7 @@ complete -o default -o nospace -F _git_merge gm
 complete -o default -o nospace -F _git_log gl
 complete -o default -o nospace -F _git_checkout gco
 complete -o default -o nospace -F _git_remote gr
+complete -o default -o nospace -F _git_show gs
 
 
 # -- capistrano commands for each stage
