@@ -6,32 +6,32 @@
 # ------------------------------------------------
 color_index() {
   # Show an index of all available bash colors
-  echo -e "\n     Use with: \\\033[*;**(;**)m"
-  echo -e   "        Reset: \\\033[0m\n"
-  for STYLE in 0 blank 1 blank 4; do
-    echo -n "     "
-    if [ "$STYLE" != "blank" ]; then
-      for FG in $(seq 31 37); do
-          CTRL="\033[${STYLE};${FG};40m"
-          echo -en "${CTRL}"
-          echo -en "${STYLE};${FG}\033[0;30;40m "
-      done
-      # Display black fg on white bg
-      echo -en "\033[${STYLE};30;47m${STYLE};30\033[0m\n"
-    else
-      echo -e "\033[0;30;40m                                       \033[0m"
-    fi
+  echo -e "\n              Usage: \\\033[*;**(;**)m"
+  echo -e   "            Default: \\\033[0m\n"
+  # Top border
+  echo -e "     \033[0;30;40m                                         \033[0m"
+  for STYLE in 0 1 4; do
+    echo -en "     \033[0;30;40m "
+    # Display black fg on white bg
+    echo -en "\033[${STYLE};30;47m${STYLE};30\033[0;30;40m "
+    for FG in $(seq 31 37); do
+        CTRL="\033[${STYLE};${FG};40m"
+        echo -en "${CTRL}"
+        echo -en "${STYLE};${FG}\033[0;30;40m "
+    done
+    echo -e "\033[0m\n     \033[0;30;40m                                         \033[0m"
   done
-  echo -e "\033[0;30;40m                                            \033[0m"
-  echo -n "     "
+  echo -en "     \033[0;30;40m "
   # Background colors
+  echo -en "\033[0;37;40m*;40\033[0;30;40m \033[0m" # Display white fg on black bg
   for BG in $(seq 41 47); do
       CTRL="\033[0;30;${BG}m"
       echo -en "${CTRL}"
       echo -en "*;${BG}\033[0;30;40m "
   done
-  # Display white fg on black bg
-  echo -en "\033[0;37;40m*;40\033[0m\n\n"
+  echo -e "\033[0m"
+  # Bottom border
+  echo -e "     \033[0;30;40m                                         \033[0m\n"
 }
 
 # XClip clipboard helper function
