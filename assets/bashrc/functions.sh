@@ -8,22 +8,27 @@ color_index() {
   # Show an index of all available bash colors
   echo -e "\n     Use with: \\\033[*;**(;**)m"
   echo -e   "        Reset: \\\033[0m\n"
-  for STYLE in 0 1 4; do
+  for STYLE in 0 blank 1 blank 4; do
     echo -n "     "
-    for FG in $(seq 31 37); do
-        CTRL="\033[${STYLE};${FG}m"
-        echo -en "${CTRL}"
-        echo -en "${STYLE};${FG}\033[0m "
-    done
-    # Display black fg on white bg
-    echo -en "\033[${STYLE};30;47m${STYLE};30\033[0m\n\n"
+    if [ "$STYLE" != "blank" ]; then
+      for FG in $(seq 31 37); do
+          CTRL="\033[${STYLE};${FG};40m"
+          echo -en "${CTRL}"
+          echo -en "${STYLE};${FG}\033[0;30;40m "
+      done
+      # Display black fg on white bg
+      echo -en "\033[${STYLE};30;47m${STYLE};30\033[0m\n"
+    else
+      echo -e "\033[0;30;40m                                       \033[0m"
+    fi
   done
+  echo -e "\033[0;30;40m                                            \033[0m"
   echo -n "     "
   # Background colors
   for BG in $(seq 41 47); do
       CTRL="\033[0;30;${BG}m"
       echo -en "${CTRL}"
-      echo -en "*;${BG}\033[0m "
+      echo -en "*;${BG}\033[0;30;40m "
   done
   # Display white fg on black bg
   echo -en "\033[0;37;40m*;40\033[0m\n\n"
