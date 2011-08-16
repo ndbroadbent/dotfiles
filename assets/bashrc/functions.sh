@@ -6,7 +6,8 @@
 # ------------------------------------------------
 color_index() {
   # Show an index of all available bash colors
-  echo -e "\n     Use with: \"\\\033[*;**(;**)m\"\n"
+  echo -e "\n     Use with: \\\033[*;**(;**)m"
+  echo -e   "        Reset: \\\033[0m\n"
   for STYLE in 0 1 4; do
     echo -n "     "
     for FG in $(seq 31 37); do
