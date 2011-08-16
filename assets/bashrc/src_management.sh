@@ -138,6 +138,7 @@ function _src_git_pull_or_status() {
 function _src_git_update_all() {
   echo -e "== Updating code in $_bld_col$(_src_repo_count)$_txt_col repos...\n"
   for path in $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort); do
+    echo -e "===== Updating code in \033[1;32m$src_dir/$path\033[0m...\n"
     cd $src_dir/$path
     _src_git_pull_or_status
   done
