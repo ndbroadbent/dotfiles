@@ -10,7 +10,7 @@ color_index() {
   echo -e   "            Default: \\\033[0m\n"
   # Top border
   echo -e "     \033[0;30;40m                                         \033[0m"
-  for STYLE in 0 1 4; do
+  for STYLE in 2 0 1 4 9; do
     echo -en "     \033[0;30;40m "
     # Display black fg on white bg
     echo -en "\033[${STYLE};30;47m${STYLE};30\033[0;30;40m "
@@ -73,31 +73,25 @@ gsed() {
 
 # Processes your git status output, exporting bash variables
 # for the filepaths of each modified file.
+# To ensure colored output, please run: $ git config --global color.status always
 # Written by Nathan D. Broadbent (www.madebynathan.com)
 # -----------------------------------------------------------
 gs() {
   pfix="e" # Set your preferred shortcut letter here
-
-  IFS=$'\n '
-  f=0             # Counter for the number of files
-  max_changes=15  # Max changes before reverting to standard 'git status' (can be very slow otherwise)
+  max_changes=20  # Max changes before reverting to standard 'git status' (can be very slow otherwise)
+  IFS=$'\n'
 
   # Only export variables for less than $max_changes
-  if [ `git status --porcelain | wc -l` -lt $max_changes ]; then
-    status=`git status --porcelain`   # Get the 'script' version of git status
-    c=1
-    for file in $status; do
-      # All actions will be on odd lines, all filenames are on even lines.
-      let mod=$c%2
-      if [ $mod = "0" ]; then
-        let f++
-        files[$f]=$file        # Array for formatting the output
-        export $pfix$f=$file   # Exporting variable for use.
-      fi
-      let c++
+  status=`git status --porcelain`
+  if [ `echo "$status" | wc -l` -lt $max_changes ]; then
+    f=0  # Counter for the number of files
+    for line in $status; do
+      file=$(echo $line | sed "s/^...//g")
+      let f++
+      files[$f]=$file         # Array for formatting the output
+      export $pfix$f=$file   # Exporting variable for use.
     done
 
-    IFS=$'\n'              # Now split only by newline for full git status.
     status=`git status`    # Fetch full status
 
     # Search and replace each line, showing the exported variable name next to files.
@@ -105,13 +99,14 @@ gs() {
       i=1
       while [ $i -le $f ]; do
         search=${files[$i]}
-        replace="[\$$pfix$i] ${files[$i]}"
+        replace="\033[2;37m[\033[1m\$$pfix$i\033[2;37m]\033[0m $search "
+        #echo $replace
         # (fixes a case when a file contains another file as a substring)
-        line=${line/$search /$replace }   # Substitution for files with a space suffix.
+        line=${line/$search/$replace }   # Substitution for files with a space suffix.
         line=${line/%$search/$replace}    # Substitution for files with a newline suffix.
         let i++
       done
-      echo $line                        # Print the final transformed line.
+      echo -e $line                        # Print the final transformed line.
     done
   else
     # If there are too many changed files, this 'gs' function will slow down.
