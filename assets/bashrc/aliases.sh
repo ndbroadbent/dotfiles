@@ -34,6 +34,7 @@ alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gcam='git commit --amend'
+alias gcamh='git commit --amend -C HEAD'  # Amend commit without changing message
 alias gsh='git show'
 alias gd='git diff'
 alias gdc='git diff --cached'
