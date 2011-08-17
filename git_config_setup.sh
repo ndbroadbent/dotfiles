@@ -16,7 +16,7 @@ cat > ~/.gitconfig <<EOF
 [color]
   branch = auto
   diff = auto
-  status = auto
+  status = always
 
 [color "branch"]
   current = yellow reverse
