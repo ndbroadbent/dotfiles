@@ -146,7 +146,7 @@ function _src_git_pull_or_status() {
   fi
 }
 
-# Updates all git repositories where possible
+# Updates all git repositories with clean working directories.
 function _src_git_update_all() {
   echo -e "== Updating code in $_bld_col$(_src_repo_count)$_txt_col repos...\n"
   for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
