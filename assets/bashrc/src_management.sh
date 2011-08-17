@@ -61,11 +61,11 @@ function src() {
     else
       _src_check_cache
       # Match full argument before trying a partial match.
-      path=`grep -m1 "$1$" $src_dir/.git_index`
-      if [ -z "$path" ]; then path=`grep -m1 "$1" $src_dir/.git_index`; fi
+      path=$(grep -m1 "$1$" "$src_dir/.git_index")
+      if [ -z "$path" ]; then path=$(grep -m1 "$1" "$src_dir/.git_index"); fi
       if [ -n "$path" ]; then
         # Change to project directory. This will automatically execute any .rvmrc
-        cd $src_dir/$path
+        cd "$path"
         # Run git commands (either update or show changes)
         _src_git_pull_or_status
       else
@@ -80,7 +80,7 @@ function src() {
 # Rescursively searches for git repos in $src_dir
 function _src_find_git_repos() {
   # Find all unarchived projects
-  for repo in $(find $src_dir -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
+  for repo in $(find "$src_dir" -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
     echo ${repo%/.git}              # Return project folder
     _src_find_git_submodules $repo   # Detect any submodules
   done
@@ -89,7 +89,7 @@ function _src_find_git_repos() {
 # List all submodules for a git repo, if any.
 function _src_find_git_submodules() {
   if [ -e "$1/../.gitmodules" ]; then
-    grep "\[submodule" "$1/../.gitmodules" | sed "s/\[submodule \"//g" | sed "s/\"]//g"
+    grep "\[submodule" "$1/../.gitmodules" | sed "s%\[submodule \"%${1%/.git}/%g" | sed "s/\"]//g"
   fi
 }
 
@@ -97,9 +97,9 @@ function _src_find_git_submodules() {
 # Rebuilds cache of git repos in $src_dir.
 function _src_rebuild_cache() {
   if [ "$1" != "--silent" ]; then echo -e "== Scanning $src_dir for git repos..."; fi
-  _src_find_git_repos > $src_dir/.git_index
+  _src_find_git_repos > "$src_dir/.git_index"
   # Append extra commands
-  cat >>$src_dir/.git_index <<-EOF
+  cat >> "$src_dir/.git_index" <<-EOF
 --list
 --rebuild-cache
 --update-all
@@ -112,7 +112,7 @@ EOF
 
 # Build cache if cache file doesn't exist, or is older than 6 hours.
 function _src_check_cache() {
-  if [ ! -f $src_dir/.git_index ] || test `find "$src_dir/.git_index" -mmin +360`; then
+  if [ ! -f "$src_dir/.git_index" ] || test `find "$src_dir/.git_index" -mmin +360`; then
     _src_rebuild_cache --silent
   fi
 }
@@ -150,8 +150,8 @@ function _src_git_pull_or_status() {
 function _src_git_update_all() {
   echo -e "== Updating code in $_bld_col$(_src_repo_count)$_txt_col repos...\n"
   for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
-    echo -e "===== Updating code in \033[1;32m$src_dir/$path\033[0m...\n"
-    cd $src_dir/$path
+    echo -e "===== Updating code in \033[1;32m$path\033[0m...\n"
+    cd "$path"
     _src_git_pull_or_status
   done
 }
@@ -161,7 +161,7 @@ function _src_git_batch_cmd() {
   if [ -n "$1" ]; then
     echo -e "== Running command for $_bld_col$(_src_repo_count)$_txt_col repos...\n"
     for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
-      cd $src_dir/$path
+      cd "$path"
       $1
     done
   else
@@ -176,7 +176,7 @@ function _src_tab_completion() {
   COMPREPLY=()
   curw=${COMP_WORDS[COMP_CWORD]}
   # Tab completes all the lowest-level directories in .git_index
-  COMPREPLY=($(compgen -W '$(cat $src_dir/.git_index | sed -e "s/.*\///" | sort)' -- $curw))
+  COMPREPLY=($(compgen -W '$(sed -e "s/.*\///" "$src_dir/.git_index" | sort)' -- $curw))
   return 0
 }
 
