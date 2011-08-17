@@ -56,8 +56,8 @@ function src() {
     elif [ "$1" = "--batch-cmd" ]; then
       _src_git_batch_cmd $2
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
-      echo -e "Git repositories in $_bld_col$src_dir$_txt_col:\n"
-      cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort
+      echo -e "($_bld_col$(_src_repo_count)$_txt_col) Git repositories in $_bld_col$src_dir$_txt_col:\n"
+      sed -e "s/--.*//" $src_dir/.git_index | grep . | sort
     else
       _src_check_cache
       # Match full argument before trying a partial match.
@@ -81,7 +81,7 @@ function src() {
 function _src_find_git_repos() {
   # Find all unarchived projects
   for repo in $(find $src_dir -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
-    basename ${repo%/.git}          # Return basename of the git project
+    echo ${repo%/.git}              # Return project folder
     _src_find_git_submodules $repo   # Detect any submodules
   done
 }
@@ -89,7 +89,7 @@ function _src_find_git_repos() {
 # List all submodules for a git repo, if any.
 function _src_find_git_submodules() {
   if [ -e "$1/../.gitmodules" ]; then
-    cat "$1/../.gitmodules" | grep "\[submodule" | sed "s/\[submodule \"//g" | sed "s/\"]//g"
+    grep "\[submodule" "$1/../.gitmodules" | sed "s/\[submodule \"//g" | sed "s/\"]//g"
   fi
 }
 
@@ -119,7 +119,7 @@ function _src_check_cache() {
 
 # Produces a count of repos in the tab completion cache (excluding commands)
 function _src_repo_count() {
-  echo $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | wc -l)
+  echo $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | wc -l)
 }
 
 # If the working directory is clean, update the git repository. Otherwise, show changes.
@@ -149,7 +149,7 @@ function _src_git_pull_or_status() {
 # Updates all git repositories where possible
 function _src_git_update_all() {
   echo -e "== Updating code in $_bld_col$(_src_repo_count)$_txt_col repos...\n"
-  for path in $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort); do
+  for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
     echo -e "===== Updating code in \033[1;32m$src_dir/$path\033[0m...\n"
     cd $src_dir/$path
     _src_git_pull_or_status
@@ -160,12 +160,12 @@ function _src_git_update_all() {
 function _src_git_batch_cmd() {
   if [ -n "$1" ]; then
     echo -e "== Running command for $_bld_col$(_src_repo_count)$_txt_col repos...\n"
-    for path in $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort); do
+    for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
       cd $src_dir/$path
       $1
     done
   else
-    echo "Please give a command to run for all repos. (It may be useful to write your command as a function.)"
+    echo "Please give a command to run for all repos. (It may be useful to write your command as a function or script.)"
   fi
 }
 
