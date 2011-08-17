@@ -7,9 +7,9 @@
 color_index() {
   # Show an index of all available bash colors
   echo -e "\n              Usage: \\\033[*;**(;**)m"
-  echo -e   "            Default: \\\033[0m\n"
-  # Top border
-  echo -e "     \033[0;30;40m                                         \033[0m"
+  echo -e   "            Default: \\\033[0m"
+  local blank_line="\033[0m\n     \033[0;30;40m$(printf "%41s")\033[0m"
+  echo -e "$blank_line" # Top border
   for STYLE in 2 0 1 4 9; do
     echo -en "     \033[0;30;40m "
     # Display black fg on white bg
@@ -19,7 +19,7 @@ color_index() {
         echo -en "${CTRL}"
         echo -en "${STYLE};${FG}\033[0;30;40m "
     done
-    echo -e "\033[0m\n     \033[0;30;40m                                         \033[0m"
+    echo -e "$blank_line" # Separators
   done
   echo -en "     \033[0;30;40m "
   # Background colors
@@ -29,9 +29,7 @@ color_index() {
       echo -en "${CTRL}"
       echo -en "*;${BG}\033[0;30;40m "
   done
-  echo -e "\033[0m"
-  # Bottom border
-  echo -e "     \033[0;30;40m                                         \033[0m\n"
+  echo -e "$blank_line" "\n" # Bottom border
 }
 
 # XClip clipboard helper function
