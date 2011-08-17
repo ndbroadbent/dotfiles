@@ -99,7 +99,7 @@ gs() {
       i=1
       while [ $i -le $f ]; do
         search=${files[$i]}
-        replace="\033[2;37m[\033[1m\$$pfix$i\033[2;37m]\033[0m $search "
+        replace="\033[2;37m[\033[0m\$$pfix$i\033[2;37m]\033[0m $search "
         #echo $replace
         # (fixes a case when a file contains another file as a substring)
         line=${line/$search/$replace }   # Substitution for files with a space suffix.
