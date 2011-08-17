@@ -1,6 +1,6 @@
 # -------------------------------------------------------
 # Source Management Scripts (for Git / RVM projects)
-# Written by Nathan D. Broadbent (www.madebynathan.com)
+# Written by Nathan Broadbent (www.madebynathan.com)
 # -------------------------------------------------------
 src_dir=`echo ~/src`
 
@@ -15,7 +15,7 @@ src_dir=`echo ~/src`
 #
 # Examples:
 #
-#     $ src
+#     $ src --list or src -l
 #     # => Lists all git projects in $src_dir
 #
 #     $ src ub[TAB]
@@ -26,6 +26,9 @@ src_dir=`echo ~/src`
 #
 #     $ src buntu_conf
 #     # => Works exactly the same as `src ubuntu_config`
+#
+#     $ src
+#     # => cd $src_dir
 #
 #
 # * The `design` function manages the 'Design' directory tree for the current project,
@@ -52,15 +55,16 @@ function src() {
       _src_git_update_all
     elif [ "$1" = "--batch-cmd" ]; then
       _src_git_batch_cmd $2
+    elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
+      echo -e "Git repositories in $_bld_col$src_dir$_txt_col:\n"
+      cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort
     else
       _src_check_cache
       # Match full argument before trying a partial match.
       path=`grep -m1 "$1$" $src_dir/.git_index`
-      if [ -z "$path" ]; then
-        path=`grep -m1 "$1" $src_dir/.git_index`
-      fi
+      if [ -z "$path" ]; then path=`grep -m1 "$1" $src_dir/.git_index`; fi
       if [ -n "$path" ]; then
-        # Change to project directory. This will automatically execute the .rvmrc
+        # Change to project directory. This will automatically execute any .rvmrc
         cd $src_dir/$path
         # Run git commands (either update or show changes)
         _src_git_pull_or_status
@@ -69,38 +73,47 @@ function src() {
       fi
     fi
   else
-    echo -e "Git repositories in $_bld_col$src_dir$_txt_col:\n"
-    cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | sort
+    cd $src_dir
   fi
 }
 
 # Rescursively searches for git repos in $src_dir
 function _src_find_git_repos() {
-  for repo in $(find $src_dir -mindepth 2 -type d -name .git); do
-    # grep -v is an inverse match (i.e. ignore all projects in 'archive/')
-    if echo $repo | grep -qv "archive/"; then
-      expr match "$repo" "$src_dir\/\(.*\)/.git"
-    fi
+  # Find all unarchived projects
+  for repo in $(find $src_dir -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
+    basename ${repo%/.git}          # Return basename of the git project
+    _src_find_git_submodules $repo   # Detect any submodules
   done
 }
 
+# List all submodules for a git repo, if any.
+function _src_find_git_submodules() {
+  if [ -e "$1/../.gitmodules" ]; then
+    cat "$1/../.gitmodules" | grep "\[submodule" | sed "s/\[submodule \"//g" | sed "s/\"]//g"
+  fi
+}
+
+
 # Rebuilds cache of git repos in $src_dir.
 function _src_rebuild_cache() {
-  echo -e "== Scanning $src_dir for git repos..."
+  if [ "$1" != "--silent" ]; then echo -e "== Scanning $src_dir for git repos..."; fi
   _src_find_git_repos > $src_dir/.git_index
   # Append extra commands
   cat >>$src_dir/.git_index <<-EOF
+--list
 --rebuild-cache
 --update-all
 --batch-cmd
 EOF
-  echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
+  if [ "$1" != "--silent" ]; then
+    echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
+  fi
 }
 
-# Build cache if cache file doesn't exist.
+# Build cache if cache file doesn't exist, or is older than 6 hours.
 function _src_check_cache() {
-  if [ ! -f $src_dir/.git_index ]; then
-    _src_rebuild_cache
+  if [ ! -f $src_dir/.git_index ] || test `find "$src_dir/.git_index" -mmin +360`; then
+    _src_rebuild_cache --silent
   fi
 }
 
@@ -108,7 +121,6 @@ function _src_check_cache() {
 function _src_repo_count() {
   echo $(cat $src_dir/.git_index | sed -e "s/--.*//" | grep . | wc -l)
 }
-
 
 # If the working directory is clean, update the git repository. Otherwise, show changes.
 function _src_git_pull_or_status() {
