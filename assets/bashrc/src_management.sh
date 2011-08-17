@@ -2,30 +2,38 @@
 # Source Management Scripts (for Git / RVM projects)
 # Written by Nathan Broadbent (www.madebynathan.com)
 # -------------------------------------------------------
-src_dir=`echo ~/src`
 
 # * The `src` function makes it easy to list / switch between
 #   git projects in $src_dir (default = ~/src)
-# * Provides tab completion for all git repos,
-#   including nested directories and submodules.
-# * Git repo index is cached in $src_dir/.git_index
-#   Cache can be rebuilt by running $ src --rebuild-cache
-#   ('--' commands have autocompletion too!)
-# * Ignores any projects within an 'archive' folder.
+#
+#   * Provides tab completion for all git repos,
+#     including nested directories and submodules.
+#
+#   * If you have a lot of projects, an index can be cached at $src_dir/.git_index
+#     Cache can be rebuilt by running $ src --rebuild-cache
+#     ('--' commands have autocompletion too.)
+#
+#   * Ignores any projects within an 'archive' folder.
+#
+#   * Lets you run batch commands across all your repositories:
+#
+#     - Update every repo from their remote: 'src --update-all'
+#     - Produce a count of repos for each host: 'src --count-by-host'
+#     - Run a command for each repo: 'src --batch-cmd <command>'
 #
 # Examples:
 #
-#     $ src --list or src -l
-#     # => Lists all git projects in $src_dir
+#     $ src --list (or src -l)
+#     # => Lists all git projects
 #
 #     $ src ub[TAB]
-#     # => Lists all git repos that begin with 'ub'
+#     # => Provides tab completion for all project folders that begin with 'ub'
 #
 #     $ src ubuntu_config
-#     # => Changes directory to ubuntu_config, updates code from git remote.
+#     # => Changes directory to ubuntu_config, and auto-updates code from git remote.
 #
 #     $ src buntu_conf
-#     # => Works exactly the same as `src ubuntu_config`
+#     # => Same result as `src ubuntu_config`
 #
 #     $ src
 #     # => cd $src_dir
@@ -33,19 +41,25 @@ src_dir=`echo ~/src`
 #
 # * The `design` function manages the 'Design' directory tree for the current project,
 #   including folders such as Backgrounds, Logos, Icons, and Samples. The actual directories are
-#   created in ~/Design, symlinked into the project, and ignored from source control.
+#   created in $design_dir, symlinked into the project, and ignored from source control.
 #   This is because we usually don't want to check in large bitmaps or wav files into our code repository,
-#   and it also gives us the option to sync ~/Design via Dropbox.
+#   and it also gives us the option to sync $design_dir via Dropbox.
 #
 # Examples:
 #
-#    $ design init        # Creates default directory structure at ~/Design/**/ubuntu_config and symlinks into project.
+#    $ design init        # Creates default directory structure at $design_dir/**/ubuntu_config and symlinks into project.
 #                           (Backgrounds Logos Icons Mockups Screenshots)
 #    $ design init --av   # Adds extra directories for audio/video assets
 #                           (Backgrounds Logos Icons Mockups Screenshots Music AudioSamples Animations VideoClips)
 #    $ design rm          # Removes any design directories for ubuntu_config
 #    $ design trim        # Trims empty design directories for ubuntu_config
 #
+
+# Config
+# --------------------------
+src_dir=`echo ~/src`
+design_dir=`echo $design_dir`
+cache_repositories=true
 
 function src() {
   if [ -n "$1" ]; then
@@ -54,10 +68,17 @@ function src() {
     elif [ "$1" = "--update-all" ]; then
       _src_git_update_all
     elif [ "$1" = "--batch-cmd" ]; then
-      _src_git_batch_cmd $2
+      _src_git_batch_cmd "${@:2:$(($#-1))}" # Pass all args except $1
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
       echo -e "($_bld_col$(_src_repo_count)$_txt_col) Git repositories in $_bld_col$src_dir$_txt_col:\n"
       sed -e "s/--.*//" $src_dir/.git_index | grep . | sort
+    elif [ "$1" = "--count-by-host" ]; then
+      echo -e "=== Producing a report of the number of repos per host...\n"
+      _src_git_batch_cmd git remote -v | grep "origin.*(fetch)" |
+      sed -e "s/origin\s*//" -e "s/(fetch)//" |
+      sed -e "s/\(\([^/]*\/\/\)\?\([^@]*@\)\?\([^:/]*\)\).*/\1/" |
+      sort | uniq -c
+      echo
     else
       _src_check_cache
       # Match full argument before trying a partial match.
@@ -104,6 +125,7 @@ function _src_rebuild_cache() {
 --rebuild-cache
 --update-all
 --batch-cmd
+--count-by-host
 EOF
   if [ "$1" != "--silent" ]; then
     echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
@@ -162,7 +184,7 @@ function _src_git_batch_cmd() {
     echo -e "== Running command for $_bld_col$(_src_repo_count)$_txt_col repos...\n"
     for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
       cd "$path"
-      $1
+      $@
     done
   else
     echo "Please give a command to run for all repos. (It may be useful to write your command as a function or script.)"
@@ -189,14 +211,15 @@ function design {
   base_dirs="Backgrounds Logos Icons Mockups Screenshots"
   av_dirs="Music AudioSamples Animations VideoClips"
   if [ -z "$1" ]; then
-    echo "design: Manage design directories for project assets that are external to source control."
-    echo "  Examples:"
-    echo "    $ design init        # Creates default directory structure at ~/Design/**/$project and symlinks into project."
+    echo -e "design: Manage design directories for project assets that are external to source control.\n"
+    echo -e "  Examples:\n"
+    echo "    $ design init        # Creates default directory structure at $design_dir/**/$project and symlinks into project."
     echo "                           ($base_dirs)"
     echo "    $ design init --av   # Adds extra directories for audio/video assets"
     echo "                           ($base_dirs $av_dirs)"
     echo "    $ design rm          # Removes any design directories for $project"
     echo "    $ design trim        # Trims empty design directories for $project"
+    echo
   else
     if [ "$1" = "init" ]; then
       if [ "$2" = "--av" ]; then base_dirs+=" $av_dirs"; fi
@@ -204,8 +227,8 @@ function design {
       mkdir -p Design
       # Create and symlink each directory
       for dir in $base_dirs; do
-        mkdir -p ~/Design/$dir/$project
-        if [ ! -e Design/$dir ]; then ln -sf ~/Design/$dir/$project Design/$dir; fi
+        mkdir -p "$design_dir/$dir/$project"
+        if [ ! -e Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
       done
       # Add rule to .gitignore if not already present
       if ! $(touch .gitignore && cat .gitignore | grep -q "Design"); then
@@ -215,15 +238,15 @@ function design {
       echo "Removing all design directories for $project..."
       base_dirs+=" $av_dirs"
       for dir in $base_dirs; do
-        rm -rf ~/Design/$dir/$project
+        rm -rf "$design_dir/$dir/$project"
       done
       rm -rf Design
     elif [ "$1" = "trim" ]; then
       echo "Trimming empty design directories for $project..."
       base_dirs+=" $av_dirs"
       for dir in $base_dirs; do
-        if ! [ -e ~/Design/$dir/$project/* ]; then
-          rm -rf ~/Design/$dir/$project
+        if ! [ -e "$design_dir/$dir/$project/*" ]; then
+          rm -rf "$design_dir/$dir/$project"
           rm -f Design/$dir
         fi
       done
