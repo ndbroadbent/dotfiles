@@ -97,9 +97,7 @@ function src() {
       if [ -n "$path" ]; then
         cd "$path"
         # Run git callback (either update or show changes), if we are in the root directory
-        if [ -z "$sub_path" ]; then
-          _src_git_pull_or_status
-        fi
+        if [ -z "$sub_path" ]; then _src_git_pull_or_status; fi
       else
         echo -e "$_wrn_col'$1' did not match any git repos in $src_dir$_txt_col"
       fi
