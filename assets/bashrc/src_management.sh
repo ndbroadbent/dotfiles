@@ -132,9 +132,9 @@ EOF
   fi
 }
 
-# Build cache if cache file doesn't exist, or is older than 6 hours.
+# Build cache if empty
 function _src_check_cache() {
-  if [ ! -f "$src_dir/.git_index" ] || test `find "$src_dir/.git_index" -mmin +360`; then
+  if [ ! -f "$src_dir/.git_index" ]; then #|| test `find "$src_dir/.git_index" -mmin +360`; then
     _src_rebuild_cache --silent
   fi
 }
