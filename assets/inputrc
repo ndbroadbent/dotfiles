@@ -1,5 +1,6 @@
 # /etc/inputrc - global inputrc for libreadline
 # See readline(3readline) and `info rluserman' for more information.
+$include /etc/inputrc
 
 # Be 8 bit clean.
 set input-meta on
