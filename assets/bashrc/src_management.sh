@@ -82,14 +82,24 @@ function src() {
       echo
     else
       _src_check_cache
-      # Match full argument before trying a partial match.
-      path=$(grep -m1 "$1$" "$src_dir/.git_index")
-      if [ -z "$path" ]; then path=$(grep -m1 "$1" "$src_dir/.git_index"); fi
+      # Figure out which directory we need to change to.
+      local project=$(echo $1 | cut -d "/" -f1)
+      # Find base path of project
+      local path=$(grep "/$project$" "$src_dir/.git_index")
       if [ -n "$path" ]; then
-        # Change to project directory. This will automatically execute any .rvmrc
+        sub_path=$(echo $1 | sed "s:^$project::")
+        # Append subdirectories to base path
+        path="$path$sub_path"
+      fi
+      # Fall back to a partial match
+      if [ -z "$path" ]; then path=$(grep -m1 "$project" "$src_dir/.git_index"); fi
+      # Go to our path
+      if [ -n "$path" ]; then
         cd "$path"
-        # Run git commands (either update or show changes)
-        _src_git_pull_or_status
+        # Run git callback (either update or show changes), if we are in the root directory
+        if [ -z "$sub_path" ]; then
+          _src_git_pull_or_status
+        fi
       else
         echo -e "$_wrn_col'$1' did not match any git repos in $src_dir$_txt_col"
       fi
@@ -203,12 +213,22 @@ function _src_tab_completion() {
   local curw
   COMPREPLY=()
   curw=${COMP_WORDS[COMP_CWORD]}
-  # Tab completes all the lowest-level directories in .git_index
-  COMPREPLY=($(compgen -W '$(sed -e "s/.*\///" "$src_dir/.git_index" | sort)' -- $curw))
+
+  # If the first part of $curw matches a high-level directory,
+  # then match on sub-directories for that project
+  local project=$(echo $curw | cut -d "/" -f1)
+  local path=$(grep "/$project$" "$src_dir/.git_index")
+  if [ -n "$path" ]; then
+    search_path=$(echo $curw | sed "s:^$project::")
+    COMPREPLY=($(compgen -d "$path$search_path" | sed -e "s:$path:$project:" -e "s:$:/:"))
+  else
+    # Tab completes all the entries in .git_index
+    COMPREPLY=($(compgen -W '$(sed -e "s/.*\///" "$src_dir/.git_index" | sort)' -- $curw))
+  fi
   return 0
 }
 
-complete -F _src_tab_completion -o dirnames src
+complete -o nospace -o filenames -F _src_tab_completion src
 
 
 # Manage 'Design' directories for project.
