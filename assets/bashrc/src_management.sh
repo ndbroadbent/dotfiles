@@ -128,14 +128,6 @@ function _src_find_git_submodules() {
 function _src_rebuild_cache() {
   if [ "$1" != "--silent" ]; then echo -e "== Scanning $src_dir for git repos..."; fi
   _src_find_git_repos > "$src_dir/.git_index"
-  # Append extra commands
-  cat >> "$src_dir/.git_index" <<-EOF
---list
---rebuild-cache
---update-all
---batch-cmd
---count-by-host
-EOF
   if [ "$1" != "--silent" ]; then
     echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
   fi
@@ -143,7 +135,7 @@ EOF
 
 # Build cache if empty
 function _src_check_cache() {
-  if [ ! -f "$src_dir/.git_index" ]; then #|| test `find "$src_dir/.git_index" -mmin +360`; then
+  if [ ! -f "$src_dir/.git_index" ]; then
     _src_rebuild_cache --silent
   fi
 }
@@ -220,8 +212,9 @@ function _src_tab_completion() {
     search_path=$(echo $curw | sed "s:^$project::")
     COMPREPLY=($(compgen -d "$path$search_path" | sed -e "s:$path:$project:" -e "s:$:/:"))
   else
-    # Tab completes all the entries in .git_index
-    COMPREPLY=($(compgen -W '$(sed -e "s/.*\///" "$src_dir/.git_index" | sort)' -- $curw))
+    # Tab completes all the entries in .git_index, plus commands
+    local commands="--list --rebuild-cache --update-all --batch-cmd --count-by-host"
+    COMPREPLY=($(compgen -W '$(sed -e "s:.*/::" -e "s:$:/:" "$src_dir/.git_index" | sort) $commands' -- $curw))
   fi
   return 0
 }
