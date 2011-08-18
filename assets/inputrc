@@ -75,3 +75,6 @@ $endif
 # Quote the current or previous word
 "\C-xq": "\eb\"\ef\""
 
+# Make tab completion only need one [TAB] key before producing a list of completions
+set show-all-if-ambiguous on
+
