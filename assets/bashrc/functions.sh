@@ -97,11 +97,13 @@ gs() {
       i=1
       while [ $i -le $f ]; do
         search=${files[$i]}
-        replace="\033[2;37m[\033[0m\$$pfix$i\033[2;37m]\033[0m $search "
-        #echo $replace
-        # (fixes a case when a file contains another file as a substring)
-        line=${line/$search/$replace }   # Substitution for files with a space suffix.
-        line=${line/%$search/$replace}    # Substitution for files with a newline suffix.
+        replace="\\\033[2;37m[\\\033[0m\$$pfix$i\\\033[2;37m]\\\033[0m $search"
+        # Need to strip the color character from the end of the line, otherwise
+        # EOL '$' doesn't work. This gave me a headache for long time.
+        # The echo ~> regex is very time-consuming, so we perform a simple search first.
+        if [[ $line == *$search* ]]; then
+          line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
+        fi
         let i++
       done
       echo -e $line                        # Print the final transformed line.
