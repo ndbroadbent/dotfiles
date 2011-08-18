@@ -84,7 +84,6 @@ gs() {
   status=`git status --porcelain`
   IFS=$'\n'
   if [ $(echo "$status" | wc -l) -lt $max_changes ]; then
-    echo "# Exporting \$$pfix* variables..."
     f=0  # Counter for the number of files
     for line in $status; do
       file=$(echo $line | sed "s/^.. //g")
