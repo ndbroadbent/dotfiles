@@ -75,34 +75,36 @@ gsed() {
 # Written by Nathan D. Broadbent (www.madebynathan.com)
 # -----------------------------------------------------------
 gs() {
-  pfix="e" # Set your preferred shortcut letter here
-  max_changes=20  # Max changes before reverting to standard 'git status' (can be very slow otherwise)
-  IFS=$'\n'
-
+  # Set your preferred shortcut letter here
+  pfix="e"
+  # Max changes before reverting to standard 'git status' (can be very slow otherwise)
+  max_changes=15
+  # ------------------------------------------------
   # Only export variables for less than $max_changes
   status=`git status --porcelain`
-  if [ `echo "$status" | wc -l` -lt $max_changes ]; then
+  IFS=$'\n'
+  if [ $(echo "$status" | wc -l) -lt $max_changes ]; then
+    echo "# Exporting \$$pfix* variables..."
     f=0  # Counter for the number of files
     for line in $status; do
-      file=$(echo $line | sed "s/^...//g")
+      file=$(echo $line | sed "s/^.. //g")
       let f++
-      files[$f]=$file         # Array for formatting the output
-      export $pfix$f=$file   # Exporting variable for use.
+      files[$f]=$file           # Array for formatting the output
+      export $pfix$f=$file     # Exporting variable for use.
     done
-
-    status=`git status`    # Fetch full status
-
+    full_status=`git status`  # Fetch full status
     # Search and replace each line, showing the exported variable name next to files.
-    for line in $status; do
+    for line in $full_status; do
       i=1
       while [ $i -le $f ]; do
         search=${files[$i]}
-        replace="\\\033[2;37m[\\\033[0m\$$pfix$i\\\033[2;37m]\\\033[0m $search"
         # Need to strip the color character from the end of the line, otherwise
         # EOL '$' doesn't work. This gave me a headache for long time.
         # The echo ~> regex is very time-consuming, so we perform a simple search first.
-        if [[ $line == *$search* ]]; then
+        if [[ $line = *$search* ]]; then
+          replace="\\\033[2;37m[\\\033[0m\$$pfix$i\\\033[2;37m]\\\033[0m $search"
           line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
+          break
         fi
         let i++
       done
