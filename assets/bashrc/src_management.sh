@@ -60,6 +60,7 @@
 src_dir=`echo ~/src`
 design_dir=`echo $design_dir`
 cache_repositories=true
+git_status_command="gs"
 
 function src() {
   if [ -n "$1" ]; then
@@ -147,7 +148,12 @@ function _src_repo_count() {
 # If the working directory is clean, update the git repository. Otherwise, show changes.
 function _src_git_pull_or_status() {
   if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
-    gs
+    # Fall back to 'git status' if git status alias isn't configured
+    if type $git_status_command 2>&1 | grep -qv "not found"; then
+      $git_status_command
+    else
+      git status
+    fi
   else
     # Check that a local 'origin' remote exists.
     if (git remote -v | grep -q origin); then
