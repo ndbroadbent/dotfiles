@@ -97,7 +97,7 @@ alias jr='rvm use jruby'
 
 # Use the same rails command for both 2.x and 3.x
 rails_cmd(){
-  if [ -e ./script/rails ]; then ./script/rails $1 $(echo $@ | sed "s/$1//g" )
+  if [ -e ./script/rails ]; then ./script/rails $@ )
   elif [ -e ./script/$1 ]; then ./script/$@
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
