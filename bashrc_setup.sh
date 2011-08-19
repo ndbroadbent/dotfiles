@@ -2,12 +2,13 @@
 echo "== Installing ~/.bashrc & other related dot files..."
 this_dir=$(pwd)
 
-# Assemble bashrc from parts
-cat assets/bashrc/default.sh > ~/.bashrc
-bashrc_parts=(prompt history aliases src_management functions);
+echo -n > ~/.bashrc
+# Include bashrc parts from ubuntu_config
+bashrc_parts=(default prompt history aliases src_management functions);
 for part in "${bashrc_parts[@]}"; do
-  cat assets/bashrc/$part.sh >> ~/.bashrc
+  echo ". $this_dir/assets/bashrc/$part.sh" >> ~/.bashrc
 done
+
 # Append dynamic update command
 cat >> ~/.bashrc <<EOF
 # Update this file from GitHub
