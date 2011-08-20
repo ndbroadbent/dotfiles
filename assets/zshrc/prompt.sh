@@ -59,14 +59,13 @@ _git_col=$fg_bold[cyan]  # Git branch
 RPS1="${return_code}"
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[cyan]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$fg[blue]%}|%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$fg[cyan]%}|%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_no_bold[red]%}±"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-PROMPT='%{$fg_bold[green]%}%n%{$fg_no_bold[green]%}@%m%{$reset_color%}\
-%{$reset_color%} %~ %{$reset_color%}$ '
+PROMPT='%{$fg_bold[green]%}%n%{$fg_no_bold[green]%}@%m%{$reset_color%}%{$reset_color%} %~ %{$reset_color%}$ '
 
-RPROMPT='%{$fg[blue]%}[$(git_prompt_info)%{$fg[cyan]%}$(~/.rvm/bin/rvm-prompt v p)%{$fg[blue]%}]%{$reset_color%}%{$reset_color%}'
+RPROMPT='%{$fg[cyan]%}[$(git_prompt_info)%{$fg_bold[blue]%}$(~/.rvm/bin/rvm-prompt v p)%{$fg_no_bold[cyan]%}]%{$reset_color%}%{$reset_color%}'
 
 # Set GREP highlight color
 export GREP_COLOR='1;32'
