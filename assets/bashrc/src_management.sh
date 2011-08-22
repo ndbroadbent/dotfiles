@@ -57,8 +57,8 @@
 
 # Config
 # --------------------------
-src_dir=`echo ~/src`
-design_dir=`echo $design_dir`
+src_dir="$HOME/src"
+design_dir="$HOME/Design"
 cache_repositories=true
 git_status_command="gs"
 
@@ -224,10 +224,10 @@ complete -o nospace -o filenames -F _src_tab_completion src
 
 # Manage 'Design' directories for project.
 function design {
-  local design_dir="~/Design"
-  project=`basename $(pwd)`
-  base_dirs="Backgrounds Logos Icons Mockups Screenshots"
-  av_dirs="Music AudioSamples Animations VideoClips"
+  local project=`basename $(pwd)`
+  local base_dirs="Backgrounds Logos Icons Mockups Screenshots"
+  local av_dirs="Music AudioSamples Animations VideoClips"
+
   if [ -z "$1" ]; then
     echo -e "design: Manage design directories for project assets that are external to source control.\n"
     echo -e "  Examples:\n"
@@ -246,7 +246,7 @@ function design {
       # Create and symlink each directory
       for dir in $base_dirs; do
         mkdir -p "$design_dir/$dir/$project"
-        if [ ! -e Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
+        if [ ! -e ./Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
       done
       # Add rule to .gitignore if not already present
       if ! $(touch .gitignore && cat .gitignore | grep -q "Design"); then
