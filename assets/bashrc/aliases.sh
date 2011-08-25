@@ -55,7 +55,7 @@ theirs (){ git checkout --theirs $1; git add $1; }
 # See here for more info about why this is cool: http://qntm.org/bash#sec1
 bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
 bind "\"\C-x \": \"git_prompt 'git commit'\n\""
-git_prompt(){ read -e -p "Commit message for '$1':  " git_msg; echo $git_msg | $1 -F -; }
+git_prompt(){ read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -; }
 
 # Attach git tab completion to aliases
 complete -o default -o nospace -F _git_pull gpl
@@ -97,13 +97,12 @@ alias jr='rvm use jruby'
 
 # Use the same rails command for both 2.x and 3.x
 rails_cmd(){
-  char=`echo $1 | head -c 1`
-  if [ -e ./script/rails ]; then ./script/rails $char $(echo $@ | sed "s/$1//g" )
+  if [ -e ./script/rails ]; then ./script/rails $@
   elif [ -e ./script/$1 ]; then ./script/$@
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
 }
-rs() { rails_cmd server -u "$@"; }
+rs() { rails_cmd server "$@"; }
 rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
 

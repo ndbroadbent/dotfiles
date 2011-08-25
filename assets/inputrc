@@ -1,5 +1,6 @@
 # /etc/inputrc - global inputrc for libreadline
 # See readline(3readline) and `info rluserman' for more information.
+$include /etc/inputrc
 
 # Be 8 bit clean.
 set input-meta on
@@ -74,4 +75,7 @@ $endif
 
 # Quote the current or previous word
 "\C-xq": "\eb\"\ef\""
+
+# Make tab completion only need one [TAB] key before producing a list of completions
+set show-all-if-ambiguous on
 
