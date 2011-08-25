@@ -103,7 +103,9 @@ gs() {
         if [[ $line = *$search* ]]; then
           replace="\\\033[2;37m[\\\033[0m\$$pfix$i\\\033[2;37m]\\\033[0m $search"
           line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
-          break
+          # Only break the while loop if a replacement was made.
+          # This is to support cases like 'Gemfile' and 'Gemfile.lock' both being modified.
+          if echo $line | grep -q "\$$pfix$i"; then break; fi
         fi
         let i++
       done
