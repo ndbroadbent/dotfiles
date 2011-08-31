@@ -79,6 +79,8 @@ for stage in dev preview staging live; do
   # Push, then deploy
   alias pc$char\d="git push; cap  $stage deploy"
 done
+alias cdp='cap deploy'
+
 
 # -- rvm / ruby / rails
 alias r='rake'
