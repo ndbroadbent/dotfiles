@@ -16,7 +16,7 @@ alias ....='...;..'
 alias .....='....;..'
 alias ......='.....;..'
 alias n='nautilus .'
-function g() { gedit $1 &> /dev/null; }
+function g() { gedit $1 2>&1 > /dev/null & }
 alias ack='ack-grep'; alias ak='ack-grep'
 
 # -- apt
