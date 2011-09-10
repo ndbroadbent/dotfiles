@@ -69,6 +69,8 @@ complete -o default -o nospace -F _git_checkout gco
 complete -o default -o nospace -F _git_remote gr
 complete -o default -o nospace -F _git_show gs
 
+# -- update and deploy CR branch.
+alias update_cr="gco crossroads; git merge master; git push; cap deploy; gco master"
 
 # -- capistrano commands for each stage
 for stage in dev preview staging live; do
