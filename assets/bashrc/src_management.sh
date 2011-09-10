@@ -166,9 +166,9 @@ function _src_git_pull_or_status() {
           git checkout master
           branch="master"
         fi
-        echo -e "=== Updating all branches in $_bld_col$path$_txt_col from$_git_col origin$_txt_col... (Press Ctrl+C to cancel)"
+        echo -e "=== Updating '$branch' branch in $_bld_col$path$_txt_col from$_git_col origin$_txt_col... (Press Ctrl+C to cancel)"
         # Pull the latest code from the server
-        git pull --all
+        git pull origin $branch
       fi
     fi
   fi
