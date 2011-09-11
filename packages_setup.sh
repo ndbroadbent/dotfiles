@@ -21,7 +21,7 @@ pkg_gnome="libnotify-bin python-pyinotify python-webkit python-webkit-dev"
 pkg_addons="nautilus-image-converter nautilus-open-terminal nautilus-gksu"
 
 # Applications
-pkg_apps="vlc thunderbird chromium-browser"
+pkg_apps="vlc thunderbird"
 
 # -----------------------------------------------------------------------------------
 # Queue or install apt packages
