@@ -68,16 +68,16 @@
   <style name="secondary-cursor"            foreground="white"/>
   <style name="current-line"                background="less_grey"/>
   <style name="line-numbers"                foreground="gray"       background="asfalto"/>
-  <style name="bracket-match"               foreground="purple"     background="carbon" bold="true"/>
-  <style name="bracket-mismatch"            foreground="white"      background="carbon" bold="true"/>
-  <style name="search-match"                foreground="carbon"     background="yellow" bold="true"/>
+  <style name="bracket-match"               foreground="purple"     background="carbon"/>
+  <style name="bracket-mismatch"            foreground="white"      background="carbon"/>
+  <style name="search-match"                foreground="carbon"     background="yellow"/>
 
 <!--Default language styles-->
 
-  <style name="def:keyword"                 foreground="ambra" bold="true"/>
+  <style name="def:keyword"                 foreground="ambra"/>
   <style name="def:statement"               foreground="alga"/>
   <style name="def:function"                foreground="violet"/>
-  <style name="def:preprocessor"            foreground="cyan" bold="true"/>
+  <style name="def:preprocessor"            foreground="cyan"/>
   <style name="def:type"                    foreground="cyan"/>
   <style name="def:character"               foreground="ambra"/>
   <style name="def:comment"                 foreground="purple"/>
@@ -88,19 +88,19 @@
   <style name="def:complex"                 foreground="light_blue"/>
   <style name="def:string"                  foreground="red"/>
   <style name="def:net-address-in-comment"  foreground="violet" italic="true" underline="true"/>
-  <style name="def:note"                    foreground="fuchsia" background="carbon" bold="true"/>
-  <style name="def:error"                   background="red" bold="true"/>
+  <style name="def:note"                    foreground="fuchsia" background="carbon"/>
+  <style name="def:error"                   background="red"/>
   <style name="def:escape"                  foreground="violet"/>
-  <style name="def:shebang"                 foreground="blue" bold="true"/>
+  <style name="def:shebang"                 foreground="blue"/>
   <style name="def:doc-comment-element"     italic="true"/>
-  <style name="def:identifier"              foreground="green" bold="true"/>
-  <style name="def:builtin"                 foreground="green" bold="true"/>
+  <style name="def:identifier"              foreground="green"/>
+  <style name="def:builtin"                 foreground="green"/>
   <style name="def:specials"                foreground="cyan" background="magenta"/>
   <style name="def:variable"                foreground="cyan"/>
-  <style name="def:boolean"                 foreground="fuchsia" bold="true"/>
+  <style name="def:boolean"                 foreground="fuchsia"/>
   <style name="def:constant"                foreground="magenta"/>
-  <style name="def:special-constant"        foreground="fuchsia" bold="true"/>
-  <style name="def:special-character"       foreground="senape" bold="true"/>
+  <style name="def:special-constant"        foreground="fuchsia"/>
+  <style name="def:special-character"       foreground="senape"/>
   <style name="diff:added-line"             foreground="pink"/>
   <style name="diff:removed-line"           foreground="magenta"/>
   <style name="diff:changed-line"           foreground="ambra"/>
@@ -109,21 +109,21 @@
 
 <!-- Ruby / Rails styles -->
 
-  <style name="ruby:global-variable"        foreground="green"   bold="true"/>
+  <style name="ruby:global-variable"        foreground="green"  />
   <style name="ruby:regex"                  foreground="lime"/>
   <style name="ruby:symbol"                 foreground="alga"/>
   <style name="rubyonrails:symbol"          use-style="ruby:symbol"/>
   <style name="rubyonrails:regex"           use-style="ruby:regex"/>
-  <style name="rubyonrails:class-inherit"   foreground="bright_blue" bold="true"/>
+  <style name="rubyonrails:class-inherit"   foreground="bright_blue"/>
 
 
 <!-- HTML / CSS / JS styles -->
 
   <style name="html:dtd"                    italic="true"/>
   <style name="html:tag"                    foreground="green"/>
-  <style name="css:at-rules"                foreground="green"   bold="true"/>
-  <style name="css:color"                   foreground="pink"    bold="true"/>
-  <style name="css:keyword"                 foreground="ambra"   bold="true"/>
+  <style name="css:at-rules"                foreground="green"  />
+  <style name="css:color"                   foreground="pink"   />
+  <style name="css:keyword"                 foreground="ambra"  />
   <style name="js:function"                 foreground="ambra"/>
 
 </style-scheme>
