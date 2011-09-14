@@ -12,6 +12,9 @@ no_buffers yes
 
 format_human_readable
 
+# Change 'GiB' and 'MiB' to 'GB' and 'MB'
+short_units yes
+
 lua_load ~/.conkycolors/scripts/draw_bg.lua
 lua_draw_hook_pre draw_bg
 
@@ -71,10 +74,10 @@ ${goto 44}Uptime: ${alignr}${color2}${uptime}${color}
 @CPU@
 # |--MEM
 ${voffset 8}${color0}${font Poky:size=16}M${font}${color}${goto 44}${voffset -12}RAM: ${font Droid Sans:style=Bold:size=9}${color1}$memperc%${color}${font}${alignr}${color0}${membar 8,60}
-${goto 45}${color}${voffset -2}${font Droid Sans:style=Bold:size=9}${color2}${mem}${color} / ${color0}$memmax${color}${font}
+${goto 45}${color}${voffset -2}${font Droid Sans:style=Bold:size=9}${color2}${mem}B${color} / ${color0}${memmax}B${color}${font}
 # |--FS
 ${voffset 6}${color0}${font Poky:size=16}y${font}${color}${goto 44}${voffset -12}HDD: ${font Droid Sans:style=Bold:size=9}${color1}$fs_used_perc%${color}${font}${alignr}${color0}${fs_bar 8, 60}
-${goto 45}${color}${voffset -2}${font Droid Sans:style=Bold:size=9}${color2}${fs_used}${color} / ${color0}${fs_size}${color}${font}
+${goto 45}${color}${voffset -2}${font Droid Sans:style=Bold:size=9}${color2}${fs_used}B${color} / ${color0}${fs_size}B${color}${font}
 #################
 # - PROCESSES - #
 #################
@@ -94,18 +97,18 @@ ${color1}${voffset 12}${font Droid Sans:style=Bold:size=9}NETWORK  ${color}$stip
 # |--WLAN0
 ${if_up wlan0}
 ${voffset -10}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=9}${color1}${upspeed wlan0}${color}${font} ${alignr}${color2}${upspeedgraph wlan0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totalup wlan0}${color}${font}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totalup wlan0}B${color}${font}
 ${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=9}${color1}${downspeed wlan0}${color}${font} ${alignr}${color2}${downspeedgraph wlan0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown wlan0}${color}${font}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown wlan0}B${color}${font}
 ${voffset 3}${color0}${font Poky:size=14}Y${font}${color}${goto 44}${voffset -2}Signal: ${font Droid Sans:style=Bold:size=9}${color1}${wireless_link_qual wlan0}%${color}${font} ${alignr}${color2}${wireless_link_bar 8,60 wlan0}${color}
 ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -13}Local IP: ${alignr}${color2}${addr wlan0}${color}
 ${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}\
 # |--ETH0
 ${else}${if_up eth0}
 ${voffset -10}${color0}${font VariShapes Solid:size=14}q${font}${color}${goto 44}${voffset -10}Up: ${font Droid Sans:style=Bold:size=9}${color1}${upspeed eth0}${color}${font} ${alignr}${color2}${upspeedgraph eth0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totalup eth0}${color}${font}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totalup eth0}B${color}${font}
 ${voffset 5}${color0}${font VariShapes Solid:size=14}Q${font}${color}${goto 44}${voffset -12}Down: ${font Droid Sans:style=Bold:size=9}${color1}${downspeed eth0}${color}${font} ${alignr}${color2}${downspeedgraph eth0 8,60 5C3566 77507B}${color}
-${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown eth0}${color}${font}
+${voffset -3}${goto 44}Total: ${font Droid Sans:style=Bold:size=9}${color2}${totaldown eth0}B${color}${font}
 ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -14}Local IP: ${alignr}${color2}${addr eth0}${color}
 ${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}\
 # |--Else, no network available
