@@ -91,7 +91,14 @@ ensure_bundler() { if ! test $(which bundle); then gem install bundler; fi; }
 alias bi="ensure_bundler; bundle install"
 alias be="ensure_bundler; bundle exec"
 # Automatically invoke bundler for rake, if necessary.
-rake() { if [ -e ./Gemfile ]; then bundle exec rake "$@"; else /usr/bin/env rake "$@"; fi; }
+# (uses file_exists_inverse_recursive function from 'functions.sh')
+rake() {
+  if $(file_exists_inverse_recursive Gemfile); then
+    bundle exec rake "$@"
+  else
+    /usr/bin/env rake "$@"
+  fi
+}
 
 # RVM ruby versions
 alias 192='rvm use ruby-1.9.2'
