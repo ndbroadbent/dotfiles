@@ -53,8 +53,13 @@ theirs (){ git checkout --theirs $1; git add $1; }
 # Ctrl~>[space] or Ctrl~>x~>[space] gives a git commit prompt,
 # where you don't have to worry about escaping anything.
 # See here for more info about why this is cool: http://qntm.org/bash#sec1
-bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
-bind "\"\C-x \": \"git_prompt 'git commit'\n\""
+case "$TERM" in
+xterm*|rxvt*)
+    bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
+    bind "\"\C-x \": \"git_prompt 'git commit'\n\""
+    ;;
+esac
+
 git_prompt(){ read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -; }
 
 # Attach git tab completion to aliases
