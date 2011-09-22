@@ -11,10 +11,10 @@ alias la='ls -lvA --group-directories-first'
 
 alias ~='cd ~'
 alias ..='cd ..'
-alias ...='..;..';
-alias ....='...;..'
-alias .....='....;..'
-alias ......='.....;..'
+alias ...='cd ../..';
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 alias n='nautilus .'
 function g() { gedit $1 2>&1 > /dev/null & }
 alias ack='ack-grep'; alias ak='ack-grep'
