@@ -6,28 +6,37 @@
       <value>
         <list type="string">
             <value>
-              <string>reopen-tabs</string>
-            </value>
-            <value>
-              <string>tabs_extend</string>
-            </value>
-            <value>
-              <string>editshortcut</string>
-            </value>
-            <value>
-              <string>TextWrap</string>
-            </value>
-            <value>
               <string>pair_char_completion</string>
+            </value>
+            <value>
+              <string>reopen-tabs</string>
             </value>
             <value>
               <string>FindInFiles</string>
             </value>
             <value>
-              <string>snippets</string>
+              <string>TextWrap</string>
             </value>
             <value>
-              <string>trailsave</string>
+              <string>tabs_extend</string>
+            </value>
+            <value>
+              <string>textmap</string>
+            </value>
+            <value>
+              <string>text_tools</string>
+            </value>
+            <value>
+              <string>time</string>
+            </value>
+            <value>
+              <string>wordcompletion</string>
+            </value>
+            <value>
+              <string>rails_hotkeys</string>
+            </value>
+            <value>
+              <string>quickhighlightmode</string>
             </value>
             <value>
               <string>smart_indent</string>
@@ -36,40 +45,28 @@
               <string>rubyonrailsloader</string>
             </value>
             <value>
-              <string>rails_hotkeys</string>
+              <string>taglist</string>
             </value>
             <value>
               <string>regex_replace</string>
             </value>
             <value>
-              <string>align</string>
-            </value>
-            <value>
-              <string>time</string>
-            </value>
-            <value>
-              <string>docinfo</string>
-            </value>
-            <value>
-              <string>text_tools</string>
-            </value>
-            <value>
-              <string>quickhighlightmode</string>
+              <string>rails_extract_partial</string>
             </value>
             <value>
               <string>codecomment</string>
             </value>
             <value>
-              <string>wordcompletion</string>
+              <string>snippets</string>
             </value>
             <value>
-              <string>taglist</string>
-            </value>
-            <value>
-              <string>rails_extract_partial</string>
+              <string>docinfo</string>
             </value>
             <value>
               <string>filebrowser</string>
+            </value>
+            <value>
+              <string>trailsave</string>
             </value>
         </list>
       </value>
