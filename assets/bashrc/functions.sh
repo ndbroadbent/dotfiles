@@ -141,10 +141,11 @@ git-remove-history() {
   rm -rf .git/refs/original/ && git reflog expire --all &&  git gc --aggressive --prune
 }
 
+
 # Strip whitespace from all ruby files in the current directory (and subdirectories)
 # ----------------------------------------------------------------------------------
-ruby-strip-whitespace() {
-  find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i 's/[[:space:]]*$//'
+fix_whitespace() {
+  find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
 }
 
 
@@ -161,6 +162,7 @@ file_exists_inverse_recursive() {
   return 1
 }
 
+
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
 grooveshark_dl() {
@@ -175,6 +177,7 @@ grooveshark_dl() {
     echo "Usage: grooveshark_dl <url> <title (w/o .mp3)>"
   fi
 }
+
 
 # Restart Atlassian Bamboo server
 # -----------------------------------------------------------
