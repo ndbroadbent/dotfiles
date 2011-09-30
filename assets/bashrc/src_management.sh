@@ -249,8 +249,8 @@ function design {
         if [ ! -e ./Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
       done
       # Add rule to .gitignore if not already present
-      if ! $(touch .gitignore && cat .gitignore | grep -q "Design"); then
-        echo "Design" >> .gitignore
+      if ! $(touch .git/info/exclude && cat .git/info/exclude | grep -q "Design"); then
+        echo "Design" >> .git/info/exclude
       fi
     elif [ "$1" = "rm" ]; then
       echo "Removing all design directories for $project..."
