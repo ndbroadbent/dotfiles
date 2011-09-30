@@ -225,7 +225,7 @@ complete -o nospace -o filenames -F _src_tab_completion src
 # Manage 'Design' directories for project.
 function design {
   local project=`basename $(pwd)`
-  local int_dirs="Fonts"
+  local int_dirs="Fonts IconSets"
   local base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
   local av_dirs="Music Samples Animations Videos Flash"
 
