@@ -248,17 +248,17 @@ function design {
         mkdir -p "$design_dir/$dir/$project"
         if [ ! -e ./Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
       done
-      # Add rule to .gitignore if not already present
+      # Add ignore rule to .git/info/exclude if not already present
       if ! $(touch .git/info/exclude && cat .git/info/exclude | grep -q "Design"); then
         echo "Design" >> .git/info/exclude
       fi
+
     elif [ "$1" = "rm" ]; then
       echo "Removing all design directories for $project..."
       base_dirs+=" $av_dirs"
-      for dir in $base_dirs; do
-        rm -rf "$design_dir/$dir/$project"
-      done
+      for dir in $base_dirs; do rm -rf "$design_dir/$dir/$project"; done
       rm -rf Design
+
     elif [ "$1" = "trim" ]; then
       echo "Trimming empty design directories for $project..."
       base_dirs+=" $av_dirs"
