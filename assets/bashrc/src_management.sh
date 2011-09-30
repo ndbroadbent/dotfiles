@@ -225,7 +225,8 @@ complete -o nospace -o filenames -F _src_tab_completion src
 # Manage 'Design' directories for project.
 function design {
   local project=`basename $(pwd)`
-  local base_dirs="Images Backgrounds Logos Fonts Icons Mockups Screenshots"
+  local int_dirs="Fonts"
+  local base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
   local av_dirs="Music Samples Animations Videos Flash"
 
   if [ -z "$1" ]; then
@@ -243,6 +244,8 @@ function design {
       if [ "$2" = "--av" ]; then base_dirs+=" $av_dirs"; fi
       echo "Creating the following design directories for $project: $base_dirs"
       mkdir -p Design
+      # Create internal dirs (that aren't per-project)
+      for dir in $int_dirs; do mkdir -p Design/$dir; done
       # Create and symlink each directory
       for dir in $base_dirs; do
         mkdir -p "$design_dir/$dir/$project"
