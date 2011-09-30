@@ -225,8 +225,8 @@ complete -o nospace -o filenames -F _src_tab_completion src
 # Manage 'Design' directories for project.
 function design {
   local project=`basename $(pwd)`
-  local base_dirs="Backgrounds Logos Fonts Icons Mockups Screenshots"
-  local av_dirs="Music AudioSamples Animations VideoClips"
+  local base_dirs="Images Backgrounds Logos Fonts Icons Mockups Screenshots"
+  local av_dirs="Music Samples Animations Videos Flash"
 
   if [ -z "$1" ]; then
     echo -e "design: Manage design directories for project assets that are external to source control.\n"
