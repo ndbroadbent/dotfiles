@@ -17,7 +17,7 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias n='nautilus .'
 function g() { gedit $1 2>&1 > /dev/null & }
-alias ack='ack-grep'; alias ak='ack-grep'
+alias ak='ack-grep'
 
 # -- apt
 alias apt-install='sudo apt-get install -y'
