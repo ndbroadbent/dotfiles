@@ -24,29 +24,31 @@ alias apt-install='sudo apt-get install -y'
 alias apt-search='apt-cache search'
 
 # -- git
+alias gcl='git clone'
+alias gf='git fetch'
 alias gpl='git pull'
 alias gps='git push'
-alias gpsom='git pull origin master'
-alias gplom='git push origin master'
-alias gf='git fetch'
+alias gco='git checkout'
+alias grs='git reset'
+alias gb='git branch'
+alias grb='git rebase'
+alias gm='git merge'
+alias gcp='git cherry-pick'
 alias ga='git add'
 alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gcm='git commit --amend'
-alias gcmh='git commit --amend -C HEAD'  # Amend commit without changing message
-alias gcamh='git add -A; git commit --amend -C HEAD'  # Add everything, amend latest commit
+alias gl='git log'
 alias gsh='git show'
 alias gd='git diff'
 alias gdc='git diff --cached'
-alias gl='git log'
-alias gco='git checkout'
-alias gcl='git clone'
-alias gb='git branch'
-alias gm='git merge'
-alias grb='git rebase'
-alias gcp='git cherry-pick'
 alias gr='git remote'
+# Add all staged changes to latest commit (without changing message)
+alias gcmh='git commit --amend -C HEAD'
+# Stage all unstaged changes, then amend latest commit
+alias gcamh='git add -A; git commit --amend -C HEAD'
+
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 ours (){ git checkout --ours $1; git add $1; }
 theirs (){ git checkout --theirs $1; git add $1; }
