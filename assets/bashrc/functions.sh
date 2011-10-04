@@ -32,24 +32,41 @@ color_index() {
   echo -e "$blank_line" "\n" # Bottom border
 }
 
-# XClip clipboard helper function
+
+# XClip clipboard helper function.
+# Can accept either a string param or stdin (pipe)
 # ------------------------------------------------
 cb() {
-  _success_col="\e[1;32m"
-  _warn_col='\e[1;31m'
-  if [ -n "$1" ]; then
-    # Check user is not root (root doesn't have access to user xorg server)
-    if [[ $(whoami) == root ]]; then
-      echo -e "$_warn_col  Must be regular user to copy a file to the clipboard!\e[0m"
-      exit
-    fi
-    # Copy text to clipboard
-    echo -n $1 | xclip -selection c
-    echo -e "$_success_col  Copied to clipboard:\e[0m $1"
+  local _scs_col="\e[0;32m"; local _wrn_col='\e[1;31m'; local _trn_col='\e[0;33m'
+  # Check that xclip is installed.
+  if ! which xclip | grep xclip -q; then
+    echo -e "$_wrn_col""You must have the 'xclip' program installed.\e[0m"
+  # Check user is not root (root doesn't have access to user xorg server)
+  elif [[ $(whoami) == root ]]; then
+    echo -e "$_wrn_col""Must be regular user (not root) to copy a file to the clipboard.\e[0m"
   else
-    echo "Copies first argument to clipboard. Usage: cb <string>"
+    # If no tty, data should be available on stdin
+    if [ "$( tty )" == 'not a tty' ]; then
+      input="$(< /dev/stdin)"
+    # Else, fetch input from params
+    else
+      input="$@"
+    fi
+    if [ -z "$input" ]; then  # If no input, print usage message.
+      echo "Copies a string or the contents of a file to the clipboard. Usage: cb <string or file>"
+    else
+      # If the input points to a file that exists, then use the contents of that file.
+      if [ -e "$input" ]; then input="$(cat $input)"; fi
+      # Copy text to clipboard
+      echo -n $input | xclip -selection c
+      # Truncate text for status if longer than 50 chars
+      if [ ${#input} -gt 50 ]; then input="$(echo $input | cut -c1-50)$_trn_col...\e[0m"; fi
+      # Print status.
+      echo -e "$_scs_col""Copied to clipboard:\e[0m $input"
+    fi
   fi
 }
+
 
 # Calculator function
 #   $ ? 1337 - 1295
