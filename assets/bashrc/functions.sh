@@ -33,7 +33,7 @@ color_index() {
 }
 
 
-# A clipboard helper function to simplify usage of xclip.
+# A shortcut function that simplifies usage of xclip.
 # - Accepts input from either stdin (pipe), or params.
 # - If the input is a filename that exists, then it
 #   uses the contents of that file.
@@ -63,14 +63,14 @@ cb() {
       if [ -e "$input" ]; then input="$(cat $input)"; fi
       # Copy input to clipboard
       echo -n $input | xclip -selection c
-      # Truncate text for status if longer than 50 chars
+      # Truncate text for status
       if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\e[0m"; fi
       # Print status.
       echo -e "$_scs_col""Copied to clipboard:\e[0m $input"
     fi
   fi
 }
-# Copy SSH public key to clipboard.
+# Shortcut to copy SSH public key to clipboard.
 alias cb_ssh="cb ~/.ssh/id_rsa.pub"
 
 
