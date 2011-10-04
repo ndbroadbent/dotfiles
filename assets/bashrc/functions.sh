@@ -64,12 +64,14 @@ cb() {
       # Copy input to clipboard
       echo -n $input | xclip -selection c
       # Truncate text for status if longer than 50 chars
-      if [ ${#input} -gt 50 ]; then input="$(echo $input | cut -c1-50)$_trn_col...\e[0m"; fi
+      if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\e[0m"; fi
       # Print status.
       echo -e "$_scs_col""Copied to clipboard:\e[0m $input"
     fi
   fi
 }
+# Copy SSH public key to clipboard.
+alias cb_ssh="cb ~/.ssh/id_rsa.pub"
 
 
 # Calculator function
