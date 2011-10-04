@@ -6,37 +6,28 @@
       <value>
         <list type="string">
             <value>
-              <string>pair_char_completion</string>
-            </value>
-            <value>
               <string>reopen-tabs</string>
-            </value>
-            <value>
-              <string>FindInFiles</string>
-            </value>
-            <value>
-              <string>TextWrap</string>
             </value>
             <value>
               <string>tabs_extend</string>
             </value>
             <value>
-              <string>textmap</string>
+              <string>editshortcut</string>
             </value>
             <value>
-              <string>text_tools</string>
+              <string>TextWrap</string>
             </value>
             <value>
-              <string>time</string>
+              <string>pair_char_completion</string>
             </value>
             <value>
-              <string>wordcompletion</string>
+              <string>FindInFiles</string>
             </value>
             <value>
-              <string>rails_hotkeys</string>
+              <string>snippets</string>
             </value>
             <value>
-              <string>quickhighlightmode</string>
+              <string>trailsave</string>
             </value>
             <value>
               <string>smart_indent</string>
@@ -45,28 +36,40 @@
               <string>rubyonrailsloader</string>
             </value>
             <value>
-              <string>taglist</string>
+              <string>rails_hotkeys</string>
             </value>
             <value>
               <string>regex_replace</string>
             </value>
             <value>
-              <string>rails_extract_partial</string>
+              <string>align</string>
             </value>
             <value>
-              <string>codecomment</string>
-            </value>
-            <value>
-              <string>snippets</string>
+              <string>time</string>
             </value>
             <value>
               <string>docinfo</string>
             </value>
             <value>
-              <string>filebrowser</string>
+              <string>text_tools</string>
             </value>
             <value>
-              <string>trailsave</string>
+              <string>quickhighlightmode</string>
+            </value>
+            <value>
+              <string>codecomment</string>
+            </value>
+            <value>
+              <string>wordcompletion</string>
+            </value>
+            <value>
+              <string>taglist</string>
+            </value>
+            <value>
+              <string>rails_extract_partial</string>
+            </value>
+            <value>
+              <string>filebrowser</string>
             </value>
         </list>
       </value>
@@ -186,7 +189,7 @@
       <key>plugins/filebrowser/on_load/virtual_root</key>
       <schema_key>/schemas/apps/gedit-2/plugins/filebrowser/on_load/virtual_root</schema_key>
       <value>
-        <string>file:////home/@USER@/src</string>
+        <string>file:////home/ndbroadbent/src</string>
       </value>
     </entry>
     <entry>
@@ -529,6 +532,54 @@
     </entry>
     <entry>
       <key>plugins/smart_indent/js_use_space</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_crop_spaces_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_indent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_insert_newline_eof</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_remove_blank_lines_eol</key>
+      <value>
+        <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_tab_size</key>
+      <value>
+        <int>2</int>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_unindent_keystrokes</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_unindent_regex</key>
+      <value>
+        <string></string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/smart_indent/markdown_use_space</key>
       <value>
         <bool>true</bool>
       </value>
@@ -1011,6 +1062,18 @@
       <key>plugins/smart_indent/yaml_use_space</key>
       <value>
         <bool>true</bool>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/time/prompt_type</key>
+      <value>
+        <string>PROMPT_SELECTED_FORMAT</string>
+      </value>
+    </entry>
+    <entry>
+      <key>plugins/time/selected_format</key>
+      <value>
+        <string>%a %d %b %Y %H:%M:%S %Z</string>
       </value>
     </entry>
     <entry>

@@ -225,8 +225,12 @@ complete -o nospace -o filenames -F _src_tab_completion src
 # Manage 'Design' directories for project.
 function design {
   local project=`basename $(pwd)`
-  local base_dirs="Backgrounds Logos Fonts Icons Mockups Screenshots"
-  local av_dirs="Music AudioSamples Animations VideoClips"
+  local int_dirs="Fonts IconSets"
+  local base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
+  local av_dirs="Music Samples Animations Videos Flash"
+
+  # Setup internal dirs (that aren't per-project)
+  for dir in $int_dirs; do mkdir -p "$design_dir/$dir"; done
 
   if [ -z "$1" ]; then
     echo -e "design: Manage design directories for project assets that are external to source control.\n"
@@ -248,17 +252,17 @@ function design {
         mkdir -p "$design_dir/$dir/$project"
         if [ ! -e ./Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
       done
-      # Add rule to .gitignore if not already present
-      if ! $(touch .gitignore && cat .gitignore | grep -q "Design"); then
-        echo "Design" >> .gitignore
+      # Add ignore rule to .git/info/exclude if not already present
+      if ! $(touch .git/info/exclude && cat .git/info/exclude | grep -q "Design"); then
+        echo "Design" >> .git/info/exclude
       fi
+
     elif [ "$1" = "rm" ]; then
       echo "Removing all design directories for $project..."
       base_dirs+=" $av_dirs"
-      for dir in $base_dirs; do
-        rm -rf "$design_dir/$dir/$project"
-      done
+      for dir in $base_dirs; do rm -rf "$design_dir/$dir/$project"; done
       rm -rf Design
+
     elif [ "$1" = "trim" ]; then
       echo "Trimming empty design directories for $project..."
       base_dirs+=" $av_dirs"
