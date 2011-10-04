@@ -33,8 +33,10 @@ color_index() {
 }
 
 
-# XClip clipboard helper function.
-# Can accept either a string param or stdin (pipe)
+# A clipboard helper function to simplify usage of xclip.
+# - Accepts input from either stdin (pipe), or params.
+# - If the input is a filename that exists, then it
+#   uses the contents of that file.
 # ------------------------------------------------
 cb() {
   local _scs_col="\e[0;32m"; local _wrn_col='\e[1;31m'; local _trn_col='\e[0;33m'
@@ -53,11 +55,13 @@ cb() {
       input="$@"
     fi
     if [ -z "$input" ]; then  # If no input, print usage message.
-      echo "Copies a string or the contents of a file to the clipboard. Usage: cb <string or file>"
+      echo "Copies a string or the contents of a file to the clipboard."
+      echo "Usage: cb <string or file>"
+      echo "       echo <string or file> | cb"
     else
-      # If the input points to a file that exists, then use the contents of that file.
+      # If the input is a filename that exists, then use the contents of that file.
       if [ -e "$input" ]; then input="$(cat $input)"; fi
-      # Copy text to clipboard
+      # Copy input to clipboard
       echo -n $input | xclip -selection c
       # Truncate text for status if longer than 50 chars
       if [ ${#input} -gt 50 ]; then input="$(echo $input | cut -c1-50)$_trn_col...\e[0m"; fi
