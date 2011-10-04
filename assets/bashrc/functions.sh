@@ -52,7 +52,7 @@ cb() {
       input="$(< /dev/stdin)"
     # Else, fetch input from params
     else
-      input="$@"
+      input="$*"
     fi
     if [ -z "$input" ]; then  # If no input, print usage message.
       echo "Copies a string or the contents of a file to the clipboard."
@@ -62,7 +62,7 @@ cb() {
       # If the input is a filename that exists, then use the contents of that file.
       if [ -e "$input" ]; then input="$(cat $input)"; fi
       # Copy input to clipboard
-      echo -n $input | xclip -selection c
+      echo -n "$input" | xclip -selection c
       # Truncate text for status
       if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\e[0m"; fi
       # Print status.
