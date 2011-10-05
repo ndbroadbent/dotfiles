@@ -46,8 +46,6 @@ alias gdc='git diff --cached'
 alias gr='git remote'
 # Add all staged changes to latest commit (without changing message)
 alias gcmh='git commit --amend -C HEAD'
-# Stage all unstaged changes, then amend latest commit
-alias gcamh='git add -A; git commit --amend -C HEAD'
 
 alias rebase_live='git checkout live && git rebase master && git checkout master'
 ours (){ git checkout --ours $1; git add $1; }
