@@ -48,7 +48,7 @@ cb() {
     echo -e "$_wrn_col""Must be regular user (not root) to copy a file to the clipboard.\e[0m"
   else
     # If no tty, data should be available on stdin
-    if [ "$( tty )" == 'not a tty' ]; then
+    if ! [[ "$( tty )" == /dev/* ]]; then
       input="$(< /dev/stdin)"
     # Else, fetch input from params
     else
