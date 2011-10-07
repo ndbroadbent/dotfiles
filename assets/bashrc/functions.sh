@@ -220,21 +220,6 @@ fix_whitespace() {
   find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
 }
 
-
-# Search for file in directory or in any parent directories
-# ----------------------------------------------------------------------------------
-file_exists_inverse_recursive() {
-  local slashes=${PWD//[^\/]/}
-  local directory=$PWD
-  for (( n=${#slashes}; n>0; --n ))
-  do
-    test -e $directory/$1 && return 0
-    directory=$directory/..
-  done
-  return 1
-}
-
-
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
 grooveshark_dl() {
