@@ -71,7 +71,7 @@ function src() {
     elif [ "$1" = "--batch-cmd" ]; then
       _src_git_batch_cmd "${@:2:$(($#-1))}" # Pass all args except $1
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
-      echo -e "($_bld_col$(_src_repo_count)$_txt_col) Git repositories in $_bld_col$src_dir$_txt_col:\n"
+      echo -e "$_bld_col$(_src_repo_count)$_txt_col Git repositories in $_bld_col$src_dir$_txt_col:\n"
       repos=$(sed -e "s/--.*//" -e "s%$HOME%~%" $src_dir/.git_index)
       for repo in $repos; do
         echo $(basename $repo) $repo
