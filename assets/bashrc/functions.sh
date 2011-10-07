@@ -143,6 +143,34 @@ gs() {
   unset IFS
 }
 
+# Should be used in conjunction with the gs() function.
+# Allows you to add numbered files, ranges of files, or filepaths.
+# -----------------------------------------------------------
+ga() {
+  pfix="e" # Prefix for environment variable shortcuts
+  if [ -n "$1" ]; then
+    # Process each argument independently
+    for arg in "$@"; do
+      # If passed an integer, use the corresponding $e{*} variable
+      if [[ "$arg" =~ ^[0-9]+$ ]] ; then
+        eval git add "\$$pfix$arg"
+      # If passed a range, expand the range for each $e{*} variable
+      elif [[ $arg == *..* ]]; then
+        for i in $(seq $(echo $arg | tr ".." " ")); do
+          eval git add "\$$pfix$i"
+        done
+      else
+        git add $arg  # Default to adding a file.
+      fi
+    done
+  else
+    echo "Usage: ga <file>  => git add <file>"
+    echo "       ga 1       => git add \$e1"
+    echo "       ga 2..4    => git add \$e2 \$e3 \$e4"
+    echo "       ga 2 5..7  => git add \$e2 \$e5 \$e6 \$e7"
+  fi
+}
+
 
 # Permanently remove files/folders from git repository
 # -----------------------------------------------------------
