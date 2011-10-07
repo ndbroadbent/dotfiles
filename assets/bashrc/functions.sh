@@ -172,7 +172,7 @@ ga() {
       for file in $files; do
         # If 'auto_remove' is enabled and file doesn't exist,
         # use 'git rm' instead of 'git add'.
-        if [[ $auto_remove == "yes" ]] && ! [[ -e $file ]]; then
+        if [[ $auto_remove == "yes" ]] && ! [ -e $file ]; then
           git rm $file
         else
           git add $file
