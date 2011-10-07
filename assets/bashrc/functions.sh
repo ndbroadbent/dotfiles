@@ -146,7 +146,8 @@ gs() {
 # Can be used in conjunction with the gs() function.
 # - Allows you to stage numbered files, ranges of files, or filepaths.
 # - Option to detect and use 'git rm' for deleted files.
-#   It changes the behaviour of 'git add' to mean 'stage the change to this file'
+#   So instead of meaning 'Add file contents to the index',
+#   the default meaning of this shortcut is 'stage the change to this file'.
 # -------------------------------------------------------------------------------
 ga() {
   local pfix="e" # Prefix for environment variable shortcuts
