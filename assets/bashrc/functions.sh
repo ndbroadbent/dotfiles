@@ -152,7 +152,16 @@ gs() {
 ga() {
   local pfix="e" # Prefix for environment variable shortcuts
   local auto_remove="yes" # Use 'git rm' for deleted files.
-  if [ -n "$1" ]; then
+  if [ -z "$1" ]; then
+    echo "Usage: ga <file>  => git add <file>"
+    echo "       ga 1       => git add \$e1"
+    echo "       ga 2..4    => git add \$e2 \$e3 \$e4"
+    echo "       ga 2 5..7  => git add \$e2 \$e5 \$e6 \$e7"
+    if [[ $auto_remove == "yes" ]]; then
+      echo -e "\nNote: Deleted files will also be staged using this shortcut."
+      echo "      To turn off this behaviour, change the 'auto_remove' option."
+    fi
+  else
     # Expand each argument into sets of files.
     for arg in "$@"; do
       # If passed an integer, use the corresponding $e{*} variable
@@ -180,15 +189,6 @@ ga() {
         fi
       done
     done
-  else
-    echo "Usage: ga <file>  => git add <file>"
-    echo "       ga 1       => git add \$e1"
-    echo "       ga 2..4    => git add \$e2 \$e3 \$e4"
-    echo "       ga 2 5..7  => git add \$e2 \$e5 \$e6 \$e7"
-    if [[ $auto_remove == "yes" ]]; then
-      echo -e "\nNote: Deleted files will also be staged using this shortcut."
-      echo "      To turn off this behaviour, change the 'auto_remove' option."
-    fi
   fi
 }
 
