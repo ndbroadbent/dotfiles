@@ -16,8 +16,9 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias n='nautilus .'
-function g() { gedit $1 2>&1 > /dev/null & }
 alias ak='ack-grep'
+function g() { gedit $1 2>&1 > /dev/null & }
+alias vims='vim -c start' # open vim in 'insert' mode
 
 # -- apt
 alias apt-install='sudo apt-get install -y'
