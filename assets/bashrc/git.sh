@@ -1,5 +1,9 @@
 #
-# Function Config
+# Git aliases, shortcuts and functions.
+# Written by Nathan D. Broadbent (www.madebynathan.com)
+
+
+# Config
 # --------------------------
 # Set your preferred prefix for env variable file shortcuts.
 git_env_char="e"
@@ -9,8 +13,10 @@ gs_max_changes="15"
 ga_auto_remove="yes"
 
 
-# Allow git commands to handle numbered files, ranges of files, or filepaths.
-# These numbered shortcuts are produced from the git status wrapper (gs).
+# Allows git commands to handle numbered files, ranges of files, or filepaths.
+# These numbered shortcuts are produced by various commands, such as:
+# * gs()  - git status
+# * gsf() - git show affected files
 git_expand_args() {
   files=""
   for arg in "$@"; do
@@ -50,31 +56,30 @@ alias gcmh='git commit --amend -C HEAD' # Adds staged changes to latest commit
 
 # Commands dealing with filepaths
 function gco() { git checkout $(git_expand_args "$@"); }
-function grs() { git reset $(git_expand_args "$@"); }
-function grm() { git rm $(git_expand_args "$@"); }
-function gd()  { git diff $(git_expand_args "$@"); }
+function grs() { git reset    $(git_expand_args "$@"); }
+function grm() { git rm       $(git_expand_args "$@"); }
+function gbl() { git blame    $(git_expand_args "$@"); }
+function gd()  { git diff     $(git_expand_args "$@"); }
 function gdc() { git diff --cached $(git_expand_args "$@"); }
-function gbl() { git blame $(git_expand_args "$@"); }
 
 # Tab completion for git aliases
-complete -o default -o nospace -F _git_pull gpl
-complete -o default -o nospace -F _git_push gps
-complete -o default -o nospace -F _git_fetch gf
-complete -o default -o nospace -F _git_branch gb
-complete -o default -o nospace -F _git_rebase grb
-complete -o default -o nospace -F _git_merge gm
-complete -o default -o nospace -F _git_log gl
+complete -o default -o nospace -F _git_pull     gpl
+complete -o default -o nospace -F _git_push     gps
+complete -o default -o nospace -F _git_fetch    gf
+complete -o default -o nospace -F _git_branch   gb
+complete -o default -o nospace -F _git_rebase   grb
+complete -o default -o nospace -F _git_merge    gm
+complete -o default -o nospace -F _git_log      gl
 complete -o default -o nospace -F _git_checkout gco
-complete -o default -o nospace -F _git_remote gr
-complete -o default -o nospace -F _git_show gs
+complete -o default -o nospace -F _git_remote   gr
+complete -o default -o nospace -F _git_show     gs
 
 
 # Keyboard bindings
 # -----------------------------------------------------------
 
-# Ctrl~>[space] or Ctrl~>x~>[space] gives a git commit prompt,
-# where you don't have to worry about escaping anything.
-# See here for more info about why this is cool: http://qntm.org/bash#sec1
+# Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
+# See here for more info about why a prompt is useful: http://qntm.org/bash#sec1
 git_prompt(){ read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -; }
 case "$TERM" in
 xterm*|rxvt*)
@@ -96,7 +101,6 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 # Processes git status output, exporting bash variables
 # for the filepaths of each modified file.
 # To ensure colored output, please run: $ git config --global color.status always
-# Written by Nathan D. Broadbent (www.madebynathan.com)
 # -----------------------------------------------------------
 gs() {
   # Only export variables for less changes than $gs_max_changes
@@ -139,6 +143,22 @@ gs() {
   fi
   # Reset IFS separator to default.
   unset IFS
+}
+
+
+# 'git show affected files' function.
+# Prints a list of all files affected by a given SHA1,
+# and exports numbered environment variables for each file.
+# -----------------------------------------------------------
+gsf(){
+  f=0  # File count
+  # Show colored revision and commit message
+  script -q -c "git show --oneline --name-only $@" /dev/null | head -n 1; echo
+  for file in $(git show --pretty="format:" --name-only $@ | grep -v '^$'); do
+    let f++
+    export $git_env_char$f=$file     # Export numbered variable.
+    echo -e "    \e[2;37m[\e[0m$f\e[2;37m]\e[0m $file"
+  done; echo
 }
 
 
