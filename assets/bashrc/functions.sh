@@ -99,12 +99,12 @@ gsed() {
 # -----------------------------------------------------------
 gs() {
   # Set your preferred shortcut letter here
-  pfix="e"
+  local pfix="e"
   # Max changes before reverting to standard 'git status' (can be very slow otherwise)
-  max_changes=15
+  local max_changes=15
   # ------------------------------------------------
   # Only export variables for less than $max_changes
-  status=`git status --porcelain`
+  local status=`git status --porcelain`
   IFS=$'\n'
   if [ $(echo "$status" | wc -l) -lt $max_changes ]; then
     f=0  # Counter for the number of files
@@ -143,31 +143,51 @@ gs() {
   unset IFS
 }
 
-# Should be used in conjunction with the gs() function.
-# Allows you to add numbered files, ranges of files, or filepaths.
-# -----------------------------------------------------------
+# Can be used in conjunction with the gs() function.
+# - Allows you to stage numbered files, ranges of files, or filepaths.
+# - Option to detect and use 'git rm' for deleted files.
+#   It changes the behaviour of 'git add' to mean 'stage the change to this file'
+# -------------------------------------------------------------------------------
 ga() {
-  pfix="e" # Prefix for environment variable shortcuts
+  local pfix="e" # Prefix for environment variable shortcuts
+  local auto_remove="yes" # Use 'git rm' for deleted files.
   if [ -n "$1" ]; then
-    # Process each argument independently
+    # Expand each argument into sets of files.
     for arg in "$@"; do
       # If passed an integer, use the corresponding $e{*} variable
       if [[ "$arg" =~ ^[0-9]+$ ]] ; then
-        eval git add "\$$pfix$arg"
+        files=$(eval echo \$$pfix$arg)
       # If passed a range, expand the range for each $e{*} variable
       elif [[ $arg == *..* ]]; then
+        files=""
         for i in $(seq $(echo $arg | tr ".." " ")); do
-          eval git add "\$$pfix$i"
+          files="$files $(eval echo \$$pfix$i)"
         done
+      # Fall back to treating $arg as a filepath.
       else
-        git add $arg  # Default to adding a file.
+        files="$arg"
       fi
+      # Process each file
+      for file in $files; do
+        # If 'auto_remove' is enabled and file doesn't exist,
+        # use 'git rm' instead of 'git add'.
+        if [[ $auto_remove == "yes" ]] && ! [[ -e $file ]]; then
+          git rm $file
+        else
+          git add $file
+          echo "add '$file'"  # match output of 'git rm'
+        fi
+      done
     done
   else
     echo "Usage: ga <file>  => git add <file>"
     echo "       ga 1       => git add \$e1"
     echo "       ga 2..4    => git add \$e2 \$e3 \$e4"
     echo "       ga 2 5..7  => git add \$e2 \$e5 \$e6 \$e7"
+    if [[ $auto_remove == "yes" ]]; then
+      echo -e "\nNote: Deleted files will also be staged using this shortcut."
+      echo "      To turn off this behaviour, change the 'auto_remove' option."
+    fi
   fi
 }
 
