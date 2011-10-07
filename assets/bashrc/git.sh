@@ -1,6 +1,17 @@
 #
-# Git aliases and functions.
-# ----------------------------------------
+# Function Config
+# --------------------------
+# Set your preferred prefix for env variable file shortcuts.
+git_env_char="e"
+# Max changes before reverting to standard 'git status' (can be very slow otherwise)
+gs_max_changes="15"
+# Automatically use 'git rm' to remove deleted files.
+ga_auto_remove="yes"
+
+
+# Git aliases
+# ----------------------------------------------------
+
 alias gcl='git clone'
 alias gf='git fetch'
 alias gpl='git pull'
@@ -25,23 +36,7 @@ alias gr='git remote'
 # Add all staged changes to latest commit (without changing message)
 alias gcmh='git commit --amend -C HEAD'
 
-ours (){ git checkout --ours $1; git add $1; }
-theirs (){ git checkout --theirs $1; git add $1; }
-
-# Keyboard bindings
-# -----------------------------------------------------------
-# Ctrl~>[space] or Ctrl~>x~>[space] gives a git commit prompt,
-# where you don't have to worry about escaping anything.
-# See here for more info about why this is cool: http://qntm.org/bash#sec1
-git_prompt(){ read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -; }
-case "$TERM" in
-xterm*|rxvt*)
-    bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
-    bind "\"\C-x \": \"git_prompt 'git commit'\n\""
-    ;;
-esac
-
-# Attach git tab completion to aliases
+# Tab completion for git aliases
 complete -o default -o nospace -F _git_pull gpl
 complete -o default -o nospace -F _git_push gps
 complete -o default -o nospace -F _git_fetch gf
@@ -54,28 +49,46 @@ complete -o default -o nospace -F _git_remote gr
 complete -o default -o nospace -F _git_show gs
 
 
+# Keyboard bindings
+# -----------------------------------------------------------
 
+# Ctrl~>[space] or Ctrl~>x~>[space] gives a git commit prompt,
+# where you don't have to worry about escaping anything.
+# See here for more info about why this is cool: http://qntm.org/bash#sec1
+git_prompt(){ read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -; }
+case "$TERM" in
+xterm*|rxvt*)
+    bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
+    bind "\"\C-x \": \"git_prompt 'git commit'\n\""
+    ;;
+esac
+
+
+
+# Git shortcut functions
+# ----------------------------------------------------
+
+ours (){ git checkout --ours $1; git add $1; }
+theirs (){ git checkout --theirs $1; git add $1; }
+
+
+# 'git status' wrapper
 # Processes your git status output, exporting bash variables
 # for the filepaths of each modified file.
 # To ensure colored output, please run: $ git config --global color.status always
 # Written by Nathan D. Broadbent (www.madebynathan.com)
 # -----------------------------------------------------------
 gs() {
-  # Set your preferred shortcut letter here
-  local pfix="e"
-  # Max changes before reverting to standard 'git status' (can be very slow otherwise)
-  local max_changes=15
-  # ------------------------------------------------
-  # Only export variables for less than $max_changes
+  # Only export variables for less changes than $gs_max_changes
   local status=`git status --porcelain`
   IFS=$'\n'
-  if [ $(echo "$status" | wc -l) -lt $max_changes ]; then
+  if [ $(echo "$status" | wc -l) -lt $gs_max_changes ]; then
     f=0  # Counter for the number of files
     for line in $status; do
       file=$(echo $line | sed "s/^.. //g")
       let f++
       files[$f]=$file           # Array for formatting the output
-      export $pfix$f=$file     # Exporting variable for use.
+      export $git_env_char$f=$file     # Exporting variable for use.
     done
     full_status=`git status`  # Fetch full status
     # Search and replace each line, showing the exported variable name next to files.
@@ -87,11 +100,11 @@ gs() {
         # EOL '$' doesn't work. This gave me a headache for long time.
         # The echo ~> regex is very time-consuming, so we perform a simple search first.
         if [[ $line = *$search* ]]; then
-          replace="\\\033[2;37m[\\\033[0m\$$pfix$i\\\033[2;37m]\\\033[0m $search"
+          replace="\\\033[2;37m[\\\033[0m\$$git_env_char$i\\\033[2;37m]\\\033[0m $search"
           line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
           # Only break the while loop if a replacement was made.
           # This is to support cases like 'Gemfile' and 'Gemfile.lock' both being modified.
-          if echo $line | grep -q "\$$pfix$i"; then break; fi
+          if echo $line | grep -q "\$$git_env_char$i"; then break; fi
         fi
         let i++
       done
@@ -106,21 +119,21 @@ gs() {
   unset IFS
 }
 
-# Can be used in conjunction with the gs() function.
+
+# 'git add' & 'git rm' wrapper
+# This shortcut means 'stage the change to the file'
+# i.e. It will add new and changed files, and remove deleted files.
+# Should be used in conjunction with the gs() function for 'git status'.
 # - Allows you to stage numbered files, ranges of files, or filepaths.
-# - Option to detect and use 'git rm' for deleted files.
-#   So instead of meaning 'Add file contents to the index',
-#   the default meaning of this shortcut is 'stage the change to this file'.
+# - 'auto git rm' behaviour can be turned off
 # -------------------------------------------------------------------------------
 ga() {
-  local pfix="e" # Prefix for environment variable shortcuts
-  local auto_remove="yes" # Use 'git rm' for deleted files.
   if [ -z "$1" ]; then
     echo "Usage: ga <file>  => git add <file>"
     echo "       ga 1       => git add \$e1"
     echo "       ga 2..4    => git add \$e2 \$e3 \$e4"
     echo "       ga 2 5..7  => git add \$e2 \$e5 \$e6 \$e7"
-    if [[ $auto_remove == "yes" ]]; then
+    if [[ $ga_auto_remove == "yes" ]]; then
       echo -e "\nNote: Deleted files will also be staged using this shortcut."
       echo "      To turn off this behaviour, change the 'auto_remove' option."
     fi
@@ -129,12 +142,12 @@ ga() {
     for arg in "$@"; do
       # If passed an integer, use the corresponding $e{*} variable
       if [[ "$arg" =~ ^[0-9]+$ ]] ; then
-        files=$(eval echo \$$pfix$arg)
+        files=$(eval echo \$$git_env_char$arg)
       # If passed a range, expand the range for each $e{*} variable
       elif [[ $arg == *..* ]]; then
         files=""
         for i in $(seq $(echo $arg | tr ".." " ")); do
-          files="$files $(eval echo \$$pfix$i)"
+          files="$files $(eval echo \$$git_env_char$i)"
         done
       # Fall back to treating $arg as a filepath.
       else
@@ -142,9 +155,9 @@ ga() {
       fi
       # Process each file
       for file in $files; do
-        # If 'auto_remove' is enabled and file doesn't exist,
+        # If 'ga_auto_remove' is enabled and file doesn't exist,
         # use 'git rm' instead of 'git add'.
-        if [[ $auto_remove == "yes" ]] && ! [ -e $file ]; then
+        if [[ $ga_auto_remove == "yes" ]] && ! [ -e $file ]; then
           git rm $file
         else
           git add $file
@@ -156,12 +169,13 @@ ga() {
 }
 
 
-# Permanently remove files/folders from git repository
-# -----------------------------------------------------------
-# Author: David Underhill
-# Script to permanently delete files/folders from your git repository.  To use
-# it, cd to your repository's root and then run the script with a list of paths
-# you want to delete, e.g., git_remove_history path1 path2
+# Git utility functions
+# ----------------------------------------------------
+
+# Permanently remove all traces of files/folders from git repository.
+# To use it, cd to your repository's root and then run the function
+# with a list of paths you want to delete. e.g. git_remove_history path1 path2
+# Original Author: David Underhill
 git_remove_history() {
   # Make sure we're at the root of a git repo
   if [ ! -d .git ]; then
