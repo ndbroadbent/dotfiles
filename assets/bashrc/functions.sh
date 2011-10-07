@@ -176,7 +176,7 @@ ga() {
           git rm $file
         else
           git add $file
-          echo "add '$file'"  # match output of 'git rm'
+          echo "add '$file'"  # similar output to 'git rm'
         fi
       done
     done
