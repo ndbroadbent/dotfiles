@@ -94,18 +94,27 @@ alias cdp='cap deploy'
 # -- rvm / ruby / rails
 alias r='rake'
 alias gemdir='cd $GEM_HOME/gems'
-ensure_bundler() { if ! test $(which bundle); then gem install bundler; fi; }
+ensure_bundler() { if ! type bundle > /dev/null 2>&1; then gem install bundler; fi; }
 alias bi="ensure_bundler; bundle install"
-alias be="ensure_bundler; bundle exec"
-# Automatically invoke bundler for rake, if necessary.
+# Always invoke bundler for rake, if necessary.
 # (uses file_exists_inverse_recursive function from 'functions.sh')
-rake() {
-  if $(file_exists_inverse_recursive Gemfile); then
-    bundle exec rake "$@"
-  else
-    /usr/bin/env rake "$@"
-  fi
+be() {
+  ensure_bundler
+  if exists_curr_or_parent Gemfile; then bundle exec "$@"; else /usr/bin/env "$@"; fi
 }
+# Test whether file exists in current or parent directories
+exists_curr_or_parent() {
+  local slashes=${PWD//[^\/]/}; local directory=$PWD;
+  for (( n=${#slashes}; n>0; --n )); do
+    test -e $directory/$1 && return 0
+    directory=$directory/..
+  done; return 1
+}
+# Alias rails commands to use the be() bundle exec wrapper
+for c in cap capify cucumber heroku rackup rails rake rspec shotgun spec spork thin unicorn unicorn_rails; do
+  alias $c="be $c"
+done
+
 
 # RVM ruby versions
 alias 192='rvm use ruby-1.9.2'
