@@ -72,7 +72,10 @@ function src() {
       _src_git_batch_cmd "${@:2:$(($#-1))}" # Pass all args except $1
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
       echo -e "($_bld_col$(_src_repo_count)$_txt_col) Git repositories in $_bld_col$src_dir$_txt_col:\n"
-      sed -e "s/--.*//" $src_dir/.git_index | grep . | sort
+      repos=$(sed -e "s/--.*//" -e "s%$HOME%~%" $src_dir/.git_index)
+      for repo in $repos; do
+        echo $(basename $repo) $repo
+      done | sort | column -t
     elif [ "$1" = "--count-by-host" ]; then
       echo -e "=== Producing a report of the number of repos per host...\n"
       _src_git_batch_cmd git remote -v | grep "origin.*(fetch)" |
@@ -91,8 +94,12 @@ function src() {
         # Append subdirectories to base path
         path="$path$sub_path"
       fi
-      # Fall back to a partial match
+      # Fall back to partial matches
+      # - string at beginning of project
+      if [ -z "$path" ]; then path=$(grep -m1 "/$project" "$src_dir/.git_index"); fi
+      # - string anywhere in project
       if [ -z "$path" ]; then path=$(grep -m1 "$project" "$src_dir/.git_index"); fi
+      # --------------------
       # Go to our path
       if [ -n "$path" ]; then
         cd "$path"
@@ -127,7 +134,10 @@ function _src_find_git_submodules() {
 # Rebuilds cache of git repos in $src_dir.
 function _src_rebuild_cache() {
   if [ "$1" != "--silent" ]; then echo -e "== Scanning $src_dir for git repos..."; fi
-  _src_find_git_repos > "$src_dir/.git_index"
+  # Sort repos by basename
+  for repo in $(_src_find_git_repos); do
+    echo $(basename $repo) $repo
+  done | sort | cut -d " " -f2 > "$src_dir/.git_index"
   if [ "$1" != "--silent" ]; then
     echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
   fi
