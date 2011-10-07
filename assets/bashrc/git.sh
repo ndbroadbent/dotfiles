@@ -9,32 +9,52 @@ gs_max_changes="15"
 ga_auto_remove="yes"
 
 
-# Git aliases
+# Allow git commands to handle numbered files, ranges of files, or filepaths.
+# These numbered shortcuts are produced from the git status wrapper (gs).
+git_expand_args() {
+  files=""
+  for arg in "$@"; do
+    if [[ "$arg" =~ ^[0-9]+$ ]] ; then      # Evaluate $e{*} variables for any integers
+      files="$files $(eval echo \$$git_env_char$arg)"
+    elif [[ $arg == *..* ]]; then           # Expand ranges into $e{*} variables
+      for i in $(seq $(echo $arg | tr ".." " ")); do
+        files="$files $(eval echo \$$git_env_char$i)"
+      done
+    else                                    # Otherwise, treat $arg as a normal file.
+      files="$files $arg"
+    fi
+  done
+  echo "$files"
+}
+
+
+# Git aliases & shortcuts
 # ----------------------------------------------------
 
 alias gcl='git clone'
 alias gf='git fetch'
 alias gpl='git pull'
 alias gps='git push'
-alias gco='git checkout'
-alias grs='git reset'
+alias gr='git remote -v'
 alias gb='git branch'
 alias grb='git rebase'
 alias gm='git merge'
 alias gcp='git cherry-pick'
-# alias ga='git add' - See ga() function.
-alias grm='git rm'
+alias gl='git log'
+alias gsh='git show'
 alias gaa='git add -A'
 alias gc='git commit -m'
 alias gca='git commit -am'
 alias gcm='git commit --amend'
-alias gl='git log'
-alias gsh='git show'
-alias gd='git diff'
-alias gdc='git diff --cached'
-alias gr='git remote'
-# Add all staged changes to latest commit (without changing message)
-alias gcmh='git commit --amend -C HEAD'
+alias gcmh='git commit --amend -C HEAD' # Adds staged changes to latest commit
+
+# Commands dealing with filepaths
+function gco() { git checkout $(git_expand_args "$@"); }
+function grs() { git reset $(git_expand_args "$@"); }
+function grm() { git rm $(git_expand_args "$@"); }
+function gd()  { git diff $(git_expand_args "$@"); }
+function gdc() { git diff --cached $(git_expand_args "$@"); }
+function gbl() { git blame $(git_expand_args "$@"); }
 
 # Tab completion for git aliases
 complete -o default -o nospace -F _git_pull gpl
@@ -64,16 +84,16 @@ xterm*|rxvt*)
 esac
 
 
-
 # Git shortcut functions
 # ----------------------------------------------------
 
-ours (){ git checkout --ours $1; git add $1; }
-theirs (){ git checkout --theirs $1; git add $1; }
+# Resolving merge conflicts.
+ours(){   local files=$(git_expand_args "$@"); git checkout --ours $files; git add $files; }
+theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git add $files; }
 
 
 # 'git status' wrapper
-# Processes your git status output, exporting bash variables
+# Processes git status output, exporting bash variables
 # for the filepaths of each modified file.
 # To ensure colored output, please run: $ git config --global color.status always
 # Written by Nathan D. Broadbent (www.madebynathan.com)
@@ -90,6 +110,8 @@ gs() {
       files[$f]=$file           # Array for formatting the output
       export $git_env_char$f=$file     # Exporting variable for use.
     done
+    # Header message
+    echo -e "# Filepaths are stored in numbered variables, such as '\$$git_env_char""1'."
     full_status=`git status`  # Fetch full status
     # Search and replace each line, showing the exported variable name next to files.
     for line in $full_status; do
@@ -100,7 +122,7 @@ gs() {
         # EOL '$' doesn't work. This gave me a headache for long time.
         # The echo ~> regex is very time-consuming, so we perform a simple search first.
         if [[ $line = *$search* ]]; then
-          replace="\\\033[2;37m[\\\033[0m\$$git_env_char$i\\\033[2;37m]\\\033[0m $search"
+          replace="\\\033[2;37m[\\\033[0m$i\\\033[2;37m]\\\033[0m $search"
           line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
           # Only break the while loop if a replacement was made.
           # This is to support cases like 'Gemfile' and 'Gemfile.lock' both being modified.
@@ -124,7 +146,6 @@ gs() {
 # This shortcut means 'stage the change to the file'
 # i.e. It will add new and changed files, and remove deleted files.
 # Should be used in conjunction with the gs() function for 'git status'.
-# - Allows you to stage numbered files, ranges of files, or filepaths.
 # - 'auto git rm' behaviour can be turned off
 # -------------------------------------------------------------------------------
 ga() {
@@ -138,32 +159,16 @@ ga() {
       echo "      To turn off this behaviour, change the 'auto_remove' option."
     fi
   else
-    # Expand each argument into sets of files.
-    for arg in "$@"; do
-      # If passed an integer, use the corresponding $e{*} variable
-      if [[ "$arg" =~ ^[0-9]+$ ]] ; then
-        files=$(eval echo \$$git_env_char$arg)
-      # If passed a range, expand the range for each $e{*} variable
-      elif [[ $arg == *..* ]]; then
-        files=""
-        for i in $(seq $(echo $arg | tr ".." " ")); do
-          files="$files $(eval echo \$$git_env_char$i)"
-        done
-      # Fall back to treating $arg as a filepath.
+    # Expand args and process resulting set of files.
+    for file in $(git_expand_args "$@"); do
+      # If 'ga_auto_remove' is enabled and file doesn't exist,
+      # use 'git rm' instead of 'git add'.
+      if [[ $ga_auto_remove == "yes" ]] && ! [ -e $file ]; then
+        git rm $file
       else
-        files="$arg"
+        git add $file
+        echo "add '$file'"  # similar output to 'git rm'
       fi
-      # Process each file
-      for file in $files; do
-        # If 'ga_auto_remove' is enabled and file doesn't exist,
-        # use 'git rm' instead of 'git add'.
-        if [[ $ga_auto_remove == "yes" ]] && ! [ -e $file ]; then
-          git rm $file
-        else
-          git add $file
-          echo "add '$file'"  # similar output to 'git rm'
-        fi
-      done
     done
   fi
 }
