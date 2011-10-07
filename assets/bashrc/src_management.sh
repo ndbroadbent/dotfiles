@@ -63,7 +63,10 @@ cache_repositories=true
 git_status_command="gs"
 
 function src() {
-  if [ -n "$1" ]; then
+  if [ -z "$1" ]; then
+    # Just change to $src_dir if no params given.
+    cd $src_dir
+  else
     if [ "$1" = "--rebuild-cache" ]; then
       _src_rebuild_cache
     elif [ "$1" = "--update-all" ]; then
@@ -109,8 +112,6 @@ function src() {
         echo -e "$_wrn_col'$1' did not match any git repos in $src_dir$_txt_col"
       fi
     fi
-  else
-    cd $src_dir
   fi
 }
 
