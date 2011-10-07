@@ -112,7 +112,7 @@ function _src_find_git_repos() {
   # Find all unarchived projects
   for repo in $(find "$src_dir" -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
     echo ${repo%/.git}              # Return project folder
-    _src_find_git_submodules $repo   # Detect any submodules
+    _src_find_git_submodules $repo  # Detect any submodules
   done
 }
 
