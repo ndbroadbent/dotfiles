@@ -11,7 +11,7 @@ cat > ~/.gitconfig <<EOF
 	remote = origin
 	merge = refs/heads/master
 [core]
-	editor = vim
+	editor = vim -c start
 
 [color]
   branch = auto
