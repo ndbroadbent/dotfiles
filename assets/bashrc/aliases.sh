@@ -115,13 +115,6 @@ for c in cap capify cucumber heroku rackup rails rake rspec shotgun spec spork t
   alias $c="be $c"
 done
 
-
-# RVM ruby versions
-alias 192='rvm use ruby-1.9.2'
-alias 187='rvm use ruby-1.8.7'
-alias 186='rvm use ruby-1.8.6'
-alias jr='rvm use jruby'
-
 # Use the same rails command for both 2.x and 3.x
 rails_cmd(){
   if [ -e ./script/rails ]; then ./script/rails $@
@@ -132,6 +125,13 @@ rails_cmd(){
 rs() { rails_cmd server "$@"; }
 rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
+
+
+# RVM ruby versions
+alias 192='rvm use ruby-1.9.2'
+alias 187='rvm use ruby-1.8.7'
+alias 186='rvm use ruby-1.8.6'
+alias jr='rvm use jruby'
 
 
 # -------------------------------------------------
