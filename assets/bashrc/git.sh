@@ -103,45 +103,123 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 # To ensure colored output, please run: $ git config --global color.status always
 # -----------------------------------------------------------
 gs() {
-  # Only export variables for less changes than $gs_max_changes
+  export IFS=$'\n'
   local status=`git status --porcelain`
-  IFS=$'\n'
-  if [ $(echo "$status" | wc -l) -lt $gs_max_changes ]; then
-    f=0  # Counter for the number of files
-    for line in $status; do
-      file=$(echo $line | sed "s/^.. //g")
-      let f++
-      files[$f]=$file           # Array for formatting the output
-      export $git_env_char$f=$file     # Exporting variable for use.
-    done
-    # Header message
-    echo -e "# Filepaths are stored in numbered variables, such as '\$$git_env_char""1'."
-    full_status=`git status`  # Fetch full status
-    # Search and replace each line, showing the exported variable name next to files.
-    for line in $full_status; do
-      i=1
-      while [ $i -le $f ]; do
-        search=${files[$i]}
-        # Need to strip the color character from the end of the line, otherwise
-        # EOL '$' doesn't work. This gave me a headache for long time.
-        # The echo ~> regex is very time-consuming, so we perform a simple search first.
-        if [[ $line = *$search* ]]; then
-          replace="\\\e[2;37m[\\\e[0m$i\\\e[2;37m]\\\e[0m $search"
-          line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
-          # Only break the while loop if a replacement was made.
-          # This is to support cases like 'Gemfile' and 'Gemfile.lock' both being modified.
-          if echo $line | grep -q "\$$git_env_char$i"; then break; fi
-        fi
-        let i++
-      done
-      echo -e $line                        # Print the final transformed line.
-    done
+  local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+  local c_rst="\e[0m"
+  local c_branch="\e[1;37m"
+
+  # If status is blank
+  if [ -z "$status" ]; then
+    echo -e "# On branch: $c_branch$branch$c_rst\nnothing to commit (working directory clean)"
   else
-    # If there are too many changed files, this 'gs' function will slow down.
-    # In this case, fall back to plain 'git status'
-    git status
+    if [ $(echo "$status" | wc -l) -lt $gs_max_changes ]; then
+      unset stat_file; unset stat_col; unset stat_msg; unset stat_grp; unset stat_x; unset stat_y
+      # Colors
+      local c_header="\e[0m"
+      local c_brk="\e[2;37m"
+
+      local c_grp_1="\e[1;33m"
+      local c_grp_2="\e[1;31m"
+      local c_grp_3="\e[1;32m"
+      local c_grp_4="\e[1;34m"
+
+      local c_del="\e[0;31m"
+      local c_mod="\e[0;32m"
+      local c_new="\e[0;33m"
+      local c_ren="\e[0;34m"
+      local c_cpy="\e[0;33m"
+      local c_ign="\e[0;36m"
+
+      local f=0  # Counter for number of files
+      local e=1  # Counter for ENV variables
+
+      _gs_output_file_group() {
+        local output=""
+        for i in ${stat_grp[$1]}; do
+          output="$output\n"$(echo -e "#      ${stat_col[$i]}${stat_msg[$i]}:%\
+$c_brk[$c_rst$e$c_brk] $c_rst${stat_file[$i]}$c_rst")
+          # Export numbered variables in the order they are displayed.
+          export $git_env_char$e=${stat_file[$i]}
+          let e++
+        done
+        echo -e "$output" | column -t -s "%"
+        echo "#"
+      }
+
+      echo -e "# On branch: $c_branch$branch$c_rst\n#"
+
+      for line in $status; do
+        let f++
+        # Filenames
+        file=$(echo "$line" | sed "s/^.. //g")
+        x=$(echo "$line" | cut -c 1 )
+        y=$(echo "$line" | cut -c 2-2 )
+
+        # Store files & statuses in arrays
+        stat_file[$f]=$file
+        stat_x[$f]=$x
+        stat_y[$f]=$y
+
+        # Groups -- 1: staged, 2: unmerged, 3: unstaged, 4: untracked
+
+        # Generate status message
+        case "$x" in
+        M) msg="modified"; col="$c_mod"; grp="1";;
+        R) msg="renamed"; col="$c_ren"; grp="3";;
+        C) msg="copied"; col="$c_cpy"; grp="3";;
+        A) case "$y" in
+           A) msg="both added"; col="$c_new"; grp="2";;
+           U) msg="added by us"; col="$c_new"; grp="2";;
+           *) msg="new file"; col="$c_new"; grp="1";;
+           esac;;
+        D) case "$y" in
+           D) msg="both deleted"; col="$c_del"; grp="2";;
+           U) msg="deleted by us"; col="$c_del"; grp="2";;
+           *) msg="deleted"; col="$c_del"; grp="1";;
+           esac;;
+        U) case "$y" in
+           D) msg="deleted by them"; col="$c_del"; grp="2";;
+           A) msg="added by them"; col="$c_new"; grp="2";;
+           U) msg="both modified"; col="$c_mod"; grp="2";;
+          esac;;
+        " ") case "$y" in
+             M) msg="modified"; col="$c_mod"; grp="3";;
+             D) msg="deleted"; col="$c_del"; grp="3";;
+             *) msg="not updated"; col="$c_rst"; grp="0";;
+             esac;;
+        "?") msg="untracked"; col="$c_ign"; grp="4";;
+        esac
+        stat_msg[$f]=$msg; stat_col[$f]=$col
+        # add file to group
+        stat_grp[$grp]="${stat_grp[$grp]} $f"
+      done
+
+      export IFS=" "
+      if [ -n "${stat_grp[1]}" ]; then
+        echo -e "# $c_grp_1[$c_header Changes to be committed $c_grp_1]$c_rst\n#"
+        _gs_output_file_group 1
+      fi
+      if [ -n "${stat_grp[2]}" ]; then
+        echo -e "# $c_grp_2[$c_header Unmerged paths $c_grp_2]$c_rst\n#"
+        _gs_output_file_group 2
+      fi
+      if [ -n "${stat_grp[3]}" ]; then
+        echo -e "# $c_grp_3[$c_header Changes not staged for commit $c_grp_3]$c_rst\n#"
+        _gs_output_file_group 3
+      fi
+      if [ -n "${stat_grp[4]}" ]; then
+        echo -e "# $c_grp_4[$c_header Untracked files $c_grp_4]$c_rst\n#"
+        _gs_output_file_group 4
+      fi
+
+    else
+      # If there are too many changed files, this 'gs' function will slow down.
+      # In this case, fall back to plain 'git status'
+      git status
+    fi
   fi
-  # Reset IFS separator to default.
+  # Reset IFS separator
   unset IFS
 }
 
@@ -153,12 +231,12 @@ gs() {
 gsf(){
   f=0  # File count
   # Show colored revision and commit message
-  script -q -c "git show --oneline --name-only $@" /dev/null | head -n 1; echo
+  echo -n "# "; script -q -c "git show --oneline --name-only $@" /dev/null | sed "s/\r//g" | head -n 1; echo "# "
   for file in $(git show --pretty="format:" --name-only $@ | grep -v '^$'); do
     let f++
     export $git_env_char$f=$file     # Export numbered variable.
-    echo -e "    \e[2;37m[\e[0m$f\e[2;37m]\e[0m $file"
-  done; echo
+    echo -e "#     \e[2;37m[\e[0m$f\e[2;37m]\e[0m $file"
+  done; echo "# "
 }
 
 
@@ -190,6 +268,9 @@ ga() {
         echo "add '$file'"  # similar output to 'git rm'
       fi
     done
+    echo
+    # It makes sense to run 'gs' after this command.
+    gs
   fi
 }
 
