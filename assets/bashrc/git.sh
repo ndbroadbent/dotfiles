@@ -184,7 +184,6 @@ gs() {
     # In this case, fall back to plain 'git status'
     git status
   fi
-  # Reset IFS separator
   unset IFS
 }
 # Helper function for the 'gs' command.
