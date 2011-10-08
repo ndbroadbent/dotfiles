@@ -55,7 +55,7 @@ alias gca='git commit -am'
 alias gcm='git commit --amend'
 alias gcmh='git commit --amend -C HEAD' # Adds staged changes to latest commit
 
-# Commands dealing with filepaths
+# Commands that deal with paths
 function gco() { git checkout $(git_expand_args "$@"); }
 function grs() { git reset    $(git_expand_args "$@"); }
 function grm() { git rm       $(git_expand_args "$@"); }
