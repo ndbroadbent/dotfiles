@@ -13,13 +13,13 @@
 
 # Colored Prompt
 force_color_prompt=yes
-PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\w $ "
+PS1="\[\e[01;32m\]\u@\h\[\e[00m\]:\w $ "
 unset color_prompt force_color_prompt
 
 # Custom Xterm Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+    PROMPT_COMMAND='echo -ne "\e]0;${USER}@${HOSTNAME}: ${PWD}\007"'
     ;;
 *)
     ;;

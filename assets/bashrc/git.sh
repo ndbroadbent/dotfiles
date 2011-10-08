@@ -126,7 +126,7 @@ gs() {
         # EOL '$' doesn't work. This gave me a headache for long time.
         # The echo ~> regex is very time-consuming, so we perform a simple search first.
         if [[ $line = *$search* ]]; then
-          replace="\\\033[2;37m[\\\033[0m$i\\\033[2;37m]\\\033[0m $search"
+          replace="\\\e[2;37m[\\\e[0m$i\\\e[2;37m]\\\e[0m $search"
           line=$(echo $line | sed -r "s:$search(\x1B\[m)?$:$replace:g")
           # Only break the while loop if a replacement was made.
           # This is to support cases like 'Gemfile' and 'Gemfile.lock' both being modified.
