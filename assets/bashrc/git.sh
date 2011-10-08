@@ -8,7 +8,7 @@
 # Set your preferred prefix for env variable file shortcuts.
 git_env_char="e"
 # Max changes before reverting to standard 'git status' (can be very slow otherwise)
-gs_max_changes="15"
+gs_max_changes="99"
 # Automatically use 'git rm' to remove deleted files.
 ga_auto_remove="yes"
 
