@@ -3,15 +3,15 @@
 # -------------------------------------------------------
 
 # Prompt colors
-_txt_col="\033[00m"     # Std text (white)
-_bld_col="\033[01;37m"  # Bold text (white)
-_wrn_col="\033[01;31m"  # Warning
+_txt_col="\e[00m"     # Std text (white)
+_bld_col="\e[01;37m"  # Bold text (white)
+_wrn_col="\e[01;31m"  # Warning
 _sep_col=$_txt_col      # Separators
-_usr_col="\033[01;32m"  # Username
+_usr_col="\e[01;32m"  # Username
 _cwd_col=$_txt_col      # Current directory
-_hst_col="\033[0;32m"   # Host
-_env_col="\033[0;36m"   # Prompt environment
-_git_col="\033[01;36m"  # Git branch
+_hst_col="\e[0;32m"   # Host
+_env_col="\e[0;36m"   # Prompt environment
+_git_col="\e[01;36m"  # Git branch
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
@@ -66,7 +66,7 @@ export GREP_COLOR='1;32'
 # Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND+='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007";'
+    PROMPT_COMMAND+='echo -ne "\e]0;${USER}@${HOSTNAME}: ${PWD}\007";'
     ;;
 *)
     ;;
