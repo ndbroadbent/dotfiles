@@ -99,9 +99,10 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 
 
 # 'git status' implementation
-# Processes 'git status --porcelain', exporting bash variables
-# for the filepaths of each modified file.
-# -----------------------------------------------------------
+# Processes 'git status --porcelain', exporting numbered env variables
+# with the paths of each affected file.
+# Output is more concise and colorful than standard 'git status'.
+# --------------------------------------------------------------------
 gs() {
   export IFS=$'\n'
   local status=`git status --porcelain 2> /dev/null`
