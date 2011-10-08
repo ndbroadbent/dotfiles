@@ -169,23 +169,15 @@ gs() {
     done
 
     export IFS=" "
-    if [ -n "${stat_grp[1]}" ]; then
-      echo -e "# $c_head_1[$c_header Changes to be committed $c_head_1]$c_rst\n#"
-      _gs_output_file_group 1
-    fi
-    if [ -n "${stat_grp[2]}" ]; then
-      echo -e "# $c_head_2[$c_header Unmerged paths $c_head_2]$c_rst\n#"
-      _gs_output_file_group 2
-    fi
-    if [ -n "${stat_grp[3]}" ]; then
-      echo -e "# $c_head_3[$c_header Changes not staged for commit $c_head_3]$c_rst\n#"
-      _gs_output_file_group 3
-    fi
-    if [ -n "${stat_grp[4]}" ]; then
-      echo -e "# $c_head_4[$c_header Untracked files $c_head_4]$c_rst\n#"
-      _gs_output_file_group 4
-    fi
-
+    group_num=1
+    for heading in 'Changes to be committed' 'Unmerged paths' 'Changes not staged for commit' 'Untracked files'; do
+      local c_head="$(eval echo \$c_head_$group_num)"
+      if [ -n "${stat_grp[$group_num]}" ]; then
+        echo -e "# $c_head[$c_header $heading $c_head]$c_rst\n#"
+        _gs_output_file_group $group_num
+      fi
+      let group_num++
+    done
   else
     # If there are too many changed files, this 'gs' function will slow down.
     # In this case, fall back to plain 'git status'
@@ -194,7 +186,6 @@ gs() {
   # Reset IFS separator
   unset IFS
 }
-
 # Helper function for the 'gs' command.
 _gs_output_file_group() {
   local output=""
@@ -211,6 +202,8 @@ $pad$c_brk[$c_rst$e$c_brk] $c_file${stat_file[$i]}$c_rst")
   echo -e "$output" | column -t -s "%"
   echo "#"
 }
+# New alias for Ghostscript, if you need it.
+alias gsc="/usr/bin/env gs"
 
 
 # 'git show affected files' function.
