@@ -5,22 +5,23 @@
 
 # Config
 # --------------------------
-# Set your preferred prefix for env variable file shortcuts.
+# - Set your preferred prefix for env variable file shortcuts.
+#   (I chose 'e' because it is the easiest key to press after '$'.)
 git_env_char="e"
-# Max changes before reverting to standard 'git status' (can be very slow otherwise)
+# - Max changes before reverting to 'git status'. gs() might be slow for thousands of changes.
 gs_max_changes="99"
-# Automatically use 'git rm' to remove deleted files.
+# - Automatically use 'git rm' to remove deleted files using the ga() command?
 ga_auto_remove="yes"
 
 
-# Allows git commands to handle numbered files, ranges of files, or filepaths.
+# This function allows git commands to handle numbered files, ranges of files, or filepaths.
 # These numbered shortcuts are produced by various commands, such as:
-# * gs()  - git status
-# * gsf() - git show affected files
+# * gs()  - git status implementation
+# * gsf() - shows files affected by a given SHA1, etc.
 git_expand_args() {
   files=""
   for arg in "$@"; do
-    if [[ "$arg" =~ ^[0-9]+$ ]] ; then      # Evaluate $e{*} variables for any integers
+    if [[ "$arg" =~ ^[0-9]+$ ]] ; then      # Use $e{*} variables for any integers
       files="$files $(eval echo \$$git_env_char$arg)"
     elif [[ $arg == *..* ]]; then           # Expand ranges into $e{*} variables
       for i in $(seq $(echo $arg | tr ".." " ")); do
