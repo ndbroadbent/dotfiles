@@ -7,9 +7,6 @@ cat > ~/.gitconfig <<EOF
 [user]
 	name = $git_name
 	email = $git_email
-[branch "master"]
-	remote = origin
-	merge = refs/heads/master
 [core]
 	editor = vim -c start
 
