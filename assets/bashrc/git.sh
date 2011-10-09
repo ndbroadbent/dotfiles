@@ -42,6 +42,7 @@ alias gcl='git clone'
 alias gf='git fetch'
 alias gpl='git pull'
 alias gps='git push'
+alias gst='git status' # (Custom status function below: 'gs')
 alias gr='git remote -v'
 alias gb='git branch'
 alias grb='git rebase'
@@ -50,8 +51,8 @@ alias gcp='git cherry-pick'
 alias gl='git log'
 alias gsh='git show'
 alias gaa='git add -A'
-alias gc='git commit -m'
-alias gca='git commit -am'
+alias gc='git commit'
+alias gca='git commit -a'
 alias gcm='git commit --amend'
 alias gcmh='git commit --amend -C HEAD' # Adds staged changes to latest commit
 
@@ -115,9 +116,9 @@ gs() {
 
     # Colors
     local c_rst="\e[0m"
-    local c_branch="\e[1;37m"
+    local c_branch="\e[1m"
     local c_header="\e[0m"
-    local c_brk="\e[2;37m"
+    local c_dark="\e[2;37m"
     local c_del="\e[0;31m"
     local c_mod="\e[0;32m"
     local c_new="\e[0;33m"
@@ -130,7 +131,7 @@ gs() {
 
     local f=1; local e=1  # Counters for number of files, and ENV variables
 
-    echo -e "\e[2;37m#$c_rst  On branch: $c_branch$branch$c_rst  $c_brk|  $c_brk[$c_rst*$c_brk]$c_rst => \$$git_env_char*\n\e[2;37m#$c_rst"
+    echo -e "$c_dark#$c_rst  On branch: $c_branch$branch$c_rst  $c_dark|  $c_dark[$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
 
     for line in $status; do
       x=${line:0:1}; y=${line:1:1}; file=${line:3}
@@ -184,6 +185,10 @@ gs() {
       let grp_num++
     done
 
+    # print 'no changes' message
+    if [ -z "${stat_grp[1]}" ]; then
+      echo -e "$c_dark#  (no changes added to commit)$c_rst"
+    fi
   else
     # If there are too many changed files, this 'gs' function will slow down.
     # In this case, fall back to plain 'git status'
@@ -200,7 +205,7 @@ _gs_output_file_group() {
     local c_hash="\e[0;$(eval echo -e \$c_grp_$1)"
     if [[ $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
     echo -e "$c_hash#$c_rst        ${stat_col[$i]}${stat_msg[$i]}: \
-$pad$c_brk[$c_rst$e$c_brk] ${stat_col[$i]}${stat_file[$i]}$c_rst"
+$pad$c_dark[$c_rst$e$c_dark] ${stat_col[$i]}${stat_file[$i]}$c_rst"
     # Export numbered variables in the order they are displayed.
     export $git_env_char$e="${stat_file[$i]}"
     let e++
