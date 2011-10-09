@@ -110,98 +110,104 @@ gs() {
 
   if [ -n "$status" ] && [[ $(echo "$status" | wc -l) -lt $gs_max_changes ]]; then
     unset stat_file; unset stat_col; unset stat_msg; unset stat_grp; unset stat_x; unset stat_y
+    # Clear existing env variables.
+    for (( i=1; i<=$gs_max_changes; i++ )); do unset $git_env_char$i; done
+
     # Colors
     local c_rst="\e[0m"
     local c_branch="\e[1;37m"
     local c_header="\e[0m"
     local c_brk="\e[2;37m"
-
     local c_del="\e[0;31m"
     local c_mod="\e[0;32m"
     local c_new="\e[0;33m"
     local c_ren="\e[0;34m"
     local c_cpy="\e[0;33m"
     local c_ign="\e[0;36m"
+    # Groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
+    # Colors must be prepended with modifiers e.g. '\e[1;', '\e[0;'
+    local c_grp_1="33m"; local c_grp_2="31m"; local c_grp_3="32m"; local c_grp_4="36m"
 
-    # group headings
-    local c_head_1="\e[1;33m";
-    local c_head_2="\e[1;31m"
-    local c_head_3="\e[1;32m"
-    local c_head_4="\e[1;36m"
-    # group files
-    local c_grp_1="\e[0;33m";
-    local c_grp_2="\e[0;31m"
-    local c_grp_3="\e[0;32m"
-    local c_grp_4="\e[0;36m"
+    local f=1; local e=1  # Counters for number of files, and ENV variables
 
-    local f=0  # Counter for number of files
-    local e=1  # Counter for ENV variables
-
-    echo -e "# On branch: $c_branch$branch$c_rst  $c_brk|$c_rst  Shortcuts: $c_brk[$c_rst*$c_brk]$c_rst => \$$git_env_char*\n#"
+    echo -e "\e[2;37m#$c_rst  On branch: $c_branch$branch$c_rst  $c_brk|  $c_brk[$c_rst*$c_brk]$c_rst => \$$git_env_char*\n\e[2;37m#$c_rst"
 
     for line in $status; do
-      let f++
-      # Process file state & deduce message, color and group.
-      # Groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
-      case "${line:0:2}" in
-      M?) msg="modified";        col="$c_mod"; grp="1";;
-      A?) msg="new file";        col="$c_new"; grp="1";;
-      D?) msg="deleted";         col="$c_del"; grp="1";;
-      " M") msg="modified";      col="$c_mod"; grp="3";;
-      " D") msg="deleted";       col="$c_del"; grp="3";;
-      R?) msg="renamed";         col="$c_ren"; grp="3";;
-      C?) msg="copied";          col="$c_cpy"; grp="3";;
-      AA) msg="both added";      col="$c_new"; grp="2";;
-      AU) msg="added by us";     col="$c_new"; grp="2";;
-      DD) msg="both deleted";    col="$c_del"; grp="2";;
-      DU) msg="deleted by us";   col="$c_del"; grp="2";;
-      UD) msg="deleted by them"; col="$c_del"; grp="2";;
-      UA) msg="added by them";   col="$c_new"; grp="2";;
-      UU) msg="both modified";   col="$c_mod"; grp="2";;
-      "??") msg="untracked";     col="$c_ign"; grp="4";;
-      *) msg=""; col=""; grp="0";;
+      x=${line:0:1}; y=${line:1:1}; file=${line:3}
+
+      # Index modification states
+      msg=""
+      case "$x$y" in
+      "M"?) msg=" modified"; col="$c_mod"; grp="1";;
+      "A"?) msg=" new file"; col="$c_new"; grp="1";;
+      "D"?) msg="  deleted"; col="$c_del"; grp="1";;
+      "R"?) msg="  renamed"; col="$c_ren"; grp="1";;
+      "C"?) msg="   copied"; col="$c_cpy"; grp="1";;
+      "??") msg="untracked"; col="$c_ign"; grp="4";;
+      # Merge conflicts
+      "DD") msg="   both deleted"; col="$c_del"; grp="2";;
+      "AU") msg="    added by us"; col="$c_new"; grp="2";;
+      "UD") msg="deleted by them"; col="$c_del"; grp="2";;
+      "UA") msg="  added by them"; col="$c_new"; grp="2";;
+      "DU") msg="  deleted by us"; col="$c_del"; grp="2";;
+      "AA") msg="     both added"; col="$c_new"; grp="2";;
+      "UU") msg="  both modified"; col="$c_mod"; grp="2";;
       esac
-      # Store data in arrays
-      stat_file[$f]=${line:3}
-      stat_msg[$f]=$msg
-      stat_col[$f]=$col
-      # Add the file's index to the given group
-      stat_grp[$grp]="${stat_grp[$grp]} $f"
+      if [ -n "$msg" ]; then
+        # Store data at array index and add to group
+        stat_file[$f]=$file; stat_msg[$f]=$msg; stat_col[$f]=$col
+        stat_grp[$grp]="${stat_grp[$grp]} $f"
+        let f++
+      fi
+
+      # Work tree modification states
+      msg=""
+      if [[ "$y" == "M" ]]; then msg=" modified"; col="$c_mod"; grp="3"; fi
+      if [[ "$y" == "D" && "$x" != "D" && "$x" != "U" ]]; then msg="  deleted"; col="$c_del"; grp="3"; fi
+      if [ -n "$msg" ]; then
+        stat_file[$f]=$file; stat_msg[$f]=$msg; stat_col[$f]=$col
+        stat_grp[$grp]="${stat_grp[$grp]} $f"
+        let f++
+      fi
     done
 
     export IFS=" "
-    group_num=1
+    grp_num=1
     for heading in 'Changes to be committed' 'Unmerged paths' 'Changes not staged for commit' 'Untracked files'; do
-      local c_head="$(eval echo \$c_head_$group_num)"
-      if [ -n "${stat_grp[$group_num]}" ]; then
-        echo -e "# $c_head[$c_header $heading $c_head]$c_rst\n#"
-        _gs_output_file_group $group_num
+      local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
+      local c_hash="\e[0;$(eval echo \$c_grp_$grp_num)"
+
+      if [ -n "${stat_grp[$grp_num]}" ]; then
+        echo -e "$c_hash#  $c_arrow➤$c_header  $heading\n$c_hash#$c_rst"
+        _gs_output_file_group $grp_num
       fi
-      let group_num++
+      let grp_num++
     done
+
   else
     # If there are too many changed files, this 'gs' function will slow down.
     # In this case, fall back to plain 'git status'
     git status
   fi
+  # Reset IFS separator
   unset IFS
 }
 # Helper function for the 'gs' command.
 _gs_output_file_group() {
   local output=""
-  local c_file="$(eval echo \$c_grp_$1)"
   for i in ${stat_grp[$1]}; do
-    # Whitespace padding for [*]
-    if [[ $e -lt 10 ]]; then local pad=" "; else local pad=""; fi
-    output="$output\n"$(echo -e "#      ${stat_col[$i]}${stat_msg[$i]}:%\
-$pad$c_brk[$c_rst$e$c_brk] $c_file${stat_file[$i]}$c_rst")
+    # Print colored hashes based on modification groupings
+    local c_hash="\e[0;$(eval echo -e \$c_grp_$1)"
+    if [[ $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
+    echo -e "$c_hash#$c_rst        ${stat_col[$i]}${stat_msg[$i]}: \
+$pad$c_brk[$c_rst$e$c_brk] ${stat_col[$i]}${stat_file[$i]}$c_rst"
     # Export numbered variables in the order they are displayed.
-    export $git_env_char$e=${stat_file[$i]}
+    export $git_env_char$e="${stat_file[$i]}"
     let e++
   done
-  echo -e "$output" | column -t -s "%"
-  echo "#"
+  echo -e "$c_hash#$c_rst"
 }
+
 # New alias for Ghostscript, if you need it.
 alias gsc="/usr/bin/env gs"
 
