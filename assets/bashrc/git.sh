@@ -33,7 +33,9 @@ git_expand_args() {
   done
   echo "$files"
 }
-
+# Execute a command with expanded args.
+# e.g. Remove files 6 through 15: $ ge rm 6..15
+ge() { $(git_expand_args "$@"); }
 
 # Git aliases & shortcuts
 # ----------------------------------------------------
