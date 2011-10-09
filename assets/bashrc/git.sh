@@ -51,13 +51,13 @@ alias gcp='git cherry-pick'
 alias gl='git log'
 alias gsh='git show'
 alias gaa='git add -A'
-alias gc='git commit'
 alias gca='git commit -a'
 alias gcm='git commit --amend'
 alias gcmh='git commit --amend -C HEAD' # Adds staged changes to latest commit
 
 # Commands that deal with paths
 function gco() { git checkout $(git_expand_args "$@"); }
+function gc()  { git commit   $(git_expand_args "$@"); }
 function grs() { git reset    $(git_expand_args "$@"); }
 function grm() { git rm       $(git_expand_args "$@"); }
 function gbl() { git blame    $(git_expand_args "$@"); }
@@ -79,17 +79,21 @@ complete -o default -o nospace -F _git_show     gs
 
 # Keyboard bindings
 # -----------------------------------------------------------
-
 # Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
-# See here for more info about why a prompt is useful: http://qntm.org/bash#sec1
-git_prompt(){
-  read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -;
-}
+# See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
+
+# Prompt for commit message
+git_commit_prompt(){ read -e -p "[$2] Commit message: " git_msg; echo $git_msg | $1 -F -; }
+# Commit all changes
+git_commit_all(){ git_commit_prompt 'git commit -a' 'All changes'; }
+# Add any given paths, then commit staged changes
+git_add_and_commit() { ga_silent "$@"; if [ -n "$1" ]; then gs; fi; git_commit_prompt "git commit" 'Staged changes'; }
+
 case "$TERM" in
 xterm*|rxvt*)
-    bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
-    bind "\"\C-x \": \"git_prompt 'git commit'\n\""
-    ;;
+    bind "\"\C- \":  \"git_commit_all\n\""
+    bind "\"\C-x \": \"\e[1~git_add_and_commit \n\"";;
+    # e.g. "$ 1 3 {CTRL-x-SPACE}" => "$ git_add_and_commit 1 3 {ENTER}"
 esac
 
 
@@ -182,7 +186,7 @@ gs() {
       local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
       local c_hash="\e[0;$(eval echo \$c_grp_$grp_num)"
       if [ -n "${stat_grp[$grp_num]}" ]; then
-        echo -e "$c_hash#  $c_arrow➤$c_header  $heading\n$c_hash#$c_rst"
+        echo -e "$c_arrow➤$c_header  $heading\n$c_hash#$c_rst"
         _gs_output_file_group $grp_num
       fi
       let grp_num++
@@ -202,7 +206,7 @@ _gs_output_file_group() {
     # Print colored hashes & files based on modification groups
     local c_group="\e[0;$(eval echo -e \$c_grp_$1)"
     if [[ $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
-    echo -e "$c_hash#$c_rst        ${stat_col[$i]}${stat_msg[$i]}: \
+    echo -e "$c_hash#$c_rst      ${stat_col[$i]}${stat_msg[$i]}: \
 $pad$c_dark[$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
     # Export numbered variables in the order they are displayed.
     export $git_env_char$e="${stat_file[$i]}"
@@ -248,24 +252,26 @@ ga() {
       echo "      To turn off this behaviour, change the 'auto_remove' option."
     fi
   else
-    git_add_or_rm_with_expanded_args "$@"
+    ga_silent "$@"
     # Makes sense to run 'gs' after this command.
     gs
   fi
 }
 # Does nothing if no args are given.
-git_add_or_rm_with_expanded_args() {
+ga_silent() {
   if [ -n "$1" ]; then
     # Expand args and process resulting set of files.
     for file in $(git_expand_args "$@"); do
       # Use 'git rm' if file doesn't exist and 'ga_auto_remove' is enabled.
       if [[ $ga_auto_remove == "yes" ]] && ! [ -e $file ]; then
+        echo -n "#  "
         git rm $file
       else
         git add $file
-        echo "add '$file'"
+        echo -e "#  add '$file'"
       fi
     done
+    echo "#"
   fi
 }
 
