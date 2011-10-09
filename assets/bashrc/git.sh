@@ -83,11 +83,11 @@ complete -o default -o nospace -F _git_show     gs
 # See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
 
 # Prompt for commit message
-git_commit_prompt(){ read -e -p "[$2] Commit message: " git_msg; echo $git_msg | $1 -F -; }
+git_commit_prompt(){ echo -ne "[$2] "; read -e -p "Commit message: " git_msg; echo $git_msg | $1 -F -; }
 # Commit all changes
-git_commit_all(){ git_commit_prompt 'git commit -a' 'All changes'; }
+git_commit_all(){ git_commit_prompt 'git commit -a' '\e[0;33mAll changes\e[0m'; }
 # Add any given paths, then commit staged changes
-git_add_and_commit() { ga_silent "$@"; if [ -n "$1" ]; then gs; fi; git_commit_prompt "git commit" 'Staged changes'; }
+git_add_and_commit() { ga_silent "$@"; if [ -n "$1" ]; then gs; fi; git_commit_prompt "git commit" '\e[0;32mStaged changes\e[0m'; }
 
 case "$TERM" in
 xterm*|rxvt*)
