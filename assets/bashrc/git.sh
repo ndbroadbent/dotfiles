@@ -139,7 +139,7 @@ gs() {
 
     local f=1; local e=1  # Counters for number of files, and ENV variables
 
-    echo -e "$c_dark#$c_rst  On branch: $c_branch$branch$c_rst  $c_dark|  $c_dark[$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
+    echo -e "$c_dark#$c_rst On branch: $c_branch$branch$c_rst  $c_dark|  $c_dark[$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
 
     for line in $status; do
       x=${line:0:1}
@@ -188,7 +188,7 @@ gs() {
       local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
       local c_hash="\e[0;$(eval echo \$c_grp_$grp_num)"
       if [ -n "${stat_grp[$grp_num]}" ]; then
-        echo -e "$c_arrow➤$c_header  $heading\n$c_hash#$c_rst"
+        echo -e "$c_arrow➤$c_header $heading\n$c_hash#$c_rst"
         _gs_output_file_group $grp_num
       fi
       let grp_num++
@@ -207,8 +207,8 @@ _gs_output_file_group() {
   for i in ${stat_grp[$1]}; do
     # Print colored hashes & files based on modification groups
     local c_group="\e[0;$(eval echo -e \$c_grp_$1)"
-    if [[ $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
-    echo -e "$c_hash#$c_rst      ${stat_col[$i]}${stat_msg[$i]}: \
+    if [[ $f -gt 10 && $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
+    echo -e "$c_hash#$c_rst     ${stat_col[$i]}${stat_msg[$i]}: \
 $pad$c_dark[$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
     # Export numbered variables in the order they are displayed.
     export $git_env_char$e="${stat_file[$i]}"
@@ -266,11 +266,11 @@ ga_silent() {
     for file in $(git_expand_args "$@"); do
       # Use 'git rm' if file doesn't exist and 'ga_auto_remove' is enabled.
       if [[ $ga_auto_remove == "yes" ]] && ! [ -e $file ]; then
-        echo -n "#  "
+        echo -n "# "
         git rm $file
       else
         git add $file
-        echo -e "#  add '$file'"
+        echo -e "# add '$file'"
       fi
     done
     echo "#"
