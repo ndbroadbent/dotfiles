@@ -82,7 +82,9 @@ complete -o default -o nospace -F _git_show     gs
 
 # Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
 # See here for more info about why a prompt is useful: http://qntm.org/bash#sec1
-git_prompt(){ read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -; }
+git_prompt(){
+  read -e -p "Commit message for '$1': " git_msg; echo $git_msg | $1 -F -;
+}
 case "$TERM" in
 xterm*|rxvt*)
     bind "\"\C- \":  \"git_prompt 'git commit -a'\n\""
@@ -134,8 +136,9 @@ gs() {
     echo -e "$c_dark#$c_rst  On branch: $c_branch$branch$c_rst  $c_dark|  $c_dark[$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
 
     for line in $status; do
-      x=${line:0:1}; y=${line:1:1}; file=${line:3}
-
+      x=${line:0:1}
+      y=${line:1:1}
+      file=${line:3}
       # Index modification states
       msg=""
       case "$x$y" in
@@ -164,6 +167,7 @@ gs() {
       # Work tree modification states
       msg=""
       if [[ "$y" == "M" ]]; then msg=" modified"; col="$c_mod"; grp="3"; fi
+      # Don't show {Y} as deleted during a merge conflict.
       if [[ "$y" == "D" && "$x" != "D" && "$x" != "U" ]]; then msg="  deleted"; col="$c_del"; grp="3"; fi
       if [ -n "$msg" ]; then
         stat_file[$f]=$file; stat_msg[$f]=$msg; stat_col[$f]=$col
@@ -177,18 +181,12 @@ gs() {
     for heading in 'Changes to be committed' 'Unmerged paths' 'Changes not staged for commit' 'Untracked files'; do
       local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
       local c_hash="\e[0;$(eval echo \$c_grp_$grp_num)"
-
       if [ -n "${stat_grp[$grp_num]}" ]; then
         echo -e "$c_hash#  $c_arrow➤$c_header  $heading\n$c_hash#$c_rst"
         _gs_output_file_group $grp_num
       fi
       let grp_num++
     done
-
-    # print 'no changes' message
-    if [ -z "${stat_grp[1]}" ]; then
-      echo -e "$c_dark#  (no changes added to commit)$c_rst"
-    fi
   else
     # If there are too many changed files, this 'gs' function will slow down.
     # In this case, fall back to plain 'git status'
@@ -201,11 +199,11 @@ gs() {
 _gs_output_file_group() {
   local output=""
   for i in ${stat_grp[$1]}; do
-    # Print colored hashes based on modification groupings
-    local c_hash="\e[0;$(eval echo -e \$c_grp_$1)"
+    # Print colored hashes & files based on modification groups
+    local c_group="\e[0;$(eval echo -e \$c_grp_$1)"
     if [[ $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
     echo -e "$c_hash#$c_rst        ${stat_col[$i]}${stat_msg[$i]}: \
-$pad$c_dark[$c_rst$e$c_dark] ${stat_col[$i]}${stat_file[$i]}$c_rst"
+$pad$c_dark[$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
     # Export numbered variables in the order they are displayed.
     export $git_env_char$e="${stat_file[$i]}"
     let e++
@@ -250,20 +248,24 @@ ga() {
       echo "      To turn off this behaviour, change the 'auto_remove' option."
     fi
   else
+    git_add_or_rm_with_expanded_args "$@"
+    # Makes sense to run 'gs' after this command.
+    gs
+  fi
+}
+# Does nothing if no args are given.
+git_add_or_rm_with_expanded_args() {
+  if [ -n "$1" ]; then
     # Expand args and process resulting set of files.
     for file in $(git_expand_args "$@"); do
-      # If 'ga_auto_remove' is enabled and file doesn't exist,
-      # use 'git rm' instead of 'git add'.
+      # Use 'git rm' if file doesn't exist and 'ga_auto_remove' is enabled.
       if [[ $ga_auto_remove == "yes" ]] && ! [ -e $file ]; then
         git rm $file
       else
         git add $file
-        echo "add '$file'"  # similar output to 'git rm'
+        echo "add '$file'"
       fi
     done
-    echo
-    # It makes sense to run 'gs' after this command.
-    gs
   fi
 }
 
