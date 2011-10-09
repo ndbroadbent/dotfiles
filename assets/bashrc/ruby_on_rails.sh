@@ -19,7 +19,7 @@ exists_in_cwd_or_parent() {
   done; return 1
 }
 # Alias most rails commands to use the be() bundle exec wrapper
-for c in cap capify cucumber heroku rackup rails rake rspec shotgun spec spork thin unicorn unicorn_rails; do
+for c in cucumber heroku rackup rails rake rspec shotgun spec spork thin unicorn unicorn_rails; do
   alias $c="be $c"
 done
 
