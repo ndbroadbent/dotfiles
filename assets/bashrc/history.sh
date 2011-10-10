@@ -2,20 +2,26 @@
 # Share Bash history across sessions
 # -------------------------------------------------------
 
-export HISTSIZE=9000
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+export HISTSIZE=20000
 export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignorespace:ignoredups
+# don't put duplicate lines in the history,
+# ignore lines starting with a space
+export HISTCONTROL=ignoredups:ignorespace
+# ignore some common commands
+export HISTIGNORE="&:ls:ll:[bf]g:exit:pwd:clear:mount:umount"
 
 history() {
   _bash_history_sync
-  builtin history "$@"
+  builtin history $@
 }
 
 _bash_history_sync() {
-  builtin history -a         #[1]
-  HISTFILESIZE=$HISTFILESIZE   #[2]
-  builtin history -c         #[3]
-  builtin history -r         #[4]
+  builtin history -a
+  builtin history -c
+  builtin history -r
 }
 
 export PROMPT_COMMAND+='_bash_history_sync;'
