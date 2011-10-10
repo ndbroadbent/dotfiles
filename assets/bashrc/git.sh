@@ -97,12 +97,20 @@ git_commit_prompt(){
 }
 
 # Commit all changes
-git_commit_all(){ git_commit_prompt 'git commit -a' '\e[0;33mAll Changes\e[0m'; }
+git_commit_all(){
+  changes=$(git status --porcelain | wc -l)
+  git_commit_prompt "git commit -a" "\e[0;33mChanged files: \e[1;33m$changes\e[0m"
+}
 # Add paths or expanded args (if any given), then commit staged changes
 git_add_and_commit() {
   ga_silent "$@"
   if [ -n "$1" ]; then gs; fi
-  git_commit_prompt "git commit" '\e[0;32mStaged Changes\e[0m'
+  changes=$(git diff --cached --numstat | wc -l)
+  if [ -n "$changes" ]; then
+    git_commit_prompt "git commit" "\e[0;32mStaged Changes: \e[1;32m$changes\e[0m"
+  else
+    echo "== No staged changes to commit."
+  fi
 }
 
 case "$TERM" in
