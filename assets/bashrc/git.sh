@@ -110,7 +110,7 @@ xterm*|rxvt*)
     # Keyboard bindings invoke wrapper functions with a leading space,
     # so they are not added to history. (set HISTCONTROL=ignorespace:ignoredups)
 
-    # CTRL-SPACE => $  gs {ENTER}     (Don't need to freeze my terminal very often.)
+    # CTRL-SPACE => $  gs {ENTER}
     bind "\"\C- \":  \" gs\n\""
     # CTRL-x-SPACE => $  git_add_and_commit {ENTER}
     # 1 3 CTRL-x-SPACE => $  git_add_and_commit 1 3 {ENTER}
