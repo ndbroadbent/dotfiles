@@ -23,8 +23,15 @@
 # --------------------------
 design_dir="$HOME/Design"
 
+# Add ignore rule to .git/info/exclude if not already present
+_design_add_git_exclude(){
+  if ! $(touch "$1/.git/info/exclude" && cat "$1/.git/info/exclude" | grep -q "Design"); then
+    echo "Design" >> "$1/.git/info/exclude"
+  fi
+}
+
 # Manage 'Design' directories for project.
-function design {
+design() {
   local project=`basename $(pwd)`
   local int_dirs="Fonts IconSets"
   local base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
@@ -38,12 +45,16 @@ function design {
     echo -e "  Examples:\n"
     echo "    $ design init        # Creates default directory structure at $design_dir/**/$project and symlinks into project."
     echo "                           ($base_dirs)"
+    echo "    $ design link        # Links existing design directories into existing repos"
     echo "    $ design init --av   # Adds extra directories for audio/video assets"
     echo "                           ($base_dirs $av_dirs)"
     echo "    $ design rm          # Removes any design directories for $project"
     echo "    $ design trim        # Trims empty design directories for $project"
     echo
   else
+    # Ensure design dir contains all subdirectories
+    for dir in $base_dirs $av_dirs; do mkdir -p "$design_dir/$dir"; done
+
     if [ "$1" = "init" ]; then
       if [ "$2" = "--av" ]; then base_dirs+=" $av_dirs"; fi
       echo "Creating the following design directories for $project: $base_dirs"
@@ -53,10 +64,23 @@ function design {
         mkdir -p "$design_dir/$dir/$project"
         if [ ! -e ./Design/$dir ]; then ln -sf "$design_dir/$dir/$project" Design/$dir; fi
       done
-      # Add ignore rule to .git/info/exclude if not already present
-      if ! $(touch .git/info/exclude && cat .git/info/exclude | grep -q "Design"); then
-        echo "Design" >> .git/info/exclude
-      fi
+      _design_add_git_exclude $PWD
+
+    elif [ "$1" = "link" ]; then
+      shopt -s nullglob
+      echo "== Linking existing Design directories into existing repos..."
+      for dir in $base_dirs $av_dirs; do
+        for design_path in $design_dir/$dir/*; do
+          proj=$(basename $design_path)
+          repo_path=$(grep "/$proj$" $GIT_REPO_DIR/.git_index)
+          if [ -n "$repo_path" ]; then
+            mkdir -p "$repo_path/Design"
+            _design_add_git_exclude $repo_path
+            ln -fs "$design_path" "$repo_path/Design/$dir"
+            echo "=> $repo_path/Design/$dir"
+          fi
+        done
+      done
 
     elif [ "$1" = "rm" ]; then
       echo "Removing all design directories for $project..."
@@ -73,8 +97,10 @@ function design {
           rm -f Design/$dir
         fi
       done
+
     else
-      echo "Invalid command. Valid commands are: init, rm, trim"
+      echo -e "Invalid command.\n"
+      design
     fi
   fi
 }
