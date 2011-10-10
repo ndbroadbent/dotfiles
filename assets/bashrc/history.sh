@@ -11,7 +11,7 @@ export HISTFILESIZE=$HISTSIZE
 # ignore lines starting with a space
 export HISTCONTROL=ignoredups:ignorespace
 # ignore some common commands
-export HISTIGNORE="&:ls:ll:[bf]g:exit:pwd:clear:mount:umount"
+export HISTIGNORE="&:ls:ll:gs:gd:[bf]g:exit:pwd:clear:mount:umount"
 
 history() {
   _bash_history_sync
