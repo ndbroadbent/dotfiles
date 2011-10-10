@@ -92,6 +92,8 @@ git_commit_prompt(){
   echo $git_msg | $1 -F -
   escaped=$(echo "$git_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
   echo "$1 -m \"$escaped\"" >> $HISTFILE
+  # Also add unescaped commit message, for git prompt
+  echo "$git_msg" >> $HISTFILE
 }
 
 # Commit all changes
