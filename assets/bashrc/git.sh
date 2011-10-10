@@ -236,7 +236,7 @@ $pad$c_dark[$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
   echo -e "$c_hash#$c_rst"
 }
 
-# New alias for Ghostscript, if you need it.
+# (New alias for Ghostscript, if you use it.)
 alias gsc="/usr/bin/env gs"
 
 
