@@ -84,18 +84,35 @@ complete -o default -o nospace -F _git_show     gs
 # Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
 # See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
 
-# Prompt for commit message
-git_commit_prompt(){ echo -ne "[$2] "; read -e -p "Commit message: " git_msg; echo $git_msg | $1 -F -; }
+# Prompt for commit message, execute git command,
+# and add escaped commit command to bash history.
+git_commit_prompt(){
+  echo -e "[$2]"
+  read -r -e -d $'\n' -p "Commit Message: " git_msg
+  echo $git_msg | $1 -F -
+  escaped=$(echo "$git_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
+  echo "$1 -m \"$escaped\"" >> $HISTFILE
+}
+
 # Commit all changes
-git_commit_all(){ git_commit_prompt 'git commit -a' '\e[0;33mAll changes\e[0m'; }
-# Add any given paths, then commit staged changes
-git_add_and_commit() { ga_silent "$@"; if [ -n "$1" ]; then gs; fi; git_commit_prompt "git commit" '\e[0;32mStaged changes\e[0m'; }
+git_commit_all(){ git_commit_prompt 'git commit -a' '\e[0;33mAll Changes\e[0m'; }
+# Add paths or expanded args (if any given), then commit staged changes
+git_add_and_commit() {
+  ga_silent "$@"
+  if [ -n "$1" ]; then gs; fi
+  git_commit_prompt "git commit" '\e[0;32mStaged Changes\e[0m'
+}
 
 case "$TERM" in
 xterm*|rxvt*)
-    bind "\"\C- \":  \"git_commit_all\n\""
-    bind "\"\C-x \": \"\e[1~git_add_and_commit \n\"";;
-    # e.g. "$ 1 3 {CTRL-x-SPACE}" => "$ git_add_and_commit 1 3 {ENTER}"
+    # Keyboard bindings invoke wrapper functions with a leading space,
+    # so they are not added to history. (set HISTCONTROL=ignorespace:ignoredups)
+
+    # "$ {CTRL-SPACE}" => "$  git_commit_all {ENTER}"
+    bind "\"\C- \":  \" git_commit_all\n\""
+    # "$ {CTRL-x-SPACE}" => "$  git_add_and_commit {ENTER}"
+    # "$ 1 3 {CTRL-x-SPACE}" => "$  git_add_and_commit 1 3 {ENTER}"
+    bind "\"\C-x \": \"\e[1~ git_add_and_commit \n\"";;
 esac
 
 
