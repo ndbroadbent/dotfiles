@@ -75,11 +75,13 @@ design() {
           repo_path=$(grep "/$proj$" $GIT_REPO_DIR/.git_index)
           if [ -n "$repo_path" ]; then
             mkdir -p "$repo_path/Design"
+            if [ -e "$repo_path/Design/*" ]; then rm $repo_path/Design/*; fi
             _design_add_git_exclude $repo_path
             ln -fs "$design_path" "$repo_path/Design/$dir"
             echo "=> $repo_path/Design/$dir"
           fi
         done
+        shopt -u nullglob
       done
 
     elif [ "$1" = "rm" ]; then
