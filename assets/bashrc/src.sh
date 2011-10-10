@@ -1,15 +1,15 @@
 # -------------------------------------------------------
-# Source Management Scripts (for Git projects)
+# Source management scripts for Git projects
 # Written by Nathan Broadbent (www.madebynathan.com)
 # -------------------------------------------------------
 #
 # * The `src` function makes it easy to list / switch between
-#   git projects in $src_dir (default = ~/src)
+#   git projects in $GIT_REPO_DIR (default = ~/src)
 #
 #   * Provides tab completion for all git repos,
 #     including nested directories and submodules.
 #
-#   * If you have a lot of projects, an index can be cached at $src_dir/.git_index
+#   * If you have a lot of projects, an index can be cached at $GIT_REPO_DIR/.git_index
 #     Cache can be rebuilt by running $ src --rebuild-cache
 #     ('--' commands have autocompletion too.)
 #
@@ -36,18 +36,23 @@
 #     # => Same result as `src ubuntu_config`
 #
 #     $ src
-#     # => cd $src_dir
+#     # => cd $GIT_REPO_DIR
 
 # Config
 # --------------------------
-src_dir="$HOME/src"
+# Repos will be automatically added from this directory.
+GIT_REPO_DIR="$HOME/src"
+# Add the full paths of any extra repos to GIT_REPOS, separated with ':'
+# e.g. "/opt/rails/project:/opt/rails/another project:$HOME/other/repo"
+GIT_REPOS=""
+
 cache_repositories=true
 git_status_command="gs"
 
 function src() {
   if [ -z "$1" ]; then
-    # Just change to $src_dir if no params given.
-    cd $src_dir
+    # Just change to $GIT_REPO_DIR if no params given.
+    cd $GIT_REPO_DIR
   else
     if [ "$1" = "--rebuild-cache" ]; then
       _src_rebuild_cache
@@ -56,11 +61,12 @@ function src() {
     elif [ "$1" = "--batch-cmd" ]; then
       _src_git_batch_cmd "${@:2:$(($#-1))}" # Pass all args except $1
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
-      echo -e "$_bld_col$(_src_repo_count)$_txt_col Git repositories in $_bld_col$src_dir$_txt_col:\n"
-      repos=$(sed -e "s/--.*//" -e "s%$HOME%~%" $src_dir/.git_index)
+      echo -e "$_bld_col$(_src_repo_count)$_txt_col Git repositories in $_bld_col$GIT_REPO_DIR$_txt_col:\n"
+      repos=$(sed -e "s/--.*//" -e "s%$HOME%~%" $GIT_REPO_DIR/.git_index)
+      IFS=$'\n'
       for repo in $repos; do
-        echo $(basename $repo) $repo
-      done | sort | column -t
+        echo $(basename $repo) : $repo
+      done | sort | column -t -s ':'
     elif [ "$1" = "--count-by-host" ]; then
       echo -e "=== Producing a report of the number of repos per host...\n"
       _src_git_batch_cmd git remote -v | grep "origin.*(fetch)" |
@@ -73,7 +79,7 @@ function src() {
       # Figure out which directory we need to change to.
       local project=$(echo $1 | cut -d "/" -f1)
       # Find base path of project
-      local path=$(grep "/$project$" "$src_dir/.git_index")
+      local path=$(grep "/$project$" "$GIT_REPO_DIR/.git_index")
       if [ -n "$path" ]; then
         sub_path=$(echo $1 | sed "s:^$project::")
         # Append subdirectories to base path
@@ -81,9 +87,9 @@ function src() {
       fi
       # Fall back to partial matches
       # - string at beginning of project
-      if [ -z "$path" ]; then path=$(grep -m1 "/$project" "$src_dir/.git_index"); fi
+      if [ -z "$path" ]; then path=$(grep -m1 "/$project" "$GIT_REPO_DIR/.git_index"); fi
       # - string anywhere in project
-      if [ -z "$path" ]; then path=$(grep -m1 "$project" "$src_dir/.git_index"); fi
+      if [ -z "$path" ]; then path=$(grep -m1 "$project" "$GIT_REPO_DIR/.git_index"); fi
       # --------------------
       # Go to our path
       if [ -n "$path" ]; then
@@ -91,17 +97,18 @@ function src() {
         # Run git callback (either update or show changes), if we are in the root directory
         if [ -z "${sub_path%/}" ]; then _src_git_pull_or_status; fi
       else
-        echo -e "$_wrn_col'$1' did not match any git repos in $src_dir$_txt_col"
+        echo -e "$_wrn_col'$1' did not match any git repos in $GIT_REPO_DIR$_txt_col"
       fi
     fi
   fi
 }
 
-# Rescursively searches for git repos in $src_dir
+# Recursively searches for git repos in $GIT_REPO_DIR
 function _src_find_git_repos() {
   # Find all unarchived projects
-  for repo in $(find "$src_dir" -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
-    echo ${repo%/.git}              # Return project folder
+  IFS=$'\n'
+  for repo in $(find "$GIT_REPO_DIR" -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
+    echo ${repo%/.git}              # Return project folder, with trailing ':'
     _src_find_git_submodules $repo  # Detect any submodules
   done
 }
@@ -114,28 +121,30 @@ function _src_find_git_submodules() {
 }
 
 
-# Rebuilds cache of git repos in $src_dir.
+# Rebuilds cache of git repos in $GIT_REPO_DIR.
 function _src_rebuild_cache() {
-  if [ "$1" != "--silent" ]; then echo -e "== Scanning $src_dir for git repos..."; fi
-  # Sort repos by basename
-  for repo in $(_src_find_git_repos); do
-    echo $(basename $repo) $repo
-  done | sort | cut -d " " -f2 > "$src_dir/.git_index"
+  if [ "$1" != "--silent" ]; then echo -e "== Scanning $GIT_REPO_DIR for git repos..."; fi
+  # Get repos from src dir and custom dirs, then sort by basename
+  IFS=$'\n'
+  for repo in $(echo -e "$(_src_find_git_repos)\n$(echo $GIT_REPOS | sed "s/:/\n/g")"); do
+    echo $(basename $repo | sed "s/ /_/g") $repo
+  done | sort | cut -d " " -f2- > "$GIT_REPO_DIR/.git_index"
+
   if [ "$1" != "--silent" ]; then
-    echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $src_dir/.git_index"
+    echo -e "===== Cached $_bld_col$(_src_repo_count)$_txt_col repos in $GIT_REPO_DIR/.git_index"
   fi
 }
 
 # Build cache if empty
 function _src_check_cache() {
-  if [ ! -f "$src_dir/.git_index" ]; then
+  if [ ! -f "$GIT_REPO_DIR/.git_index" ]; then
     _src_rebuild_cache --silent
   fi
 }
 
 # Produces a count of repos in the tab completion cache (excluding commands)
 function _src_repo_count() {
-  echo $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | wc -l)
+  echo $(sed -e "s/--.*//" "$GIT_REPO_DIR/.git_index" | grep . | wc -l)
 }
 
 # If the working directory is clean, update the git repository. Otherwise, show changes.
@@ -170,7 +179,7 @@ function _src_git_pull_or_status() {
 # Updates all git repositories with clean working directories.
 function _src_git_update_all() {
   echo -e "== Updating code in $_bld_col$(_src_repo_count)$_txt_col repos...\n"
-  for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
+  for path in $(sed -e "s/--.*//" "$GIT_REPO_DIR/.git_index" | grep . | sort); do
     echo -e "===== Updating code in \e[1;32m$path\e[0m...\n"
     cd "$path"
     _src_git_pull_or_status
@@ -181,7 +190,7 @@ function _src_git_update_all() {
 function _src_git_batch_cmd() {
   if [ -n "$1" ]; then
     echo -e "== Running command for $_bld_col$(_src_repo_count)$_txt_col repos...\n"
-    for path in $(sed -e "s/--.*//" "$src_dir/.git_index" | grep . | sort); do
+    for path in $(sed -e "s/--.*//" "$GIT_REPO_DIR/.git_index" | grep . | sort); do
       cd "$path"
       $@
     done
@@ -195,19 +204,20 @@ function _src_tab_completion() {
   _src_check_cache
   local curw
   COMPREPLY=()
+  IFS=$'\n'
   curw=${COMP_WORDS[COMP_CWORD]}
 
   # If the first part of $curw matches a high-level directory,
   # then match on sub-directories for that project
-  local project=$(echo $curw | cut -d "/" -f1)
-  local path=$(grep "/$project$" "$src_dir/.git_index")
+  local project=$(echo "$curw" | cut -d "/" -f1)
+  local path=$(grep "/$project$" "$GIT_REPO_DIR/.git_index" | sed 's/ /\\ /g')
   if [ -n "$path" ]; then
-    search_path=$(echo $curw | sed "s:^$project::")
-    COMPREPLY=($(compgen -d "$path$search_path" | sed -e "s:$path:$project:" -e "s:$:/:"))
+    local search_path=$(echo "$curw" | sed "s:^${project/\\/\\\\\\}::")
+    COMPREPLY=($(compgen -d "$path$search_path" | sed -e "s:$path:$project:" -e "s:$:/:" ))
   else
     # Tab completes all the entries in .git_index, plus commands
-    local commands="--list --rebuild-cache --update-all --batch-cmd --count-by-host"
-    COMPREPLY=($(compgen -W '$(sed -e "s:.*/::" -e "s:$:/:" "$src_dir/.git_index" | sort) $commands' -- $curw))
+    local commands="--list\n--rebuild-cache\n--update-all\n--batch-cmd\n--count-by-host"
+    COMPREPLY=($(compgen -W '$(sed -e "s:.*/::" -e "s:$:/:" "$GIT_REPO_DIR/.git_index" | sort)$(echo -e "\n"$commands)' -- $curw))
   fi
   return 0
 }
