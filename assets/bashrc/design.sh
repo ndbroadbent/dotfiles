@@ -33,12 +33,13 @@ _design_add_git_exclude(){
 # Manage 'Design' directories for project.
 design() {
   local project=`basename $(pwd)`
-  local int_dirs="Fonts IconSets"
+  local int_dirs="_Fonts _IconSets"
   local base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
   local av_dirs="Music Samples Animations Videos Flash"
 
-  # Setup internal dirs (that aren't per-project)
-  for dir in $int_dirs; do mkdir -p "$design_dir/$dir"; done
+  # Ensure design dir contains all subdirectories
+  unset IFS
+  for dir in $int_dirs $base_dirs $av_dirs; do mkdir -p "$design_dir/$dir"; done
 
   if [ -z "$1" ]; then
     echo -e "design: Manage design directories for project assets that are external to source control.\n"
@@ -52,8 +53,6 @@ design() {
     echo "    $ design trim        # Trims empty design directories for $project"
     echo
   else
-    # Ensure design dir contains all subdirectories
-    for dir in $base_dirs $av_dirs; do mkdir -p "$design_dir/$dir"; done
 
     if [ "$1" = "init" ]; then
       if [ "$2" = "--av" ]; then base_dirs+=" $av_dirs"; fi
@@ -77,12 +76,12 @@ design() {
             mkdir -p "$repo_path/Design"
             if [ -e "$repo_path/Design/*" ]; then rm $repo_path/Design/*; fi
             _design_add_git_exclude $repo_path
-            ln -fs "$design_path" "$repo_path/Design/$dir"
+            if ! [ -e "$repo_path/Design/$dir" ]; then ln -fs "$design_path" "$repo_path/Design/$dir"; fi
             echo "=> $repo_path/Design/$dir"
           fi
         done
-        shopt -u nullglob
       done
+      shopt -u nullglob
 
     elif [ "$1" = "rm" ]; then
       echo "Removing all design directories for $project..."
