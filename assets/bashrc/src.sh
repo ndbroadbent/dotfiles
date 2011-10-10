@@ -223,4 +223,7 @@ function _src_tab_completion() {
 }
 
 complete -o nospace -o filenames -F _src_tab_completion src
+# Shorter alias
+alias s="src"
+complete -o nospace -o filenames -F _src_tab_completion s
 
