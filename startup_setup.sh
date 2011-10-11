@@ -9,7 +9,7 @@ cat > ~/.start_dev_applications.sh <<EOF
 sleep 15
 gnome-terminal &
 firefox &
-gedit --display=:0.0 &
+gedit %U &
 EOF
 chmod +x ~/.start_dev_applications.sh
 
