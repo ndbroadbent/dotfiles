@@ -31,7 +31,7 @@ git_expand_args() {
       files="$files $arg"
     fi
   done
-  echo "$files"
+  echo $files
 }
 # Execute a command with expanded args.
 # e.g. Remove files 6 through 15: $ ge rm 6..15
@@ -107,7 +107,7 @@ git_status_with_shortcuts() {
   # Clear numbered env variables.
   for (( i=1; i<=$gs_max_changes; i++ )); do unset $git_env_char$i; done
 
-  if [ -n "$status" ] && [[ $(echo "$status" | wc -l) -lt $gs_max_changes ]]; then
+  if [ -n "$status" ] && [[ $(echo "$status" | wc -l) -le $gs_max_changes ]]; then
     unset stat_file; unset stat_col; unset stat_msg; unset stat_grp; unset stat_x; unset stat_y
 
     # Colors
