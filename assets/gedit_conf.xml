@@ -189,7 +189,7 @@
       <key>plugins/filebrowser/on_load/virtual_root</key>
       <schema_key>/schemas/apps/gedit-2/plugins/filebrowser/on_load/virtual_root</schema_key>
       <value>
-        <string>file:////home/ndbroadbent/src</string>
+        <string>file:////home/@USER@/src</string>
       </value>
     </entry>
     <entry>
@@ -929,7 +929,7 @@
     <entry>
       <key>plugins/smart_indent/sh_indent_regex</key>
       <value>
-        <string></string>
+        <string>[^#]*\s+\bdo\b(\s*|(\s+\|.+\|\s*))|\s*(\bif\b\s+.*|\belif\b.*|\belse\b.*|\bdo\b(\s*|\s+.*)|\bfunction\b\s+.*|\b\(\)\{\b\s+.*)+</string>
       </value>
     </entry>
     <entry>
@@ -953,13 +953,13 @@
     <entry>
       <key>plugins/smart_indent/sh_unindent_keystrokes</key>
       <value>
-        <string></string>
+        <string>eif}</string>
       </value>
     </entry>
     <entry>
       <key>plugins/smart_indent/sh_unindent_regex</key>
       <value>
-        <string></string>
+        <string>^\s*(else.*|fi\s*|elif.*|done\s*|\}.*)$</string>
       </value>
     </entry>
     <entry>
