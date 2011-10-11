@@ -286,7 +286,6 @@ git_commit_all() {
   if [ "$changes" -gt 0 ]; then
     echo -e "\e[0;33mCommitting all files (\e[0;31m$changes\e[0;33m)\e[0m"
     git_commit_prompt "git add -A"
-    git_add_command_history
   else
     echo "# No changed files to commit."
   fi
@@ -299,7 +298,6 @@ git_add_and_commit() {
   if [ "$changes" -gt 0 ]; then
     git_status_with_shortcuts 1  # only show staged changes
     git_commit_prompt
-    git_add_command_history
   else
     echo "# No staged changes to commit."
   fi
