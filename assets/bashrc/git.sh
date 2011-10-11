@@ -87,7 +87,7 @@ complete -o default -o nospace -F _git_show     gs
 # Prompt for commit message, execute git command,
 # and add escaped commit command to bash history.
 git_commit_prompt(){
-  echo -e "[$2]"
+  if [ -n "$2" ]; then echo -e "[$2]"; fi
   read -r -e -d $'\n' -p "Commit Message: " git_msg
   echo $git_msg | $1 -F -
   escaped=$(echo "$git_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
@@ -99,17 +99,23 @@ git_commit_prompt(){
 # Commit all changes
 git_commit_all(){
   changes=$(git status --porcelain | wc -l)
-  git_commit_prompt "git commit -a" "\e[0;33mAll Changes (\e[0;31m$changes\e[0;33m)\e[0m"
+  if [ "$changes" -gt 0 ]; then
+    git_commit_prompt "git commit -a" "\e[0;33mCommitting all changes (\e[0;31m$changes\e[0;33m)\e[0m"
+  else
+    echo "# No changes to commit."
+  fi
 }
 # Add paths or expanded args (if any given), then commit staged changes
 git_add_and_commit() {
   ga_silent "$@"
-  if [ -n "$1" ]; then gs; fi
+  msg="\e[0;32mCommitting staged changes (\e[0;33m$changes\e[0;32m)\e[0m"
+  # If files were added, display git status and hide default message
+  if [ -n "$1" ]; then gs 1; msg=""; fi
   changes=$(git diff --cached --numstat | wc -l)
-  if [ -n "$changes" ]; then
-    git_commit_prompt "git commit" "\e[0;32mStaged Changes (\e[0;33m$changes\e[0;32m)\e[0m"
+  if [ "$changes" -gt 0 ]; then
+    git_commit_prompt "git commit" "$msg"
   else
-    echo "== No staged changes to commit."
+    echo "# No staged changes to commit."
   fi
 }
 
@@ -135,11 +141,13 @@ esac
 ours(){   local files=$(git_expand_args "$@"); git checkout --ours $files; git add $files; }
 theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git add $files; }
 
-
 # 'git status' implementation
 # Processes 'git status --porcelain', exporting numbered env variables
 # with the paths of each affected file.
-# Output is more concise and colorful than standard 'git status'.
+# Output is more concise than standard 'git status'.
+#
+# Call with optional <group> parameter to only show one modification state
+# # groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
 # --------------------------------------------------------------------
 gs() {
   local IFS=$'\n'
@@ -162,7 +170,6 @@ gs() {
     local c_ren="\e[0;34m"
     local c_cpy="\e[0;33m"
     local c_ign="\e[0;36m"
-    # Groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
     # Colors must be prepended with modifiers e.g. '\e[1;', '\e[0;'
     local c_grp_1="33m"; local c_grp_2="31m"; local c_grp_3="32m"; local c_grp_4="36m"
 
@@ -214,11 +221,14 @@ gs() {
     IFS=" "
     grp_num=1
     for heading in 'Changes to be committed' 'Unmerged paths' 'Changes not staged for commit' 'Untracked files'; do
-      local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
-      local c_hash="\e[0;$(eval echo \$c_grp_$grp_num)"
-      if [ -n "${stat_grp[$grp_num]}" ]; then
-        echo -e "$c_arrow➤$c_header $heading\n$c_hash#$c_rst"
-        _gs_output_file_group $grp_num
+      # If no group specified as param, or specified group is current group
+      if [ -z "$1" ] || [[ "$1" == "$grp_num" ]]; then
+        local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
+        local c_hash="\e[0;$(eval echo \$c_grp_$grp_num)"
+        if [ -n "${stat_grp[$grp_num]}" ]; then
+          echo -e "$c_arrow➤$c_header $heading\n$c_hash#$c_rst"
+          _gs_output_file_group $grp_num
+        fi
       fi
       let grp_num++
     done
