@@ -48,6 +48,14 @@ done
 alias cdp='cap deploy'
 
 
+# Rake aliases
+alias rdbc="rake db:create"
+alias rdbd="rake db:drop"
+alias rdbm="rake db:migrate"
+alias rsp="rake spec"
+alias rts="rake test"
+
+
 # RVM ruby versions
 alias 192='rvm use ruby-1.9.2'
 alias 187='rvm use ruby-1.8.7'
