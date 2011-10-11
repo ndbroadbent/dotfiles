@@ -20,7 +20,7 @@ cp -f assets/ackrc ~/.ackrc
 # If run from dev_machine_setup, we cannot update current shell.
 if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
   # If this script was sourced properly from the terminal, update current shell
-  if [[ "$0" = "bash" ]]; then
+  if [[ "$0" == *bash ]]; then
     source ~/.bashrc
   else
     echo "===== Please run this command to update your current shell: $ source ~/.bashrc"
