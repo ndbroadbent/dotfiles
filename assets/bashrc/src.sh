@@ -47,7 +47,7 @@ GIT_REPO_DIR="$HOME/src"
 GIT_REPOS=""
 
 cache_repositories=true
-git_status_command="gs"
+git_status_command="git_status_with_shortcuts"
 
 function src() {
   local IFS=$'\n'
