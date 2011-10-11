@@ -85,35 +85,42 @@ complete -o default -o nospace -F _git_show     gs
 # See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
 
 # Prompt for commit message, execute git command,
-# and add escaped commit command to bash history.
-git_commit_prompt(){
-  if [ -n "$2" ]; then echo -e "[$2]"; fi
-  read -r -e -d $'\n' -p "Commit Message: " git_msg
-  echo $git_msg | $1 -F -
-  escaped=$(echo "$git_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
-  echo "$1 -m \"$escaped\"" >> $HISTFILE
+# then add escaped commit command and unescaped message to bash history.
+git_commit_prompt() {
+  local commit_msg
+  read -r -e -d $'\n' -p "Commit Message: " commit_msg
+  if [ -n "$commit_msg" ]; then
+    $@ # run any prequisite commands
+    echo $commit_msg | git commit -F -
+  else
+    echo -e "\e[0;31mAborting commit due to empty commit message.\e[0m"
+  fi
+  escaped=$(echo "$commit_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
+  echo "git commit -m \"$escaped\"" >> $HISTFILE
   # Also add unescaped commit message, for git prompt
-  echo "$git_msg" >> $HISTFILE
+  echo "$commit_msg" >> $HISTFILE
 }
 
-# Commit all changes
-git_commit_all(){
+
+# Prompt for commit message, then commit all modified and untracked files
+git_commit_all() {
   changes=$(git status --porcelain | wc -l)
   if [ "$changes" -gt 0 ]; then
-    git_commit_prompt "git commit -a" "\e[0;33mCommitting all changes (\e[0;31m$changes\e[0;33m)\e[0m"
+    echo -e "[\e[0;33mCommitting all files (\e[0;31m$changes\e[0;33m)\e[0m]"
+    git_commit_prompt "git add -A"
+    git_add_command_history
   else
-    echo "# No changes to commit."
+    echo "# No changed files to commit."
   fi
 }
 # Add paths or expanded args (if any given), then commit staged changes
 git_add_and_commit() {
   ga_silent "$@"
-  msg="\e[0;32mCommitting staged changes (\e[0;33m$changes\e[0;32m)\e[0m"
-  # If files were added, display git status and hide default message
-  if [ -n "$1" ]; then gs 1; msg=""; fi
   changes=$(git diff --cached --numstat | wc -l)
   if [ "$changes" -gt 0 ]; then
-    git_commit_prompt "git commit" "$msg"
+    gs 1  # only show staged changes
+    git_commit_prompt
+    git_add_command_history
   else
     echo "# No staged changes to commit."
   fi
