@@ -142,7 +142,7 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 # Output is more concise and colorful than standard 'git status'.
 # --------------------------------------------------------------------
 gs() {
-  export IFS=$'\n'
+  local IFS=$'\n'
   local status=`git status --porcelain 2> /dev/null`
   local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
   # Clear numbered env variables.
@@ -211,7 +211,7 @@ gs() {
       fi
     done
 
-    export IFS=" "
+    IFS=" "
     grp_num=1
     for heading in 'Changes to be committed' 'Unmerged paths' 'Changes not staged for commit' 'Untracked files'; do
       local c_arrow="\e[1;$(eval echo \$c_grp_$grp_num)"
@@ -227,8 +227,6 @@ gs() {
     # In this case, fall back to plain 'git status'
     git status
   fi
-  # Reset IFS separator
-  unset IFS
 }
 # Helper function for the 'gs' command.
 _gs_output_file_group() {
