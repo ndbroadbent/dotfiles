@@ -284,7 +284,7 @@ git_commit_prompt() {
 git_commit_all() {
   changes=$(git status --porcelain | wc -l)
   if [ "$changes" -gt 0 ]; then
-    echo -e "[\e[0;33mCommitting all files (\e[0;31m$changes\e[0;33m)\e[0m]"
+    echo -e "\e[0;33mCommitting all files (\e[0;31m$changes\e[0;33m)\e[0m"
     git_commit_prompt "git add -A"
     git_add_command_history
   else
