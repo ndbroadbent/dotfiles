@@ -91,7 +91,7 @@ git_commit_prompt() {
   read -r -e -d $'\n' -p "Commit Message: " commit_msg
   if [ -n "$commit_msg" ]; then
     $@ # run any prequisite commands
-    echo $commit_msg | git commit -F -
+    echo $commit_msg | git commit -F - | tail -n 1
   else
     echo -e "\e[0;31mAborting commit due to empty commit message.\e[0m"
   fi
