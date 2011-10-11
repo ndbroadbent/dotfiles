@@ -50,6 +50,7 @@ cache_repositories=true
 git_status_command="gs"
 
 function src() {
+  local IFS=$'\n'
   if [ -z "$1" ]; then
     # Just change to $GIT_REPO_DIR if no params given.
     cd $GIT_REPO_DIR
@@ -63,7 +64,6 @@ function src() {
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
       echo -e "$_bld_col$(_src_repo_count)$_txt_col Git repositories in $_bld_col$GIT_REPO_DIR$_txt_col:\n"
       repos=$(sed -e "s/--.*//" -e "s%$HOME%~%" $GIT_REPO_DIR/.git_index)
-      IFS=$'\n'
       for repo in $repos; do
         echo $(basename $repo) : $repo
       done | sort | column -t -s ':'
@@ -93,6 +93,7 @@ function src() {
       # --------------------
       # Go to our path
       if [ -n "$path" ]; then
+        unset IFS
         cd "$path"
         # Run git callback (either update or show changes), if we are in the root directory
         if [ -z "${sub_path%/}" ]; then _src_git_pull_or_status; fi
@@ -106,7 +107,7 @@ function src() {
 # Recursively searches for git repos in $GIT_REPO_DIR
 function _src_find_git_repos() {
   # Find all unarchived projects
-  IFS=$'\n'
+  local IFS=$'\n'
   for repo in $(find "$GIT_REPO_DIR" -maxdepth 4 -name ".git" -type d \! -wholename '*/archive/*'); do
     echo ${repo%/.git}              # Return project folder, with trailing ':'
     _src_find_git_submodules $repo  # Detect any submodules
@@ -125,7 +126,7 @@ function _src_find_git_submodules() {
 function _src_rebuild_cache() {
   if [ "$1" != "--silent" ]; then echo -e "== Scanning $GIT_REPO_DIR for git repos..."; fi
   # Get repos from src dir and custom dirs, then sort by basename
-  IFS=$'\n'
+  local IFS=$'\n'
   for repo in $(echo -e "$(_src_find_git_repos)\n$(echo $GIT_REPOS | sed "s/:/\n/g")"); do
     echo $(basename $repo | sed "s/ /_/g") $repo
   done | sort | cut -d " " -f2- > "$GIT_REPO_DIR/.git_index"
@@ -203,8 +204,8 @@ function _src_git_batch_cmd() {
 function _src_tab_completion() {
   _src_check_cache
   local curw
+  local IFS=$'\n'
   COMPREPLY=()
-  IFS=$'\n'
   curw=${COMP_WORDS[COMP_CWORD]}
 
   # If the first part of $curw matches a high-level directory,
