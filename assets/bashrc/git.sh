@@ -8,7 +8,7 @@
 # - Set your preferred prefix for env variable file shortcuts.
 #   (I chose 'e' because it is the easiest key to press after '$'.)
 git_env_char="e"
-# - Max changes before reverting to 'git status'. gs() might be slow for thousands of changes.
+# - Max changes before reverting to 'git status'. git_status_with_shortcuts() might be slow for thousands of changes.
 gs_max_changes="99"
 # - Automatically use 'git rm' to remove deleted files using the ga() command?
 ga_auto_remove="yes"
@@ -16,8 +16,8 @@ ga_auto_remove="yes"
 
 # This function allows git commands to handle numbered files, ranges of files, or filepaths.
 # These numbered shortcuts are produced by various commands, such as:
-# * gs()  - git status implementation
-# * gsf() - shows files affected by a given SHA1, etc.
+# * git_status_with_shortcuts()  - git status implementation
+# * git_show_changed_files() - shows files affected by a given SHA1, etc.
 git_expand_args() {
   files=""
   for arg in "$@"; do
@@ -44,7 +44,7 @@ alias gcl='git clone'
 alias gf='git fetch'
 alias gpl='git pull'
 alias gps='git push'
-alias gst='git status' # (Custom status function below: 'gs')
+alias gst='git status' # (Also see custom status function below: 'git_status_with_shortcuts')
 alias gr='git remote -v'
 alias gb='git branch'
 alias grb='git rebase'
@@ -66,6 +66,12 @@ function gbl() { git blame    $(git_expand_args "$@"); }
 function gd()  { git diff     $(git_expand_args "$@"); }
 function gdc() { git diff --cached $(git_expand_args "$@"); }
 
+# Aliases for custom commands below
+alias gs="git_status_with_shortcuts"
+alias gsc="/usr/bin/env gs" # (New alias for Ghostscript, if you use it.)
+alias ga="git_add_with_shortcuts"
+alias gsf="git_show_changed_files"
+
 # Tab completion for git aliases
 complete -o default -o nospace -F _git_pull     gpl
 complete -o default -o nospace -F _git_push     gps
@@ -76,7 +82,7 @@ complete -o default -o nospace -F _git_merge    gm
 complete -o default -o nospace -F _git_log      gl
 complete -o default -o nospace -F _git_checkout gco
 complete -o default -o nospace -F _git_remote   gr
-complete -o default -o nospace -F _git_show     gs
+complete -o default -o nospace -F _git_show     gsh
 
 
 # Git shortcut functions
@@ -94,7 +100,7 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 # Call with optional <group> parameter to only show one modification state
 # # groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
 # --------------------------------------------------------------------
-gs() {
+git_status_with_shortcuts() {
   local IFS=$'\n'
   local status=`git status --porcelain 2> /dev/null`
   local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
@@ -178,12 +184,12 @@ gs() {
       let grp_num++
     done
   else
-    # If there are too many changed files, this 'gs' function will slow down.
-    # In this case, fall back to plain 'git status'
+    # This function will slow down if there are too many changed files,
+    # so just use plain 'git status'
     git status
   fi
 }
-# Helper function for the 'gs' command.
+# Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
   local output=""
   for i in ${stat_grp[$1]}; do
@@ -199,15 +205,13 @@ $pad$c_dark[$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
   echo -e "$c_hash#$c_rst"
 }
 
-# (New alias for Ghostscript, if you use it.)
-alias gsc="/usr/bin/env gs"
 
 
 # 'git show affected files' function.
 # Prints a list of all files affected by a given SHA1,
 # and exports numbered environment variables for each file.
 # -----------------------------------------------------------
-gsf(){
+git_show_changed_files(){
   f=0  # File count
   # Show colored revision and commit message
   echo -n "# "; script -q -c "git show --oneline --name-only $@" /dev/null | sed "s/\r//g" | head -n 1; echo "# "
@@ -222,10 +226,10 @@ gsf(){
 # 'git add' & 'git rm' wrapper
 # This shortcut means 'stage the change to the file'
 # i.e. It will add new and changed files, and remove deleted files.
-# Should be used in conjunction with the gs() function for 'git status'.
+# Should be used in conjunction with the git_status_with_shortcuts() function for 'git status'.
 # - 'auto git rm' behaviour can be turned off
 # -------------------------------------------------------------------------------
-ga() {
+git_add_with_shortcuts() {
   if [ -z "$1" ]; then
     echo "Usage: ga <file>  => git add <file>"
     echo "       ga 1       => git add \$e1"
@@ -236,13 +240,13 @@ ga() {
       echo "      To turn off this behaviour, change the 'auto_remove' option."
     fi
   else
-    ga_silent "$@"
-    # Makes sense to run 'gs' after this command.
-    gs
+    git_silent_add_with_shortcuts "$@"
+    # Makes sense to run 'git status' after this command.
+    git_status_with_shortcuts
   fi
 }
 # Does nothing if no args are given.
-ga_silent() {
+git_silent_add_with_shortcuts() {
   if [ -n "$1" ]; then
     # Expand args and process resulting set of files.
     for file in $(git_expand_args "$@"); do
@@ -258,7 +262,6 @@ ga_silent() {
     echo "#"
   fi
 }
-
 
 # Prompt for commit message, execute git command,
 # then add escaped commit command and unescaped message to bash history.
@@ -291,10 +294,10 @@ git_commit_all() {
 
 # Add paths or expanded args (if any given), then commit staged changes
 git_add_and_commit() {
-  ga_silent "$@"
+  git_silent_add_with_shortcuts "$@"
   changes=$(git diff --cached --numstat | wc -l)
   if [ "$changes" -gt 0 ]; then
-    gs 1  # only show staged changes
+    git_status_with_shortcuts 1  # only show staged changes
     git_commit_prompt
     git_add_command_history
   else
@@ -313,8 +316,8 @@ xterm*|rxvt*)
     # Keyboard bindings invoke wrapper functions with a leading space,
     # so they are not added to history. (set HISTCONTROL=ignorespace:ignoredups)
 
-    # CTRL-SPACE => $  gs {ENTER}
-    bind "\"\C- \":  \" gs\n\""
+    # CTRL-SPACE => $  git_status_with_shortcuts {ENTER}
+    bind "\"\C- \":  \" git_status_with_shortcuts\n\""
     # CTRL-x-SPACE => $  git_add_and_commit {ENTER}
     # 1 3 CTRL-x-SPACE => $  git_add_and_commit 1 3 {ENTER}
     bind "\"\C-x \": \"\e[1~ git_add_and_commit \n\""
