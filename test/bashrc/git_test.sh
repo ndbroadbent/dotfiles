@@ -4,7 +4,7 @@
 #
 # Author: nathan.f77@gmail.com (Nathan Broadbent)
 #
-
+# Unit tests for git shell scripts
 
 # Setup and tear down
 #-----------------------------------------------------------------------------
@@ -39,7 +39,6 @@ oneTimeTearDown() {
 function bind() { true; }
 
 
-
 # Helpers
 #-----------------------------------------------------------------------------
 
@@ -55,7 +54,6 @@ assertNotIncludes() {
 }
 
 sed_strip_colors="s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
-
 
 
 # Unit tests
