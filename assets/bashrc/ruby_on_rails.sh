@@ -36,6 +36,11 @@ rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
 
 
+# Tab completion without trailing space, for adding line number filtering. e.g. :23
+complete -o nospace -f rspec
+complete -o nospace -f cucumber
+
+
 # Capistrano aliases for each stage
 for stage in dev preview staging live; do
   char=`echo $stage | head -c 1`
@@ -61,4 +66,3 @@ alias 192='rvm use ruby-1.9.2'
 alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
-
