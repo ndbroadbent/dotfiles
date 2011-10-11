@@ -79,68 +79,6 @@ complete -o default -o nospace -F _git_remote   gr
 complete -o default -o nospace -F _git_show     gs
 
 
-# Keyboard bindings
-# -----------------------------------------------------------
-# Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
-# See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
-
-# Prompt for commit message, execute git command,
-# then add escaped commit command and unescaped message to bash history.
-git_commit_prompt() {
-  local commit_msg
-  read -r -e -d $'\n' -p "Commit Message: " commit_msg
-  if [ -n "$commit_msg" ]; then
-    $@ # run any prequisite commands
-    echo $commit_msg | git commit -F - | tail -n 1
-  else
-    echo -e "\e[0;31mAborting commit due to empty commit message.\e[0m"
-  fi
-  escaped=$(echo "$commit_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
-  echo "git commit -m \"$escaped\"" >> $HISTFILE
-  # Also add unescaped commit message, for git prompt
-  echo "$commit_msg" >> $HISTFILE
-}
-
-
-# Prompt for commit message, then commit all modified and untracked files
-git_commit_all() {
-  changes=$(git status --porcelain | wc -l)
-  if [ "$changes" -gt 0 ]; then
-    echo -e "[\e[0;33mCommitting all files (\e[0;31m$changes\e[0;33m)\e[0m]"
-    git_commit_prompt "git add -A"
-    git_add_command_history
-  else
-    echo "# No changed files to commit."
-  fi
-}
-# Add paths or expanded args (if any given), then commit staged changes
-git_add_and_commit() {
-  ga_silent "$@"
-  changes=$(git diff --cached --numstat | wc -l)
-  if [ "$changes" -gt 0 ]; then
-    gs 1  # only show staged changes
-    git_commit_prompt
-    git_add_command_history
-  else
-    echo "# No staged changes to commit."
-  fi
-}
-
-case "$TERM" in
-xterm*|rxvt*)
-    # Keyboard bindings invoke wrapper functions with a leading space,
-    # so they are not added to history. (set HISTCONTROL=ignorespace:ignoredups)
-
-    # CTRL-SPACE => $  gs {ENTER}
-    bind "\"\C- \":  \" gs\n\""
-    # CTRL-x-SPACE => $  git_add_and_commit {ENTER}
-    # 1 3 CTRL-x-SPACE => $  git_add_and_commit 1 3 {ENTER}
-    bind "\"\C-x \": \"\e[1~ git_add_and_commit \n\""
-    # CTRL-x-c => $  git_commit_all {ENTER}
-    bind "\"\C-xc\":  \" git_commit_all\n\""
-esac
-
-
 # Git shortcut functions
 # ----------------------------------------------------
 
@@ -320,6 +258,69 @@ ga_silent() {
     echo "#"
   fi
 }
+
+
+# Prompt for commit message, execute git command,
+# then add escaped commit command and unescaped message to bash history.
+git_commit_prompt() {
+  local commit_msg
+  read -r -e -d $'\n' -p "Commit Message: " commit_msg
+  if [ -n "$commit_msg" ]; then
+    $@ # run any prequisite commands
+    echo $commit_msg | git commit -F - | tail -n 1
+  else
+    echo -e "\e[0;31mAborting commit due to empty commit message.\e[0m"
+  fi
+  escaped=$(echo "$commit_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
+  echo "git commit -m \"$escaped\"" >> $HISTFILE
+  # Also add unescaped commit message, for git prompt
+  echo "$commit_msg" >> $HISTFILE
+}
+
+# Prompt for commit message, then commit all modified and untracked files
+git_commit_all() {
+  changes=$(git status --porcelain | wc -l)
+  if [ "$changes" -gt 0 ]; then
+    echo -e "[\e[0;33mCommitting all files (\e[0;31m$changes\e[0;33m)\e[0m]"
+    git_commit_prompt "git add -A"
+    git_add_command_history
+  else
+    echo "# No changed files to commit."
+  fi
+}
+
+# Add paths or expanded args (if any given), then commit staged changes
+git_add_and_commit() {
+  ga_silent "$@"
+  changes=$(git diff --cached --numstat | wc -l)
+  if [ "$changes" -gt 0 ]; then
+    gs 1  # only show staged changes
+    git_commit_prompt
+    git_add_command_history
+  else
+    echo "# No staged changes to commit."
+  fi
+}
+
+
+# Keyboard Bindings
+# -----------------------------------------------------------
+# Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
+# See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
+
+case "$TERM" in
+xterm*|rxvt*)
+    # Keyboard bindings invoke wrapper functions with a leading space,
+    # so they are not added to history. (set HISTCONTROL=ignorespace:ignoredups)
+
+    # CTRL-SPACE => $  gs {ENTER}
+    bind "\"\C- \":  \" gs\n\""
+    # CTRL-x-SPACE => $  git_add_and_commit {ENTER}
+    # 1 3 CTRL-x-SPACE => $  git_add_and_commit 1 3 {ENTER}
+    bind "\"\C-x \": \"\e[1~ git_add_and_commit \n\""
+    # CTRL-x-c => $  git_commit_all {ENTER}
+    bind "\"\C-xc\":  \" git_commit_all\n\""
+esac
 
 
 # Git utility functions
