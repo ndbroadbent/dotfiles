@@ -96,6 +96,25 @@ fix_whitespace() {
 }
 
 
+# Permanently remove all traces of files/folders from git repository.
+# -------------------------------------------------------------------
+# To use it, cd to your repository's root and then run the function
+# with a list of paths you want to delete. e.g. git_remove_history path1 path2
+# Original Author: David Underhill
+git_remove_history() {
+  # Make sure we're at the root of a git repo
+  if [ ! -d .git ]; then
+      echo "Error: must run this script from the root of a git repository"
+      return
+  fi
+  # Remove all paths passed as arguments from the history of the repo
+  files=$@
+  git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch $files" HEAD
+  # Remove the temporary history git-filter-branch otherwise leaves behind for a long time
+  rm -rf .git/refs/original/ && git reflog expire --all &&  git gc --aggressive --prune
+}
+
+
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
 grooveshark_dl() {

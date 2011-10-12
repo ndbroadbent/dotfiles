@@ -69,7 +69,7 @@ sed_strip_colors="s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
 #-----------------------------------------------------------------------------
 
 # Load functions to test
-source ../../assets/bashrc/git.sh
+source ../../assets/git_breeze/git_breeze.sh
 
 
 test_git_expand_args() {
