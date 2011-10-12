@@ -6,18 +6,18 @@
 #
 # Unit tests for git shell scripts
 
+thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
+
 # Load test helpers
-source ./support/helpers
+source "$thisDir/support/helpers"
 
 # Load Git Breeze functions
-source ../git_breeze.sh
+source "$thisDir/../git_breeze.sh"
 
 
 # Setup and tear down
 #-----------------------------------------------------------------------------
 oneTimeSetUp() {
-  thisDir=$PWD
-
   # Test Config
   git_env_char="e"
   gs_max_changes="20"
@@ -195,5 +195,5 @@ test_git_add_with_shortcuts() {
 
 # load and run shUnit2
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
-source ./support/shunit2
+source "$thisDir/support/shunit2"
 
