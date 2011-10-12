@@ -151,7 +151,7 @@ test_git_status_with_shortcuts_merge_conflicts() {
   git rm deleted_by_them both_deleted
   git mv renamed_file renamed_file_on_branch
   git add both_added both_modified deleted_by_us
-  git commit -m "Conflict commit"
+  git commit -m "Branch commit"
 
   git checkout master
   echo "added by master" > both_added
