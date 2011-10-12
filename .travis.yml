@@ -1,0 +1,2 @@
+before_script:
+  - apt-get install git zsh
