@@ -30,12 +30,12 @@ ga_auto_remove="yes"
 # --------------------------------------------------------------------
 git_status_with_shortcuts() {
   local IFS=$'\n'
-  local status=`git status --porcelain 2> /dev/null`
+  local git_status=`git status --porcelain 2> /dev/null`
   local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
   # Clear numbered env variables.
   for (( i=1; i<=$gs_max_changes; i++ )); do unset $git_env_char$i; done
 
-  if [ -n "$status" ] && [[ $(echo "$status" | wc -l) -le $gs_max_changes ]]; then
+  if [ -n "$git_status" ] && [[ $(echo "$git_status" | wc -l) -le $gs_max_changes ]]; then
     unset stat_file; unset stat_col; unset stat_msg; unset stat_grp; unset stat_x; unset stat_y
 
     # Colors
@@ -56,7 +56,7 @@ git_status_with_shortcuts() {
 
     echo -e "$c_dark#$c_rst On branch: $c_branch$branch$c_rst  $c_dark|  $c_dark[$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
 
-    for line in $status; do
+    for line in $git_status; do
       x=${line:0:1}
       y=${line:1:1}
       file=${line:3}
