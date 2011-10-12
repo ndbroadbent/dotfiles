@@ -63,8 +63,7 @@ function src() {
       _src_git_batch_cmd "${@:2:$(($#-1))}" # Pass all args except $1
     elif [ "$1" = "--list" ] || [ "$1" = "-l" ]; then
       echo -e "$_bld_col$(_src_repo_count)$_txt_col Git repositories in $_bld_col$GIT_REPO_DIR$_txt_col:\n"
-      repos=$(sed -e "s/--.*//" -e "s%$HOME%~%" $GIT_REPO_DIR/.git_index)
-      for repo in $repos; do
+      for repo in $(_src_repo_dirs_without_home); do
         echo $(basename $repo) : $repo
       done | sort | column -t -s ':'
     elif [ "$1" = "--count-by-host" ]; then
@@ -85,16 +84,16 @@ function src() {
         # Append subdirectories to base path
         path="$path$sub_path"
       fi
-      # Fall back to partial matches
+      # Try partial matches
       # - string at beginning of project
-      if [ -z "$path" ]; then path=$(grep -m1 "/$project" "$GIT_REPO_DIR/.git_index"); fi
+      if [ -z "$path" ]; then path=$(_src_repo_dirs_without_home | grep -m1 "/$project"); fi
       # - string anywhere in project
-      if [ -z "$path" ]; then path=$(grep -m1 "$project" "$GIT_REPO_DIR/.git_index"); fi
+      if [ -z "$path" ]; then path=$(_src_repo_dirs_without_home | grep -m1 "$project"); fi
       # --------------------
       # Go to our path
       if [ -n "$path" ]; then
         unset IFS
-        cd "$path"
+        eval cd "$path"   # eval turns ~ into $HOME
         # Run git callback (either update or show changes), if we are in the root directory
         if [ -z "${sub_path%/}" ]; then _src_git_pull_or_status; fi
       else
@@ -102,6 +101,10 @@ function src() {
       fi
     fi
   fi
+}
+
+_src_repo_dirs_without_home() {
+  sed -e "s/--.*//" -e "s%$HOME%~%" $GIT_REPO_DIR/.git_index
 }
 
 # Recursively searches for git repos in $GIT_REPO_DIR
