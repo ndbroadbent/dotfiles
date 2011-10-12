@@ -1,3 +1,17 @@
+# Tab completion for git aliases
+# -----------------------------------------------------------
+complete -o default -o nospace -F _git_pull     gpl
+complete -o default -o nospace -F _git_push     gps
+complete -o default -o nospace -F _git_fetch    gf
+complete -o default -o nospace -F _git_branch   gb
+complete -o default -o nospace -F _git_rebase   grb
+complete -o default -o nospace -F _git_merge    gm
+complete -o default -o nospace -F _git_log      gl
+complete -o default -o nospace -F _git_checkout gco
+complete -o default -o nospace -F _git_remote   gr
+complete -o default -o nospace -F _git_show     gsh
+
+
 # Keyboard Bindings
 # -----------------------------------------------------------
 # Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
