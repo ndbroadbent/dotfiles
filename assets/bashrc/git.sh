@@ -135,12 +135,6 @@ git_status_with_shortcuts() {
       # Index modification states
       msg=""
       case "$x$y" in
-      "M"?) msg=" modified"; col="$c_mod"; grp="1";;
-      "A"?) msg=" new file"; col="$c_new"; grp="1";;
-      "D"?) msg="  deleted"; col="$c_del"; grp="1";;
-      "R"?) msg="  renamed"; col="$c_ren"; grp="1";;
-      "C"?) msg="   copied"; col="$c_cpy"; grp="1";;
-      "??") msg="untracked"; col="$c_ign"; grp="4";;
       # Merge conflicts
       "DD") msg="   both deleted"; col="$c_del"; grp="2";;
       "AU") msg="    added by us"; col="$c_new"; grp="2";;
@@ -149,6 +143,13 @@ git_status_with_shortcuts() {
       "DU") msg="  deleted by us"; col="$c_del"; grp="2";;
       "AA") msg="     both added"; col="$c_new"; grp="2";;
       "UU") msg="  both modified"; col="$c_mod"; grp="2";;
+      # Regular modifications
+      "M"?) msg=" modified"; col="$c_mod"; grp="1";;
+      "A"?) msg=" new file"; col="$c_new"; grp="1";;
+      "D"?) msg="  deleted"; col="$c_del"; grp="1";;
+      "R"?) msg="  renamed"; col="$c_ren"; grp="1";;
+      "C"?) msg="   copied"; col="$c_cpy"; grp="1";;
+      "??") msg="untracked"; col="$c_ign"; grp="4";;
       esac
       if [ -n "$msg" ]; then
         # Store data at array index and add to group
