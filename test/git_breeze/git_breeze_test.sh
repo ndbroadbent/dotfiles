@@ -29,7 +29,7 @@ silentGitCommands() {
 }
 # Cancel silent override
 verboseGitCommands() {
-  unset git
+  unset -f git
 }
 
 
@@ -102,6 +102,7 @@ test_git_status_with_shortcuts() {
   git_status1=$(git_status_with_shortcuts 1)
   git_status3=$(git_status_with_shortcuts 3)
   git_status4=$(git_status_with_shortcuts 4)
+
   # Test for presence of expected groups
   assertIncludes "$git_status1" "Changes to be committed"
   assertIncludes "$git_status3" "Changes not staged for commit"
