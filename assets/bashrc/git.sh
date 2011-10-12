@@ -317,11 +317,11 @@ xterm*|rxvt*)
 
     # CTRL-SPACE => $  git_status_with_shortcuts {ENTER}
     bind "\"\C- \":  \" git_status_with_shortcuts\n\""
-    # CTRL-x-SPACE => $  git_add_and_commit {ENTER}
-    # 1 3 CTRL-x-SPACE => $  git_add_and_commit 1 3 {ENTER}
-    bind "\"\C-x \": \"\e[1~ git_add_and_commit \n\""
-    # CTRL-x-c => $  git_commit_all {ENTER}
-    bind "\"\C-xc\":  \" git_commit_all\n\""
+    # CTRL-x-SPACE => $  git_commit_all {ENTER}
+    bind "\"\C-x \":  \" git_commit_all\n\""
+    # CTRL-x-c => $  git_add_and_commit {ENTER}
+    # 1 3 CTRL-x-c => $  git_add_and_commit 1 3 {ENTER}
+    bind "\"\C-xc\": \"\e[1~ git_add_and_commit \n\""
 esac
 
 
