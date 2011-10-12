@@ -6,9 +6,15 @@
 #
 # Unit tests for git shell scripts
 
+# Load test helpers
+source ./support/helpers
+
+# Load Git Breeze functions
+source ../git_breeze.sh
+
+
 # Setup and tear down
 #-----------------------------------------------------------------------------
-
 oneTimeSetUp() {
   thisDir=$PWD
 
@@ -17,10 +23,18 @@ oneTimeSetUp() {
   gs_max_changes="20"
   ga_auto_remove="yes"
 
-  # Ensure git is installed
-  if ! type git > /dev/null 2>&1; then apt-get install git; fi
-
   testRepo="/tmp/testRepo"
+}
+
+oneTimeTearDown() {
+  rm -rf "${testRepo}"
+}
+
+setupTestRepo() {
+  rm -rf "${testRepo}"
+  mkdir -p "$testRepo"
+  cd "$testRepo"
+  git init > /dev/null
 }
 
 # Silence output from git commands
@@ -33,44 +47,9 @@ verboseGitCommands() {
 }
 
 
-setupTestRepo() {
-  rm -rf "${testRepo}"
-  mkdir -p "$testRepo"
-  cd "$testRepo"
-  git init > /dev/null
-}
-
-oneTimeTearDown() {
-  rm -rf "${testRepo}"
-}
-
-# Ignore key bindings
-function bind() { true; }
-
-
-# Helpers
 #-----------------------------------------------------------------------------
-
-# assert $1 contains $2
-assertIncludes() {
-  result=1; if echo "$1" | grep -q "$2"; then result=0; fi
-  assertTrue "'$1' should have contained '$2'" $result
-}
-
-assertNotIncludes() {
-  result=1; if echo "$1" | grep -q "$2"; then result=0; fi
-  assertFalse "'$1' should not have contained '$2'" $result
-}
-
-sed_strip_colors="s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
-
-
 # Unit tests
 #-----------------------------------------------------------------------------
-
-# Load functions to test
-source ../../assets/git_breeze/git_breeze.sh
-
 
 test_git_expand_args() {
   local e1="one"; local e2="two"; local e3="three"; local e4="four"; local e5="five"; local e6="six"; local e7="seven"
@@ -134,6 +113,7 @@ test_git_status_with_shortcuts() {
   assertEquals "$error" "untracked_file" "$e4" || return
 }
 
+
 test_git_status_with_shortcuts_merge_conflicts() {
   setupTestRepo
 
@@ -178,6 +158,7 @@ test_git_status_with_shortcuts_merge_conflicts() {
   assertIncludes "$git_status"     "added by us: *\[[0-9]*\] *renamed_file_on_master" || return
 }
 
+
 test_git_status_with_shortcuts_max_changes() {
   setupTestRepo
 
@@ -214,5 +195,5 @@ test_git_add_with_shortcuts() {
 
 # load and run shUnit2
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
-. ../support/shunit2
+source ./support/shunit2
 
