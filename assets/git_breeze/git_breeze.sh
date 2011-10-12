@@ -5,6 +5,13 @@
 # Released under the LGPL (GNU Lesser General Public License)
 # ------------------------------------------------------------------------------
 
+# Supports bash and zsh
+shell=$("readlink" -f /proc/$$/exe)
+if [[ $shell == *zsh* ]]; then
+  # Detect whether zsh 'shwordsplit' option is on by default.
+  zsh_wordsplit_on=$((setopt | grep -q shwordsplit) && echo "yes")
+fi
+
 
 # Config
 # ------------------------------------------------------------------------------
@@ -29,8 +36,11 @@ ga_auto_remove="yes"
 # # groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
 # --------------------------------------------------------------------
 git_status_with_shortcuts() {
+  # Turn on wordsplit for zsh, if not already on.
+  if [[ $shell == *zsh* && -z $wordsplit_on ]]; then setopt shwordsplit; fi
   local IFS=$'\n'
-  local git_status=`git status --porcelain 2> /dev/null`
+  local git_status="$(git status --porcelain 2> /dev/null)"
+
   local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
   # Clear numbered env variables.
   for (( i=1; i<=$gs_max_changes; i++ )); do unset $git_env_char$i; done
@@ -54,16 +64,18 @@ git_status_with_shortcuts() {
 
     local f=1; local e=1  # Counters for number of files, and ENV variables
 
-    echo -e "$c_dark#$c_rst On branch: $c_branch$branch$c_rst  $c_dark|  $c_dark[$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
+    echo -e "$c_dark#$c_rst On branch: $c_branch$branch$c_rst  $c_dark|  [$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
 
     for line in $git_status; do
-      x=${line:0:1}
-      y=${line:1:1}
-      file=${line:3}
+      if [[ $shell = *bash ]]; then
+        x=${line:0:1}; y=${line:1:1}; file=${line:3}
+      else
+        x=$line[1]; y=$line[2]; file=$line[4,-1]
+      fi
+
       # Index modification states
       msg=""
       case "$x$y" in
-      # Merge conflicts
       "DD") msg="   both deleted"; col="$c_del"; grp="2";;
       "AU") msg="    added by us"; col="$c_new"; grp="2";;
       "UD") msg="deleted by them"; col="$c_del"; grp="2";;
@@ -71,7 +83,6 @@ git_status_with_shortcuts() {
       "DU") msg="  deleted by us"; col="$c_del"; grp="2";;
       "AA") msg="     both added"; col="$c_new"; grp="2";;
       "UU") msg="  both modified"; col="$c_mod"; grp="2";;
-      # Regular modifications
       "M"?) msg=" modified"; col="$c_mod"; grp="1";;
       "A"?) msg=" new file"; col="$c_new"; grp="1";;
       "D"?) msg="  deleted"; col="$c_del"; grp="1";;
@@ -117,6 +128,8 @@ git_status_with_shortcuts() {
     # so just use plain 'git status'
     git status
   fi
+  # Turn off wordsplit for zsh, if default is off.
+  if [[ $shell == *zsh* && -z $wordsplit_on ]]; then unsetopt shwordsplit; fi
 }
 # Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
@@ -125,8 +138,8 @@ _gs_output_file_group() {
     # Print colored hashes & files based on modification groups
     local c_group="\e[0;$(eval echo -e \$c_grp_$1)"
     if [[ $f -gt 10 && $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
-    echo -e "$c_hash#$c_rst     ${stat_col[$i]}${stat_msg[$i]}: \
-$pad$c_dark[$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
+    echo -e "$c_hash#$c_rst     ${stat_col[$i]}${stat_msg[$i]}:\
+$pad$c_dark [$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
     # Export numbered variables in the order they are displayed.
     export $git_env_char$e="${stat_file[$i]}"
     let e++
