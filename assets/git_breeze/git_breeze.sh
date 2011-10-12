@@ -9,7 +9,7 @@
 shell=$("readlink" -f /proc/$$/exe)
 if [[ $shell == *zsh* ]]; then
   # Detect whether zsh 'shwordsplit' option is on by default.
-  zsh_wordsplit_on=$((setopt | grep -q shwordsplit) && echo "yes")
+  zsh_shwordsplit=$((setopt | grep -q shwordsplit) && echo "yes")
 fi
 
 
@@ -37,7 +37,7 @@ ga_auto_remove="yes"
 # --------------------------------------------------------------------
 git_status_with_shortcuts() {
   # Turn on wordsplit for zsh, if not already on.
-  if [[ $shell == *zsh* && -z $wordsplit_on ]]; then setopt shwordsplit; fi
+  if [[ $shell == *zsh* && -z $zsh_shwordsplit ]]; then setopt shwordsplit; fi
   local IFS=$'\n'
   local git_status="$(git status --porcelain 2> /dev/null)"
 
@@ -67,7 +67,7 @@ git_status_with_shortcuts() {
     echo -e "$c_dark#$c_rst On branch: $c_branch$branch$c_rst  $c_dark|  [$c_rst*$c_dark]$c_rst => \$$git_env_char*\n$c_dark#$c_rst"
 
     for line in $git_status; do
-      if [[ $shell = *bash ]]; then
+      if [[ $shell == *bash ]]; then
         x=${line:0:1}; y=${line:1:1}; file=${line:3}
       else
         x=$line[1]; y=$line[2]; file=$line[4,-1]
@@ -129,7 +129,7 @@ git_status_with_shortcuts() {
     git status
   fi
   # Turn off shwordsplit for zsh if it was off by default.
-  if [[ $shell == *zsh* && -z $wordsplit_on ]]; then unsetopt shwordsplit; fi
+  if [[ $shell == *zsh* && -z $zsh_shwordsplit ]]; then unsetopt shwordsplit; fi
 }
 # Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
