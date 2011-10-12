@@ -128,7 +128,7 @@ git_status_with_shortcuts() {
     # so just use plain 'git status'
     git status
   fi
-  # Turn off wordsplit for zsh, if default is off.
+  # Turn off shwordsplit for zsh if it was off by default.
   if [[ $shell == *zsh* && -z $wordsplit_on ]]; then unsetopt shwordsplit; fi
 }
 # Template function for 'git_status_with_shortcuts'.
