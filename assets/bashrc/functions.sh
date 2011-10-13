@@ -60,7 +60,7 @@ cb() {
       echo "       echo <string or file> | cb"
     else
       # If the input is a filename that exists, then use the contents of that file.
-      if [ -e "$input" ]; then input="$(cat $input)"; fi
+      if [ -f "$input" ]; then input="$(cat $input)"; fi
       # Copy input to clipboard
       echo -n "$input" | xclip -selection c
       # Truncate text for status
