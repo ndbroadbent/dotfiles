@@ -99,12 +99,10 @@ test_git_status_with_shortcuts() {
   assertNotIncludes "$git_status1" "Changes not staged for commit"
   assertNotIncludes "$git_status3" "Untracked files"
 
-  # Run command in current shell, save status into temp file
+  # Run command in shell, load output from temp file into variable
   temp_file=$(mktemp)
   git_status_with_shortcuts > $temp_file
-
-  # Test output with stripped color codes
-  git_status=$(sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" $temp_file)
+  git_status=$(cat $temp_file | strip_colors)
 
   assertIncludes "$git_status"  "new file: *\[1\] *new_file"       || return
   assertIncludes "$git_status"   "deleted: *\[2\] *deleted_file"   || return
@@ -154,7 +152,7 @@ test_git_status_with_shortcuts_merge_conflicts() {
   verboseGitCommands
 
   # Test output without stripped color codes
-  git_status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  git_status=$(git_status_with_shortcuts | strip_colors)
   assertIncludes "$git_status"      "both added: *\[[0-9]*\] *both_added"             || return
   assertIncludes "$git_status"   "both modified: *\[[0-9]*\] *both_modified"          || return
   assertIncludes "$git_status" "deleted by them: *\[[0-9]*\] *deleted_by_them"        || return
@@ -172,14 +170,14 @@ test_git_status_with_shortcuts_max_changes() {
 
   # Add 5 untracked files
   touch a b c d e
-  git_status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  git_status=$(git_status_with_shortcuts | strip_colors)
   for i in $(seq 1 5); do
     assertIncludes "$git_status"  "\[$i\]" || return
   done
 
   # 6 untracked files is more than $gs_max_changes
   touch f
-  git_status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  git_status=$(git_status_with_shortcuts | strip_colors)
   assertNotIncludes "$git_status"  "\[[0-9]*\]" || return
 }
 
@@ -191,7 +189,7 @@ test_git_add_with_shortcuts() {
   # Show git status, which sets up env variables
   git_status_with_shortcuts > /dev/null
   git_add_with_shortcuts 2..4 7 8 > /dev/null
-  git_status=$(git_status_with_shortcuts 1 | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  git_status=$(git_status_with_shortcuts 1 | strip_colors)
 
   for c in b c d g h; do
     assertIncludes "$git_status"  "\[[0-9]*\] $c" || return
