@@ -15,7 +15,7 @@ if [ -n "${ZSH_VERSION:-}" ]; then SHUNIT_PARENT=$0; setopt shwordsplit; fi
 source "$thisDir/support/helpers"
 
 # Load Git Breeze functions
-source "$thisDir/../git_breeze.sh"
+source "$thisDir/../git_file_shortcuts.sh"
 
 runTests() {
   source "$thisDir/support/shunit2"
