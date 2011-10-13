@@ -226,9 +226,16 @@ git_expand_args() {
   done
   echo $files
 }
-# Execute a command with expanded args.
-# e.g. Remove files 6 through 15: $ ge rm 6..15
+# Execute a command with expanded args, e.g. Delete files 6 to 12: $ ge rm 6..12
 ge() { $(git_expand_args "$@"); }
+
+# Git commands that handle paths. These functions should be aliased in aliases.sh
+git_checkout_with_expanded_args() { git checkout $(git_expand_args "$@"); }
+git_commit_with_expanded_args()   { git commit   $(git_expand_args "$@"); }
+git_reset_with_expanded_args()    { git reset    $(git_expand_args "$@"); }
+git_rm_with_expanded_args()       { git rm       $(git_expand_args "$@"); }
+git_blame_with_expanded_args()    { git blame    $(git_expand_args "$@"); }
+git_diff_with_expanded_args()     { git diff     $(git_expand_args "$@"); }
 
 
 # Shortcuts for resolving merge conflicts.
