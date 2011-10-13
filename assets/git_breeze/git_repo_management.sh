@@ -19,7 +19,6 @@ GIT_REPOS=""
 git_status_command="git_status_with_shortcuts"
 
 
-
 # * The `git_repo` function makes it easy to list & switch between
 #   git projects in $GIT_REPO_DIR (default = ~/src)
 #

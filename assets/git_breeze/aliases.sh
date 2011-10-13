@@ -2,12 +2,12 @@
 # Example aliases & shortcuts for .bashrc or .zshrc
 # -------------------------------------------------
 
-# 'Git Breeze' functions
+# Main 'Git Breeze' functions
 alias  gs="git_status_with_shortcuts"
 alias  ga="git_add_with_shortcuts"
 alias gsf="git_show_affected_files"
 
-# Git commands that deal with paths (Expand numbered args)
+# Git commands that deal with paths (with number args expanded)
 alias gco="git_checkout_with_expanded_args"
 alias  gc="git_commit_with_expanded_args"
 alias grs="git_reset_with_expanded_args"
