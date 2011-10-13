@@ -1,6 +1,6 @@
 #
 # Example aliases & shortcuts for .bashrc or .zshrc
-# -------------------------------------------------
+# ------------------------------------------------------------------
 
 # Main 'Git Breeze' functions
 alias  gs="git_status_with_shortcuts"
@@ -33,4 +33,9 @@ alias gaa='git add -A'
 alias gca='git commit -a'
 alias gcm='git commit --amend'
 alias gcmh='git commit --amend -C HEAD' # Add staged changes to latest commit without prompting for message
+
+
+# Git repo management alias
+# ------------------------------------------------------------------
+alias s="git_repo"   # The 's' stands for 'switch' or 'sourcecode'
 

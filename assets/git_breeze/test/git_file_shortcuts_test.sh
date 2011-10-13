@@ -7,19 +7,15 @@
 # Unit tests for git shell scripts
 
 thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
-
-# zsh compatibility
+# Zsh compatibility
 if [ -n "${ZSH_VERSION:-}" ]; then SHUNIT_PARENT=$0; setopt shwordsplit; fi
 
 # Load test helpers
-source "$thisDir/support/helpers"
+source "$thisDir/support/test_helper"
 
-# Load Git Breeze functions
+# Load functions to test
 source "$thisDir/../git_file_shortcuts.sh"
 
-runTests() {
-  source "$thisDir/support/shunit2"
-}
 
 # Setup and tear down
 #-----------------------------------------------------------------------------
@@ -41,15 +37,6 @@ setupTestRepo() {
   mkdir -p "$testRepo"
   cd "$testRepo"
   git init > /dev/null
-}
-
-# Silence output from git commands
-silentGitCommands() {
-  git() { /usr/bin/env git "$@" > /dev/null 2>&1; }
-}
-# Cancel silent override
-verboseGitCommands() {
-  unset -f git
 }
 
 
