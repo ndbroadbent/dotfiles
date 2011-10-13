@@ -6,32 +6,29 @@
 #
 # Unit tests for git shell scripts
 
+thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
+
+# Load test helpers
+source "$thisDir/support/helpers"
+
+# Load Git Breeze functions
+source "$thisDir/../git_breeze.sh"
+
+
 # Setup and tear down
 #-----------------------------------------------------------------------------
-
 oneTimeSetUp() {
-  thisDir=$PWD
-
   # Test Config
   git_env_char="e"
   gs_max_changes="20"
   ga_auto_remove="yes"
 
-  # Ensure git is installed
-  if ! type git > /dev/null 2>&1; then apt-get install git; fi
-
   testRepo="/tmp/testRepo"
 }
 
-# Silence output from git commands
-silentGitCommands() {
-  git() { /usr/bin/env git "$@" > /dev/null 2>&1; }
+oneTimeTearDown() {
+  rm -rf "${testRepo}"
 }
-# Cancel silent override
-verboseGitCommands() {
-  unset git
-}
-
 
 setupTestRepo() {
   rm -rf "${testRepo}"
@@ -40,37 +37,19 @@ setupTestRepo() {
   git init > /dev/null
 }
 
-oneTimeTearDown() {
-  rm -rf "${testRepo}"
+# Silence output from git commands
+silentGitCommands() {
+  git() { /usr/bin/env git "$@" > /dev/null 2>&1; }
+}
+# Cancel silent override
+verboseGitCommands() {
+  unset -f git
 }
 
-# Ignore key bindings
-function bind() { true; }
 
-
-# Helpers
 #-----------------------------------------------------------------------------
-
-# assert $1 contains $2
-assertIncludes() {
-  result=1; if echo "$1" | grep -q "$2"; then result=0; fi
-  assertTrue "'$1' should have contained '$2'" $result
-}
-
-assertNotIncludes() {
-  result=1; if echo "$1" | grep -q "$2"; then result=0; fi
-  assertFalse "'$1' should not have contained '$2'" $result
-}
-
-sed_strip_colors="s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
-
-
 # Unit tests
 #-----------------------------------------------------------------------------
-
-# Load functions to test
-source ../../assets/bashrc/git.sh
-
 
 test_git_expand_args() {
   local e1="one"; local e2="two"; local e3="three"; local e4="four"; local e5="five"; local e6="six"; local e7="seven"
@@ -99,31 +78,32 @@ test_git_status_with_shortcuts() {
   verboseGitCommands
 
   # Test that groups can be filtered by passing a parameter
-  status1=$(git_status_with_shortcuts 1)
-  status3=$(git_status_with_shortcuts 3)
-  status4=$(git_status_with_shortcuts 4)
+  git_status1=$(git_status_with_shortcuts 1)
+  git_status3=$(git_status_with_shortcuts 3)
+  git_status4=$(git_status_with_shortcuts 4)
+
   # Test for presence of expected groups
-  assertIncludes "$status1" "Changes to be committed"
-  assertIncludes "$status3" "Changes not staged for commit"
-  assertIncludes "$status4" "Untracked files"
-  assertNotIncludes "$status3" "Changes to be committed"
-  assertNotIncludes "$status4" "Changes not staged for commit"
-  assertNotIncludes "$status1" "Untracked files"
-  assertNotIncludes "$status4" "Changes to be committed"
-  assertNotIncludes "$status1" "Changes not staged for commit"
-  assertNotIncludes "$status3" "Untracked files"
+  assertIncludes "$git_status1" "Changes to be committed"
+  assertIncludes "$git_status3" "Changes not staged for commit"
+  assertIncludes "$git_status4" "Untracked files"
+  assertNotIncludes "$git_status3" "Changes to be committed"
+  assertNotIncludes "$git_status4" "Changes not staged for commit"
+  assertNotIncludes "$git_status1" "Untracked files"
+  assertNotIncludes "$git_status4" "Changes to be committed"
+  assertNotIncludes "$git_status1" "Changes not staged for commit"
+  assertNotIncludes "$git_status3" "Untracked files"
 
   # Run command in current shell, save status into temp file
   temp_file=$(mktemp)
   git_status_with_shortcuts > $temp_file
 
   # Test output with stripped color codes
-  status=$(sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" $temp_file)
+  git_status=$(sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" $temp_file)
 
-  assertIncludes "$status"  "new file: *\[1\] *new_file"       || return
-  assertIncludes "$status"   "deleted: *\[2\] *deleted_file"   || return
-  assertIncludes "$status"  "modified: *\[3\] *new_file"       || return
-  assertIncludes "$status" "untracked: *\[4\] *untracked_file" || return
+  assertIncludes "$git_status"  "new file: *\[1\] *new_file"       || return
+  assertIncludes "$git_status"   "deleted: *\[2\] *deleted_file"   || return
+  assertIncludes "$git_status"  "modified: *\[3\] *new_file"       || return
+  assertIncludes "$git_status" "untracked: *\[4\] *untracked_file" || return
 
   # Test that shortcut env variables are set
   local error="Env variable was not set"
@@ -132,6 +112,7 @@ test_git_status_with_shortcuts() {
   assertEquals "$error" "new_file" "$e3"       || return
   assertEquals "$error" "untracked_file" "$e4" || return
 }
+
 
 test_git_status_with_shortcuts_merge_conflicts() {
   setupTestRepo
@@ -167,15 +148,16 @@ test_git_status_with_shortcuts_merge_conflicts() {
   verboseGitCommands
 
   # Test output without stripped color codes
-  status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
-  assertIncludes "$status"      "both added: *\[[0-9]*\] *both_added"             || return
-  assertIncludes "$status"   "both modified: *\[[0-9]*\] *both_modified"          || return
-  assertIncludes "$status" "deleted by them: *\[[0-9]*\] *deleted_by_them"        || return
-  assertIncludes "$status"   "deleted by us: *\[[0-9]*\] *deleted_by_us"          || return
-  assertIncludes "$status"    "both deleted: *\[[0-9]*\] *renamed_file"           || return
-  assertIncludes "$status"   "added by them: *\[[0-9]*\] *renamed_file_on_branch" || return
-  assertIncludes "$status"     "added by us: *\[[0-9]*\] *renamed_file_on_master" || return
+  git_status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  assertIncludes "$git_status"      "both added: *\[[0-9]*\] *both_added"             || return
+  assertIncludes "$git_status"   "both modified: *\[[0-9]*\] *both_modified"          || return
+  assertIncludes "$git_status" "deleted by them: *\[[0-9]*\] *deleted_by_them"        || return
+  assertIncludes "$git_status"   "deleted by us: *\[[0-9]*\] *deleted_by_us"          || return
+  assertIncludes "$git_status"    "both deleted: *\[[0-9]*\] *renamed_file"           || return
+  assertIncludes "$git_status"   "added by them: *\[[0-9]*\] *renamed_file_on_branch" || return
+  assertIncludes "$git_status"     "added by us: *\[[0-9]*\] *renamed_file_on_master" || return
 }
+
 
 test_git_status_with_shortcuts_max_changes() {
   setupTestRepo
@@ -184,15 +166,15 @@ test_git_status_with_shortcuts_max_changes() {
 
   # Add 5 untracked files
   touch a b c d e
-  status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  git_status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
   for i in $(seq 1 5); do
-    assertIncludes "$status"  "\[$i\]" || return
+    assertIncludes "$git_status"  "\[$i\]" || return
   done
 
   # 6 untracked files is more than $gs_max_changes
   touch f
-  status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
-  assertNotIncludes "$status"  "\[[0-9]*\]" || return
+  git_status=$(git_status_with_shortcuts | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  assertNotIncludes "$git_status"  "\[[0-9]*\]" || return
 }
 
 
@@ -203,15 +185,15 @@ test_git_add_with_shortcuts() {
   # Show git status, which sets up env variables
   git_status_with_shortcuts > /dev/null
   git_add_with_shortcuts 2..4 7 8 > /dev/null
-  status=$(git_status_with_shortcuts 1 | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+  git_status=$(git_status_with_shortcuts 1 | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
 
   for c in b c d g h; do
-    assertIncludes "$status"  "\[[0-9]*\] $c" || return
+    assertIncludes "$git_status"  "\[[0-9]*\] $c" || return
   done
 }
 
 
 # load and run shUnit2
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
-. ../support/shunit2
+source "$thisDir/support/shunit2"
 
