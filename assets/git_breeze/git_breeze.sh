@@ -59,7 +59,7 @@ git_status_with_shortcuts() {
     local c_ren="\e[0;34m"
     local c_cpy="\e[0;33m"
     local c_ign="\e[0;36m"
-    # Colors must be prepended with modifiers e.g. '\e[1;', '\e[0;'
+    # Following colors must be prepended with modifiers e.g. '\e[1;', '\e[0;'
     local c_grp_1="33m"; local c_grp_2="31m"; local c_grp_3="32m"; local c_grp_4="36m"
 
     local f=1; local e=1  # Counters for number of files, and ENV variables
