@@ -4,7 +4,7 @@ desc "Run shUnit2 tests"
 task :test do
   Dir.glob("assets/**/test/*_test.sh").each do |test|
     ["bash", "zsh"].each do |shell|
-      puts "== Running test with [#{shell}]: #{test}"
+      puts "== Running tests with [#{shell}]: #{test}"
       @failed = !system("#{shell} #{test}") || @failed
     end
   end
