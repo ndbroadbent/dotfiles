@@ -5,12 +5,13 @@
 # Released under the LGPL (GNU Lesser General Public License)
 # ------------------------------------------------------------------------------
 
-# Supports bash and zsh
-shell=$("readlink" -f /proc/$$/exe)
-if [[ $shell == *zsh* ]]; then
-  # Detect whether zsh 'shwordsplit' option is on by default.
-  zsh_shwordsplit=$((setopt | grep -q shwordsplit) && echo "yes")
-fi
+# Detect shell
+if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; else shell="bash"; fi
+# Detect whether zsh 'shwordsplit' option is on by default.
+if [[ $shell == "zsh" ]]; then zsh_shwordsplit=$((setopt | grep -q shwordsplit) && echo "true"); fi
+# Switch on/off shwordsplit for functions that require it.
+zsh_compat(){ if [[ $shell == "zsh" && -z $zsh_shwordsplit ]]; then setopt shwordsplit; fi; }
+zsh_reset(){  if [[ $shell == "zsh" && -z $zsh_shwordsplit ]]; then unsetopt shwordsplit; fi; }
 
 
 # Config
@@ -36,8 +37,7 @@ ga_auto_remove="yes"
 # # groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
 # --------------------------------------------------------------------
 git_status_with_shortcuts() {
-  # Turn on wordsplit for zsh, if not already on.
-  if [[ $shell == *zsh* && -z $zsh_shwordsplit ]]; then setopt shwordsplit; fi
+  zsh_compat # Ensure shwordsplit is on for zsh
   local IFS=$'\n'
   local git_status="$(git status --porcelain 2> /dev/null)"
 
@@ -128,8 +128,7 @@ git_status_with_shortcuts() {
     # so just use plain 'git status'
     git status
   fi
-  # Turn off shwordsplit for zsh if it was off by default.
-  if [[ $shell == *zsh* && -z $zsh_shwordsplit ]]; then unsetopt shwordsplit; fi
+  zsh_reset # Reset zsh environment to default
 }
 # Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
