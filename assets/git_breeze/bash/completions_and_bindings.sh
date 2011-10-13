@@ -11,6 +11,10 @@ complete -o default -o nospace -F _git_checkout gco
 complete -o default -o nospace -F _git_remote   gr
 complete -o default -o nospace -F _git_show     gsh
 
+# Tab completion for git repo management & aliases
+# -----------------------------------------------------------
+complete -o nospace -o filenames -F _git_repo_tab_completion git_repo
+complete -o nospace -o filenames -F _git_repo_tab_completion s
 
 # Keyboard Bindings
 # -----------------------------------------------------------
