@@ -6,10 +6,10 @@ echo "== Configuring firefox, terminal & gedit to run on startup..."
 # Create startup script including delay (wait for panels to be shown, otherwise app title bar is hidden.)
 cat > ~/.start_dev_applications.sh <<EOF
 #!/bin/sh
-sleep 15
+sleep 20
 gnome-terminal &
 firefox &
-gedit %U &
+gedit &
 EOF
 chmod +x ~/.start_dev_applications.sh
 
