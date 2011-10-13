@@ -4,7 +4,7 @@ this_dir=$(pwd)
 
 # Assemble bashrc from parts
 cat assets/bashrc/default.sh > ~/.bashrc
-for part in prompt history aliases functions git ruby_on_rails crossroads src design; do
+for part in prompt history aliases functions ruby_on_rails crossroads src design; do
   cat assets/bashrc/$part.sh >> ~/.bashrc
 done
 # Append dynamic update command
