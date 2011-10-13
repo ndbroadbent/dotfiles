@@ -4,14 +4,14 @@ this_dir=$(pwd)
 
 # Assemble bashrc from parts
 cat assets/bashrc/default.sh > ~/.bashrc
-for part in prompt history aliases functions ruby_on_rails crossroads src design; do
+for part in prompt history aliases functions ruby_on_rails crossroads design; do
   cat assets/bashrc/$part.sh >> ~/.bashrc
 done
 
-# Add Git Breeze
-cat assets/git_breeze/git_breeze.sh >> ~/.bashrc
-cat assets/git_breeze/aliases.sh >> ~/.bashrc
-cat assets/git_breeze/bash/completions_and_bindings.sh >> ~/.bashrc
+# Add Git Breeze scripts
+for part in git_file_shortcuts git_repo_management aliases bash/completions_and_bindings; do
+  cat assets/git_breeze/$part.sh >> ~/.bashrc
+done
 
 
 # Append dynamic update command

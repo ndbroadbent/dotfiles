@@ -7,7 +7,7 @@ alias gs="git_status_with_shortcuts"
 alias ga="git_add_with_shortcuts"
 alias gsf="git_show_affected_files"
 
-# Git commands that deal with paths
+# Expand numbered args for git commands that deal with paths
 function gco() { git checkout $(git_expand_args "$@"); }
 function gc()  { git commit   $(git_expand_args "$@"); }
 function grs() { git reset    $(git_expand_args "$@"); }
