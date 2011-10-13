@@ -1,9 +1,13 @@
-#
-# Git Breeze - Shortcut functions to streamline your git workflow.
-#
+# -------------------------------------------------------
+# Git Breeze - Streamline your git workflow.
 # Copyright 2011 Nathan Broadbent (http://madebynathan.com). All Rights Reserved.
 # Released under the LGPL (GNU Lesser General Public License)
+# -------------------------------------------------------
+
 # ------------------------------------------------------------------------------
+# Numbered file shortcuts for git commands
+# ------------------------------------------------------------------------------
+
 
 # Detect shell
 if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; else shell="bash"; fi
