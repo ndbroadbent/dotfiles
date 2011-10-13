@@ -8,12 +8,18 @@
 
 thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
 
+# zsh compatibility
+if [ -n "${ZSH_VERSION:-}" ]; then SHUNIT_PARENT=$0; setopt shwordsplit; fi
+
 # Load test helpers
 source "$thisDir/support/helpers"
 
 # Load Git Breeze functions
 source "$thisDir/../git_breeze.sh"
 
+runTests() {
+  source "$thisDir/support/shunit2"
+}
 
 # Setup and tear down
 #-----------------------------------------------------------------------------
@@ -194,6 +200,5 @@ test_git_add_with_shortcuts() {
 
 
 # load and run shUnit2
-[ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
-source "$thisDir/support/shunit2"
+runTests
 
