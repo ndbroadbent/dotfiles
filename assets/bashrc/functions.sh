@@ -70,8 +70,13 @@ cb() {
     fi
   fi
 }
-# Shortcut to copy SSH public key to clipboard.
-alias cb_ssh="cb ~/.ssh/id_rsa.pub"
+# Aliases leveraging the cb() function
+# -- Copy SSH public key to clipboard.
+alias cbssh="cb ~/.ssh/id_rsa.pub"
+# -- Copy current working directory
+alias cbwd="pwd | cb"
+# -- Copy the most recent command in bash history
+alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
 
 # Calculator
