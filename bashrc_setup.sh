@@ -7,6 +7,13 @@ cat assets/bashrc/default.sh > ~/.bashrc
 for part in prompt history aliases functions ruby_on_rails crossroads src design; do
   cat assets/bashrc/$part.sh >> ~/.bashrc
 done
+
+# Add Git Breeze
+cat assets/git_breeze/git_breeze.sh >> ~/.bashrc
+cat assets/git_breeze/aliases.sh >> ~/.bashrc
+cat assets/git_breeze/bash/completions_and_bindings.sh >> ~/.bashrc
+
+
 # Append dynamic update command
 cat >> ~/.bashrc <<EOF
 # Update this file from GitHub
