@@ -138,7 +138,7 @@ git_status_with_shortcuts() {
 _gs_output_file_group() {
   local output=""
   rel_root_path="$(_gs_project_root)"
-  abs_root_path="$(readlink -f $rel_root_path)"
+  abs_root_path="$(readlink -f "$rel_root_path")"
 
   for i in ${stat_grp[$1]}; do
     # Print colored hashes & files based on modification groups
