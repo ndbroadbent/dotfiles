@@ -25,7 +25,7 @@ oneTimeSetUp() {
   gs_max_changes="20"
   ga_auto_remove="yes"
 
-  testRepo="/tmp/testRepo"
+  testRepo=$(mktemp -d)
 }
 
 oneTimeTearDown() {
@@ -102,6 +102,39 @@ test_git_status_with_shortcuts() {
   assertEquals "$error" "deleted_file" "$e2"   || return
   assertEquals "$error" "new_file" "$e3"       || return
   assertEquals "$error" "untracked_file" "$e4" || return
+}
+
+test_git_status_produces_relative_paths() {
+  setupTestRepo
+
+  mkdir -p dir1/sub1/subsub1
+  mkdir -p dir1/sub2
+  mkdir -p dir2
+  touch dir1/sub1/subsub1/testfile
+  touch dir1/sub2/testfile
+  touch dir2/testfile
+  git add .
+
+  git_status=$(git_status_with_shortcuts | strip_colors)
+  assertIncludes "$git_status"  "dir1/sub1/subsub1/testfile" || return
+
+  cd $testRepo/dir1
+  git_status=$(git_status_with_shortcuts | strip_colors)
+  assertIncludes "$git_status"  " sub1/subsub1/testfile" || return
+  assertIncludes "$git_status"  " sub2/testfile" || return
+  assertIncludes "$git_status"  "../dir2/testfile" || return
+
+  cd $testRepo/dir1/sub1
+  git_status=$(git_status_with_shortcuts | strip_colors)
+  assertIncludes "$git_status"  " subsub1/testfile"   || return
+  assertIncludes "$git_status"  " ../sub2/testfile"   || return
+  assertIncludes "$git_status"  "../../dir2/testfile" || return
+
+  cd $testRepo/dir1/sub1/subsub1
+  git_status=$(git_status_with_shortcuts | strip_colors)
+  assertIncludes "$git_status"  " testfile" || return
+  assertIncludes "$git_status"  " ../../sub2/testfile"   || return
+  assertIncludes "$git_status"  "../../../dir2/testfile" || return
 }
 
 
