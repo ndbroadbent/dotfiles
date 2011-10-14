@@ -54,9 +54,9 @@ alias cdp='cap deploy'
 
 
 # Rake aliases
-alias rdbc="rake db:create"
-alias rdbd="rake db:drop"
-alias rdbm="rake db:migrate"
+alias rdbc="rake db:create --trace"
+alias rdbd="rake db:drop --trace"
+alias rdbm="rake db:migrate --trace"
 alias rsp="rake spec"
 alias rts="rake test"
 
