@@ -7,16 +7,19 @@ alias l='ls -Cv --group-directories-first'
 alias ll='ls -lv --group-directories-first'
 alias la='ls -lvA --group-directories-first'
 
+alias _='sudo'
+alias n='nautilus .'
+alias ak='ack-grep'
+function g() { gedit $1 2>&1 > /dev/null & }
+alias vims='vim -c start' # open vim in 'insert' mode
+
 alias ~='cd ~'
+alias --='cd -'
 alias ..='cd ..'
 alias ...='cd ../..';
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias n='nautilus .'
-alias ak='ack-grep'
-function g() { gedit $1 2>&1 > /dev/null & }
-alias vims='vim -c start' # open vim in 'insert' mode
 
 # -- apt
 alias apt-install='sudo apt-get install -y'
