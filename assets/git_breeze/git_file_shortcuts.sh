@@ -137,7 +137,8 @@ git_status_with_shortcuts() {
 # Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
   local output=""
-  rel_root_path=$(_gs_project_root)
+  rel_root_path="$(_gs_project_root)"
+  abs_root_path="$(readlink -f $rel_root_path)"
 
   for i in ${stat_grp[$1]}; do
     # Print colored hashes & files based on modification groups
@@ -147,9 +148,8 @@ _gs_output_file_group() {
     if [ -z "$rel_root_path" ]; then
       relative="${stat_file[$i]}"
     else
-      curr="$PWD"
-      dest="$(readlink -f "$rel_root_path${stat_file[$i]}")"
-      relative="$(_gs_relative_path "$curr" "$dest" )"
+      dest="$abs_root_path/${stat_file[$i]}"
+      relative="$(_gs_relative_path "$PWD" "$dest" )"
     fi
 
     if [[ $f -gt 10 && $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
