@@ -5,7 +5,7 @@
 # Author: nathan.f77@gmail.com (Nathan Broadbent)
 #
 # Unit tests for git shell scripts
-orig_cwd="$PWD"
+
 thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
 
 # Zsh compatibility

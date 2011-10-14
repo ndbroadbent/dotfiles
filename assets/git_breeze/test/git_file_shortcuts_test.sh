@@ -7,6 +7,7 @@
 # Unit tests for git shell scripts
 
 thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
+
 # Zsh compatibility
 if [ -n "${ZSH_VERSION:-}" ]; then SHUNIT_PARENT=$0; setopt shwordsplit; fi
 
