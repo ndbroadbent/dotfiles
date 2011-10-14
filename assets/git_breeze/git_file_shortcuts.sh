@@ -293,7 +293,7 @@ git_commit_prompt() {
   fi
 
   if [ -n "$commit_msg" ]; then
-    $@ # run any prequisite commands
+    eval $@ # run any prequisite commands
     echo $commit_msg | git commit -F - | tail -n +2
   else
     echo -e "\e[0;31mAborting commit due to empty commit message.\e[0m"
@@ -301,10 +301,10 @@ git_commit_prompt() {
   escaped=$(echo "$commit_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
 
   if [[ $shell == "zsh" ]]; then
-    print -s "git commit -m \"$escaped\""
+    print -s "git commit -m \"${escaped//\\/\\\\}\"" # zsh's print needs double escaping
     print -s "$commit_msg"
   else
-    echo "git commit -m \"$escaped\"" >> $HISTFILE
+    echo "git commit -m \"${escaped}\"" >> $HISTFILE
     # Also add unescaped commit message, for git prompt
     echo "$commit_msg" >> $HISTFILE
   fi

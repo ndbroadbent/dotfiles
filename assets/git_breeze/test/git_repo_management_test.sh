@@ -9,7 +9,7 @@
 thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
 
 # Zsh compatibility
-if [ -n "${ZSH_VERSION:-}" ]; then SHUNIT_PARENT=$0; setopt shwordsplit; fi
+if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; SHUNIT_PARENT=$0; setopt shwordsplit; fi
 
 # Load test helpers
 source "$thisDir/support/test_helper"

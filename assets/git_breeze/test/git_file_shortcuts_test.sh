@@ -9,7 +9,7 @@
 thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
 
 # Zsh compatibility
-if [ -n "${ZSH_VERSION:-}" ]; then SHUNIT_PARENT=$0; setopt shwordsplit; fi
+if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; SHUNIT_PARENT=$0; setopt shwordsplit; fi
 
 # Load test helpers
 source "$thisDir/support/test_helper"
@@ -216,6 +216,34 @@ test_git_add_with_shortcuts() {
     assertIncludes "$git_status"  "\[[0-9]*\] $c" || return
   done
 }
+
+test_git_commit_prompt() {
+  setupTestRepo
+
+  commit_msg="\"Nathan's git commit prompt function!\""
+  dbl_escaped_msg="\\\\\"Nathan's git commit prompt function\"'"'!'"'\"\\\\\""
+  # Create temporary history file
+  HISTFILE=$(mktemp)
+  HISTFILESIZE=1000
+  HISTSIZE=1000
+
+  touch a b c d
+  git add . > /dev/null
+
+  # Lightly test the git commit prompt, by piping a commit message
+  # instead of user input.
+  echo "$commit_msg" | git_commit_prompt > /dev/null
+
+  git_show_output=$(git show --oneline --name-only)
+  assertIncludes "$git_show_output"  "$commit_msg"
+
+  # Test that history was appended correctly.
+  if [[ $shell != "zsh" ]]; then history -n; fi  # Reload bash history
+  test_history="$(history)"
+  assertIncludes "$test_history"  "$commit_msg"
+  assertIncludes "$test_history"  "git commit -m \"$dbl_escaped_msg\""
+}
+
 
 
 # load and run shUnit2
