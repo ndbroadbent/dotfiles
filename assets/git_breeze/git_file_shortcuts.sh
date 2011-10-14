@@ -137,19 +137,53 @@ git_status_with_shortcuts() {
 # Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
   local output=""
+  rel_root_path=$(_gs_project_root)
+
   for i in ${stat_grp[$1]}; do
     # Print colored hashes & files based on modification groups
     local c_group="\e[0;$(eval echo -e \$c_grp_$1)"
+
+    # Deduce relative path based on current working directory
+    if [ -z "$rel_root_path" ]; then
+      relative="${stat_file[$i]}"
+    else
+      curr="$(readlink -f .)"
+      dest="$(readlink -f "$rel_root_path${stat_file[$i]}")"
+      relative="$(_gs_relative_path "$curr" "$dest" )"
+    fi
+
     if [[ $f -gt 10 && $e -lt 10 ]]; then local pad=" "; else local pad=""; fi   # (padding)
     echo -e "$c_hash#$c_rst     ${stat_col[$i]}${stat_msg[$i]}:\
-$pad$c_dark [$c_rst$e$c_dark] $c_group${stat_file[$i]}$c_rst"
+$pad$c_dark [$c_rst$e$c_dark] $c_group$relative$c_rst"
     # Export numbered variables in the order they are displayed.
-    export $git_env_char$e="${stat_file[$i]}"
+    export $git_env_char$e="$relative"
     let e++
   done
   echo -e "$c_hash#$c_rst"
 }
 
+
+# Show relative path if current directory is not project root
+_gs_relative_path(){
+  # Credit to 'pini' for the following script.
+  # (http://stackoverflow.com/questions/2564634/bash-convert-absolute-path-into-relative-path-given-a-current-directory)
+  target=$2; common_part=$1; back=""
+  while [ "${target#$common_part}" = "${target}" ]; do
+    common_part="$(dirname $common_part)"
+    back="../${back}"
+  done
+  echo "${back}${target#$common_part/}"
+}
+
+# Find .git folder
+_gs_project_root() {
+  local slashes=${PWD//[^\/]/}; local directory="";
+  for (( n=${#slashes}; n>0; --n )); do
+    test -d "$directory.git" && echo $directory && return 0
+    directory=$directory../
+  done;
+  return 1
+}
 
 
 # 'git add' & 'git rm' wrapper
