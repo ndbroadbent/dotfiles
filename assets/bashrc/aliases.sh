@@ -10,6 +10,7 @@ alias la='ls -lvA --group-directories-first'
 alias _='sudo'
 alias n='nautilus .'
 alias ak='ack-grep'
+alias aka='ack-grep -a'
 function g() { gedit $1 2>&1 > /dev/null & }
 alias vims='vim -c start' # open vim in 'insert' mode
 
