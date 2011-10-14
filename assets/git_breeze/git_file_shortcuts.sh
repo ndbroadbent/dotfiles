@@ -277,7 +277,7 @@ git_commit_prompt() {
   local commit_msg
   if [[ $shell == "zsh" ]]; then
     # zsh 'read' is weak. If you know how to make this better, please send a pull request.
-    # (Bash 'read' supports arrow keys, home/end, bash history, etc.)
+    # (Bash 'read' supports prompt, arrow keys, home/end, up through bash history, etc.)
     echo -n "Commit Message: "; read commit_msg
   else
     read -r -e -p "Commit Message: " commit_msg
