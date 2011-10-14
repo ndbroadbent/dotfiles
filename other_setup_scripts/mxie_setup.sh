@@ -16,10 +16,9 @@ echo "==== Installing..."
 sudo dpkg -i mxie*.deb
 echo "==== Symlinking and installing older required libraries..."
 sudo ln -fs /usr/lib/libssl.so.0.9.8 /usr/lib/libssl.so.0.9.7
-sudo ln -fs /usr/lib/libcrypto.so /usr/lib/libcrypto.so.0.9.7
+sudo ln -fs /usr/lib/libcrypto.so.0.9.8 /usr/lib/libcrypto.so.0.9.7
 wget http://ftp.us.debian.org/debian/pool/main/g/gcc-3.3/libstdc++5_3.3.6-18_i386.deb -O /tmp/libstdc++5.deb
 sudo dpkg -i /tmp/libstdc++5.deb
-
 
 # Start MXIE on system startup
 cat > ~/.config/autostart/mxie.desktop <<EOF
