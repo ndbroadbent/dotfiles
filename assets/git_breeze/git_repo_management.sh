@@ -173,7 +173,7 @@ function _git_repo_pull_or_status() {
     if (git remote -v | grep -q origin); then
       branch=`parse_git_branch`
       # Only update the git repo if it hasn't been touched for at least 6 hours.
-      if $(find ".git" -maxdepth 0 -type d -mmin +360); then
+      if $(find ".git" -maxdepth 0 -type d -mmin +360 | grep -q "\.git"); then
         # If we aren't on any branch, checkout master.
         if [ "$branch" = "(no branch)" ]; then
           echo -e "=== Checking out$_git_col master$_txt_col branch."
