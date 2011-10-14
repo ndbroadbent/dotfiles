@@ -67,26 +67,29 @@ complete -o nospace -o filenames -F _git_repo_tab_completion s
 # Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
 # See here for more info about why a prompt is more useful: http://qntm.org/bash#sec1
 
-eval "$(sed -n 's/^\s*/bindkey /; s/: / /p' /etc/inputrc)"
 
-
-# Bind for both zsh or bash
+# Cross-shell key bindings
 _bind(){
-
+  if [ -n "${ZSH_VERSION:-}" ]; then
+    bindkey -s "$1" "$2"   # zsh
+  else
+    bind "\"$1\": \"$2\""  # bash
+  fi
 }
-
 
 case "$TERM" in
 xterm*|rxvt*)
-    # Keyboard bindings invoke wrapper functions with a leading space,
-    # so they are not added to history. (set HISTCONTROL=ignorespace:ignoredups)
-
     # CTRL-SPACE => $  git_status_with_shortcuts {ENTER}
-    bind "\"\C- \":  \" git_status_with_shortcuts\n\""
+    _bind "\C- " " git_status_with_shortcuts\n"
     # CTRL-x-SPACE => $  git_commit_all {ENTER}
-    bind "\"\C-x \":  \" git_commit_all\n\""
+    _bind "\C-x " " git_commit_all\n"
     # CTRL-x-c => $  git_add_and_commit {ENTER}
     # 1 3 CTRL-x-c => $  git_add_and_commit 1 3 {ENTER}
-    bind "\"\C-xc\": \"\e[1~ git_add_and_commit \n\""
+    _bind "\C-xc" "\e[1~ git_add_and_commit \n"
+
+    # Commands are prepended with a space so that they won't be added to history.
+    # Turn this on with:
+    # zsh:  setopt histignorespace histignoredups
+    # bash: HISTCONTROL=ignorespace:ignoredups
 esac
 
