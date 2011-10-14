@@ -10,7 +10,7 @@ done
 
 # Add Git Breeze scripts
 cd assets/git_breeze/
-for part in git_* aliases.sh bash/completions_and_bindings.sh; do
+for part in git_* aliases_and_bindings.sh; do
   cat $part >> ~/.bashrc
 done
 cd - > /dev/null
