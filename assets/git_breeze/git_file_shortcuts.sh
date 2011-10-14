@@ -304,7 +304,7 @@ git_commit_prompt() {
     print -s "git commit -m \"${escaped//\\/\\\\}\"" # zsh's print needs double escaping
     print -s "$commit_msg"
   else
-    echo "git commit -m \"${escaped}\"" >> $HISTFILE
+    echo "git commit -m \"$escaped\"" >> $HISTFILE
     # Also add unescaped commit message, for git prompt
     echo "$commit_msg" >> $HISTFILE
   fi
