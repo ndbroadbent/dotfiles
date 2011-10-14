@@ -147,7 +147,7 @@ _gs_output_file_group() {
     if [ -z "$rel_root_path" ]; then
       relative="${stat_file[$i]}"
     else
-      curr="$(readlink -f .)"
+      curr="$PWD"
       dest="$(readlink -f "$rel_root_path${stat_file[$i]}")"
       relative="$(_gs_relative_path "$curr" "$dest" )"
     fi
@@ -168,8 +168,8 @@ _gs_relative_path(){
   # Credit to 'pini' for the following script.
   # (http://stackoverflow.com/questions/2564634/bash-convert-absolute-path-into-relative-path-given-a-current-directory)
   target=$2; common_part=$1; back=""
-  while [ "${target#$common_part}" = "${target}" ]; do
-    common_part="$(dirname $common_part)"
+  while [[ "${target#$common_part}" == "${target}" ]]; do
+    common_part="${common_part%/*}"
     back="../${back}"
   done
   echo "${back}${target#$common_part/}"
