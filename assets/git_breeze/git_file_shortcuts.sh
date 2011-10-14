@@ -46,11 +46,11 @@ git_status_with_shortcuts() {
   local git_status="$(git status --porcelain 2> /dev/null)"
 
   local branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-  # Clear numbered env variables.
-  for (( i=1; i<=$gs_max_changes; i++ )); do unset $git_env_char$i; done
 
   if [ -n "$git_status" ] && [[ $(echo "$git_status" | wc -l) -le $gs_max_changes ]]; then
     unset stat_file; unset stat_col; unset stat_msg; unset stat_grp; unset stat_x; unset stat_y
+    # Clear numbered env variables.
+    for (( i=1; i<=$gs_max_changes; i++ )); do unset $git_env_char$i; done
 
     # Colors
     local c_rst="\e[0m"
