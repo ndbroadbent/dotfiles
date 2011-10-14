@@ -211,7 +211,8 @@ function _git_repo_batch_cmd() {
   fi
 }
 
-# Tab completion function for git_repo()
+
+# Bash tab completion function for git_repo()
 function _git_repo_tab_completion() {
   _check_git_repo_index
   local curw
