@@ -284,7 +284,14 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 # then add escaped commit command and unescaped message to bash history.
 git_commit_prompt() {
   local commit_msg
-  read -r -e -d $'\n' -p "Commit Message: " commit_msg
+  if [[ $shell == "zsh" ]]; then
+    # zsh 'read' is weak. If you know how to make this better, please send a pull request.
+    # (Bash 'read' supports arrow keys, home/end, bash history, etc.)
+    echo -n "Commit Message: "; read commit_msg
+  else
+    read -r -e -p "Commit Message: " commit_msg
+  fi
+
   if [ -n "$commit_msg" ]; then
     $@ # run any prequisite commands
     echo $commit_msg | git commit -F - | tail -n +2
@@ -292,9 +299,15 @@ git_commit_prompt() {
     echo -e "\e[0;31mAborting commit due to empty commit message.\e[0m"
   fi
   escaped=$(echo "$commit_msg" | sed -e 's/"/\\"/g' -e 's/!/"'"'"'!'"'"'"/g')
-  echo "git commit -m \"$escaped\"" >> $HISTFILE
-  # Also add unescaped commit message, for git prompt
-  echo "$commit_msg" >> $HISTFILE
+
+  if [[ $shell == "zsh" ]]; then
+    print -s "git commit -m \"$escaped\""
+    print -s "$commit_msg"
+  else
+    echo "git commit -m \"$escaped\"" >> $HISTFILE
+    # Also add unescaped commit message, for git prompt
+    echo "$commit_msg" >> $HISTFILE
+  fi
 }
 
 # Prompt for commit message, then commit all modified and untracked files
