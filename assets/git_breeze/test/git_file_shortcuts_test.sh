@@ -204,13 +204,13 @@ test_git_status_shortcuts_max_changes() {
 }
 
 
-test_git_add_with_shortcuts() {
+test_git_add_shorcuts() {
   setupTestRepo
 
   touch a b c d e f g h i j
   # Show git status, which sets up env variables
   git_status_shortcuts > /dev/null
-  git_add_with_shortcuts 2..4 7 8 > /dev/null
+  git_add_shorcuts 2..4 7 8 > /dev/null
   git_status=$(git_status_shortcuts 1 | strip_colors)
 
   for c in b c d g h; do
