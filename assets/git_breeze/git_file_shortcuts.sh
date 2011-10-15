@@ -248,20 +248,20 @@ git_show_affected_files(){
 git_expand_args() {
   files=""
   for arg in "$@"; do
-    if [[ "$arg" =~ ^[0-9]+$ ]] ; then      # Use $e{*} variables for any integers
+    if [[ "$arg" =~ ^[0-9]+$ ]] ; then      # Substitute $e{*} variables for any integers
       files="$files $(eval echo \$$git_env_char$arg)"
-    elif [[ $arg == *..* ]]; then           # Expand ranges into $e{*} variables
+    elif [[ $arg =~ ^[0-9]+\.\.[0-9]+$ ]]; then           # Expand ranges into $e{*} variables
       for i in $(seq $(echo $arg | tr ".." " ")); do
         files="$files $(eval echo \$$git_env_char$i)"
       done
-    else                                    # Otherwise, treat $arg as a normal file.
+    else                                    # Otherwise, treat $arg as a normal string.
       files="$files $arg"
     fi
   done
   echo $files
 }
 # Execute a command with expanded args, e.g. Delete files 6 to 12: $ ge rm 6..12
-ge() { $(git_expand_args "$@"); }
+exec_git_expand_args() { $(git_expand_args "$@"); }
 
 # Shortcuts for resolving merge conflicts.
 ours(){   local files=$(git_expand_args "$@"); git checkout --ours $files; git add $files; }
