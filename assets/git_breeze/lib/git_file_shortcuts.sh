@@ -9,33 +9,10 @@
 # ------------------------------------------------------------------------------
 
 
-# Detect shell
-if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; else shell="bash"; fi
-# Detect whether zsh 'shwordsplit' option is on by default.
-if [[ $shell == "zsh" ]]; then zsh_shwordsplit=$((setopt | grep -q shwordsplit) && echo "true"); fi
-# Switch on/off shwordsplit for functions that require it.
-zsh_compat(){ if [[ $shell == "zsh" && -z $zsh_shwordsplit ]]; then setopt shwordsplit; fi; }
-zsh_reset(){  if [[ $shell == "zsh" && -z $zsh_shwordsplit ]]; then unsetopt shwordsplit; fi; }
-
-
-# Config
-# ------------------------------------------------------------------------------
-# - Set your preferred prefix for env variable file shortcuts.
-#   (I chose 'e' because it is the easiest key to press after '$'.)
-git_env_char="e"
-# - Max changes before reverting to 'git status'. git_status_with_shortcuts() may slow down for lots of changes.
-gs_max_changes="99"
-# - Automatically use 'git rm' to remove deleted files when using the git_add_with_shortcuts() command?
-ga_auto_remove="yes"
-
-
-# Functions
-# ------------------------------------------------------------------------------
-
 # 'git status' implementation
-# Processes 'git status --porcelain', exporting numbered env variables
-# with the paths of each affected file.
-# Output is more concise than standard 'git status'.
+# Processes 'git status --porcelain', and exports numbered
+# env variables that contain the path of each affected file.
+# Output is also more concise than standard 'git status'.
 #
 # Call with optional <group> parameter to just show one modification state
 # # groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
@@ -271,8 +248,10 @@ theirs(){ local files=$(git_expand_args "$@"); git checkout --theirs $files; git
 # Git commit prompts
 # ------------------------------------------------------------------------------
 
-# Prompt for commit message, execute git command,
-# then add escaped commit command and unescaped message to bash history.
+# * Prompt for commit message
+# * Execute prerequisite commands if message given, abort if not
+# * Pipe commit message to 'git commit'
+# * Add escaped commit command and unescaped message to bash history.
 git_commit_prompt() {
   local commit_msg
   if [[ $shell == "zsh" ]]; then
@@ -301,7 +280,7 @@ git_commit_prompt() {
   fi
 }
 
-# Prompt for commit message, then commit all modified and untracked files
+# Prompt for commit message, then commit all modified and untracked files.
 git_commit_all() {
   changes=$(git status --porcelain | wc -l)
   if [ "$changes" -gt 0 ]; then
@@ -312,7 +291,7 @@ git_commit_all() {
   fi
 }
 
-# Add paths or expanded args (if any given), then commit staged changes
+# Add paths or expanded args if any given, then commit all staged changes.
 git_add_and_commit() {
   git_silent_add_with_shortcuts "$@"
   changes=$(git diff --cached --numstat | wc -l)

@@ -1,52 +1,6 @@
 #
-# Example aliases & shortcuts for .bashrc or .zshrc
-# ------------------------------------------------------------------
-
-git_alias="g"
-
-# 'Git Breeze' functions
-git_status_shortcuts_alias="gs"
-git_add_shortcuts_alias="ga"
-git_show_files_alias="gsf"
-exec_git_expand_args_alias="ge"
-# Commands that handle paths (with shortcut args expanded)
-git_checkout_alias="gco"
-git_commit_alias="gc"
-git_reset_alias="grs"
-git_rm_alias="grm"
-git_blame_alias="gbl"
-git_diff_alias="gd"
-git_diff_cached_alias="gdc"
-# Standard commands
-git_clone_alias="gcl"
-git_fetch_alias="gf"
-git_fetch_and_rebase_alias="gfr"
-git_pull_alias="gpl"
-git_push_alias="gps"
-git_status_original_alias="gst"
-git_status_short_alias="gss"
-git_add_all_alias="gaa"
-git_commit_all_alias="gca"
-git_commit_amend_alias="gcm"
-git_commit_amend_no_msg_alias="gcmh"
-git_remote_alias="gr"
-git_branch_alias="gb"
-git_branch_all_alias="gba"
-git_rebase_alias="grb"
-git_merge_alias="gm"
-git_cherry_pick_alias="gcp"
-git_log_alias="gl"
-git_log_stat_alias="gls"
-git_log_graph_alias="glg"
-git_show_alias="gsh"
-
-# Git repo management
-git_repo_alias="s"
-
-
-# ---------------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------------
-
+# Set up configured aliases & keyboard shortcuts
+# --------------------------------------------------------------------
 
 # 'Git Breeze' functions
 alias $git_status_shortcuts_alias="git_status_with_shortcuts"
@@ -138,8 +92,8 @@ complete -o nospace -o filenames -F _git_repo_tab_completion $git_repo_alias
 
 # Keyboard Bindings
 # -----------------------------------------------------------
-# Default: Ctrl+Space and Ctrl+x+Space give 'git commit' prompts.
-# See [here](http://qntm.org/bash#sec1) to find out why a prompt can be useful.
+# 'git_commit_all' and 'git_add_and_commit' give commit message prompts.
+# See [here](http://qntm.org/bash#sec1) for info about why I wanted a prompt.
 
 # Cross-shell key bindings
 _bind(){
@@ -153,12 +107,12 @@ _bind(){
 case "$TERM" in
 xterm*|rxvt*)
     # CTRL-SPACE => $  git_status_with_shortcuts {ENTER}
-    _bind "\C- " " git_status_with_shortcuts\n"
+    _bind "$git_status_shortcuts_keys" " git_status_with_shortcuts\n"
     # CTRL-x-SPACE => $  git_commit_all {ENTER}
-    _bind "\C-x " " git_commit_all\n"
+    _bind "$git_commit_all_keys" " git_commit_all\n"
     # CTRL-x-c => $  git_add_and_commit {ENTER}
     # 1 3 CTRL-x-c => $  git_add_and_commit 1 3 {ENTER}
-    _bind "\C-xc" "\e[1~ git_add_and_commit \n"
+    _bind "$git_add_and_commit_keys" "\e[1~ git_add_and_commit \n"
 
     # Commands are prepended with a space so that they won't be added to history.
     # Make sure this is turned on with:
