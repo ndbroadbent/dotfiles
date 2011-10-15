@@ -9,16 +9,6 @@
 # -------------------------------------------------------
 
 
-# Config
-# --------------------------
-# Repos will be automatically added from this directory.
-GIT_REPO_DIR="$HOME/src"
-# Add the full paths of any extra repos to GIT_REPOS, separated with ':'
-# e.g. "/opt/rails/project:/opt/rails/another project:$HOME/other/repo"
-GIT_REPOS=""
-git_status_command="git_status_with_shortcuts"
-
-
 # * The `git_repo` function makes it easy to list & switch between
 #   git projects in $GIT_REPO_DIR (default = ~/src)
 #

@@ -15,7 +15,7 @@ if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; SHUNIT_PARENT=$0; setopt shwords
 source "$thisDir/support/test_helper"
 
 # Load functions to test
-source "$thisDir/../git_repo_management.sh"
+source "$thisDir/../lib/git_repo_management.sh"
 
 
 # Setup and tear down
