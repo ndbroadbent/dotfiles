@@ -4,10 +4,11 @@
 
 git_alias="g"
 
-# Git Breeze functions
+# 'Git Breeze' functions
 git_status_shortcuts_alias="gs"
 git_add_shortcuts_alias="ga"
 git_show_files_alias="gsf"
+exec_git_expand_args_alias="ge"
 # Commands that handle paths (with shortcut args expanded)
 git_checkout_alias="gco"
 git_commit_alias="gc"
@@ -22,26 +23,22 @@ git_fetch_alias="gf"
 git_fetch_and_rebase_alias="gfr"
 git_pull_alias="gpl"
 git_push_alias="gps"
-
+git_status_original_alias="gst"
+git_status_short_alias="gss"
 git_add_all_alias="gaa"
 git_commit_all_alias="gca"
 git_commit_amend_alias="gcm"
 git_commit_amend_no_msg_alias="gcmh"
-
-git_status_original_alias="gst"
-git_status_short_alias="gss"
-git_log_alias="gl"
-git_log_stat_alias="gls"
-git_log_graph_alias="glg"
-git_show_alias="gsh"
-
 git_remote_alias="gr"
 git_branch_alias="gb"
 git_branch_all_alias="gba"
 git_rebase_alias="grb"
 git_merge_alias="gm"
 git_cherry_pick_alias="gcp"
-
+git_log_alias="gl"
+git_log_stat_alias="gls"
+git_log_graph_alias="glg"
+git_show_alias="gsh"
 
 # Git repo management
 git_repo_alias="s"
@@ -51,19 +48,20 @@ git_repo_alias="s"
 # ---------------------------------------------------------------------------------------
 
 
-# Git Breeze functions
+# 'Git Breeze' functions
 alias $git_status_shortcuts_alias="git_status_with_shortcuts"
 alias $git_add_shortcuts_alias="git_add_with_shortcuts"
 alias $git_show_files_alias="git_show_affected_files"
 
-# Commands that handle paths (with shortcut args expanded)
-alias $git_checkout_alias="git checkout $(git_expand_args "$@")"
-alias $git_commit_alias="git commit     $(git_expand_args "$@")"
-alias $git_reset_alias="git reset       $(git_expand_args "$@")"
-alias $git_rm_alias="git rm             $(git_expand_args "$@")"
-alias $git_blame_alias="git blame       $(git_expand_args "$@")"
-alias $git_diff_alias="git diff         $(git_expand_args "$@")"
-alias $git_diff_cached_alias="git diff --cached $(git_expand_args "$@") "
+# Expand numbers and ranges for commands that deal with paths
+_exp="exec_git_expand_args"
+alias $git_checkout_alias="$_exp git checkout"
+alias $git_commit_alias="$_exp git commit"
+alias $git_reset_alias="$_exp git reset"
+alias $git_rm_alias="$_exp git rm"
+alias $git_blame_alias="$_exp git blame"
+alias $git_diff_alias="$_exp git diff"
+alias $git_diff_cached_alias="$_exp git diff --cached"
 
 # Standard commands
 alias $git_clone_alias='git clone'
@@ -155,7 +153,7 @@ _bind(){
 case "$TERM" in
 xterm*|rxvt*)
     # CTRL-SPACE => $  git_status_with_shortcuts {ENTER}
-    _bind "\C- "  " git_status_with_shortcuts\n"
+    _bind "\C- " " git_status_with_shortcuts\n"
     # CTRL-x-SPACE => $  git_commit_all {ENTER}
     _bind "\C-x " " git_commit_all\n"
     # CTRL-x-c => $  git_add_and_commit {ENTER}

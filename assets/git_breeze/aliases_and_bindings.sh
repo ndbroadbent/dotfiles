@@ -8,6 +8,7 @@ git_alias="g"
 git_status_shortcuts_alias="gs"
 git_add_shortcuts_alias="ga"
 git_show_files_alias="gsf"
+exec_git_expand_args_alias="ge"
 # Commands that handle paths (with shortcut args expanded)
 git_checkout_alias="gco"
 git_commit_alias="gc"
@@ -52,14 +53,15 @@ alias $git_status_shortcuts_alias="git_status_with_shortcuts"
 alias $git_add_shortcuts_alias="git_add_with_shortcuts"
 alias $git_show_files_alias="git_show_affected_files"
 
-# Git commands that deal with paths (with number args expanded)
-alias $git_checkout_alias="git checkout $(git_expand_args "$@")"
-alias $git_commit_alias="git commit     $(git_expand_args "$@")"
-alias $git_reset_alias="git reset       $(git_expand_args "$@")"
-alias $git_rm_alias="git rm             $(git_expand_args "$@")"
-alias $git_blame_alias="git blame       $(git_expand_args "$@")"
-alias $git_diff_alias="git diff         $(git_expand_args "$@")"
-alias $git_diff_cached_alias="git diff --cached $(git_expand_args "$@") "
+# Expand numbers and ranges for commands that deal with paths
+_exp="exec_git_expand_args"
+alias $git_checkout_alias="$_exp git checkout"
+alias $git_commit_alias="$_exp git commit"
+alias $git_reset_alias="$_exp git reset"
+alias $git_rm_alias="$_exp git rm"
+alias $git_blame_alias="$_exp git blame"
+alias $git_diff_alias="$_exp git diff"
+alias $git_diff_cached_alias="$_exp git diff --cached"
 
 # Standard commands
 alias $git_clone_alias='git clone'
