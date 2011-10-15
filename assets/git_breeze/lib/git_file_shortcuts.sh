@@ -113,19 +113,23 @@ git_status_with_shortcuts() {
 }
 # Template function for 'git_status_with_shortcuts'.
 _gs_output_file_group() {
+  if [ -d .git ]; then
+    local project_root="$PWD"
+  else
+    local project_root=$(git rev-parse --git-dir 2> /dev/null | sed "s%/\.git$%%g")
+  fi
+
   local output=""
-  rel_root_path="$(_gs_project_root)"
-  abs_root_path="$(readlink -f "$rel_root_path")"
 
   for i in ${stat_grp[$1]}; do
     # Print colored hashes & files based on modification groups
     local c_group="\e[0;$(eval echo -e \$c_grp_$1)"
 
     # Deduce relative path based on current working directory
-    if [ -z "$rel_root_path" ]; then
+    if [ -z "$project_root" ]; then
       relative="${stat_file[$i]}"
     else
-      dest="$abs_root_path/${stat_file[$i]}"
+      dest="$project_root/${stat_file[$i]}"
       relative="$(_gs_relative_path "$PWD" "$dest" )"
     fi
 
@@ -133,7 +137,8 @@ _gs_output_file_group() {
     echo -e "$c_hash#$c_rst     ${stat_col[$i]}${stat_msg[$i]}:\
 $pad$c_dark [$c_rst$e$c_dark] $c_group$relative$c_rst"
     # Export numbered variables in the order they are displayed.
-    export $git_env_char$e="$relative"
+    # (Exports full path, but displays relative path)
+    export $git_env_char$e="$project_root/${stat_file[$i]}"
     let e++
   done
   echo -e "$c_hash#$c_rst"
@@ -150,16 +155,6 @@ _gs_relative_path(){
     back="../${back}"
   done
   echo "${back}${target#$common_part/}"
-}
-
-# Find .git folder
-_gs_project_root() {
-  local slashes=${PWD//[^\/]/}; local directory="";
-  for (( n=${#slashes}; n>0; --n )); do
-    test -d "$directory.git" && echo $directory && return 0
-    directory=$directory../
-  done;
-  return 1
 }
 
 

@@ -1,4 +1,8 @@
-thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
+#
+# Get directory of this file (for bash and zsh).
+# git_breeze.sh must not be run directly.
+# It must be sourced, e.g "source ~/.git_breeze/git_breeze.sh"
+thisDir="$(dirname ${BASH_SOURCE:-$0})"
 
 # Load config
 source "$thisDir/config.sh"
