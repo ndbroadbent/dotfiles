@@ -17,7 +17,7 @@
 # Call with optional <group> parameter to just show one modification state
 # # groups => 1: staged, 2: unmerged, 3: unstaged, 4: untracked
 # --------------------------------------------------------------------
-git_status_with_shortcuts() {
+git_status_shortcuts() {
   zsh_compat # Ensure shwordsplit is on for zsh
   local IFS=$'\n'
   local git_status="$(git status --porcelain 2> /dev/null)"
@@ -111,7 +111,7 @@ git_status_with_shortcuts() {
   fi
   zsh_reset # Reset zsh environment to default
 }
-# Template function for 'git_status_with_shortcuts'.
+# Template function for 'git_status_shortcuts'.
 _gs_output_file_group() {
   if [ -d .git ]; then
     local project_root="$PWD"
@@ -161,7 +161,7 @@ _gs_relative_path(){
 # 'git add' & 'git rm' wrapper
 # This shortcut means 'stage the change to the file'
 # i.e. It will add new and changed files, and remove deleted files.
-# Should be used in conjunction with the git_status_with_shortcuts() function for 'git status'.
+# Should be used in conjunction with the git_status_shortcuts() function for 'git status'.
 # - 'auto git rm' behaviour can be turned off
 # -------------------------------------------------------------------------------
 git_add_with_shortcuts() {
@@ -177,7 +177,7 @@ git_add_with_shortcuts() {
   else
     git_silent_add_with_shortcuts "$@"
     # Makes sense to run 'git status' after this command.
-    git_status_with_shortcuts
+    git_status_shortcuts
   fi
 }
 # Does nothing if no args are given.
@@ -215,7 +215,7 @@ git_show_affected_files(){
 
 # Allows expansion of numbered shortcuts, ranges of shortcuts, or standard paths.
 # Numbered shortcut variables are produced by various commands, such as:
-# * git_status_with_shortcuts()  - git status implementation
+# * git_status_shortcuts()  - git status implementation
 # * git_show_affected_files() - shows files affected by a given SHA1, etc.
 git_expand_args() {
   files=""
@@ -291,7 +291,7 @@ git_add_and_commit() {
   git_silent_add_with_shortcuts "$@"
   changes=$(git diff --cached --numstat | wc -l)
   if [ "$changes" -gt 0 ]; then
-    git_status_with_shortcuts 1  # only show staged changes
+    git_status_shortcuts 1  # only show staged changes
     git_commit_prompt
   else
     echo "# No staged changes to commit."
