@@ -4,7 +4,7 @@
 # - Set your preferred prefix for env variable file shortcuts.
 #   (I chose 'e' because it is the easiest key to press after '$'.)
 git_env_char="e"
-# - Max changes before reverting to 'git status'. git_status_with_shortcuts() may slow down for lots of changes.
+# - Max changes before reverting to 'git status'. git_status_shortcuts() may slow down for lots of changes.
 gs_max_changes="99"
 # - Automatically use 'git rm' to remove deleted files when using the git_add_with_shortcuts() command?
 ga_auto_remove="yes"
@@ -17,7 +17,7 @@ GIT_REPO_DIR="$HOME/src"
 # Add the full paths of any extra repos to GIT_REPOS, separated with ':'
 # e.g. "/opt/rails/project:/opt/rails/another project:$HOME/other/repo"
 GIT_REPOS=""
-git_status_command="git_status_with_shortcuts"
+git_status_command="git_status_shortcuts"
 
 
 

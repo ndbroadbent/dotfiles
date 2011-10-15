@@ -3,7 +3,7 @@
 # --------------------------------------------------------------------
 
 # 'Git Breeze' functions
-alias $git_status_shortcuts_alias="git_status_with_shortcuts"
+alias $git_status_shortcuts_alias="git_status_shortcuts"
 alias $git_add_shortcuts_alias="git_add_with_shortcuts"
 alias $git_show_files_alias="git_show_affected_files"
 
@@ -106,8 +106,8 @@ _bind(){
 
 case "$TERM" in
 xterm*|rxvt*)
-    # CTRL-SPACE => $  git_status_with_shortcuts {ENTER}
-    _bind "$git_status_shortcuts_keys" " git_status_with_shortcuts\n"
+    # CTRL-SPACE => $  git_status_shortcuts {ENTER}
+    _bind "$git_status_shortcuts_keys" " git_status_shortcuts\n"
     # CTRL-x-SPACE => $  git_commit_all {ENTER}
     _bind "$git_commit_all_keys" " git_commit_all\n"
     # CTRL-x-c => $  git_add_and_commit {ENTER}
