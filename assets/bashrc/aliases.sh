@@ -14,7 +14,7 @@ alias aka='ack-grep -a'
 alias vims='vim -c start' # open vim in 'insert' mode
 
 alias ~='cd ~'
-alias --='cd -'
+alias -- -='cd -'
 alias ..='cd ..'
 alias ...='cd ../..';
 alias ....='cd ../../..'
