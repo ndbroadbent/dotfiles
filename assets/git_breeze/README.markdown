@@ -6,17 +6,14 @@
 
 # -------------------------------------------------------
 
-This is a collection of shell scripts to augment your git experience.
-
-Tested in `bash` and `zsh`.
-
-
-Pull requests always welcome!
-
+This is a collection of shell scripts (for `bash` and `zsh`) that enhance your interaction with git.
 
 * Numbered file shortcuts for git commands
 * Repository management scripts for Git projects
 * Symlink design assets
+
+
+Pull requests always welcome!
 
 
 ### About
