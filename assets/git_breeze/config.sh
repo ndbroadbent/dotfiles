@@ -6,7 +6,7 @@
 git_env_char="e"
 # - Max changes before reverting to 'git status'. git_status_shortcuts() may slow down for lots of changes.
 gs_max_changes="99"
-# - Automatically use 'git rm' to remove deleted files when using the git_add_with_shortcuts() command?
+# - Automatically use 'git rm' to remove deleted files when using the git_add_shorcuts() command?
 ga_auto_remove="yes"
 
 

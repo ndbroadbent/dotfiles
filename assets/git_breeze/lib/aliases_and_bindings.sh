@@ -4,7 +4,7 @@
 
 # 'Git Breeze' functions
 alias $git_status_shortcuts_alias="git_status_shortcuts"
-alias $git_add_shortcuts_alias="git_add_with_shortcuts"
+alias $git_add_shortcuts_alias="git_add_shorcuts"
 alias $git_show_files_alias="git_show_affected_files"
 
 # Expand numbers and ranges for commands that deal with paths
