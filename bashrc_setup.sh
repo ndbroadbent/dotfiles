@@ -8,12 +8,7 @@ for part in prompt history aliases functions ruby_on_rails crossroads design; do
   cat assets/bashrc/$part.sh >> ~/.bashrc
 done
 
-# Add Git Breeze scripts
-cd assets/git_breeze/
-for part in git_* aliases_and_bindings.sh; do
-  cat $part >> ~/.bashrc
-done
-cd - > /dev/null
+echo "source ~/.git_breeze/git_breeze.sh" >> ~/.bashrc
 
 # Append dynamic update command
 cat >> ~/.bashrc <<EOF

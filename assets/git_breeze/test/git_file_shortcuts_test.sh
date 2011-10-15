@@ -98,12 +98,12 @@ test_git_status_with_shortcuts() {
   assertIncludes "$git_status"  "modified: *\[3\] *new_file"       || return
   assertIncludes "$git_status" "untracked: *\[4\] *untracked_file" || return
 
-  # Test that shortcut env variables are set
+  # Test that shortcut env variables are set with full path
   local error="Env variable was not set"
-  assertEquals "$error" "new_file" "$e1"       || return
-  assertEquals "$error" "deleted_file" "$e2"   || return
-  assertEquals "$error" "new_file" "$e3"       || return
-  assertEquals "$error" "untracked_file" "$e4" || return
+  assertEquals "$error" "$testRepo/new_file" "$e1"       || return
+  assertEquals "$error" "$testRepo/deleted_file" "$e2"   || return
+  assertEquals "$error" "$testRepo/new_file" "$e3"       || return
+  assertEquals "$error" "$testRepo/untracked_file" "$e4" || return
 }
 
 test_git_status_produces_relative_paths() {
