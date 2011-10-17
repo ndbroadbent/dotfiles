@@ -154,7 +154,7 @@ function _git_repo_pull_or_status() {
   if ! [ `git status --porcelain | wc -l` -eq 0 ]; then
     # Fall back to 'git status' if git status alias isn't configured
     if type $git_status_command 2>&1 | grep -qv "not found"; then
-      $git_status_command
+      eval $git_status_command
     else
       git status
     fi

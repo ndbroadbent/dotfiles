@@ -1,8 +1,9 @@
 #!/bin/bash
-# Copyright 2011 Nathan Broadbent. All Rights Reserved.
+# ------------------------------------------------------------------------------
+# Git Breeze - Streamline your git workflow.
+# Copyright 2011 Nathan Broadbent (http://madebynathan.com). All Rights Reserved.
 # Released under the LGPL (GNU Lesser General Public License)
-#
-# Author: nathan.f77@gmail.com (Nathan Broadbent)
+# ------------------------------------------------------------------------------
 #
 # Unit tests for git shell scripts
 
@@ -12,11 +13,11 @@ thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
 if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; SHUNIT_PARENT=$0; setopt shwordsplit; fi
 
 # Load test helpers
-source "$thisDir/support/test_helper"
+. "$thisDir/support/test_helper"
 
 # Load functions to test
-source "$thisDir/../lib/_shared.sh"
-source "$thisDir/../lib/git_file_shortcuts.sh"
+. "$thisDir/../lib/_shared.sh"
+. "$thisDir/../lib/git_status_shortcuts.sh"
 
 
 # Setup and tear down
@@ -188,7 +189,7 @@ test_git_status_shortcuts_merge_conflicts() {
 test_git_status_shortcuts_max_changes() {
   setupTestRepo
 
-  local gs_max_changes="5"
+  export gs_max_changes="5"
 
   # Add 5 untracked files
   touch a b c d e
@@ -201,6 +202,8 @@ test_git_status_shortcuts_max_changes() {
   touch f
   git_status=$(git_status_shortcuts | strip_colors)
   assertNotIncludes "$git_status"  "\[[0-9]*\]" || return
+
+  export gs_max_changes="20"
 }
 
 

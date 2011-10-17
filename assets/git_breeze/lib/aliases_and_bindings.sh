@@ -2,10 +2,12 @@
 # Set up configured aliases & keyboard shortcuts
 # --------------------------------------------------------------------
 
-# 'Git Breeze' functions
+# Git Breeze functions
 alias $git_status_shortcuts_alias="git_status_shortcuts"
 alias $git_add_shortcuts_alias="git_add_shorcuts"
+alias $exec_git_expand_args_alias="exec_git_expand_args"
 alias $git_show_files_alias="git_show_affected_files"
+alias $git_commit_all_alias='git_commit_all'
 
 # Expand numbers and ranges for commands that deal with paths
 _exp="exec_git_expand_args"
@@ -36,7 +38,6 @@ alias $git_log_stat_alias='git log --stat --max-count=5'
 alias $git_log_graph_alias='git log --graph --max-count=5'
 alias $git_show_alias='git show'
 alias $git_add_all_alias='git add -A'
-alias $git_commit_all_alias='git commit -a'
 alias $git_commit_amend_alias='git commit --amend'
 # Add staged changes to latest commit without prompting for message
 alias $git_commit_amend_no_msg_alias='git commit --amend -C HEAD'
@@ -46,7 +47,7 @@ alias $git_repo_alias="git_repo"   # The 's' stands for 'switch' or 'sourcecode'
 
 
 # Tab completion for aliases
-if [ -n "${ZSH_VERSION:-}" ]; then
+if [[ $shell == "zsh" ]]; then
   # Turn on support for bash completion
   autoload bashcompinit
   bashcompinit
@@ -97,7 +98,7 @@ complete -o nospace -o filenames -F _git_repo_tab_completion $git_repo_alias
 
 # Cross-shell key bindings
 _bind(){
-  if [ -n "${ZSH_VERSION:-}" ]; then
+  if [[ $shell == "zsh" ]]; then
     bindkey -s "$1" "$2"   # zsh
   else
     bind "\"$1\": \"$2\""  # bash

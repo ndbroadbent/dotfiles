@@ -6,7 +6,7 @@ orig_cwd="$PWD"
 
 # Call this function to run tests
 runTests() {
-  source "$thisDir/support/shunit2"
+  . "$thisDir/support/shunit2"
 }
 
 # Strip color codes from a string
