@@ -1,8 +1,9 @@
 #!/bin/bash
-# Copyright 2011 Nathan Broadbent. All Rights Reserved.
+# ------------------------------------------------------------------------------
+# Git Breeze - Streamline your git workflow.
+# Copyright 2011 Nathan Broadbent (http://madebynathan.com). All Rights Reserved.
 # Released under the LGPL (GNU Lesser General Public License)
-#
-# Author: nathan.f77@gmail.com (Nathan Broadbent)
+# ------------------------------------------------------------------------------
 #
 # Unit tests for git shell scripts
 
@@ -12,10 +13,10 @@ thisDir="$( cd -P "$( dirname "$0" )" && pwd )"
 if [ -n "${ZSH_VERSION:-}" ]; then shell="zsh"; SHUNIT_PARENT=$0; setopt shwordsplit; fi
 
 # Load test helpers
-source "$thisDir/support/test_helper"
+. "$thisDir/support/test_helper"
 
 # Load functions to test
-source "$thisDir/../lib/git_repo_management.sh"
+. "$thisDir/../lib/git_repo_management.sh"
 
 
 # Setup and tear down

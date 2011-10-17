@@ -3,28 +3,25 @@
 # ------------------------------------------------------------------------------
 # - Set your preferred prefix for env variable file shortcuts.
 #   (I chose 'e' because it is the easiest key to press after '$'.)
-git_env_char="e"
+export git_env_char="e"
 # - Max changes before reverting to 'git status'. git_status_shortcuts() may slow down for lots of changes.
-gs_max_changes="99"
+export gs_max_changes="110"
 # - Automatically use 'git rm' to remove deleted files when using the git_add_shorcuts() command?
-ga_auto_remove="yes"
+export ga_auto_remove="yes"
 
 
 # Git Repo Management Config
 # --------------------------
 # Repos will be automatically added from this directory.
-GIT_REPO_DIR="$HOME/src"
+export GIT_REPO_DIR="$HOME/src"
 # Add the full paths of any extra repos to GIT_REPOS, separated with ':'
 # e.g. "/opt/rails/project:/opt/rails/another project:$HOME/other/repo"
-GIT_REPOS=""
-git_status_command="git_status_shortcuts"
-
+export GIT_REPOS=""
+export git_status_command="git_status_shortcuts"
 
 
 # Alias configuration
-# (1. and 2. are important to define, but feel free to skip 3. if you don't need them)
 # ------------------------------------------------------------------------------------
-
 git_alias="g"
 
 # 1. 'Git Breeze' functions
