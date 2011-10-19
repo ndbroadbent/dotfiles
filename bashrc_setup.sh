@@ -8,7 +8,8 @@ for part in prompt history aliases functions ruby_on_rails crossroads design; do
   cat assets/bashrc/$part.sh >> ~/.bashrc
 done
 
-echo "source ~/.scm_breeze/scm_breeze.sh" >> ~/.bashrc
+# Add scm_breeze
+echo '[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"' >> ~/.bashrc
 
 # Append dynamic update command
 cat >> ~/.bashrc <<EOF
