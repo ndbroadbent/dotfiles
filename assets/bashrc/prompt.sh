@@ -40,12 +40,14 @@ set_ps1() {
   git_branch=`parse_git_branch`
   git_dirty=`parse_git_dirty`
   ruby=`parse_ruby_version`
+
+  git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
   # Git repo & ruby version
   if [ -n "$git_branch" ] && [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty\[$_env_col\]|$ruby]"
+    env_str="\[$_env_col\][$git_str\[$_env_col\]|$ruby]"
   # Just git repo
   elif [ -n "$git_branch" ]; then
-    env_str="\[$_env_col\][\[$_git_col\]$git_branch\[$_env_col\]]"
+    env_str="\[$_env_col\][$git_str\[$_env_col\]]"
   # Just ruby version
   elif [ -n "$ruby" ]; then
     env_str="\[$_env_col\][$ruby]"
