@@ -4,8 +4,7 @@ alias gemdir='cd $GEM_HOME/gems'
 # -- bundler
 ensure_bundler() { if ! type bundle > /dev/null 2>&1; then gem install bundler; fi; }
 alias bi="ensure_bundler; bundle install"
-# Always invoke bundler for rake, if necessary.
-# (uses file_exists_inverse_recursive function from 'functions.sh')
+# Use bundler for commands
 be() {
   ensure_bundler
   if exists_in_cwd_or_parent Gemfile; then bundle exec "$@"; else /usr/bin/env "$@"; fi
