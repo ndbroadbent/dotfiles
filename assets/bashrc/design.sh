@@ -21,7 +21,7 @@
 
 # Config
 # --------------------------
-design_dir="$HOME/Design"
+export design_dir="$HOME/Design"
 
 # Add ignore rule to .git/info/exclude if not already present
 _design_add_git_exclude(){
