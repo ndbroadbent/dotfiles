@@ -22,7 +22,9 @@
 
 # Config
 # --------------------------
-export base_design_dir="$HOME/Design"
+# Directory where design assets are stored
+export base_design_dir="$HOME/Dropbox/Design"
+# Directory where symlinks are created within each project
 export project_design_dir="design_assets"
 
 
