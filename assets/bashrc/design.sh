@@ -94,16 +94,15 @@ design() {
 
     elif [ "$1" = "trim" ]; then
       echo "Trimming empty design directories for $project..."
-      base_dirs+=" $av_dirs"
-      for dir in $base_dirs; do
-        if ! [ -e "$base_design_dir/$dir/$project/"* ]; then
-          rm -rf "$base_design_dir/$dir/$project"
-          rm -f $project_design_dir/$dir
-        fi
+      for dir in $(find -L $project_design_dir/ -type d -empty); do
+	asset=$(basename $dir)
+        rm -rf "$base_design_dir/$asset/$project"
+	rm -f $project_design_dir/$asset
       done
       # Remove design dir from project if there's nothing in it.
-      if ! [ -e "$project_design_dir/"* ]; then rm -rf $project_design_dir; fi
-
+      if find $project_design_dir -type d -empty | grep -q $project_design_dir; then 
+        rm -rf $project_design_dir
+      fi
     else
       echo -e "Invalid command.\n"
       design
