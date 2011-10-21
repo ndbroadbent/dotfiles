@@ -94,7 +94,7 @@ design() {
       echo "Trimming empty design directories for $project..."
       base_dirs+=" $av_dirs"
       for dir in $base_dirs; do
-        if ! [ -e "$design_dir/$dir/$project/*" ]; then
+        if ! [ -e "$design_dir/$dir/$project/"* ]; then
           rm -rf "$design_dir/$dir/$project"
           rm -f design_assets/$dir
         fi
