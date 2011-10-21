@@ -5,17 +5,17 @@
 #
 # * The `design` function manages the 'design assets' directories for the current project,
 #   including folders such as Backgrounds, Logos, Icons, and Samples. The actual directories are
-#   created in $base_design_dir, symlinked into the project, and ignored from source control.
+#   created in $root_design_dir, symlinked into the project, and ignored from source control.
 #   This is because we usually don't want to check in large bitmaps or wav files into our code repository,
-#   and it also gives us the option to sync $base_design_dir via Dropbox.
+#   and it also gives us the option to sync $root_design_dir via Dropbox.
 #
 # Examples:
 #
 #    $ design link        # Requires SCM Breeze - Links existing design directories into each of your projects
-#    $ design init        # Creates default directory structure at $base_design_dir/**/ubuntu_config and symlinks into project.
-#                           (Backgrounds Logos Icons Mockups Screenshots)
-#    $ design init --av   # Adds extra directories for audio/video assets
-#                           (Backgrounds Logos Icons Mockups Screenshots Music AudioSamples Animations VideoClips)
+#    $ design init        # Creates default directory structure at $root_design_dir/**/ubuntu_config and symlinks into project.
+#                           (Images Backgrounds Logos Icons Mockups Screenshots)
+#    $ design init --av   # Creates extra directories for audio/video assets
+#                           (Images Backgrounds Logos Icons Mockups Screenshots Animations Videos Flash Music Samples)
 #    $ design rm          # Removes any design directories for ubuntu_config
 #    $ design trim        # Trims empty design directories for ubuntu_config
 #
@@ -23,9 +23,14 @@
 # Config
 # --------------------------
 # Directory where design assets are stored
-export base_design_dir="$HOME/Dropbox/Design"
+export root_design_dir="$HOME/Dropbox/Design"
 # Directory where symlinks are created within each project
 export project_design_dir="design_assets"
+# Directories for per-project design assets
+export design_base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
+export design_av_dirs="Animations Videos Flash Music Samples"
+# Directories for global design assets
+export design_ext_dirs="Fonts IconSets"
 
 
 # Add ignore rule to .git/info/exclude if not already present
@@ -38,77 +43,77 @@ _design_add_git_exclude(){
 # Manage design directories for project.
 design() {
   local project=`basename $(pwd)`
-  local int_dirs="_Fonts _IconSets"
-  local base_dirs="Images Backgrounds Logos Icons Mockups Screenshots"
-  local av_dirs="Music Samples Animations Videos Flash"
-
+  local all_project_dirs="$design_base_dirs $design_av_dirs"
   # Ensure design dir contains all subdirectories
   unset IFS
-  for dir in $int_dirs $base_dirs $av_dirs; do mkdir -p "$base_design_dir/$dir"; done
+  for dir in $design_ext_dirs $design_base_dirs $design_av_dirs; do mkdir -p "$root_design_dir/$dir"; done
 
   if [ -z "$1" ]; then
-    echo -e "design: Manage design directories for project assets that are external to source control.\n"
-    echo -e "  Examples:\n"
-    echo "    $ design init        # Creates default directory structure at $base_design_dir/**/$project and symlinks into project."
-    echo "                           ($base_dirs)"
+    echo "design: Manage design directories for project assets that are external to source control."
+    echo
+    echo "  Examples:"
+    echo
+    echo "    $ design init        # Creates default directory structure at $root_design_dir/**/$project and symlinks into project."
+    echo "                           ($design_base_dirs)"
     echo "    $ design link        # Links existing design directories into existing repos"
     echo "    $ design init --av   # Adds extra directories for audio/video assets"
-    echo "                           ($base_dirs $av_dirs)"
+    echo "                           ($design_base_dirs $design_av_dirs)"
     echo "    $ design rm          # Removes any design directories for $project"
     echo "    $ design trim        # Trims empty design directories for $project"
     echo
-  else
+    return 1
+  fi
 
-    if [ "$1" = "init" ]; then
-      if [ "$2" = "--av" ]; then base_dirs+=" $av_dirs"; fi
-      echo "Creating the following design directories for $project: $base_dirs"
-      mkdir -p "$project_design_dir"
-      # Create and symlink each directory
-      for dir in $base_dirs; do
-        mkdir -p "$base_design_dir/$dir/$project"
-        if [ ! -e ./$project_design_dir/$dir ]; then ln -sf "$base_design_dir/$dir/$project" $project_design_dir/$dir; fi
+  if [ "$1" = "init" ]; then
+    create_dirs="$design_base_dirs"
+    if [ "$2" = "--av" ]; then create_dirs+=" $design_av_dirs"; fi
+    echo "Creating the following design directories for $project: $create_dirs"
+    mkdir -p "$project_design_dir"
+    # Create and symlink each directory
+    for dir in $create_dirs; do
+      mkdir -p "$root_design_dir/$dir/$project"
+      if [ ! -e ./$project_design_dir/$dir ]; then ln -sf "$root_design_dir/$dir/$project" $project_design_dir/$dir; fi
+    done
+    _design_add_git_exclude $PWD
+
+  elif [ "$1" = "link" ]; then
+    enable_nullglob
+    echo "== Linking existing Design directories into existing repos..."
+    for dir in $all_project_dirs; do
+      for design_path in $root_design_dir/$dir/*; do
+        proj=$(basename $design_path)
+        repo_path=$(grep "/$proj$" $GIT_REPO_DIR/.git_index)
+        if [ -n "$repo_path" ]; then
+          mkdir -p "$repo_path/$project_design_dir"
+          if [ -e "$repo_path/$project_design_dir/*" ]; then rm $repo_path/$project_design_dir/*; fi
+          _design_add_git_exclude $repo_path
+          if ! [ -e "$repo_path/$project_design_dir/$dir" ]; then ln -fs "$design_path" "$repo_path/$project_design_dir/$dir"; fi
+          echo "=> $repo_path/$project_design_dir/$dir"
+        fi
       done
-      _design_add_git_exclude $PWD
+    done
+    disable_nullglob
 
-    elif [ "$1" = "link" ]; then
-      shopt -s nullglob
-      echo "== Linking existing Design directories into existing repos..."
-      for dir in $base_dirs $av_dirs; do
-        for design_path in $base_design_dir/$dir/*; do
-          proj=$(basename $design_path)
-          repo_path=$(grep "/$proj$" $GIT_REPO_DIR/.git_index)
-          if [ -n "$repo_path" ]; then
-            mkdir -p "$repo_path/$project_design_dir"
-            if [ -e "$repo_path/$project_design_dir/*" ]; then rm $repo_path/$project_design_dir/*; fi
-            _design_add_git_exclude $repo_path
-            if ! [ -e "$repo_path/$project_design_dir/$dir" ]; then ln -fs "$design_path" "$repo_path/$project_design_dir/$dir"; fi
-            echo "=> $repo_path/$project_design_dir/$dir"
-          fi
-        done
-      done
-      shopt -u nullglob
+  elif [ "$1" = "rm" ]; then
+    echo "Removing all design directories for $project..."
+    for dir in $all_project_dirs; do rm -rf "$root_design_dir/$dir/$project"; done
+    rm -rf $project_design_dir
 
-    elif [ "$1" = "rm" ]; then
-      echo "Removing all design directories for $project..."
-      base_dirs+=" $av_dirs"
-      for dir in $base_dirs; do rm -rf "$base_design_dir/$dir/$project"; done
+  elif [ "$1" = "trim" ]; then
+    echo "Trimming empty design directories for $project..."
+    for dir in $(find -L $project_design_dir/ -type d -empty); do
+      asset=$(basename $dir)
+      rm -rf "$root_design_dir/$asset/$project"
+      rm -f $project_design_dir/$asset
+    done
+    # Remove design dir from project if there's nothing in it.
+    if find $project_design_dir -type d -empty | grep -q $project_design_dir; then
       rm -rf $project_design_dir
-
-    elif [ "$1" = "trim" ]; then
-      echo "Trimming empty design directories for $project..."
-      for dir in $(find -L $project_design_dir/ -type d -empty); do
-        asset=$(basename $dir)
-        rm -rf "$base_design_dir/$asset/$project"
-        rm -f $project_design_dir/$asset
-      done
-      # Remove design dir from project if there's nothing in it.
-      if find $project_design_dir -type d -empty | grep -q $project_design_dir; then 
-        rm -rf $project_design_dir
-      fi
-    else
-      echo -e "Invalid command.\n"
-      design
     fi
+
+  else
+    printf "Invalid command.\n\n"
+    design
   fi
 }
 
