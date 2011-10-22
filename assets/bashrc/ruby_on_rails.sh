@@ -34,6 +34,8 @@ rs() { rails_cmd server "$@"; }
 rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
 
+# Start passenger
+alias pst="passenger start"
 
 # Tab completion without trailing space, for adding line number filtering. e.g. :23
 complete -o nospace -f rspec
