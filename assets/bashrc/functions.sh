@@ -87,7 +87,7 @@ alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 # -----------------------------------------------------
 gsed() {
   if [ -n "$3" ]; then
-    egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s~$1~$2~g"
+    egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s%${1//\\/}%$2%g"
   else
     echo "== Usage: gsed search_string replace_string [path]"
   fi
