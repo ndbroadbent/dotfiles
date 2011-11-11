@@ -12,12 +12,12 @@ apt_add_new_ppa "ubuntu-on-rails" "ppa"
 apt_queue_or_install "gedit-gmate"
 
 echo "==== Copying extra gedit plugins and colors..."
-mkdir -p ~/.gnome2/gedit/plugins
-mkdir -p ~/.gnome2/gedit/styles
+sudo mkdir -p /usr/lib/gedit/plugins
+sudo mkdir -p /usr/lib/gedit/styles
 # Remove old 'FindInFiles' plugin
-sudo rm -f /usr/lib/gedit-2/plugins/FindInFiles*
-cp -R $this_dir/assets/gedit_plugins/* ~/.gnome2/gedit/plugins
-cp $this_dir/assets/ndb_rails.xml.geditcolors ~/.gnome2/gedit/styles/ndb_rails.xml
+sudo rm -f /usr/lib/gedit/plugins/FindInFiles*
+sudo cp -R $this_dir/assets/gedit_plugins/* /usr/lib/gedit/plugins
+sudo cp $this_dir/assets/ndb_rails.xml.geditcolors /usr/lib/gedit/styles/ndb_rails.xml
 # Installing configured key accelerators
 cp $this_dir/assets/gedit_accels ~/.gnome2/accels/gedit
 
