@@ -6,6 +6,7 @@
 alias l='ls -Cv --group-directories-first'
 alias ll='ls -lv --group-directories-first'
 alias la='ls -lvA --group-directories-first'
+alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 
 alias _='sudo'
 alias n='nautilus .'
@@ -13,6 +14,7 @@ alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias psg='ps ax | grep'
 alias vims='vim -c start' # open vim in 'insert' mode
+
 
 alias ~='cd ~'
 alias -- -='cd -'
