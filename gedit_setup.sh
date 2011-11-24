@@ -8,7 +8,6 @@ this_dir=$(pwd)
 killall -q gedit
 
 # Add ppa and install packages
-apt_add_new_ppa "ubuntu-on-rails" "ppa"
 apt_queue_or_install "gedit-gmate"
 
 echo "==== Copying extra gedit plugins and colors..."
