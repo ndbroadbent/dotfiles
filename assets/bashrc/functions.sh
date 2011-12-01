@@ -101,7 +101,6 @@ fix_whitespace() {
 }
 
 # Import SSL cert from remote host
-
 import_ssl_cert() {
   if [ -n "$1" ]; then
     REMHOST=$1
