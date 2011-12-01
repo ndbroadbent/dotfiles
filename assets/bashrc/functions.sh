@@ -100,6 +100,20 @@ fix_whitespace() {
   find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
 }
 
+# Import SSL cert from remote host
+
+import_ssl_cert() {
+  if [ -n "$1" ]; then
+    REMHOST=$1
+    REMPORT=${2:-443}
+    echo "$REMHOST" | openssl s_client -connect ${REMHOST}:${REMPORT} 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
+    certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "$REMHOST" -i $REMHOST
+    exec 1>&6 6>&-
+  else
+    echo "Usage:  import_cert remote.host.name [port]"
+  fi
+}
+
 
 # Download streaming mp3s & sanitize with ffmpeg
 # -----------------------------------------------------------
