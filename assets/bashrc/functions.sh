@@ -102,7 +102,9 @@ fix_whitespace() {
 
 # Import SSL cert from remote host
 import_ssl_cert() {
-  if [ -n "$1" ]; then
+  if ! type certutil > /dev/null 2>&1; then
+	echo "== You must have the 'certutil' program installed."
+  elif [ -n "$1" ]; then
     REMHOST=$1
     if [ "$REPLACE" != "true" ] && certutil -L -d sql:$HOME/.pki/nssdb | grep $REMHOST; then
       echo "Certificate already added. To replace, prepend command with REPLACE=true"
@@ -112,10 +114,11 @@ import_ssl_cert() {
       fi
       REMPORT=${2:-443}
       exec 6>&1
-      exec > $REMHOST
+      exec > /tmp/$REMHOST
       echo | openssl s_client -connect ${REMHOST}:${REMPORT} 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
-      certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "$REMHOST" -i $REMHOST
+      certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "$REMHOST" -i /tmp/$REMHOST
       exec 1>&6 6>&-
+      rm -f /tmp/$REMHOST
       echo "Certificate added for $REMHOST"
     fi
   else
