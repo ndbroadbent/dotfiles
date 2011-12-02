@@ -69,3 +69,9 @@ alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
 
+
+# Run LiveReload with Compass - https://github.com/mockko/livereload
+lr() {
+  compass watch --sass-dir app/assets/stylesheets --css-dir public/assets &
+  livereload
+}
