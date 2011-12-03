@@ -14,7 +14,7 @@ alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias psg='ps ax | grep'
 alias vims='vim -c start' # open vim in 'insert' mode
-
+alias e="geany"
 
 alias ~='cd ~'
 alias -- -='cd -'
