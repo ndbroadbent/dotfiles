@@ -17,6 +17,8 @@ cat >> ~/.bashrc <<EOF
 alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh && cd -'
 EOF
 
+sed "s%@@CONFIGDIR@@%$this_dir%g" -i ~/.bashrc
+
 # Copy other related *rc files
 cp -f assets/inputrc ~/.inputrc
 cp -f assets/ackrc ~/.ackrc

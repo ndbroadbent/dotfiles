@@ -1,0 +1,3 @@
+compass: compass watch --sass-dir app/assets/stylesheets --css-dir public/assets
+livereload: livereload
+passenger: passenger start
