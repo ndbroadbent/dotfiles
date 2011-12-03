@@ -70,8 +70,8 @@ alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
 
 
-# Run LiveReload with Compass - https://github.com/mockko/livereload
-lr() {
-  compass watch --sass-dir app/assets/stylesheets --css-dir public/assets &
-  livereload
-}
+# Run Procfiles for development
+# Includes LiveReload (https://github.com/mockko/livereload), Compass, Passenger
+alias rd31='foreman start -f @@CONFIGDIR@@/assets/procfiles/Rails31Dev'
+alias rd='foreman start -f @@CONFIGDIR@@/assets/procfiles/RailsDev'
+
