@@ -4,7 +4,7 @@ this_dir=$(pwd)
 
 # Assemble bashrc from parts
 cat /dev/null > ~/.bashrc
-for part in default prompt history aliases functions ruby_on_rails crossroads; do
+for part in default prompt aliases functions ruby_on_rails crossroads; do
   cat assets/bashrc/$part.sh >> ~/.bashrc
 done
 
