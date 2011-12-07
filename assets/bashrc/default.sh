@@ -26,12 +26,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+  # We have color support; assume it's compliant with Ecma-48
+  # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.)
+  color_prompt=yes
     else
-	color_prompt=
+  color_prompt=
     fi
 fi
 
@@ -50,6 +50,18 @@ xterm*|rxvt*)
 *)
     ;;
 esac
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+export HISTSIZE=20000
+export HISTFILESIZE=$HISTSIZE
+# don't put duplicate lines in the history,
+# ignore lines starting with a space
+export HISTCONTROL=ignoredups:ignorespace
+# ignore some common commands
+export HISTIGNORE="&:ls:ll:gs:gd:[bf]g:exit:pwd:clear:mount:umount"
+
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
