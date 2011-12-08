@@ -10,7 +10,9 @@ alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 
 alias _='sudo'
 alias n='nautilus .'
-alias ak='ack-grep -a'
+alias ak='ack-grep'
+alias aka='ack-grep -a'
+alias aki='ack-grep -i'
 alias psg='ps ax | grep'
 alias vims='vim -c start' # open vim in 'insert' mode
 alias e="ge geany"
