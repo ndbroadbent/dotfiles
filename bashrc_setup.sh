@@ -19,9 +19,10 @@ EOF
 
 sed "s%@@CONFIGDIR@@%$this_dir%g" -i ~/.bashrc
 
-# Copy other related *rc files
-cp -f assets/inputrc ~/.inputrc
-cp -f assets/ackrc ~/.ackrc
+# Also copy other *rc files
+for rc in inputrc ackrc livereload; do
+	cp -f "assets/$rc" ~/.$rc
+done
 
 # If run from dev_machine_setup, we cannot update current shell.
 if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
