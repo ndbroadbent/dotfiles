@@ -1,0 +1,4 @@
+# Gems for development with IRb
+gem 'wirble'
+gem 'awesome_print'
+gem 'flyrb', '>= 1.0.0.c'
