@@ -1,0 +1,27 @@
+require 'rubygems'
+
+begin
+  require 'wirble'
+  Wirble.init
+
+  colors = Wirble::Colorize.colors.merge({
+    :string => :red
+  })
+
+  Wirble::Colorize.colors = colors
+
+  Wirble.colorize
+rescue
+end
+
+begin
+  require 'awesome_print'
+rescue
+end
+
+begin
+  require 'flyrb'
+  edit_interactively(:geany)
+rescue
+end
+

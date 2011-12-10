@@ -20,7 +20,7 @@ EOF
 sed "s%@@CONFIGDIR@@%$this_dir%g" -i ~/.bashrc
 
 # Also copy other *rc files
-for rc in inputrc ackrc livereload; do
+for rc in inputrc ackrc irbrc livereload; do
 	cp -f "assets/$rc" ~/.$rc
 done
 
