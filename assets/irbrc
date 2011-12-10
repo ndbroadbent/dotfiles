@@ -1,3 +1,5 @@
+# https://gist.github.com/1454728
+
 require 'rubygems'
 
 @irb_extensions = []
