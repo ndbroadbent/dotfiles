@@ -2,10 +2,21 @@
 echo "== Installing ~/.bashrc & other related dot files..."
 this_dir=$(pwd)
 
-# Assemble bashrc from parts
+IFS=" "
+
+bashrc_parts="default prompt aliases functions ruby_on_rails crossroads"
+rc_files="inputrc ackrc livereload"
+
 cat /dev/null > ~/.bashrc
-for part in default prompt aliases functions ruby_on_rails crossroads; do
-  cat assets/bashrc/$part.sh >> ~/.bashrc
+
+for part in $bashrc_parts; do
+  if [ "$1" = "copy" ]; then
+    # Assemble bashrc from parts
+    cat assets/bashrc/$part.sh >> ~/.bashrc
+  else
+    # Source bashrc from parts
+    echo "source '$this_dir/assets/bashrc/$part.sh'" >> ~/.bashrc
+  fi
 done
 
 # Add scm_breeze
@@ -19,10 +30,17 @@ EOF
 
 sed "s%@@CONFIGDIR@@%$this_dir%g" -i ~/.bashrc
 
-# Also copy other *rc files
-for rc in inputrc ackrc livereload; do
-	cp -f "assets/$rc" ~/.$rc
+for rc in $rc_files; do
+  rm -f ~/.$rc
+  if [ "$1" = "copy" ]; then
+    # Copy other *rc files
+    cp -f "$this_dir/assets/$rc" "$HOME/.$rc"
+  else
+    # Symlink other *rc files
+    ln -fs "$this_dir/assets/$rc" "$HOME/.$rc"
+  fi
 done
+
 
 # If run from dev_machine_setup, we cannot update current shell.
 if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
@@ -35,3 +53,4 @@ if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
   fi
 fi
 
+unset IFS
