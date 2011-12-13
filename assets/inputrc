@@ -76,6 +76,11 @@ $endif
 # Quote the current or previous word
 "\C-xq": "\eb\"\ef\""
 
+# Ruby character completions
+"\C-xw": "%w()\C-b"
+"\C-xq": "%Q{}\C-b"
+
+
 # Make tab completion only need one [TAB] key before producing a list of completions
 set show-all-if-ambiguous on
 
