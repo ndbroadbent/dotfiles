@@ -5,7 +5,7 @@ this_dir=$(pwd)
 IFS=" "
 
 bashrc_parts="default prompt aliases functions ruby_on_rails crossroads"
-rc_files="inputrc ackrc livereload"
+rc_files="inputrc ackrc irbrc livereload"
 
 cat /dev/null > ~/.bashrc
 
