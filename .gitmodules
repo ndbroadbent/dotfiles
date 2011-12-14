@@ -1,0 +1,3 @@
+[submodule "assets/scm_breeze"]
+	path = assets/scm_breeze
+	url = git@github.com:ndbroadbent/scm_breeze.git
