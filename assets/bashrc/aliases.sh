@@ -42,7 +42,7 @@ fi
 # Adds an alias to ~/.bash_aliases.
 # ------------------------------------------------
 function add_alias() {
-  if [ -n "$1" ] && [ -n "$2" ]; then
+  if [ -n "$2" ]; then
     touch ~/.bash_aliases
     echo "alias $1=\"$2\"" >> ~/.bash_aliases
     source ~/.bashrc
