@@ -72,6 +72,6 @@ alias jr='rvm use jruby'
 
 # Run Procfiles for development
 # Includes LiveReload (https://github.com/mockko/livereload), Compass, Passenger
-alias rd31='foreman start -d . -f @@CONFIGDIR@@/assets/procfiles/Rails31Dev'
-alias rd='foreman start -d . -f @@CONFIGDIR@@/assets/procfiles/RailsDev'
+alias rd31='foreman start -d . -f $UBUNTU_CONFIG_PATH/assets/procfiles/Rails31Dev'
+alias rd='foreman start -d . -f $UBUNTU_CONFIG_PATH/assets/procfiles/RailsDev'
 

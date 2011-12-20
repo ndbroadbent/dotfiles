@@ -22,13 +22,14 @@ done
 # Add scm_breeze
 echo '[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"' >> ~/.bashrc
 
+# Export ubuntu_config_path
+echo "export UBUNTU_CONFIG_PATH=\"$this_dir\"" >> ~/.bashrc
+
 # Append dynamic update command
 cat >> ~/.bashrc <<EOF
 # Update this file from GitHub
 alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh && cd -'
 EOF
-
-sed "s%@@CONFIGDIR@@%$this_dir%g" -i ~/.bashrc
 
 for rc in $rc_files; do
   rm -f ~/.$rc
