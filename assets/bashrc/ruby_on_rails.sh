@@ -4,6 +4,8 @@ alias gemdir='cd $GEM_HOME/gems'
 # -- bundler
 ensure_bundler() { if ! type bundle > /dev/null 2>&1; then gem install bundler; fi; }
 alias bi="ensure_bundler; bundle install"
+alias bu="ensure_bundler; bundle update"
+
 # Use bundler for commands
 be() {
   ensure_bundler
