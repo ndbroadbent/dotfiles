@@ -16,6 +16,7 @@ alias aki='ack-grep -i'
 alias psg='ps ax | grep'
 alias vims='vim -c start' # open vim in 'insert' mode
 alias e="ge geany"
+alias sbrc="source ~/.bashrc"
 
 alias ~='cd ~'
 alias -- -='cd -'
