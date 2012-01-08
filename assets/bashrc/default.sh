@@ -74,5 +74,3 @@ if [ -d "$HOME/bin" ] ; then PATH="$HOME/bin:$PATH"; fi
 # This loads RVM into the shell session.
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" #]
 
-# Load stderred if available (https://github.com/sickill/stderred)
-# [[ -s "$HOME/src/c/stderred/lib/stderred.so" ]] && export LD_PRELOAD="$HOME/src/c/stderred/lib/stderred.so"
