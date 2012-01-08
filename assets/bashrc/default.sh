@@ -68,6 +68,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+# Use vim as default editor (e.g. crontab -e)
+export EDITOR=vim
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then PATH="$HOME/bin:$PATH"; fi
 
