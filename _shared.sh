@@ -23,6 +23,7 @@ if [ -z "$_shared_functions" ]; then
   function prompt_for_git() {
     read -p "===== [Git config] Please enter your name: " git_name
     read -p "===== [Git config] Please enter your email: " git_email
+    read -p "===== [Git config] Please enter your github username: " github_user
   }
 
   function prompt_for_netrc() {
