@@ -22,9 +22,9 @@
   changed = green
   untracked = cyan
 
-[merge "bundlelock"]
-  name = relocks the gemfile.lock
-  driver = bundle lock
+[merge "bundleinstall"]
+  name = runs bundle install to generate Gemfile.lock
+  driver = bundle install
 
 [merge "railsschema"]
   name = newer Rails schema version
