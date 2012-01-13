@@ -50,9 +50,9 @@ set_ps1() {
   local ruby=`parse_ruby_version`
   local trav_str=""
   case "$(parse_travis_status)" in
-  Passing) trav_str="\[\e[01;32m\]ϟ ";;  # green
-  Failing) trav_str="\[\e[01;31m\]ϟ ";;  # red
-  Running) trav_str="\[\e[01;33m\]ϟ ";;  # yellow
+  Passing) trav_str="\[\e[01;32m\]T ";;  # green
+  Failing) trav_str="\[\e[01;31m\]T! ";; # red
+  Running) trav_str="\[\e[01;33m\]T ";;  # yellow
   esac
 
   git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
