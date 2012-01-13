@@ -1,4 +1,5 @@
 alias r='rake'
+alias gu="guard"
 alias gemdir='cd $GEM_HOME/gems'
 
 # -- bundler
@@ -56,6 +57,11 @@ for stage in dev preview staging live; do
 done
 alias cdp='cap deploy'
 
+# RAILS_ENV aliases
+alias redev="RAILS_ENV=development"
+alias retest="RAILS_ENV=test"
+alias reprod="RAILS_ENV=production"
+
 
 # Rake aliases
 alias rdbc="rake db:create --trace"
@@ -70,10 +76,3 @@ alias 192='rvm use ruby-1.9.2'
 alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
-
-
-# Run Procfiles for development
-# Includes LiveReload (https://github.com/mockko/livereload), Compass, Passenger
-alias rd31='foreman start -d . -f $UBUNTU_CONFIG_PATH/assets/procfiles/Rails31Dev'
-alias rd='foreman start -d . -f $UBUNTU_CONFIG_PATH/assets/procfiles/RailsDev'
-
