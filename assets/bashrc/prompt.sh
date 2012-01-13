@@ -13,6 +13,7 @@ _hst_col="\e[0;32m"   # Host
 _env_col="\e[0;36m"   # Prompt environment
 _git_col="\e[01;36m"  # Git branch
 
+
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
@@ -29,17 +30,30 @@ parse_ruby_version() {
   fi
 }
 
+# Returns the travis status for a github project
+parse_travis_status() {
+  if [ -e "TRAVIS_CI_STATUS" ]; then
+    cat TRAVIS_CI_STATUS
+  fi
+}
+
 # Set the prompt string (PS1)
 # Looks like this:
 #     user@computer ~/src/ubuntu_config [master|1.8.7]$
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {
-  user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
-  dir_str="\[$_cwd_col\]\w"
-  git_branch=`parse_git_branch`
-  git_dirty=`parse_git_dirty`
-  ruby=`parse_ruby_version`
+  local user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
+  local dir_str="\[$_cwd_col\]\w"
+  local git_branch=`parse_git_branch`
+  local git_dirty=`parse_git_dirty`
+  local ruby=`parse_ruby_version`
+  local trav_str=""
+  case "$(parse_travis_status)" in
+  Passing) trav_str="\[\e[01;32m\]ϟ ";;  # green
+  Failing) trav_str="\[\e[01;31m\]ϟ ";;  # red
+  Running) trav_str="\[\e[01;33m\]ϟ ";;  # yellow
+  esac
 
   git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
   # Git repo & ruby version
@@ -55,8 +69,8 @@ set_ps1() {
     unset env_str
   fi
 
-  # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
-  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str\[$_sep_col\]$ \[$_txt_col\]"
+  # < username >@< hostname > < current directory > < ci status > [< git branch >|< ruby version >]
+  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $trav_str$env_str\[$_sep_col\]$ \[$_txt_col\]"
 }
 
 # Set custom prompt
