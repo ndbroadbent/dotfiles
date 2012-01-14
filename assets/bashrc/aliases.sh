@@ -29,6 +29,8 @@ alias ......='cd ../../../../..'
 # -- apt
 alias apt-install='sudo apt-get install -y'
 alias apt-search='apt-cache search'
+# Search for development files
+function apt-search-dev() { apt-cache search $1 | grep "lib.*dev "; }
 
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
