@@ -1,5 +1,5 @@
 [core]
-  editor = vim -c start
+  editor = vim
 
 [color]
   branch = auto
