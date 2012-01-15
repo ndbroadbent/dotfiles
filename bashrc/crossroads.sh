@@ -11,4 +11,3 @@ restart_bamboo() {
   ssh root@integration.crossroadsint.org "/etc/init.d/bamboo restart"
   echo "===== Restarted. Bamboo agents will automatically restart."
 }
-

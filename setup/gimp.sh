@@ -1,5 +1,5 @@
 #!/bin/bash
-. _shared.sh
+if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
 # Install latest version of Gimp
 # -------------------------------------------
 echo "== Installing latest version of gimp from ppa..."

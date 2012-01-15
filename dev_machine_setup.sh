@@ -1,5 +1,5 @@
 #!/bin/bash
-. _shared.sh
+. setup/_shared.sh
 # This bash script will set up (or update) your development environment for Ubuntu (v=>9.10)
 
 scripts=""
@@ -17,13 +17,13 @@ echo -e "
 
 # Prerequisites
 # -------------------------------------
-# Requires root permissions
+# Requires root permissions (requests password here)
 sudo true
 
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
-  scripts="packages dropbox skype keepass2 netrc rc git_config ruby_dotfiles
+  scripts="packages dropbox skype keepass2 netrc rc git_config
            gimp gedit vim gnome conky startup tomate apt-install rvm "
   prompt_for_git
   prompt_for_netrc
@@ -77,7 +77,7 @@ for script in $scripts; do
     sudo apt-get install -ym $apt_packages | grep -v "is already the newest version"
     sudo apt-get autoremove -ym
   else
-    . $script\_setup.sh
+    . setup/$script.sh
   fi
 done
 

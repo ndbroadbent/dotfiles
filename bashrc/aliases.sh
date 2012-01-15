@@ -14,7 +14,6 @@ alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias aki='ack-grep -i'
 alias psg='ps ax | grep'
-alias vims='vim -c start' # open vim in 'insert' mode
 alias e="ge geany"
 alias sbrc="source ~/.bashrc"
 

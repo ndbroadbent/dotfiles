@@ -1,5 +1,5 @@
 #!/bin/bash
-. _shared.sh
+if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
 echo "== Installing skype..."
 
 apt_queue_or_install "skype"

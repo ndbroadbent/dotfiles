@@ -2,9 +2,6 @@
 # -----------------------------
 source :rubygems
 
-# Colorize output
-gem 'wirble'
-
 # Colorize and format objects
 gem 'awesome_print'
 
