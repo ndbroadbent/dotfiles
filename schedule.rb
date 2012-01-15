@@ -4,8 +4,11 @@
 every 10.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   command "git_index --rebuild && git_index --update-all"
-  # Update dotfiles (set up new symlinks, update generated bashrc, git config, etc.)
-  command "cd $DOTFILES_PATH && OVERWRITE_ALL=true rake install"
+  # Update dotfiles
+  # - Set up new symlinks
+  # - Update generated bashrc, git config, etc.
+  # - Update this cron task
+  command "cd $DOTFILES_PATH && OVERWRITE_ALL=true rake install && whenever -f schedule.rb -w"
 end
 
 # Update Travis CI build statuses for indexed git repos
