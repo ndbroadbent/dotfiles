@@ -1,5 +1,5 @@
 #!/bin/bash
-. _shared.sh
+if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
 # Install Dropbox Nautilus Extension
 # -------------------------------------------
 echo "== Installing dropbox nautilus extension..."

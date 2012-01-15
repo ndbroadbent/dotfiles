@@ -1,5 +1,6 @@
 #!/bin/bash
-. _shared.sh
+if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;  
+ 
 echo "== Setting up conky..."
 
 # Queue or install apt packages
@@ -22,7 +23,7 @@ fi
 
 # Copy conky config files.
 sudo rm -rf ~/.conkycolors
-cp -rf assets/conkycolors ~/.conkycolors
+cp -rf conky/conkycolors ~/.conkycolors
 
 # Set home directory placeholder
 sed "s%@HOME@%$HOME%g" -i ~/.conkycolors/conkyrc

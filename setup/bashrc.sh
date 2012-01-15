@@ -1,11 +1,10 @@
 #!/bin/bash
-echo "== Installing ~/.bashrc & other related dot files..."
+echo "== Installing ~/.bashrc ..."
 this_dir=$(pwd)
 
 IFS=" "
 
-bashrc_parts="default prompt aliases functions ruby_on_rails crossroads"
-rc_files="inputrc ackrc irbrc livereload"
+bashrc_parts="default prompt aliases functions auto_reload ruby_on_rails crossroads"
 
 cat /dev/null > ~/.bashrc
 
@@ -15,32 +14,24 @@ for part in $bashrc_parts; do
     cat assets/bashrc/$part.sh >> ~/.bashrc
   else
     # Source bashrc from parts
-    echo "source '$this_dir/assets/bashrc/$part.sh'" >> ~/.bashrc
+    echo "source '$this_dir/bashrc/$part.sh'" >> ~/.bashrc
   fi
 done
 
 # Add scm_breeze
 echo '[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"' >> ~/.bashrc
 
-# Export ubuntu_config_path
-echo "export UBUNTU_CONFIG_PATH=\"$this_dir\"" >> ~/.bashrc
-
-# Append dynamic update command
+# Append dynamic footer
 cat >> ~/.bashrc <<EOF
+# Export path of dotfiles repo
+export DOTFILES_PATH="$this_dir"
+
+# Set bashrc autoreload variable at start
+export BASHRC_LAST_UPDATED="\$(bashrc_last_modified)"
+
 # Update this file from GitHub
 alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh && cd -'
 EOF
-
-for rc in $rc_files; do
-  rm -f ~/.$rc
-  if [ "$1" = "copy" ]; then
-    # Copy other *rc files
-    cp -f "$this_dir/assets/$rc" "$HOME/.$rc"
-  else
-    # Symlink other *rc files
-    ln -fs "$this_dir/assets/$rc" "$HOME/.$rc"
-  fi
-done
 
 
 # If run from dev_machine_setup, we cannot update current shell.

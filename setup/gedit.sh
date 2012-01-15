@@ -1,5 +1,5 @@
 #!/bin/bash
-. _shared.sh
+if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
 # Sets up gedit for RoR development.
 # -------------------------------------------
 echo "== Setting up gedit plugins, settings and assets (RoR colors, etc)..."

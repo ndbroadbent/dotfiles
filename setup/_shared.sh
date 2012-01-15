@@ -24,6 +24,7 @@ if [ -z "$_shared_functions" ]; then
     read -p "===== [Git config] Please enter your name: " git_name
     read -p "===== [Git config] Please enter your email: " git_email
     read -p "===== [Git config] Please enter your github username: " github_user
+    read -p "===== [Git config] Please enter your github API token: " github_token
   }
 
   function prompt_for_netrc() {
