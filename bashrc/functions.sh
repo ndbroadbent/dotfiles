@@ -35,8 +35,6 @@ color_index() {
 
 # A shortcut function that simplifies usage of xclip.
 # - Accepts input from either stdin (pipe), or params.
-# - If the input is a filename that exists, then it
-#   uses the contents of that file.
 # ------------------------------------------------
 cb() {
   local _scs_col="\e[0;32m"; local _wrn_col='\e[1;31m'; local _trn_col='\e[0;33m'
@@ -55,12 +53,10 @@ cb() {
       input="$*"
     fi
     if [ -z "$input" ]; then  # If no input, print usage message.
-      echo "Copies a string or the contents of a file to the clipboard."
-      echo "Usage: cb <string or file>"
-      echo "       echo <string or file> | cb"
+      echo "Copies a string to the clipboard."
+      echo "Usage: cb <string>"
+      echo "       echo <string> | cb"
     else
-      # If the input is a filename that exists, then use the contents of that file.
-      if [ -f "$input" ]; then input="$(cat $input)"; fi
       # Copy input to clipboard
       echo -n "$input" | xclip -selection c
       # Truncate text for status
@@ -70,13 +66,16 @@ cb() {
     fi
   fi
 }
-# Aliases leveraging the cb() function
-# -- Copy SSH public key to clipboard.
-alias cbssh="cb ~/.ssh/id_rsa.pub"
-# -- Copy current working directory
-alias cbwd="pwd | cb"
-# -- Copy the most recent command in bash history
-alias cbhs="cat $HISTFILE | tail -n 1 | cb"
+# Aliases / functions leveraging the cb() function
+# ------------------------------------------------
+# Copy contents of a file
+function cbf() { cat "$1" | cb; }  
+# Copy SSH public key
+alias cbssh="cb ~/.ssh/id_rsa.pub"  
+# Copy current working directory
+alias cbwd="pwd | cb"  
+# Copy most recent command in bash history
+alias cbhs="cat $HISTFILE | tail -n 1 | cb"  
 
 
 # Calculator
