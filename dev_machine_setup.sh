@@ -23,15 +23,15 @@ sudo true
 # '--all' flag installs everything
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
-  scripts="packages dropbox skype keepass2 netrc rc git_config
-           gimp gedit vim gnome conky startup tomate apt-install rvm "
+  scripts="packages dropbox skype keepass2 bashrc git_config
+           vim gnome conky startup apt-install rvm "
   prompt_for_git
   prompt_for_netrc
 
 # '--update' flag updates everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
-  scripts="packages rc ruby_dotfiles gedit vim gnome conky startup tomate apt-install "
+  scripts="packages bashrc vim gnome conky startup apt-install "
 
 # If no flag given, ask user which scripts they would like to run.
 else
