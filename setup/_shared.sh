@@ -21,10 +21,20 @@ if [ -z "$_shared_functions" ]; then
   }
 
   function prompt_for_git() {
-    read -p "===== [Git config] Please enter your name: " git_name
-    read -p "===== [Git config] Please enter your email: " git_email
-    read -p "===== [Git config] Please enter your github username: " github_user
-    read -p "===== [Git config] Please enter your github API token: " github_token
+    git_name=$(git config --get user.name)
+    git_email=$(git config --get user.email)
+    github_user=$(git config --get github.user)
+    github_token=$(git config --get github.token)
+    if [ -n "$git_name" ]; then
+      echo "Git already configured:"
+      echo "   name: '$git_name',  email: '$git_email' "
+      echo "   github user: '$github_user',  github token: '$github_token'"
+    else
+      read -p "===== [Git config] Please enter your name: " git_name
+      read -p "===== [Git config] Please enter your email: " git_email
+      read -p "===== [Git config] Please enter your github username: " github_user
+      read -p "===== [Git config] Please enter your github API token: " github_token
+    fi
   }
 
   function prompt_for_netrc() {
