@@ -30,10 +30,10 @@ parse_ruby_version() {
   fi
 }
 
-# Returns the travis status for a github project
+# Returns the Travis CI status for a github project
 parse_travis_status() {
-  if [ -e "TRAVIS_CI_STATUS" ]; then
-    cat TRAVIS_CI_STATUS
+  if [ -e ".travis_status~" ]; then
+    cat .travis_status~
   fi
 }
 
