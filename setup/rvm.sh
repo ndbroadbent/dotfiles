@@ -4,7 +4,7 @@ if [ -z `which rvm` ]; then
   bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)
   [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # Loads RVM into shell
   rvm install 1.9.2
-  rvm use 1.9.2
+  rvm use 1.9.2 --default
 else
   echo "== Updating rvm..."
   rvm get latest
