@@ -6,7 +6,12 @@ IFS=" "
 
 bashrc_parts="default prompt aliases functions auto_reload ruby_on_rails crossroads"
 
-cat /dev/null > ~/.bashrc
+# Header
+cat > ~/.bashrc <<EOF
+# Export path of dotfiles repo
+export DOTFILES_PATH="$this_dir"
+
+EOF
 
 for part in $bashrc_parts; do
   if [ "$1" = "copy" ]; then
@@ -14,18 +19,15 @@ for part in $bashrc_parts; do
     cat assets/bashrc/$part.sh >> ~/.bashrc
   else
     # Source bashrc from parts
-    echo "source '$this_dir/bashrc/$part.sh'" >> ~/.bashrc
+    echo "source \"\$DOTFILES_PATH/bashrc/$part.sh\"" >> ~/.bashrc
   fi
 done
 
 # Add scm_breeze
 echo '[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"' >> ~/.bashrc
 
-# Append dynamic footer
+# Footer
 cat >> ~/.bashrc <<EOF
-# Export path of dotfiles repo
-export DOTFILES_PATH="$this_dir"
-
 # Set bashrc autoreload variable at start
 export BASHRC_LAST_UPDATED="\$(bashrc_last_modified)"
 
