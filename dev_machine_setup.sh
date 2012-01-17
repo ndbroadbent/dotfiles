@@ -44,7 +44,7 @@ else
   confirm_by_default "Dropbox"                      'dropbox'
   confirm_by_default "Skype"                        'skype'
   confirm_by_default "Keepass 2"                    'keepass2'
-  confirm_by_default "bashrc, irbrc, ackrc, etc."   'rc'
+  confirm_by_default "bashrc, irbrc, ackrc, etc."   'bashrc'
   confirm_by_default "ruby config (dotfiles)"       'ruby_dotfiles'
   confirm_by_default "vim customizations"           'vim'
   confirm_by_default "gnome themes and fonts"       'gnome'
