@@ -69,13 +69,13 @@ cb() {
 # Aliases / functions leveraging the cb() function
 # ------------------------------------------------
 # Copy contents of a file
-function cbf() { cat "$1" | cb; }  
+function cbf() { cat "$1" | cb; }
 # Copy SSH public key
-alias cbssh="cb ~/.ssh/id_rsa.pub"  
+alias cbssh="cat ~/.ssh/id_rsa.pub | cb"
 # Copy current working directory
-alias cbwd="pwd | cb"  
+alias cbwd="pwd | cb"
 # Copy most recent command in bash history
-alias cbhs="cat $HISTFILE | tail -n 1 | cb"  
+alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
 
 # Calculator
@@ -102,7 +102,7 @@ fix_whitespace() {
 # Import SSL cert from remote host
 import_ssl_cert() {
   if ! type certutil > /dev/null 2>&1; then
-	echo "== You must have the 'certutil' program installed."
+  echo "== You must have the 'certutil' program installed."
   elif [ -n "$1" ]; then
     REMHOST=$1
     if [ "$REPLACE" != "true" ] && certutil -L -d sql:$HOME/.pki/nssdb | grep $REMHOST; then
