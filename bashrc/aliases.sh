@@ -17,6 +17,12 @@ alias psg='ps ax | grep'
 alias e="ge geany"
 alias sbrc="source ~/.bashrc"
 
+cpmkdir() {
+  if [ -z "$1" ]; then echo -e "Usage: cpmkdir <source> <dest dir>"; return 1; fi
+  if [ ! -d "$2" ]; then mkdir -p "$2"; fi
+  cp -R "$1" "$2"
+}
+
 alias ~='cd ~'
 alias -- -='cd -'
 alias ..='cd ..'
