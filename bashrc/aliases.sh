@@ -29,7 +29,7 @@ alias ......='cd ../../../../..'
 alias apt-install='sudo apt-get install -y'
 alias apt-search='apt-cache search'
 # Search for development files
-function apt-search-dev() { apt-cache search $1 | grep "lib.*dev "; }
+apt-search-dev() { apt-cache search $1 | grep "lib.*dev "; }
 
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
@@ -43,7 +43,7 @@ fi
 
 # Adds an alias to ~/.bash_aliases.
 # ------------------------------------------------
-function add_alias() {
+add_alias() {
   if [ -n "$2" ]; then
     touch ~/.bash_aliases
     echo "alias $1=\"$2\"" >> ~/.bash_aliases
@@ -56,7 +56,7 @@ function add_alias() {
 # Use '.' for current working directory.
 # Changes directory, then lists directory contents.
 # ------------------------------------------------
-function add_dir_alias() {
+add_dir_alias() {
   if [ -n "$1" ] && [ -n "$2" ]; then
     path=`dirname $2/.`   # Fetches absolute path.
     touch ~/.bash_aliases
@@ -68,7 +68,7 @@ function add_dir_alias() {
 }
 # Remove an alias
 # ------------------------------------------------
-function rm_alias() {
+rm_alias() {
   if [ -n "$1" ]; then
     touch ~/.bash_aliases
     grep -Ev "alias $1=" ~/.bash_aliases > ~/.bash_aliases.tmp
