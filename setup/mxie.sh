@@ -24,7 +24,7 @@ sudo dpkg -i /tmp/libstdc++5.deb
 cat > ~/.config/autostart/mxie.desktop <<EOF
 [Desktop Entry]
 Type=Application
-Exec=/usr/local/bin/mxie
+Exec=$HOME/.start_mxie
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -32,3 +32,8 @@ Name=MXIE
 Comment=
 EOF
 
+cat > $HOME/.start_mxie <<EOF
+#!/bin/sh
+sleep 15
+/usr/local/bin/mxie
+EOF
