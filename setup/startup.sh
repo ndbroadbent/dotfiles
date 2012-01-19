@@ -7,7 +7,7 @@ echo "== Configuring chrome, terminal & geany to run on startup..."
 cat > ~/.start_dev_applications.sh <<EOF
 #!/bin/sh
 sleep 20
-gnome-terminal &
+if which gnome-terminal; then gnome-terminal &; else xfce4-terminal &; fi
 google-chrome &
 geany &
 EOF
