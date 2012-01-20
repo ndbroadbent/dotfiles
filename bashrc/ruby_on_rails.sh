@@ -35,6 +35,9 @@ rails_cmd(){
   fi
 }
 rs() { rails_cmd server "$@"; }
+rsd() { rails_cmd server "-u $@"; }
+rst() { rails_cmd server "thin $@"; }
+rstd() { rails_cmd server "thin -u $@"; }
 rc() { rails_cmd console "$@"; }
 rg() { rails_cmd generate "$@"; }
 
