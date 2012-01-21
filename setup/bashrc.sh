@@ -23,9 +23,6 @@ for part in $bashrc_parts; do
   fi
 done
 
-# Add scm_breeze
-echo '[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"' >> ~/.bashrc
-
 # Footer
 cat >> ~/.bashrc <<EOF
 # Set bashrc autoreload variable at start

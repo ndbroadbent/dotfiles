@@ -9,29 +9,17 @@ alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 
 alias s='sudo'
 alias n='nautilus .'
-alias e="geany"
+alias e="$GUI_EDITOR"
 alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias aki='ack-grep -i'
 alias psg='ps ax | grep'
 alias sbrc="source ~/.bashrc"
-
-# Expand SCM Breeze numbered shortcuts for common commands
 if type exec_git_expand_args > /dev/null 2>&1; then
   alias e="exec_git_expand_args $GUI_EDITOR"
-  for cmd in vim rm cp mv ln; do
-    alias $cmd="exec_git_expand_args $cmd"
-  done
-  # If RVM has already wrapped 'cd', rename the function and chain it
-  if [ "$(type cd | head -n1)" = "cd is a function" ]; then
-    # Copy the RVM cd() function to rvm_cd()
-    eval $(type cd | tail -n+2 | sed "s/cd [(][)]/_rvm_cd ()/")
-    alias cd="exec_git_expand_args rvm_cd"
-  else
-    alias cd="exec_git_expand_args cd"
-  fi
+else
+  alias e="$GUI_EDITOR"
 fi
-
 
 alias ~='cd ~'
 alias -- -='cd -'
