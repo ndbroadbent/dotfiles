@@ -40,7 +40,7 @@ if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
     source ~/.bashrc
   else
     echo "===== Please run this command to update your current shell: $ source ~/.bashrc"
-    echo "      In the future, you should run this script like this:  $ . bashhrc_setup.sh"
+    echo "      In the future, you should run this script like this:  $ . bashrc_setup.sh"
   fi
 fi
 
