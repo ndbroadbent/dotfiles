@@ -2,26 +2,36 @@
 # Aliases, functions & key bindings
 # -------------------------------------------------------
 
-# -- bash
 alias l='ls -Cv --group-directories-first'
 alias ll='ls -lv --group-directories-first'
 alias la='ls -lvA --group-directories-first'
 alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 
-alias _='sudo'
+alias s='sudo'
 alias n='nautilus .'
+alias e="geany"
 alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias aki='ack-grep -i'
 alias psg='ps ax | grep'
-alias e="ge geany"
 alias sbrc="source ~/.bashrc"
 
-cpmkdir() {
-  if [ -z "$1" ]; then echo -e "Usage: cpmkdir <source> <dest dir>"; return 1; fi
-  if [ ! -d "$2" ]; then mkdir -p "$2"; fi
-  cp -R "$1" "$2"
-}
+# Expand SCM Breeze numbered shortcuts for common commands
+if type exec_git_expand_args > /dev/null 2>&1; then
+  alias e="exec_git_expand_args $GUI_EDITOR"
+  for cmd in vim rm cp mv ln; do
+    alias $cmd="exec_git_expand_args $cmd"
+  done
+  # If RVM has already wrapped 'cd', rename the function and chain it
+  if [ "$(type cd | head -n1)" = "cd is a function" ]; then
+    # Copy the RVM cd() function to rvm_cd()
+    eval $(type cd | tail -n+2 | sed "s/cd [(][)]/_rvm_cd ()/")
+    alias cd="exec_git_expand_args rvm_cd"
+  else
+    alias cd="exec_git_expand_args cd"
+  fi
+fi
+
 
 alias ~='cd ~'
 alias -- -='cd -'
@@ -31,7 +41,18 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-# -- apt
+# Aliases for scripts in ~/bin
+# ----------------------------
+alias cb="simple_clipboard"
+# Copy contents of a file
+function cbf() { cat "$1" | simple_clipboard; }
+# Copy SSH public key
+alias cbs="cat ~/.ssh/id_rsa.pub | simple_clipboard"
+# Copy current working directory
+alias cbd="pwd | simple_clipboard"
+
+# Apt
+# -------------------------------------------------
 alias apt-install='sudo apt-get install -y'
 alias apt-search='apt-cache search'
 # Search for development files
