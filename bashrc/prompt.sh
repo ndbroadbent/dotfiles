@@ -86,7 +86,7 @@ export GREP_COLOR='1;32'
 # Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND+='echo -ne "\e]0;$(user_symbol)@$(host_symbol) ${PWD}\007";'
+    PROMPT_COMMAND+='echo -ne "\e]0;$(user_symbol)@$(host_symbol) ${PWD/$HOME/~}\007";'
     ;;
 *)
     ;;
