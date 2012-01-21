@@ -40,6 +40,7 @@ parse_travis_status() {
 # Allow symbols to represent users & machines
 user_symbol(){ [ -e $HOME/.user_sym ] && cat $HOME/.user_sym || echo '\u'; }
 host_symbol(){ [ -e /home/.hostname_sym ] && cat /home/.hostname_sym || echo '\h'; }
+user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e /home/.hostname_sym ]) || echo "@"; }
 
 # Set the prompt string (PS1)
 # Looks like this:
@@ -47,7 +48,7 @@ host_symbol(){ [ -e /home/.hostname_sym ] && cat /home/.hostname_sym || echo '\h
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {
-  local user_str="\[$_usr_col\]$(user_symbol)\[$_sep_col\]@\[$_hst_col\]$(host_symbol)\[$_txt_col\]"
+  local user_str="\[$_usr_col\]$(user_symbol)\[$_sep_col\]$(user_host_sep)\[$_hst_col\]$(host_symbol)\[$_txt_col\]"
   local dir_str="\[$_cwd_col\]\w"
   local git_branch=`parse_git_branch`
   local git_dirty=`parse_git_dirty`
@@ -86,7 +87,7 @@ export GREP_COLOR='1;32'
 # Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND+='echo -ne "\e]0;$(user_symbol)@$(host_symbol) ${PWD/$HOME/~}\007";'
+    PROMPT_COMMAND+='echo -ne "\e]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
     ;;
 *)
     ;;
