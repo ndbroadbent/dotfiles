@@ -4,14 +4,14 @@
 
 # Prompt colors
 _txt_col="\e[00m"     # Std text (white)
-_bld_col="\e[01;37m"  # Bold text (white)
-_wrn_col="\e[01;31m"  # Warning
-_sep_col="\e[02;32m"  # Separators
-_usr_col="\e[01;32m"  # Username
+_bld_col="\e[1;37m"   # Bold text (white)
+_wrn_col="\e[1;31m"   # Warning
+_sep_col="\e[2;32m"   # Separators
+_usr_col="\e[1;32m"   # Username
 _cwd_col=$_txt_col    # Current directory
 _hst_col="\e[0;32m"   # Host
 _env_col="\e[0;36m"   # Prompt environment
-_git_col="\e[01;36m"  # Git branch
+_git_col="\e[1;36m"   # Git branch
 _chr_col=$_txt_col    # Prompt char
 
 # Returns the current git branch (returns nothing if not a git repository)
