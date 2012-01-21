@@ -38,8 +38,8 @@ parse_travis_status() {
 }
 
 # Allow symbols to represent users & machines
-user_symbol(){ [ -e $HOME/.user_sym ] && cat $HOME/.user_sym || echo '\u'; }
-host_symbol(){ [ -e /home/.hostname_sym ] && cat /home/.hostname_sym || echo '\h'; }
+user_symbol(){ [ -e $HOME/.user_sym ] && cat $HOME/.user_sym || echo "$USER"; }
+host_symbol(){ [ -e /home/.hostname_sym ] && cat /home/.hostname_sym || echo "$HOSTNAME"; }
 user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e /home/.hostname_sym ]) || echo "@"; }
 
 # Set the prompt string (PS1)
