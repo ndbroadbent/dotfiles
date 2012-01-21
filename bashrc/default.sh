@@ -19,7 +19,6 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
-
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
 else
@@ -52,14 +51,10 @@ export HISTIGNORE="&:ls:ll:gs:gd:[bf]g:exit:pwd:clear:mount:umount"
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -68,8 +63,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-# Use vim as default editor (e.g. crontab -e)
-export EDITOR=vim
+# Default editors
+export EDITOR="vim"
+export GUI_EDITOR="geany"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then PATH="$HOME/bin:$PATH"; fi
