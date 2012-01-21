@@ -100,7 +100,7 @@ fix_whitespace() {
 }
 
 # Import SSL cert from remote host
-import_ssl_cert() {
+ssl_import_cert() {
   if ! type certutil > /dev/null 2>&1; then
   echo "== You must have the 'certutil' program installed."
   elif [ -n "$1" ]; then
