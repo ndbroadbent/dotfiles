@@ -1,4 +1,6 @@
-# Reloads bashrc if anything changes in a monitored directory
+# Reloads bashrc if any sourced files are changed
+# ------------------------------------------------
+
 auto_reload_bashrc() {
   local recent_change="$(bashrc_last_modified)"
   if [ "$BASHRC_LAST_UPDATED" != "$recent_change" ]; then
@@ -8,7 +10,17 @@ auto_reload_bashrc() {
 }
 
 bashrc_last_modified() {
-  find "$DOTFILES_PATH/bashrc" -type f -printf '%T@ %p\n' | sort -n | tail -1
+  find $SOURCED_FILES -type f -printf '%T@ %p\n' | sort -n | tail -1
 }
 
-PROMPT_COMMAND="auto_reload_bashrc; $PROMPT_COMMAND"
+# Store list of files sourced from $HOME directory
+source() {
+  for f in $@; do
+	if [[ "$f" =~ "$HOME" ]]; then SOURCED_FILES+=" $f"; fi
+  done
+  builtin source $@
+}
+alias .="source"
+export SOURCED_FILES="$HOME/.bashrc $DOTFILES_PATH/bashrc/auto_reload.sh"
+
+PROMPT_COMMAND="auto_reload_bashrc;$PROMPT_COMMAND"

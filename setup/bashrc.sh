@@ -4,12 +4,13 @@ this_dir=$(pwd)
 
 IFS=" "
 
-bashrc_parts="default prompt aliases functions tab_completion auto_reload ruby_on_rails crossroads"
+bashrc_parts="auto_reload default prompt aliases functions tab_completion ruby_on_rails crossroads"
 
 # Header
 cat > ~/.bashrc <<EOF
 # Export path of dotfiles repo
 export DOTFILES_PATH="$this_dir"
+export PROMPT_COMMAND=""
 
 EOF
 
@@ -33,15 +34,7 @@ alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh &
 EOF
 
 
-# If run from dev_machine_setup, we cannot update current shell.
-if ! [[ "$0" =~ "dev_machine_setup.sh" ]]; then
-  # If this script was sourced properly from the terminal, update current shell
-  if [[ "$0" == *bash ]]; then
-    source ~/.bashrc
-  else
-    echo "===== Please run this command to update your current shell: $ source ~/.bashrc"
-    echo "      In the future, you should run this script like this:  $ . bashrc_setup.sh"
-  fi
-fi
+# If this script was sourced from the terminal, update current shell
+if ! [[ "$0" =~ "dev_machine_setup.sh" ]] && [[ "$0" == *bash ]]; then source ~/.bashrc; fi
 
 unset IFS
