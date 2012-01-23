@@ -47,6 +47,17 @@ if [ -z "$_shared_functions" ]; then
 
   # Packages
   # --------------------------------------------
+  function apt_add_dependency() {
+    if [ -n "$1" ]; then
+	  for pkg in $@; do
+        if ! type $pkg > /dev/null 2>&1; then
+          apt_queue_or_install $pkg
+        fi
+      done
+    else
+      echo "apt_add_dependency() requires a list of packages"
+    fi
+  }
 
   function apt_queue_or_install() {
     if [ -n "$1" ]; then
