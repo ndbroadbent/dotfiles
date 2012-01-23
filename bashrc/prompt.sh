@@ -79,7 +79,7 @@ set_ps1() {
 }
 
 # Set custom prompt
-PROMPT_COMMAND='set_ps1;'
+PROMPT_COMMAND+='set_ps1;'
 
 # Set GREP highlight color
 export GREP_COLOR='1;32'
