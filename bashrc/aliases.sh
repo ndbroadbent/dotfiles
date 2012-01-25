@@ -33,7 +33,7 @@ alias ......='cd ../../../../..'
 # ----------------------------
 alias cb="simple_clipboard"
 # Copy contents of a file
-alias cbf="simple_clipboard < "
+alias cbf="simple_clipboard <"
 # Copy SSH public key
 alias cbs="simple_clipboard < ~/.ssh/id_rsa.pub"
 # Copy current working directory
