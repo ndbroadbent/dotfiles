@@ -33,9 +33,9 @@ alias ......='cd ../../../../..'
 # ----------------------------
 alias cb="simple_clipboard"
 # Copy contents of a file
-function cbf() { cat "$1" | simple_clipboard; }
+alias cbf="simple_clipboard < "
 # Copy SSH public key
-alias cbs="cat ~/.ssh/id_rsa.pub | simple_clipboard"
+alias cbs="simple_clipboard < ~/.ssh/id_rsa.pub"
 # Copy current working directory
 alias cbd="pwd | simple_clipboard"
 
