@@ -16,8 +16,11 @@ bashrc_last_modified() {
 # Store list of files sourced from $HOME directory
 source() {
   for f in $@; do
-	if [[ "$f" =~ "$HOME" ]]; then SOURCED_FILES+=" $f"; fi
+    if [[ "$f" =~ "$HOME" ]]; then SOURCED_FILES+=" $f"; fi
   done
+  # Clear duplicates
+  SOURCED_FILES=`echo $SOURCED_FILES | tr " " "\n" | sort | uniq | tr "\n" " "`
+  
   builtin source $@
 }
 alias .="source"
