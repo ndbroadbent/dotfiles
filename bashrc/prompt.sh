@@ -81,7 +81,7 @@ set_ps1() {
 # Set custom prompt
 PROMPT_COMMAND+='set_ps1;'
 
-# Set GREP highlight color
+# Set GREP highlight color to lime green
 export GREP_COLOR='1;32'
 
 # Custom Xterm/RXVT Title
