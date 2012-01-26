@@ -31,6 +31,9 @@ export BASHRC_LAST_UPDATED="\$(bashrc_last_modified)"
 
 # Update this file from GitHub
 alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh && cd -'
+
+# Finalize auto_reload sourced files
+finalize_auto_reload
 EOF
 
 
