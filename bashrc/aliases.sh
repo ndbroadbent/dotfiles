@@ -10,6 +10,7 @@ alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 alias s='sudo'
 alias n='nautilus .'
 alias e="$GUI_EDITOR"
+alias le="less"
 alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias aki='ack-grep -i'
