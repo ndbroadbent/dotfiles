@@ -26,6 +26,10 @@ done
 
 # Footer
 cat >> ~/.bashrc <<EOF
+
+# This loads SCM Breeze into the shell session.
+[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
+
 # Set bashrc autoreload variable at start
 export BASHRC_LAST_UPDATED="\$(bashrc_last_modified)"
 
