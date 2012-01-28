@@ -32,9 +32,8 @@ parse_ruby_version() {
 
 # Returns the Travis CI status for a github project
 parse_travis_status() {
-  if [ -e ".travis_status~" ]; then
-    cat .travis_status~
-  fi
+  local status_file=$(find_in_cwd_or_parent ".travis_status~")
+  if [ -e "$status_file" ]; then cat "$status_file"; fi
 }
 
 # Allow symbols to represent users & machines
