@@ -12,6 +12,15 @@ gsed() {
 }
 
 
+# Test whether file exists in current or parent directories
+find_in_cwd_or_parent() {
+  local slashes=${PWD//[^\/]/}; local directory=$PWD;
+  for (( n=${#slashes}; n>0; --n )); do
+    test -e $directory/$1 && echo "$directory/$1" && return 0
+    directory=$directory/..
+  done; return 1
+}
+
 # Strip whitespace from all ruby files in the current directory (and subdirectories)
 fix_whitespace() {
   find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'

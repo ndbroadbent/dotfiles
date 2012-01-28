@@ -10,16 +10,9 @@ alias bu="ensure_bundler; bundle update"
 # Use bundler for commands
 be() {
   ensure_bundler
-  if exists_in_cwd_or_parent Gemfile; then bundle exec "$@"; else /usr/bin/env "$@"; fi
+  if find_in_cwd_or_parent Gemfile > /dev/null; then bundle exec "$@"; else /usr/bin/env "$@"; fi
 }
-# Test whether file exists in current or parent directories
-exists_in_cwd_or_parent() {
-  local slashes=${PWD//[^\/]/}; local directory=$PWD;
-  for (( n=${#slashes}; n>0; --n )); do
-    test -e $directory/$1 && return 0
-    directory=$directory/..
-  done; return 1
-}
+
 # Alias most rails commands to use the be() bundle exec wrapper
 for c in cucumber rspec spec spork thin unicorn unicorn_rails; do
   alias $c="be $c"
