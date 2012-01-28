@@ -33,7 +33,13 @@ parse_ruby_version() {
 # Returns the Travis CI status for a github project
 parse_travis_status() {
   local status_file=$(find_in_cwd_or_parent ".travis_status~")
-  if [ -e "$status_file" ]; then cat "$status_file"; fi
+  if [ -e "$status_file" ]; then
+    case "$(cat "$status_file")" in
+    Passing) echo "\[\e[01;32m\]✔ ";; # green
+    Failing) echo "\[\e[01;31m\]✘ ";; # red
+    Running) echo "\[\e[01;33m\]⁇ ";; # yellow
+    esac
+  fi
 }
 
 # Allow symbols to represent users & machines
@@ -51,13 +57,8 @@ set_ps1() {
   local dir_str="\[$_cwd_col\]\w"
   local git_branch=`parse_git_branch`
   local git_dirty=`parse_git_dirty`
+  local trav_str=`parse_travis_status`
   local ruby=`parse_ruby_version`
-  local trav_str=""
-  case "$(parse_travis_status)" in
-  Passing) trav_str="\[\e[01;32m\]✔ ";;  # green
-  Failing) trav_str="\[\e[01;31m\]✘! ";; # red
-  Running) trav_str="\[\e[01;33m\]⁇ ";;  # yellow
-  esac
 
   git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
   # Git repo & ruby version
