@@ -18,7 +18,8 @@ find_in_cwd_or_parent() {
   for (( n=${#slashes}; n>0; --n )); do
     test -e $directory/$1 && echo "$directory/$1" && return 0
     directory=$directory/..
-  done; return 1
+  done
+  return 1
 }
 
 # Strip whitespace from all ruby files in the current directory (and subdirectories)
