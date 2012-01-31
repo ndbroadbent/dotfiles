@@ -41,10 +41,13 @@ alias cbd="pwd | simple_clipboard"
 
 # Apt
 # -------------------------------------------------
-alias apt-install='sudo apt-get install -y'
-alias apt-search='apt-cache search'
-# Search for development files
-apt-search-dev() { apt-cache search $1 | grep "lib.*dev "; }
+alias apt-i='sudo apt-get install -y'
+alias apt-u='sudo apt-get update'
+alias apt-s='apt-cache search'
+apt-sd() { apt-cache search $1 | grep "lib.*dev "; } # Search for dev files
+alias apt-r='sudo apt-get remove'
+alias apt-a='sudo apt-get autoremove'
+
 
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
