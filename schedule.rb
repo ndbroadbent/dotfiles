@@ -1,9 +1,11 @@
 # Use this file to easily define all of your cron jobs.
 # Learn more: http://github.com/javan/whenever
 
+# Install this crontab with: whenever -f schedule.rb -w
+
 every 10.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
-  command "git_index --rebuild && git_index --update-all"
+  command "git_index --update-all"
   # Update dotfiles
   # - Set up new symlinks
   # - Update generated bashrc, git config, etc.
@@ -12,6 +14,11 @@ every 10.minutes do
 end
 
 # Update Travis CI build statuses for indexed git repos
-every 2.minutes do
-  command "git_index --rebuild && NOCD=true git_index --batch-cmd git_update_travis_status"
+every 5.minutes do
+  command "git_index --batch-cmd update_travis_ci_status"
+end
+
+# Rebuild SCM Breeze index
+every 1.minute do
+  command "git_index --rebuild"
 end

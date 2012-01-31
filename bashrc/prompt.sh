@@ -30,14 +30,17 @@ parse_ruby_version() {
   fi
 }
 
-# Returns the Travis CI status for a github project
+# Returns the Travis CI status for a given branch, default 'master'
 parse_travis_status() {
-  local status_file=$(find_in_cwd_or_parent ".travis_status~")
-  if [ -e "$status_file" ]; then
-    case "$(cat "$status_file")" in
-    Passing) echo "\[\e[01;32m\]✔ ";; # green
-    Failing) echo "\[\e[01;31m\]✘ ";; # red
-    Running) echo "\[\e[01;33m\]⁇ ";; # yellow
+  local branch="$1"
+  if [ -z "$branch" ]; then branch="master"; fi
+
+  local stat_file=$(find_in_cwd_or_parent ".travis_status~")
+  if [ -e "$stat_file" ]; then
+    case "$(grep -m 1 "^$branch " "$stat_file")" in
+    *passed)  echo "\[\e[01;32m\]✔ ";; # green
+    *failed)  echo "\[\e[01;31m\]✘ ";; # red
+    *running) echo "\[\e[01;33m\]⁇ ";; # yellow
     esac
   fi
 }
@@ -57,7 +60,7 @@ set_ps1() {
   local dir_str="\[$_cwd_col\]\w"
   local git_branch=`parse_git_branch`
   local git_dirty=`parse_git_dirty`
-  local trav_str=`parse_travis_status`
+  local trav_str=`parse_travis_status "$git_branch"`
   local ruby=`parse_ruby_version`
 
   git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
