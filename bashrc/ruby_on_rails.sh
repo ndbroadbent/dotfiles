@@ -22,7 +22,7 @@ alias rake="be rake --trace"
 
 # Run rails commands on either 2.x and 3.x
 rails_cmd(){
-  if [ -e ./script/rails ]; then rails $@
+  if [ -e ./script/rails ]; then ./script/rails $@
   elif [ -e ./script/$1 ]; then ./script/$@
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
