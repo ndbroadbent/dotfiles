@@ -16,11 +16,11 @@ _chr_col=$_txt_col    # Prompt char
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+  \git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 parse_git_dirty() {
-  [ -n "$(git status --short 2> /dev/null)" ] && echo "±"
+  [ -n "$(\git status --short 2> /dev/null)" ] && echo "±"
 }
 
 # Returns the current ruby version.
