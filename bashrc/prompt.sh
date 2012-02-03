@@ -16,7 +16,7 @@ _chr_col=$_txt_col    # Prompt char
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  \git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+  \git branch 2> /dev/null | sed "s/^\* \([^ ]*\)/\1/;tm;d;:m"
 }
 
 parse_git_dirty() {
