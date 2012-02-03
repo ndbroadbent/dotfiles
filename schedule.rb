@@ -14,13 +14,13 @@ every 10.minutes do
 end
 
 # Update Travis CI build statuses for current branch of indexed git repos
-every 5.minutes do
+every 2.minutes do
   command "git_index --batch-cmd update_travis_ci_status"
 end
 
 # Update Travis CI build statuses for all branches of indexed git repos
-every 45.minutes do
-  command "git_index --batch-cmd UPDATE_ALL_BRANCHES=true update_travis_ci_status"
+every 30.minutes do
+  command "export UPDATE_ALL_BRANCHES=true && git_index --batch-cmd update_travis_ci_status"
 end
 
 # Rebuild SCM Breeze index
