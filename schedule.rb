@@ -14,7 +14,7 @@ every 10.minutes do
 end
 
 # Update Travis CI build statuses for current branch of indexed git repos
-every 2.minutes do
+every 3.minutes do
   command "git_index --batch-cmd update_travis_ci_status"
 end
 
