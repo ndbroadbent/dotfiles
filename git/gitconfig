@@ -22,6 +22,9 @@
   changed = green
   untracked = cyan
 
+[rerere]
+  enabled = true
+
 [merge "bundleinstall"]
   name = runs bundle install to generate Gemfile.lock
   driver = bundle install
