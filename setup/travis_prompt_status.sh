@@ -1,3 +1,4 @@
+#!/bin/bash
 curl -sL https://raw.github.com/gist/1708408/travis.rb > ~/bin/travis-ci \
   && chmod +x ~/bin/travis-ci
 
