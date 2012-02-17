@@ -27,7 +27,11 @@
 
 [merge "bundleinstall"]
   name = runs bundle install to generate Gemfile.lock
-  driver = bundle install
+  driver = "bash -l -c '[ -e .rvmrc ] && . .rvmrc; bundle install'"
+
+[merge "keepMine"]
+        name = always keep mine during merge
+        driver = bash -c "exit 0"
 
 [merge "railsschema"]
   name = newer Rails schema version
