@@ -33,6 +33,10 @@
         name = always keep mine during merge
         driver = bash -c "exit 0"
 
+[merge "keepTheirs"]
+        name = always keep theirs during merge
+        driver = bash -c "cp -f $B $A"
+
 [merge "railsschema"]
   name = newer Rails schema version
   driver = "ruby -e '\n\
