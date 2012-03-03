@@ -22,5 +22,6 @@ fi
 mkdir -p ~/.rvm/hooks
 chown $USER:$USER ~/.rvm/hooks
 src_dir="$HOME/code"
-echo "ln -nfs \$rvm_ruby_gem_home/gems $src_dir/current_gemset" > ~/.rvm/hooks/after_use_symlink_gemset
+echo "ln -fs \$rvm_ruby_gem_home/gems $src_dir/current_gemset" > ~/.rvm/hooks/after_use_symlink_gemset
+chmod +x ~/.rvm/hooks/after_use_symlink_gemset
 
