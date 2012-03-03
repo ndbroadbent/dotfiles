@@ -19,9 +19,11 @@ fi
 
 # RVM after_use hook: updates a symlink to point to the current gemset
 # ---------------------------------------------------------------------
-mkdir -p ~/.rvm/hooks
-chown $USER:$USER ~/.rvm/hooks
+mkdir -p $HOME/.rvm/hooks
+chown $USER:$USER $HOME/.rvm/hooks
 src_dir="$HOME/code"
-echo "ln -fs \$rvm_ruby_gem_home/gems $src_dir/current_gemset" > ~/.rvm/hooks/after_use_symlink_gemset
-chmod +x ~/.rvm/hooks/after_use_symlink_gemset
-
+cat > $HOME/.rvm/hooks/after_use_symlink_gemset <<EOF
+rm -f $HOME/code/current_gemset
+ln -fs \$rvm_ruby_gem_home/gems $HOME/code/current_gemset
+EOF
+chmod +x $HOME/.rvm/hooks/after_use_symlink_gemset
