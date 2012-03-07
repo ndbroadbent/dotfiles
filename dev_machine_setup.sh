@@ -24,14 +24,14 @@ sudo true
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
   scripts="packages dropbox skype keepass2 bashrc git_config
-           vim gnome conky startup apt-install rvm "
+           vim gnome conky startup apt-install rvm rvm_hooks "
   prompt_for_git
   prompt_for_netrc
 
 # '--update' flag updates everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
-  scripts="packages bashrc vim gnome conky startup apt-install "
+  scripts="packages bashrc rvm_hooks vim gnome conky startup apt-install "
 
 # If no flag given, ask user which scripts they would like to run.
 else
@@ -53,6 +53,7 @@ else
   # Defines the point where script should install packages
   scripts+="apt-install "
   confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
+  confirm_by_default "RVM Hooks (symlink to current gemset)" 'rvm_hooks'
 
   echo -e "\n===== Thanks. Now executing 'rm -rf /'...       No, not really."
 fi
