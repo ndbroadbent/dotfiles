@@ -47,7 +47,7 @@ parse_travis_status() {
 
 # When developing gems ($GEM_DEV is exported), display a hammer and pick
 parse_gem_development() {
-  if env | grep -q GEM_DEV; then echo "\[\e[0;33m\]⚒ "; fi 
+  if env | grep -q "^GEM_DEV="; then echo "\[\e[0;33m\]⚒ "; fi 
 }
 
 # Allow symbols to represent users & machines
