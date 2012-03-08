@@ -44,4 +44,4 @@ EOF
 # If this script was sourced from the terminal, update current shell
 if ! [[ "$0" =~ "dev_machine_setup.sh" ]] && [[ "$0" == *bash ]]; then source ~/.bashrc; fi
 
-unset IFS
+IFS=$' \t\n'
