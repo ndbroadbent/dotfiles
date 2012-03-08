@@ -79,7 +79,7 @@ alias jr='rvm use jruby'
 # (Set / unset $GEM_DEV variable)
 gdv() {
   local flag_var="GEM_DEV"
-  if env | grep -q $flag_var; then
+  if env | grep -q "^$flag_var="; then
     unset $flag_var
   else
     export $flag_var=true
