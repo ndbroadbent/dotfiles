@@ -72,3 +72,15 @@ alias 192='rvm use ruby-1.9.2'
 alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
+
+# Gem development shortcuts
+# Toggle between gem development and production mode
+# (Set / unset $GEM_DEV variable)
+gdv() {
+  local flag_var="GEM_DEV"
+  if env | grep -q $flag_var; then
+    unset $flag_var
+  else
+    export $flag_var=true
+  fi
+}
