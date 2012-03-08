@@ -73,6 +73,7 @@ alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
 
+
 # Gem development shortcuts
 # Toggle between gem development and production mode
 # (Set / unset $GEM_DEV variable)
