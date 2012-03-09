@@ -13,7 +13,7 @@ every 10.minutes do
   # - Set up new symlinks
   # - Update generated bashrc, git config, etc.
   # - Update this cron task
-  command "cd $DOTFILES_PATH && OVERWRITE_ALL=true rake install && whenever -f schedule.rb -w"
+  command "cd $DOTFILES_PATH && ./setup/symlinks.sh && ./setup/bashrc.sh && ./setup/git_config.sh && whenever -f schedule.rb -w"
 end
 
 # Update Travis CI build statuses for current branch of indexed git repos
