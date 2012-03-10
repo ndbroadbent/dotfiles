@@ -4,7 +4,7 @@ this_dir=$(pwd)
 
 IFS=" "
 
-bashrc_parts="auto_reload default functions aliases prompt tab_completion ruby_on_rails crossroads"
+bashrc_parts="auto_reload default functions aliases prompt tab_completion ruby_on_rails crossroads shell_fm_aliases"
 
 # Header
 cat > ~/.bashrc <<EOF
