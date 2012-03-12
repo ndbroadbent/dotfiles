@@ -1,12 +1,12 @@
 #!/bin/bash
 if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
 
+echo "== Setting up git config..."
+
 # If name was passed in ENV variable, use it
 if [ -z "$git_name" ]; then
   prompt_for_git
 fi
-
-echo "== Setting up git config..."
 
 # Add user to gitconfig
 cat > ~/.gitconfig <<EOF
