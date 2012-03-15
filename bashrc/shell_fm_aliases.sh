@@ -13,4 +13,4 @@ shellfm_cmd() {
 alias sinf='shellfm_cmd info "%t - %a  (%f)  |  Listening to %s"; echo'
 alias slov='shellfm_cmd love'
 alias sban='shellfm_cmd ban'
-alias sskp='shellfm_cmd skip'
+alias sskp='shellfm_cmd skip; sleep 1; echo -n "Now playing: "; sinf'
