@@ -30,7 +30,7 @@ every 30.minutes do
   command "export UPDATE_ALL_BRANCHES=true && git_index --batch-cmd update_travis_ci_status"
 end
 
-# Install gems dependencies via Bundler, for all indexed repos with a Gemfile.
+# Install gem dependencies via Bundler, for all indexed repos with a Gemfile.
 every 20.minutes do
   command "git_index --batch-cmd bundle_check_or_install"
 end
