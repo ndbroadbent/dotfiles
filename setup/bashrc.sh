@@ -33,6 +33,9 @@ cat >> ~/.bashrc <<EOF
 # Set bashrc autoreload variable at start
 export BASHRC_LAST_UPDATED="\$(bashrc_last_modified)"
 
+# Add bash tab completion from hub, if present
+[[ -s "$HOME/.hub.bash_completion" ]] && . "$HOME/.hub.bash_completion"
+
 # Update this file from GitHub
 alias pull_bashrc='cd $this_dir && git pull origin master && . bashrc_setup.sh && cd -'
 
