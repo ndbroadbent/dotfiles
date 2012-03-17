@@ -16,17 +16,21 @@ every 10.minutes do
   command "cd $DOTFILES_PATH && (./setup/symlinks.sh; ./setup/bashrc.sh; ./setup/git_config.sh; whenever -f schedule.rb -w)"
 end
 
+# Rebuild SCM Breeze index
+every 1.minute do
+  command "git_index --rebuild"
+end
+
 # Update Travis CI build statuses for current branch of indexed git repos
 every 3.minutes do
   command "git_index --batch-cmd update_travis_ci_status"
 end
-
 # Update Travis CI build statuses for all branches of indexed git repos
 every 30.minutes do
   command "export UPDATE_ALL_BRANCHES=true && git_index --batch-cmd update_travis_ci_status"
 end
 
-# Rebuild SCM Breeze index
-every 1.minute do
-  command "git_index --rebuild"
+# Install gems dependencies via Bundler, for all indexed repos with a Gemfile.
+every 20.minutes do
+  command "git_index --batch-cmd bundle_check_or_install"
 end

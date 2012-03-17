@@ -1,0 +1,10 @@
+#!/bin/bash
+# Checks for Gemfile, and installs bundle if there
+# are any unsatisfied gem dependens
+# ------------------------------------------------
+echo "in: $PWD"
+if [ -e Gemfile ]; then
+  bundle check || bundle install
+else
+  echo "no Gemfile"
+fi
