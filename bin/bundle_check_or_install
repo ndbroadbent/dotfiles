@@ -6,9 +6,8 @@
 # Use .rvmrc, or default ruby
 if [ -e .rvmrc ]; then . .rvmrc; else rvm default; fi
 
-echo "in: $PWD"
 if [ -e Gemfile ]; then
+  echo "in: $PWD"
   bundle check || bundle install
-else
-  echo "no Gemfile"
+  echo
 fi
