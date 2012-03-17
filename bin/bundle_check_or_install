@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/bin/bash -l
 # Checks for Gemfile, and installs bundle if there
 # are any unsatisfied gem dependens
 # ------------------------------------------------
+
+# Use .rvmrc, or default ruby
+if [ -e .rvmrc ]; then . .rvmrc; else rvm default; fi
+
 echo "in: $PWD"
 if [ -e Gemfile ]; then
   bundle check || bundle install
