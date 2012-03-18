@@ -29,6 +29,11 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
+for mod in x w r; do
+  alias -- "+$mod"="chmod +$mod"
+  alias -- "-$mod"="chmod -- -$mod"
+done
+
 # Aliases for scripts in ~/bin
 # ----------------------------
 alias cb="simple_clipboard"
