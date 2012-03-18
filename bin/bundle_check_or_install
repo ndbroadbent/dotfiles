@@ -7,7 +7,12 @@
 if [ -e .rvmrc ]; then . .rvmrc; else rvm default; fi
 
 if [ -e Gemfile ]; then
-  echo "in: $PWD"
-  bundle check || bundle install
-  echo
+  echo "----- in: $PWD"
+  if ! bundle check; then
+    if bundle install; then
+      notify-send "Bundle installed" "Updated gems for $(basename $PWD) ($(parse_ruby_version))"
+    else
+      notify-send "Bundle failed" "Could not update gem dependencies for $(basename $PWD) ($(parse_ruby_version))"
+    fi
+  fi
 fi
