@@ -88,7 +88,7 @@ set_ps1() {
 }
 
 # Set custom prompt
-PROMPT_COMMAND+='set_ps1;'
+autoreload_prompt_command+='set_ps1;'
 
 # Set GREP highlight color to lime green
 export GREP_COLOR='1;32'
@@ -96,7 +96,7 @@ export GREP_COLOR='1;32'
 # Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND+='echo -ne "\e]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
+    autoreload_prompt_command+='echo -ne "\e]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
     ;;
 *)
     ;;

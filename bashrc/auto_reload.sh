@@ -1,6 +1,10 @@
 # Reloads bashrc if any sourced files are changed
 # ------------------------------------------------
 
+# PROMPT_COMMAND can be corrupted if reloading is interrupted, so
+# use temp variable and set in `finalize_auto_reload` function
+export autoreload_prompt_command=""
+
 auto_reload_bashrc() {
   local recent_change="$(bashrc_last_modified)"
   if [ "$BASHRC_LAST_UPDATED" != "$recent_change" ]; then
@@ -20,6 +24,10 @@ finalize_auto_reload() {
   # Turn off 'source' recording
   unset -f source
   unalias .
+
+  # Set final PROMPT_COMMAND
+  export PROMPT_COMMAND="auto_reload_bashrc;$autoreload_prompt_command"
+  unset autoreload_prompt_command
 }
 
 # Records the list of files sourced from $HOME directory
@@ -29,6 +37,3 @@ source() {
 }
 alias .="source"
 export SOURCED_FILES="$HOME/.bashrc $DOTFILES_PATH/bashrc/auto_reload.sh"
-
-
-PROMPT_COMMAND="auto_reload_bashrc;$PROMPT_COMMAND"
