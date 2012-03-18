@@ -7,7 +7,7 @@
 # Add the following line to your crontab: (updates every 2 minutes)
 # */2 * * * * /bin/bash -c '. $HOME/.bashrc && git_index --rebuild && git_index --batch-cmd update_travis_ci_status'
 #
-
+ 
 if [ -e ".travis.yml" ]; then
   # Ensure hub gem is installed
   if ! gem list hub | grep -q "^hub "; then
@@ -16,8 +16,8 @@ if [ -e ".travis.yml" ]; then
   fi
 
   if type ruby > /dev/null 2>&1 && type travis-ci > /dev/null 2>&1; then
-    local stat_file=".travis_status~"
-    local tmp_stat_file="$stat_file"".tmp"
+    stat_file=".travis_status~"
+    tmp_stat_file="$stat_file"".tmp"
 
     # Ignore stat files from git repo
     git_ignore "$stat_file" ".git/info/exclude"
@@ -25,9 +25,9 @@ if [ -e ".travis.yml" ]; then
 
     # Either update all branches, or only current branch
     if [ "$UPDATE_ALL_BRANCHES" = "true" ]; then
-      local all_branches=$(\git branch -a)
-      # All branches on origin remote that have local copies
-      local branches=$(comm -12 <(echo "$all_branches" | \
+      all_branches=$(\git branch -a)
+      # All branches on origin remote that have copies
+      branches=$(comm -12 <(echo "$all_branches" | \
                                   sed "s/ *remotes\/origin\///;tm;d;:m;/^HEAD/d;" | sort) \
                                 <(echo "$all_branches" | \
                                   sed "/ *remotes\//d;s/^[\* ]*//" | sort))
@@ -35,15 +35,15 @@ if [ -e ".travis.yml" ]; then
       echo -n > "$tmp_stat_file"
     else
       # Only current branch
-      local branches="$(\git branch 2> /dev/null | sed "s/^\* \([^ ]*\)/\1/;tm;d;:m")"
+      branches="$(\git branch 2> /dev/null | sed "s/^\* \([^ ]*\)/\1/;tm;d;:m")"
       # Copy current file to temp file
       touch "$stat_file"
       cp -f "$stat_file" "$tmp_stat_file"
     fi
 
     for branch in $branches; do
-      local travis_output=$(travis-ci "$branch" 2>&1)
-      local status=""
+      travis_output=$(travis-ci "$branch" 2>&1)
+      status=""
       case "$travis_output" in
       *built\ OK*)    status="passed";;
       *failed*)       status="failed";;
