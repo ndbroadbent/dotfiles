@@ -10,7 +10,6 @@ bashrc_parts="auto_reload default functions aliases prompt tab_completion ruby_o
 cat > ~/.bashrc <<EOF
 # Export path of dotfiles repo
 export DOTFILES_PATH="$this_dir"
-export PROMPT_COMMAND=""
 
 EOF
 
