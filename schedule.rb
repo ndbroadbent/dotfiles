@@ -5,7 +5,8 @@
 
 every 10.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
-  command "git_index --update-all"
+  # Send notifications using notify-send
+  command "NOTIFY=true git_index --update-all"
 end
 
 every 10.minutes do
