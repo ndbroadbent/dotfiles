@@ -25,7 +25,10 @@ finalize_auto_reload() {
   unset -f source
   unalias .
 
-  # Set final PROMPT_COMMAND
+  # Initialize bashrc last updated timestamp
+  export BASHRC_LAST_UPDATED="$(bashrc_last_modified)"
+
+  # Finalize PROMPT_COMMAND
   export PROMPT_COMMAND="auto_reload_bashrc;$autoreload_prompt_command"
   unset autoreload_prompt_command
 }
