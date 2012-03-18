@@ -32,5 +32,7 @@ end
 
 # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
 every 20.minutes do
-  command "git_index --batch-cmd bundle_check_or_install"
+  logfile = File.expand_path("../log/bundle_install.log", __FILE__)
+  command "git_index --batch-cmd bundle_check_or_install > #{logfile} 2>&1"
 end
+
