@@ -3,7 +3,7 @@
 
 # Install this crontab with: whenever -f schedule.rb -w
 
-every 10.minutes do
+every 12.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   # Send notifications using notify-send
   command "export NOTIFY=true; git_index --update-all"
