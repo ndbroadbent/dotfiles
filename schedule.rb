@@ -6,7 +6,7 @@
 every 10.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   # Send notifications using notify-send
-  command "NOTIFY=true git_index --update-all"
+  command "export NOTIFY=true; git_index --update-all"
 end
 
 every 10.minutes do
@@ -28,7 +28,7 @@ every 3.minutes do
 end
 # Update Travis CI build statuses for all branches of indexed git repos
 every 30.minutes do
-  command "export UPDATE_ALL_BRANCHES=true && git_index --batch-cmd update_travis_ci_status"
+  command "export UPDATE_ALL_BRANCHES=true; git_index --batch-cmd update_travis_ci_status"
 end
 
 # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
