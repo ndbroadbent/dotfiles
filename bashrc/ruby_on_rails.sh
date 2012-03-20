@@ -3,7 +3,9 @@ alias gu="guard"
 alias gemdir='cd $GEM_HOME/gems'
 
 # -- bundler
-ensure_bundler() { if ! type bundle > /dev/null 2>&1; then gem install bundler; fi; }
+ensure_gem() { if ! gem list $1 | grep -q $1; then gem install $1; fi; }
+ensure_bundler() { ensure_gem bundler; }
+
 alias bi="ensure_bundler; bundle install"
 alias bu="ensure_bundler; bundle update"
 
