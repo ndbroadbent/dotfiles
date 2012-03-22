@@ -1,7 +1,3 @@
-alias r='rake'
-alias gu="guard"
-alias gemdir='cd $GEM_HOME/gems'
-
 # bundler
 ensure_gem() { if ! gem list $1 | grep -q $1; then gem install $1; fi; }
 alias bi="ensure_gem bundler; bundle install"
@@ -11,19 +7,21 @@ alias gmi="gem install"
 alias gml="gem list"
 alias gmb="gem build"
 
-# Use bundler for commands
-be() {
+# Use bundler for commands, if Gemfile is present
+bundle_exec_if_possible() {
   ensure_gem bundler
-  if find_in_cwd_or_parent Gemfile > /dev/null; then bundle exec "$@"; else /usr/bin/env "$@"; fi
+  if find_in_cwd_or_parent Gemfile > /dev/null; then
+    bundle exec "$@"
+  else
+    /usr/bin/env "$@"
+  fi
 }
+alias be="bundle_exec_if_possible"
 
-# Alias most rails commands to use the be() bundle exec wrapper
+# Alias most rails commands to use the bundle exec wrapper
 for c in cucumber rspec spec spork thin unicorn unicorn_rails; do
-  alias $c="be $c"
+  alias $c="bundle_exec_if_possible $c"
 done
-
-# Always run rake commands with --trace flag
-alias rake="be rake --trace"
 
 # Run rails commands on either 2.x and 3.x
 rails_cmd(){
@@ -64,10 +62,13 @@ alias retest="RAILS_ENV=test"
 alias reprod="RAILS_ENV=production"
 
 
-# Rake aliases
-alias rdbc="rake db:create --trace"
-alias rdbd="rake db:drop --trace"
-alias rdbm="rake db:migrate --trace"
+# Run all rake commands with bundle exec, and --trace flag
+alias rake="bundle_exec_if_possible rake --trace"
+alias r='rake'
+# Rake command aliases
+alias rdbc="rake db:create"
+alias rdbd="rake db:drop"
+alias rdbm="rake db:migrate"
 alias rsp="rake spec"
 alias rts="rake test"
 
@@ -78,6 +79,9 @@ alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
 alias jr='rvm use jruby'
 
+alias gemdir='cd $GEM_HOME/gems'
+
+alias gu="guard"
 
 # Gem development shortcuts
 # Toggle between gem development and production mode
