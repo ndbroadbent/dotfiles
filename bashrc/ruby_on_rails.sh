@@ -22,6 +22,7 @@ for c in cucumber rspec spec spork thin unicorn unicorn_rails; do
   alias $c="be $c"
 done
 
+# Always run rake commands with --trace flag
 alias rake="be rake --trace"
 
 # Run rails commands on either 2.x and 3.x
