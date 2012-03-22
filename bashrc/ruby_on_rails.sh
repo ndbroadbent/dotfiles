@@ -8,6 +8,7 @@ ensure_bundler() { ensure_gem bundler; }
 
 alias bi="ensure_bundler; bundle install"
 alias bu="ensure_bundler; bundle update"
+alias gi="gem install"
 
 # Use bundler for commands
 be() {
