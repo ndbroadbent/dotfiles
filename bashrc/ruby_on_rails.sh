@@ -57,7 +57,7 @@ done
 alias cdp='cap deploy'
 
 # RAILS_ENV aliases
-alias redev="RAILS_ENV=development"
+alias  redev="RAILS_ENV=development"
 alias retest="RAILS_ENV=test"
 alias reprod="RAILS_ENV=production"
 
