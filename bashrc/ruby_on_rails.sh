@@ -30,12 +30,12 @@ rails_cmd(){
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
 }
-alias rs="rails_cmd server"
-alias rsd="rails_cmd server -u"
-alias rst="rails_cmd server thin"
+alias   rs="rails_cmd server"
+alias  rsd="rails_cmd server -u"
+alias  rst="rails_cmd server thin"
 alias rstd="rails_cmd server thin -u"
-alias rc="rails_cmd console"
-alias rg="rails_cmd generate"
+alias   rc="rails_cmd console"
+alias   rg="rails_cmd generate"
 
 # Start passenger
 alias pst="passenger start"
