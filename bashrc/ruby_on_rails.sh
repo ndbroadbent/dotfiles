@@ -2,19 +2,18 @@ alias r='rake'
 alias gu="guard"
 alias gemdir='cd $GEM_HOME/gems'
 
-# -- bundler
+# bundler
 ensure_gem() { if ! gem list $1 | grep -q $1; then gem install $1; fi; }
-ensure_bundler() { ensure_gem bundler; }
-
-alias bi="ensure_bundler; bundle install"
-alias bu="ensure_bundler; bundle update"
+alias bi="ensure_gem bundler; bundle install"
+alias bu="ensure_gem bundler; bundle update"
+# rubygems
 alias gmi="gem install"
 alias gml="gem list"
 alias gmb="gem build"
 
 # Use bundler for commands
 be() {
-  ensure_bundler
+  ensure_gem bundler
   if find_in_cwd_or_parent Gemfile > /dev/null; then bundle exec "$@"; else /usr/bin/env "$@"; fi
 }
 
