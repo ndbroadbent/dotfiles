@@ -48,9 +48,9 @@ complete -o nospace -f cucumber
 # Capistrano aliases for each stage
 for stage in dev preview staging live; do
   char=`echo $stage | head -c 1`
-  alias c$char\d="cap  $stage deploy"
+  alias  c$char\d="cap $stage deploy"
   alias c$char\dm="cap $stage deploy:migrations"
-  alias c$char\r="cap  $stage revisions"
+  alias  c$char\r="cap $stage revisions"
   # Push, then deploy
   alias pc$char\d="git push; cap  $stage deploy"
 done
@@ -62,22 +62,22 @@ alias retest="RAILS_ENV=test"
 alias reprod="RAILS_ENV=production"
 
 
+# Rake aliases
+alias    r="rake"
 # Run all rake commands with bundle exec, and --trace flag
 alias rake="bundle_exec_if_possible rake --trace"
-alias r='rake'
-# Rake command aliases
 alias rdbc="rake db:create"
 alias rdbd="rake db:drop"
 alias rdbm="rake db:migrate"
-alias rsp="rake spec"
-alias rts="rake test"
+alias  rsp="rake spec"
+alias  rts="rake test"
 
 
 # RVM ruby versions
 alias 192='rvm use ruby-1.9.2'
 alias 187='rvm use ruby-1.8.7'
 alias 186='rvm use ruby-1.8.6'
-alias jr='rvm use jruby'
+alias  jr='rvm use jruby'
 
 alias gemdir='cd $GEM_HOME/gems'
 
