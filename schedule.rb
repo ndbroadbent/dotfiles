@@ -3,10 +3,10 @@
 
 # Install this crontab with: whenever -f schedule.rb -w
 
-every 10.minutes do
+every 12.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   # Send notifications using notify-send
-  command "export NOTIFY=true && git_index --update-all"
+  command "export NOTIFY=true; git_index --update-all"
 end
 
 every 10.minutes do
@@ -14,7 +14,7 @@ every 10.minutes do
   # - Set up new symlinks
   # - Update generated bashrc, git config, etc.
   # - Update this cron task
-  command "cd $DOTFILES_PATH && (./setup/symlinks.sh; ./setup/bashrc.sh; ./setup/git_config.sh; whenever -f schedule.rb -w)"
+  command "cd $DOTFILES_PATH && (./setup/symlinks.sh; ./setup/bashrc.sh; ./setup/git_config.sh; ensure_gem whenever && whenever -f schedule.rb -w)"
 end
 
 # Rebuild SCM Breeze index
@@ -23,12 +23,12 @@ every 1.minute do
 end
 
 # Update Travis CI build statuses for current branch of indexed git repos
-every 3.minutes do
+every 5.minutes do
   command "git_index --batch-cmd update_travis_ci_status"
 end
 # Update Travis CI build statuses for all branches of indexed git repos
 every 30.minutes do
-  command "export UPDATE_ALL_BRANCHES=true && git_index --batch-cmd update_travis_ci_status"
+  command "export UPDATE_ALL_BRANCHES=true; git_index --batch-cmd update_travis_ci_status"
 end
 
 # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.

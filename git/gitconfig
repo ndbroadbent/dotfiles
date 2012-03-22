@@ -25,6 +25,9 @@
 [rerere]
   enabled = true
 
+[push]
+  default = upstream
+
 [merge "bundleinstall"]
   name = runs bundle install to generate Gemfile.lock
   driver = "bash -l -c '[ -e .rvmrc ] && . .rvmrc; bundle install'"
