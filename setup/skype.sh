@@ -17,3 +17,6 @@ Name=Skype
 Comment=
 EOF
 
+
+# Run skype UI setup script.
+$DOTFILES_PATH/skype/configure_skype.sh
