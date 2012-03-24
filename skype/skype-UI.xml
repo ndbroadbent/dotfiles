@@ -1,0 +1,36 @@
+<UI>
+  <Notifications>
+    <Enable>
+      <Scripts>
+        <CallRingingIn>1</CallRingingIn>
+        <ChatIncoming>1</ChatIncoming>
+        <ChatIncomingInitial>1</ChatIncomingInitial>
+        <ContactAuthRequest>1</ContactAuthRequest>
+        <ContactOnline>1</ContactOnline>
+      </Scripts>
+    </Enable>
+    <Scripts>
+      <CallRingingIn>notify-send &#34;Incoming Call from %sname&#34; -i skype</CallRingingIn>
+      <ChatIncoming>notify-send &#34;Chat message received from %sname&#34; &#34;%smessage&#34; -i skype</ChatIncoming>
+      <ChatIncomingInitial>notify-send &#34;Chat message received from %sname&#34; &#34;%smessage&#34; -i skype</ChatIncomingInitial>
+      <ContactAuthRequest>notify-send &#34;Contact Request&#34; &#34;%sname would like to add you as a contact on Skype.&#34; -i skype</ContactAuthRequest>
+      <ContactOnline>notify-send &#34;Contact Signed In&#34; &#34;%sname is now online.&#34; -i skype</ContactOnline>
+    </Scripts>
+  </Notifications>
+  <Notify>
+    <Authreq>0</Authreq>
+    <Call>0</Call>
+    <Chat>0</Chat>
+    <Offline>0</Offline>
+    <Online>0</Online>
+  </Notify>
+  <Reminders>
+    <BirthdaysSeen></BirthdaysSeen>
+  </Reminders>
+  <TransferWindow>
+    <Height>240</Height>
+    <Width>480</Width>
+    <X>696</X>
+    <Y>272</Y>
+  </TransferWindow>
+</UI>
