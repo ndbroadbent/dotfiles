@@ -11,8 +11,8 @@
     </Enable>
     <Scripts>
       <CallRingingIn>notify-send &#34;Incoming Call from %sname&#34; -i skype</CallRingingIn>
-      <ChatIncoming>notify-send &#34;Chat message received from %sname&#34; &#34;%smessage&#34; -i skype</ChatIncoming>
-      <ChatIncomingInitial>notify-send &#34;Chat message received from %sname&#34; &#34;%smessage&#34; -i skype</ChatIncomingInitial>
+      <ChatIncoming>notify-send &#34;Chat message received&#34; &#34;from %sname&#34; -i skype</ChatIncoming>
+      <ChatIncomingInitial>notify-send &#34;%sname sent you a message&#34; &#34;%smessage&#34; -i skype</ChatIncomingInitial>
       <ContactAuthRequest>notify-send &#34;Contact Request&#34; &#34;%sname would like to add you as a contact on Skype.&#34; -i skype</ContactAuthRequest>
       <ContactOnline>notify-send &#34;Contact Signed In&#34; &#34;%sname is now online.&#34; -i skype</ContactOnline>
     </Scripts>
