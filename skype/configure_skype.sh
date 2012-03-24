@@ -21,7 +21,6 @@ fi
 
 echo "Setting up Skype libnotify notifications for $skype_username..."
 
-
 config_file="$HOME/.Skype/$skype_username/config.xml"
 ui_config="$DOTFILES_PATH/skype/skype-UI.xml"
 tmp_file=$(mktemp)
