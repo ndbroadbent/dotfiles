@@ -26,7 +26,7 @@
   enabled = true
 
 [push]
-  default = upstream
+  default = current
 
 [merge "bundleinstall"]
   name = runs bundle install to generate Gemfile.lock
