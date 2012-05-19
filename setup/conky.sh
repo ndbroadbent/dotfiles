@@ -40,7 +40,7 @@ fi
 mv /tmp/conkyrc ~/.conkycolors/conkyrc
 
 # Run final user-specific sed script. (Each of my machines need a slightly different layout.)
-if [ -e ~/.conkycolors.sed ]; then
+if ! [ -e ~/.conkycolors.sed ]; then
   cat > ~/.conkycolors.sed <<EOF
 s%gap_x [0-9]*%gap_x 50%g
 s%gap_y [0-9]*%gap_y 85%g
