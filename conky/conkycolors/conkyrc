@@ -113,6 +113,7 @@ ${voffset 14}${color0}${font Poky:size=13}w${font}${color}${goto 44}${voffset -1
 ${goto 44}Public IP: ${alignr}${color2}${execi 10800 /usr/share/conkycolors/bin/conkyIp}${color}\
 # |--Else, no network available
 ${else}${voffset 6}${color0}${font PizzaDude Bullets:size=12}4${font}${color}${goto 44}Network Unavailable${voffset 14}${endif}${endif}
+${if_existing @HOME@/.mobile_data_usage}${voffset 10}${color0}${font VariShapes Solid:size=14}O${font}${color}${goto 44}${voffset -2}Data Usage: ${font Droid Sans:style=Bold:size=9}${color1}${exec cat @HOME@/.mobile_data_usage}%${font}${alignr}${color2}${execbar cat @HOME@/.mobile_data_usage}${color}${endif}
 
 #############
 # - Verse - #
