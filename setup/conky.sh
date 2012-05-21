@@ -1,15 +1,15 @@
 #!/bin/bash
-if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;  
- 
-echo "== Setting up conky..."
+if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
 
-# Queue or install apt packages
-apt_queue_or_install "conky-all verse"
+echo "== Setting up conky..."
 
 # Install conky-colors from source
 if (which conky-colors | grep -q conky-colors); then
   echo "==== conky-colors is already installed."
 else
+  # Queue or install apt packages
+  apt_queue_or_install "conky-all verse"
+
   echo "==== Installing conky-colors from source..."
   wget http://gnome-look.org/CONTENT/content-files/92328-conky_colors-5.0.tar.gz -O /tmp/conky_colors.tar.gz
   pushd /tmp
