@@ -19,7 +19,7 @@ bundle_exec_if_possible() {
 alias be="bundle_exec_if_possible"
 
 # Alias most rails commands to use the bundle exec wrapper
-for c in cap cucumber rspec spec spork thin unicorn unicorn_rails; do
+for c in cap cucumber rspec spec spork tane thin unicorn unicorn_rails; do
   alias $c="bundle_exec_if_possible $c"
 done
 
