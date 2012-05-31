@@ -1,4 +1,7 @@
   <UI>
+    <Groups>
+      <ViewMode>3</ViewMode>
+    </Groups>
     <Notifications>
       <Enable>
         <Scripts>
@@ -6,6 +9,7 @@
           <ChatIncoming>1</ChatIncoming>
           <ChatIncomingInitial>1</ChatIncomingInitial>
           <ContactAuthRequest>1</ContactAuthRequest>
+          <ContactOffline>1</ContactOffline>
           <ContactOnline>1</ContactOnline>
         </Scripts>
       </Enable>
@@ -14,6 +18,7 @@
         <ChatIncoming>notify-send &#34;Chat message received&#34; &#34;from %sname&#34; -i skype</ChatIncoming>
         <ChatIncomingInitial>notify-send &#34;%sname sent you a message&#34; &#34;%smessage&#34; -i skype</ChatIncomingInitial>
         <ContactAuthRequest>notify-send &#34;Contact Request&#34; &#34;%sname would like to add you as a contact on Skype.&#34; -i skype</ContactAuthRequest>
+        <ContactOffline>notify-send &#34;Contact Logged Out&#34; &#34;%sname is now offline.&#34; -i skype</ContactOffline>
         <ContactOnline>notify-send &#34;Contact Signed In&#34; &#34;%sname is now online.&#34; -i skype</ContactOnline>
       </Scripts>
     </Notifications>
@@ -27,6 +32,12 @@
     <Reminders>
       <BirthdaysSeen></BirthdaysSeen>
     </Reminders>
+    <Sound>
+      <ContactOffline>0</ContactOffline>
+      <ContactOnline>0</ContactOnline>
+      <SkypeLogin>0</SkypeLogin>
+      <SkypeLogout>0</SkypeLogout>
+    </Sound>
     <TransferWindow>
       <Height>240</Height>
       <Width>480</Width>
