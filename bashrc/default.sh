@@ -38,7 +38,7 @@ fi
 
 # Default editors
 export EDITOR="vim"
-export GUI_EDITOR="geany"
+export GUI_EDITOR="sublime-text-2"
 
 # Set PATH so it includes user's private bin if it exists
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
