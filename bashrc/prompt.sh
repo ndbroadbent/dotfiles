@@ -20,7 +20,17 @@ parse_git_branch() {
 }
 
 parse_git_dirty() {
-  [ -n "$(\git status --short 2> /dev/null)" ] && echo "±"
+  local git_status="$(\git status --short --porcelain 2> /dev/null)"
+  if [ -n "$git_status" ]; then
+    # Default blue for only untracked files
+    local color="\e[1;34m"
+
+    if echo "$git_status" | grep -q '^[^?]'; then
+      # Red if not just untracked files.
+      local color="$_wrn_col"
+    fi
+    echo -e "\[$color\]±"
+  fi
 }
 
 # Returns the current ruby version.
@@ -69,7 +79,7 @@ set_ps1() {
   local gem_dev=`parse_gem_development`
   local ruby=`parse_ruby_version`
 
-  git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
+  git_str="\[$_git_col\]$git_branch$git_dirty"
   # Git repo & ruby version
   if [ -n "$git_branch" ] && [ -n "$ruby" ]; then
     env_str="\[$_env_col\][$git_str\[$_env_col\]|$ruby]"
