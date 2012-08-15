@@ -15,11 +15,16 @@ alias aka='ack-grep -a'
 alias aki='ack-grep -i'
 alias psg='ps ax | grep'
 alias sbrc="source ~/.bashrc"
-if type exec_git_expand_args > /dev/null 2>&1; then
-  alias e="exec_git_expand_args $GUI_EDITOR"
-else
-  alias e="$GUI_EDITOR"
-fi
+
+# Edit file function - if SCM Breeze is installed, expand numeric arguments
+function edit_file() {
+  if type exec_git_expand_args > /dev/null 2>&1; then
+    exec_git_expand_args "$GUI_EDITOR" "$@"
+  else
+    "$GUI_EDITOR" "$@"
+  fi
+}
+alias e="edit_file"
 
 alias ~='cd ~'
 alias -- -='cd -'
