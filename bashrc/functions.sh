@@ -11,6 +11,20 @@ gsed() {
   fi
 }
 
+# Replace all instances of a simple string in all files, as well as renaming any files
+total_replace() {
+  if [ -n "$3" ]; then
+    # Replace strings in file contents
+    gsed "$@"
+    # Replace strings in filenames
+    for file in $(find "$3" -type d \( -name .git -o -name tmp \) -prune -o -name "*anywhere*" -print); do
+      mv "$file" "${file/$1/$2}"
+    done
+  else
+    echo "== Usage: total_replace search_string replace_string [path]"
+  fi
+}
+
 
 # Test whether file exists in current or parent directories
 find_in_cwd_or_parent() {
