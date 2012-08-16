@@ -2,26 +2,44 @@
 ? () { echo "$*" | bc -l; }  # $ ? 1337 - 1295   => 42
 
 
-# Search and replace strings recursively in current dir
+# Search and replace strings recursively in dir
 gsed() {
-  if [ -n "$3" ]; then
-    egrep --exclude-dir=.git -lRZ "$1" $3 | xargs -0 -l sed -i -e "s%${1//\\/}%$2%g"
+  if [ -n "$2" ]; then
+    if [ -n "$3" ]; then local path="$3"; else local path="."; fi
+    egrep --exclude-dir=.git --exclude-dir=tmp -lRZ "$1" "$path" | xargs -0 -l sed -i -e "s%${1//\\/}%$2%g"
   else
-    echo "== Usage: gsed search_string replace_string [path]"
+    echo "== Usage: gsed search_string replace_string [path = .]"
   fi
 }
 
 # Replace all instances of a simple string in all files, as well as renaming any files
+# Use -c option to substitute both lowercase and capitalized search string
 total_replace() {
-  if [ -n "$3" ]; then
-    # Replace strings in file contents
-    gsed "$@"
-    # Replace strings in filenames
-    for file in $(find "$3" -type d \( -name .git -o -name tmp \) -prune -o -name "*anywhere*" -print); do
-      mv "$file" "${file/$1/$2}"
+  if [ -n "$2" ]; then
+    local search="$1"
+    local replace="$2"
+
+    if [ "$3" = "-c" ] || [ "$4" = "-c" ]; then
+      local lowercased=$(printf $search | sed 's/[^ _-]*/\L&/g')
+      local capitalized=$(printf $search | sed 's/[^ _-]*/\L\u&/g')
+      search="$lowercased $capitalized"
+    fi
+    if [ "$3" = "-c" ]; then  
+      # Set default path if path option skipped
+      local path="."
+    else
+      if [ -n "$3" ]; then local path="$3"; else local path="."; fi
+    fi
+
+    for search_string in $search; do
+      gsed "$search_string" "$replace" "$path"
+      # Replace strings in filenames (exclude tmp and git)
+      for file in $(find "$path" -type d \( -name .git -o -name tmp \) -prune -o -name "*$search_string*" -print); do
+        mv "$file" "${file/$search_string/$replace}"
+      done
     done
   else
-    echo "== Usage: total_replace search_string replace_string [path]"
+    echo "== Usage: total_replace search_string replace_string [path = .] [-c ? replaces both lower case and capitalized strings]"
   fi
 }
 
