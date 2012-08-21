@@ -6,23 +6,23 @@ echo -e "\n              Usage: \\\e[*;**(;**)m"
 echo -e   "            Default: \\\e[0m"
 blank_line="\e[0m\n     \e[0;30;40m$(printf "%41s")\e[0m"
 echo -e "$blank_line" # Top border
-for STYLE in 2 0 1 4 9; do
+for style in 2 0 1 4 9; do
   echo -en "     \e[0;30;40m "
   # Display black fg on white bg
-  echo -en "\e[${STYLE};30;47m${STYLE};30\e[0;30;40m "
-  for FG in $(seq 31 37); do
-      CTRL="\e[${STYLE};${FG};40m"
-      echo -en "${CTRL}"
-      echo -en "${STYLE};${FG}\e[0;30;40m "
+  echo -en "\e[${style};30;47m${style};30\e[0;30;40m "
+  for foreground in $(seq 31 37); do
+      ctrl="\e[${style};${foreground};40m"
+      echo -en "${ctrl}"
+      echo -en "${style};${foreground}\e[0;30;40m "
   done
   echo -e "$blank_line" # Separators
 done
 echo -en "     \e[0;30;40m "
 # Background colors
 echo -en "\e[0;37;40m*;40\e[0;30;40m \e[0m" # Display white fg on black bg
-for BG in $(seq 41 47); do
-    CTRL="\e[0;30;${BG}m"
-    echo -en "${CTRL}"
-    echo -en "*;${BG}\e[0;30;40m "
+for background in $(seq 41 47); do
+    ctrl="\e[0;30;${background}m"
+    echo -en "${ctrl}"
+    echo -en "*;${background}\e[0;30;40m "
 done
 echo -e "$blank_line" "\n" # Bottom border
