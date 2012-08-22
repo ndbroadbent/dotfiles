@@ -49,6 +49,8 @@ alias cbf="simple_clipboard <"
 alias cbs="simple_clipboard < ~/.ssh/id_rsa.pub"
 # Copy current working directory
 alias cbd="pwd | simple_clipboard"
+# Copy current git SHA-1
+alias cbg="git rev-parse --verify HEAD | simple_clipboard"
 
 # Apt
 # -------------------------------------------------
