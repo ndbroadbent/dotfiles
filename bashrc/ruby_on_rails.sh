@@ -71,6 +71,7 @@ alias rdbd="rake db:drop"
 alias rdbm="rake db:migrate"
 alias  rsp="rake spec"
 alias  rts="rake test"
+alias  rdp="rake deploy"
 
 
 # RVM ruby versions
