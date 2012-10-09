@@ -2,4 +2,5 @@
 --type-set=haml=.haml,.hamlc
 --type-set=sass=.sass,.scss
 --type-set=coffeescript=.coffee
+--type-set=handlebars=.hbs
 --ignore-dir=tmp/
