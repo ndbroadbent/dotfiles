@@ -6,7 +6,7 @@
 every 30.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   # Send notifications using notify-send
-  command "export NOTIFY=true; git_index --update-all"
+  command "source #{ENV['HOME']}/.bashrc; export NOTIFY=true; git_index --update-all"
 end
 
 every 10.minutes do
@@ -25,16 +25,16 @@ end
 
 # Rebuild SCM Breeze index
 every 1.minute do
-  command "git_index --rebuild"
+  command "source #{ENV['HOME']}/.bashrc; git_index --rebuild"
 end
 
 # Update Travis CI build statuses for current branch of indexed git repos
 every 10.minutes do
-  command "git_index --batch-cmd update_travis_ci_status"
+  command "source #{ENV['HOME']}/.bashrc; git_index --batch-cmd update_travis_ci_status"
 end
 
 # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
 every 1.hour do
-  command "git_index --batch-cmd bundle_check_or_install"
+  command "source #{ENV['HOME']}/.bashrc; git_index --batch-cmd bundle_check_or_install"
 end
 
