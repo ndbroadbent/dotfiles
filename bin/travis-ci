@@ -8,10 +8,12 @@ begin
   require 'rubygems'
   require 'json'
   require 'time'
-  require 'net/http'
+  require 'net/https'
+  require 'uri'
   require 'hub/context'
+  require 'hub/ssh_config'
 rescue LoadError
-  abort $!
+  abort $!.to_s
 end
 
 ## helper methods
@@ -19,7 +21,13 @@ end
 include Hub::Context
 
 def get(url)
-  case response = Net::HTTP.get_response(URI(url))
+  uri = URI(url)
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+  http.ca_path = '/etc/ssl/certs' if File.exists?('/etc/ssl/certs')
+
+  case response = http.request_get(uri.request_uri)
   when Net::HTTPSuccess then JSON.parse(response.body)
   when Net::HTTPNotFound then abort "error: project not found on Travis"
   else abort "error: Travis API returned status #{response.code}"
@@ -49,8 +57,7 @@ if local_commits = git_command("rev-list --cherry #{upstream}...")
 end
 
 ## talk to Travis
-
-builds = get('http://travis-ci.org/%s/builds.json' % current_project.name_with_owner)
+builds = get('https://travis-ci.org/%s/builds.json' % current_project.name_with_owner)
 
 if build = builds.find {|b| b['commit'] == pushed_rev }
   if build['result']
@@ -70,15 +77,18 @@ else
   when 'rails', 'spree' then current_project.owner
   else
     conf = '.travis.yml'
-    (File.exist?(conf) && File.read(conf) =~ /\blanguage:\s*(\w+)\b/) ?
-      (%w[java scala groovy clojure].include?($1) ? 'jvm' : $1) :
-      'common'
+    case lang = File.exist?(conf) && File.read(conf) =~ /\blanguage:\s*(\w+)\b/ && $1
+    when 'ruby' then 'common'
+    when 'java', 'scala', 'groovy', 'clojure' then 'jvm'
+    else
+      lang || 'common'
+    end
   end
 
   # check if build is waiting in the queue
-  if queue = get("http://travis-ci.org/jobs.json?state=created&queue=builds.#{queue_name}") and !queue.empty?
+  if queue = get("https://travis-ci.org/jobs.json?state=created&queue=builds.#{queue_name}") and !queue.empty?
     repo_id = builds.any? ? builds.first['repository_id'] :
-      get('http://travis-ci.org/%s.json' % current_project.name_with_owner)['id']
+      get('https://travis-ci.org/%s.json' % current_project.name_with_owner)['id']
 
     if queue.any? { |b| b['repository_id'] == repo_id }
       abort "builds are waiting in the queue"
