@@ -54,7 +54,7 @@ if [ -e ".travis.yml" ]; then
     fi
 
     for branch in $branches; do
-      travis_output=$(travis-ci "$branch" 2>&1)
+      travis_output=$(DEFAULT_TO_LATEST_BUILD=true travis-ci "$branch" 2>&1)
       status=""
       case "$travis_output" in
       *built\ OK*)    status="passed";;

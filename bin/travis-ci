@@ -58,8 +58,10 @@ end
 
 ## talk to Travis
 builds = get('https://travis-ci.org/%s/builds.json' % current_project.name_with_owner)
+build = builds.find {|b| b['commit'] == pushed_rev }
+build = builds.first if ENV['DEFAULT_TO_LATEST_BUILD']
 
-if build = builds.find {|b| b['commit'] == pushed_rev }
+if build
   if build['result']
     if build['result'] == 0
       puts "%s built OK." % upstream_name
