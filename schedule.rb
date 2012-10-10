@@ -3,7 +3,7 @@
 
 # Install this crontab with: whenever -f schedule.rb -w
 
-every 12.minutes do
+every 30.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   # Send notifications using notify-send
   command "export NOTIFY=true; git_index --update-all"
@@ -23,16 +23,12 @@ every 1.minute do
 end
 
 # Update Travis CI build statuses for current branch of indexed git repos
-every 5.minutes do
+every 10.minutes do
   command "git_index --batch-cmd update_travis_ci_status"
-end
-# Update Travis CI build statuses for all branches of indexed git repos
-every 30.minutes do
-  command "export UPDATE_ALL_BRANCHES=true; git_index --batch-cmd update_travis_ci_status"
 end
 
 # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
-every 20.minutes do
+every 60.minutes do
   logfile = File.expand_path("../log/bundle_install.log", __FILE__)
   command "git_index --batch-cmd bundle_check_or_install > #{logfile} 2>&1"
 end
