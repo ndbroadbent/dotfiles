@@ -1,15 +1,12 @@
 # Use this file to easily define all of your cron jobs.
 # Learn more: http://github.com/javan/whenever
-
+#
 # Install this crontab with: whenever -f schedule.rb -w
-
+#
 # 'Git index' jobs require SCM Breeze: https://github.com/ndbroadbent/scm_breeze
-job_type :git_index, <<-CMD.gsub(/\s{2,}/, ' ').strip
-  source #{ENV['HOME']}/.scm_breeze/scm_breeze.sh;
-  git_index --:task
-CMD
+job_type :git_index, "git_index --:task"
 
-
+# -----------------------------------------------------------------------
 every 30.minutes do
   # Fetch all remotes for indexed git repos, and fast-forward if possible
   # Send notifications using notify-send
