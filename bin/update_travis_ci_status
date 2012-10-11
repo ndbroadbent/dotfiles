@@ -7,8 +7,11 @@
 # Add the following line to your crontab: (updates every 2 minutes)
 # */2 * * * * /bin/bash -c '. $HOME/.bashrc && git_index --rebuild && git_index --batch-cmd update_travis_ci_status'
 #
+source "$DOTFILES_PATH/_shared_bin/functions.sh"
 
 if [ -e ".travis.yml" ]; then
+  rvmrc_or_default
+
   # Ensure hub gem is installed
   if ! gem list hub | grep -q "^hub "; then
     echo "Installing 'hub' for current gemset"
