@@ -4,9 +4,11 @@
 # ------------------------------------------------
 
 # Quit if previous bundle install failed
-if [ -e '.bundle_install_failed~' ]; then
-  if ! grep -q 'SILENT' '.bundle_install_failed~'; then
-    notify-send "Bundle aborted" "Previous bundle install failed for $(basename $PWD).\nPlease either fix this or run:\necho SILENT > \".bundle_install_failed~\"."
+SKIP_FILE=".skip_bundle_auto_install~"
+
+if [ -e "$SKIP_FILE" ]; then
+  if ! grep -q 'SILENT' "$SKIP_FILE"; then
+    notify-send "Bundle aborted" "Previous bundle install failed for $(basename $PWD).\nPlease either fix this or run:\necho SILENT > \"$SKIP_FILE\"."
   else
     echo "== ABORT: Previous bundle install failed for $(basename $PWD)."
   fi
@@ -27,9 +29,8 @@ if [ -e Gemfile ]; then
     else
       notify-send "Bundle failed" "Could not update gem dependencies for $(basename $PWD) ($(parse_ruby_version))"
       # Create a flag so that we don't keep retrying failed bundle installs
-      git_exclude '.bundle_install_failed~'
-      #touch '.bundle_install_failed~'
-      echo SILENT > '.bundle_install_failed~'
+      git_exclude "$SKIP_FILE"
+      touch "$SKIP_FILE"
     fi
   fi
 fi
