@@ -8,13 +8,6 @@
 # */2 * * * * /bin/bash -c '. $HOME/.bashrc && git_index --rebuild && git_index --batch-cmd update_travis_ci_status'
 #
 
-git_ignore() {
-  local f=".git/info/exclude"
-  if [ -n "$1" ] && ! ( [ -e $f ] && grep --color=auto -q "$1" $f ); then
-    echo "$1" >> $f;
-  fi
-}
-
 if [ -e ".travis.yml" ]; then
   # Ensure hub gem is installed
   if ! gem list hub | grep -q "^hub "; then
@@ -31,9 +24,9 @@ if [ -e ".travis.yml" ]; then
     stat_file=".travis_status~"
     tmp_stat_file="$stat_file"".tmp"
 
-    # Ignore stat files from git repo
-    git_ignore "$stat_file" ".git/info/exclude"
-    git_ignore "$tmp_stat_file" ".git/info/exclude"
+    # Exclude stat files from git repo
+    git_exclude "$stat_file"
+    git_exclude "$tmp_stat_file"
 
     # Either update all branches, or only current branch
     if [ "$UPDATE_ALL_BRANCHES" = "true" ]; then
