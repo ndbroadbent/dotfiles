@@ -2,7 +2,7 @@ source :rubygems
 
 gem "rake"
 gem "whenever"
-
+gem "i18n"
 
 # Gems for development with IRb
 # -----------------------------
