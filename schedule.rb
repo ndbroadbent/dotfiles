@@ -7,10 +7,9 @@
 job_type :git_index, "git_index --:task"
 
 # -----------------------------------------------------------------------
-every 30.minutes do
-  # Fetch all remotes for indexed git repos, and fast-forward if possible
-  # Send notifications using notify-send
-  git_index "update-all-with-notifications"
+every :minute do
+  # Rebuild SCM Breeze index
+  git_index "rebuild"
 end
 
 every 10.minutes do
@@ -27,18 +26,19 @@ every 10.minutes do
   CMD
 end
 
-# Rebuild SCM Breeze index
-every 1.minute do
-  git_index "rebuild"
-end
-
-# Update Travis CI build statuses for current branch of indexed git repos
 every 30.minutes do
+  # Fetch all remotes for indexed git repos, and fast-forward if possible
+  # Send notifications using notify-send
+  git_index "update-all-with-notifications"
+
+  # Update Travis CI build statuses for current branch of indexed git repos
   git_index "batch-cmd update_travis_ci_status"
 end
 
-# Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
-every 1.hour do
+every :hour do
+  # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
   git_index "batch-cmd bundle_check_or_install"
-end
 
+  # Cache rails commands for Rake, Capistrano, etc.
+  git_index "batch-cmd cache_rails_commands"
+end
