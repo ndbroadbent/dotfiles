@@ -1,0 +1,30 @@
+#!/bin/bash -l
+if type rvm > /dev/null 2>&1; then
+  # Use .rvmrc, or default ruby
+  if [ -e .rvmrc ]; then . .rvmrc; else rvm default; fi
+fi
+
+# Rake
+# -------------------------------------------------------
+for file in Rakefile rakefile Rakefile.rb rakefile.rb; do
+  if [ -e $file ]; then
+    CACHE_FILE=".cached_rake_commands~"
+    git_exclude "$CACHE_FILE"
+
+    # Fetch rake commands and store in CACHE_FILE
+    echo "Caching Rake commands for $(basename $(pwd))..."
+    rake -sT | cut -d ' ' -f 2 > "$CACHE_FILE"
+    break
+  fi
+done
+
+# Capistrano
+# -------------------------------------------------------
+if [ -e "config/deploy.rb" ]; then
+  CACHE_FILE=".cached_cap_commands~"
+  git_exclude "$CACHE_FILE"
+
+  # Fetch rake commands and store in CACHE_FILE
+  echo "Caching Capistrano commands for $(basename $(pwd))..."
+  cap -qvT | head -n -3 | cut -d ' ' -f 2 > "$CACHE_FILE"
+fi

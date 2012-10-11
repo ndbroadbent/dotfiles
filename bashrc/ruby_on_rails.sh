@@ -63,7 +63,7 @@ alias reprod="RAILS_ENV=production"
 
 
 # Rake aliases
-alias    r="rake"
+alias r="rake"
 # Run all rake commands with bundle exec, and --trace flag
 alias rake="bundle_exec_if_possible rake --trace"
 alias rdbc="rake db:create"
@@ -72,7 +72,6 @@ alias rdbm="rake db:migrate"
 alias  rsp="rake spec"
 alias  rts="rake test"
 alias  rdp="rake deploy"
-
 
 # RVM ruby versions
 alias 192='rvm use ruby-1.9.2'
@@ -95,3 +94,22 @@ gdv() {
     export $flag_var=true
   fi
 }
+
+
+# Tab completion for cached Rails commands (Rake, Capistrano, etc.)
+
+function _cached_task_completion() {
+  # Do nothing if cache file doesn't exist.
+  if ! [ -e "$1" ]; then return 0; fi
+  local cur
+  # Don't treat ':' as a word-break character
+  _get_comp_words_by_ref -n : cur
+  COMPREPLY=( $(compgen -W "$(cat "$1")" -- $cur) )
+  # Remove matches from LHS
+  __ltrim_colon_completions "$cur"
+}
+function _cached_rake_task_completion() { _cached_task_completion ".cached_rake_commands~"; }
+function _cached_cap_task_completion()  { _cached_task_completion ".cached_cap_commands~"; }
+
+complete -F _cached_rake_task_completion rake r
+complete -F _cached_cap_task_completion cap
