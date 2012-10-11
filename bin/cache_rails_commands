@@ -1,8 +1,9 @@
 #!/bin/bash -l
-if type rvm > /dev/null 2>&1; then
-  # Use .rvmrc, or default ruby
-  if [ -e .rvmrc ]; then . .rvmrc; else rvm default; fi
-fi
+source "$DOTFILES_PATH/_shared_bin/functions.sh"
+REVISION_FILE=".cached_rails_commands_revision~"
+
+abort_if_revision_unchanged "$REVISION_FILE"
+rvmrc_or_default
 
 # Rake
 # -------------------------------------------------------
@@ -28,3 +29,5 @@ if [ -e "config/deploy.rb" ]; then
   echo "Caching Capistrano commands for $(basename $(pwd))..."
   cap -qvT | head -n -3 | cut -d ' ' -f 2 > "$CACHE_FILE"
 fi
+
+store_current_revision "$REVISION_FILE"
