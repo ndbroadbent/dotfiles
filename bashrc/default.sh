@@ -44,4 +44,4 @@ export GUI_EDITOR="sublime-text-2"
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
 # This loads RVM into the shell session.
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
