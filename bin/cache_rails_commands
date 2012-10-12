@@ -1,20 +1,24 @@
-#!/bin/bash -l
+#!/bin/bash
 source "$DOTFILES_PATH/_shared_bin/functions.sh"
-REVISION_FILE=".cached_rails_commands_revision~"
+REVISION_FILE=".cached_tasks_revision~"
 
 abort_if_revision_unchanged "$REVISION_FILE"
-rvmrc_or_default
 
 # Rake
 # -------------------------------------------------------
 for file in Rakefile rakefile Rakefile.rb rakefile.rb; do
   if [ -e $file ]; then
-    CACHE_FILE=".cached_rake_commands~"
+    rvmrc_or_default
+    RVMRC_SETUP="true"
+
+    CACHE_FILE=".cached_rake_tasks~"
     git_exclude "$CACHE_FILE"
 
     # Fetch rake commands and store in CACHE_FILE
     echo "Caching Rake commands for $(basename $(pwd))..."
     rake -sT | cut -d ' ' -f 2 > "$CACHE_FILE"
+
+    store_current_revision "$REVISION_FILE"
     break
   fi
 done
@@ -22,12 +26,14 @@ done
 # Capistrano
 # -------------------------------------------------------
 if [ -e "config/deploy.rb" ]; then
-  CACHE_FILE=".cached_cap_commands~"
+  # Set up rvmrc if not already set up by rake tasks
+  if "$RVMRC_SETUP" != "true"; then rvmrc_or_default; fi
+  CACHE_FILE=".cached_cap_tasks~"
   git_exclude "$CACHE_FILE"
 
   # Fetch rake commands and store in CACHE_FILE
   echo "Caching Capistrano commands for $(basename $(pwd))..."
   cap -qvT | head -n -3 | cut -d ' ' -f 2 > "$CACHE_FILE"
-fi
 
-store_current_revision "$REVISION_FILE"
+  store_current_revision "$REVISION_FILE"
+fi

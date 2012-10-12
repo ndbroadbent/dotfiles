@@ -1,0 +1,98 @@
+#!/bin/bash
+source "$DOTFILES_PATH/_shared_bin/functions.sh"
+REVISION_FILE=".sdoc_revision~"
+
+abort_if_revision_unchanged "$REVISION_FILE"
+
+# Project must contain a Gemfile
+if ! [ -e Gemfile ]; then exit; fi
+
+rvmrc_or_default
+
+# Ensure sdoc gem is installed
+ensure_gem sdoc
+
+echo "Generating sdoc for $(pwd)..."
+echo "--------------------------------------------------------------------------------"
+
+project_name="$(basename $(pwd))"
+
+mkdir -p "$HOME/.sdoc/rubies/" "$HOME/.sdoc/gems/$RUBY_VERSION/"
+sdoc_paths=""
+sdoc_names=""
+
+# Build sdoc for the current project
+# ----------------------------------------------------------------
+sdoc --op "./tmp/sdoc"
+sdoc_names+="$project_name,"
+sdoc_paths+="./tmp/sdoc "
+
+# Build sdoc for current Ruby version (unless already generated)
+# ----------------------------------------------------------------
+ruby_rvm_dir="$HOME/.rvm/src/$RUBY_VERSION/"
+ruby_sdoc_dir="$HOME/.sdoc/rubies/$RUBY_VERSION"
+if ! [ -e "$ruby_sdoc_dir/index.html" ]; then
+  $(
+    cd "$ruby_rvm_dir"
+    if ! sdoc --op "$ruby_sdoc_dir"; then
+      echo "Could not generate sdoc for $RUBY_VERSION! Aborting..."
+      exit 1
+    fi
+  )
+else
+  echo "sdoc already generated for $RUBY_VERSION"
+fi
+
+sdoc_names+="ruby (${RUBY_VERSION#ruby-}),"
+sdoc_paths+="$ruby_sdoc_dir "
+
+# Fetch the list of required gems
+required_gems=$(bundle list | sed 1d | sed "s/\s*\* \([^ ]*\) (\([^) ]*\).*/\1-\2/")
+
+function add_gem_and_sdoc_path_if_index(){
+  if [ -e "$sdoc_dir/index.html" ]; then
+    gem_name=$(echo $1 | sed 's/\(.*\)-\([^-]*\)$/\1 (\2)/')
+    sdoc_names+="$gem_name,"
+    sdoc_paths+="$2 "
+  fi
+}
+
+# Build sdoc for each gem (unless already generated)
+# ----------------------------------------------------------------
+for gem in $required_gems; do
+  rvm_dir="$HOME/.rvm/gems/$RUBY_VERSION/gems/$gem"
+  sdoc_dir="$HOME/.sdoc/gems/$RUBY_VERSION/$gem"
+
+  if ! [ -e "$sdoc_dir/.sdoc_generated" ]; then
+    if [ -d "$rvm_dir" ]; then
+      if [ -e "$HOME/.sdoc/ignored_gems" ]; then
+        # Skip any ignored gems that cause problems with sdoc
+        if grep -q "^$gem$" "$HOME/.sdoc/ignored_gems"; then
+          echo "Skipping $gem - Ignored by ~/.sdoc/ignored_gems"
+          break
+        fi
+      fi
+
+      $(
+        cd "$rvm_dir"
+        echo "Generating sdoc for gem: $gem..."
+        if sdoc --op "$sdoc_dir"; then
+          touch "$sdoc_dir/.sdoc_generated"
+          add_gem_and_sdoc_path_if_index $gem $sdoc_dir
+        fi
+      )
+    fi
+  else
+    echo "sdoc already generated for gem: $gem"
+    add_gem_and_sdoc_path_if_index $gem $sdoc_dir
+  fi
+done
+
+# Merge all the generated sdocs together to provide complete project documentation
+mkdir -p "./tmp"
+pwd
+git_exclude "tmp/"  # Always exclude tmp dir, even if not in .gitignore
+rm -rf "./tmp/sdoc-merged"
+sdoc-merge --title "$project_name" --op './tmp/sdoc-merged' --names "$sdoc_names" $sdoc_paths
+
+store_current_revision "$REVISION_FILE"
