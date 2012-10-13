@@ -14,9 +14,9 @@ rvmrc_or_default() {
   if type rvm > /dev/null 2>&1; then
     # Use .rvmrc, or default ruby
     if [ -e .rvmrc ]; then
-      # Quit if ruby version not installed.
-      if ! source .rvmrc; then
-        echo "Aborting: source .rvmrc failed!"
+      if ! . .rvmrc; then
+        # Quit if ruby version not installed.
+        echo "Aborting: . .rvmrc failed!"
         exit
       fi
     else
