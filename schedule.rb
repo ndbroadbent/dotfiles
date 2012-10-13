@@ -42,18 +42,3 @@ every :hour do
   # Cache rails commands for Rake, Capistrano, etc.
   git_index "batch-cmd cache_rails_commands"
 end
-
-every 2.hours do
-  # Only run one sdoc generation at a time.
-  # The initial run for all your projects will take a really long time (a few hours),
-  # but subsequent runs will be much shorter.
-  # We need to use a lock file called GENERATING to ensure that tasks don't overlap.
-
-  command <<-CMD.gsub(/\s{2,}/, ' ').strip
-    mkdir -p $HOME/.sdoc &&
-    ! [ -e $HOME/.sdoc/GENERATING ] &&
-    touch $HOME/.sdoc/GENERATING &&
-    git_index --batch-cmd generate_sdoc;
-    rm -f $HOME/.sdoc/GENERATING
-  CMD
-end
