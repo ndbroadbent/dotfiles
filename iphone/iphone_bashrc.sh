@@ -5,7 +5,7 @@
 
 # 1) copy this file to /var/root/.bashrc
 # 2) Add this line to /etc/profile:
-#       source /var/root/.bashrc      
+#       source /var/root/.bashrc
 
 # -------------------------------------------------------
 # Prompt / Xterm
@@ -31,7 +31,7 @@ esac
 
 # -- bash
 
-alias ll='ls -l --color=auto'
+alias ll='ls -lh --color=auto'
 alias v='vim'
 function cs() { if [ $1 ]; then cd $1; fi && ll; }  # (c)hange directory & li(s)t contents
 alias ~='cd ~'
