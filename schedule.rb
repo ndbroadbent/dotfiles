@@ -22,7 +22,7 @@ every 10.minutes do
       ./setup/symlinks.sh;
       ./setup/bashrc.sh;
       ./setup/git_config.sh;
-      ensure_gem whenever && whenever -f schedule.rb -w)
+      ensure_gem whenever && whenever -f schedule.rb -i)
   CMD
 end
 
