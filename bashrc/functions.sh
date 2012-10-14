@@ -24,7 +24,7 @@ total_replace() {
       local capitalized=$(printf $search | sed 's/[^ _-]*/\L\u&/g')
       search="$lowercased $capitalized"
     fi
-    if [ "$3" = "-c" ]; then  
+    if [ "$3" = "-c" ]; then
       # Set default path if path option skipped
       local path="."
     else
@@ -59,6 +59,10 @@ fix_whitespace() {
   find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
 }
 
+# Rejustify the user/group/size columns after username/group is replaced with symbols
+rejustify_ls_columns(){
+  ruby -e "o=STDIN.read;re=/^(([^ ]* +){2})(([^ ]* +){3})/;u,g,s=o.lines.map{|l|l[re,3]}.compact.map(&:split).transpose.map{|a|a.map(&:size).max+1};puts o.lines.map{|l|l.sub(re){|m|\"%s%-#{u}s %-#{g}s%#{s}s \"%[\$1,*\$3.split]}}"
+}
 
 # Look busy
 random_hex() { for i in $(seq 1 2); do echo -n $(echo "obase=16; $(($RANDOM % 16))" | bc | tr '[A-Z]' '[a-z]'); done; }

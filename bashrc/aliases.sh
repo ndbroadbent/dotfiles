@@ -6,14 +6,12 @@
 # Before : -rw-rw-r-- 1 ndbroadbent ndbroadbent 1.1K Sep 19 21:39 scm_breeze.sh
 # After  : -rw-rw-r-- 1 𝐍  𝐍  1.1K Sep 19 21:39 scm_breeze.sh
 if [ -e $HOME/.user_sym ]; then
-  _sub_user_sym=" | sed \"s/$USER/\$(/bin/cat $HOME/.user_sym)/g\""
+  _ll_processor=" | sed \"s/$USER/\$(/bin/cat $HOME/.user_sym)/g\" | rejustify_ls_columns"
 fi
 
-alias l="ls -Cv --group-directories-first $_sub_user_sym"
-alias ll="ls -lhv --group-directories-first $_sub_user_sym"
-alias la="ls -lhvA --group-directories-first $_sub_user_sym"
-
-
+alias l="ls -Cv --group-directories-first"
+alias ll="ls -lhv --group-directories-first $_ls_processor"
+alias la="ls -lhvA --group-directories-first $_ls_processor"
 
 alias rmrf='rm -rf'
 alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
