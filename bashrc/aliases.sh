@@ -6,7 +6,7 @@
 # Before : -rw-rw-r-- 1 ndbroadbent ndbroadbent 1.1K Sep 19 21:39 scm_breeze.sh
 # After  : -rw-rw-r-- 1 𝐍  𝐍  1.1K Sep 19 21:39 scm_breeze.sh
 if [ -e $HOME/.user_sym ]; then
-  _ll_processor=" | sed \"s/$USER/\$(/bin/cat $HOME/.user_sym)/g\" | rejustify_ls_columns"
+  _ll_processor=" | sed \"s/ $USER/ \$(/bin/cat $HOME/.user_sym)/g\" | rejustify_ls_columns"
 fi
 
 alias l="ls -Cv --group-directories-first"
