@@ -108,8 +108,8 @@ function _cached_task_completion() {
   # Remove matches from LHS
   __ltrim_colon_completions "$cur"
 }
-function _cached_rake_task_completion() { _cached_task_completion ".cached_rake_commands~"; }
-function _cached_cap_task_completion()  { _cached_task_completion ".cached_cap_commands~"; }
+function _cached_rake_task_completion() { _cached_task_completion ".cached_rake_tasks~"; }
+function _cached_cap_task_completion()  { _cached_task_completion ".cached_cap_tasks~"; }
 
 complete -F _cached_rake_task_completion rake r
 complete -F _cached_cap_task_completion cap
