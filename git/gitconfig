@@ -7,7 +7,7 @@
   status = always
 
 [color "branch"]
-  current = yellow reverse
+  current = cyan bold
   local = yellow
   remote = green
 
