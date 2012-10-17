@@ -8,7 +8,7 @@ cat > ~/.start_dev_applications.sh <<EOF
 #!/bin/sh
 google-chrome &
 geany &
-if which gnome-terminal; then \$(gnome-terminal &); else \$(xfce4-terminal &); fi
+if which gnome-terminal > /dev/null; then \$(gnome-terminal &); else \$(xfce4-terminal &); fi
 EOF
 chmod +x ~/.start_dev_applications.sh
 
@@ -25,3 +25,18 @@ Name=Development Applications
 Comment=
 EOF
 
+
+# Start rescuetime (if installed)
+if which rescuetime > /dev/null; then
+  cat > ~/.config/autostart/rescuetime.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Exec=rescuetime
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_HK]=RescueTime
+Name=RescueTime
+Comment=
+EOF
+fi
