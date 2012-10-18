@@ -8,6 +8,9 @@
 # */2 * * * * /bin/bash -c '. $HOME/.bashrc && git_index --rebuild && git_index --batch-cmd update_travis_ci_status'
 #
 source "$DOTFILES_PATH/_shared_bin/functions.sh"
+REVISION_FILE=".travis_status_revision~"
+
+abort_if_revision_unchanged "$REVISION_FILE"
 
 if [ -e ".travis.yml" ]; then
   rvmrc_or_default
@@ -74,5 +77,7 @@ if [ -e ".travis.yml" ]; then
 
     # Replace current stat file with finished update
     mv -f "$tmp_stat_file" "$stat_file"
+
+    store_current_revision "$REVISION_FILE"
   fi
 fi
