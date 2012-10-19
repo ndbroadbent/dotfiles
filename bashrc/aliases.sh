@@ -69,6 +69,11 @@ apt-sd() { apt-cache search $1 | grep "lib.*dev "; } # Search for dev files
 alias apt-r='sudo apt-get remove'
 alias apt-a='sudo apt-get autoremove'
 
+# Git
+# -------------------------------------------------
+# Adds all changes to current commit and then force pushes.
+# Never use this on a team project!!
+alias GSTOMP='git add -A && git commit --amend -C HEAD && git push -f'
 
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
