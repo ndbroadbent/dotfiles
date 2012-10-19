@@ -37,17 +37,15 @@ else
   confirm_by_default "Git config" 'git_config'
   if [[ "$scripts" =~ "git_config" ]]; then prompt_for_git; fi # prompt for git user details
 
-  confirm_by_default "apt packages"                 'packages'
+  confirm_by_default "Apt packages"                 'packages'
   confirm_by_default "Dropbox"                      'dropbox'
   confirm_by_default "Skype"                        'skype'
-  confirm_by_default "Keepass 2"                    'keepass2'
-  confirm_by_default "bashrc, irbrc, ackrc, etc."   'bashrc'
+  confirm_by_default "Dotfiles (bashrc, etc.)"      'bashrc'
   confirm_by_default "SCM Breeze"                   'scm_breeze'
-  confirm_by_default "ruby config (dotfiles)"       'ruby_dotfiles'
-  confirm_by_default "vim customizations"           'vim'
-  confirm_by_default "gnome themes and fonts"       'gnome'
-  confirm_by_default "conky (system stats)"         'conky'
-  confirm_by_default "FF, term & gedit on startup"  'startup'
+  confirm_by_default "Vim customizations"           'vim'
+  confirm_by_default "Gnome themes and fonts"       'gnome'
+  confirm_by_default "Conky (system stats)"         'conky'
+  confirm_by_default "Chrome, terminal & editor on startup"  'startup'
   # Defines the point where script should install packages
   scripts+="apt-install "
   confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
@@ -65,8 +63,12 @@ for script in $scripts; do
   if [[ "$script" =~ "apt-install" ]]; then
     # Update sources and install apt packages
     # --------------------------------------------------------------
-    echo "== Updating apt sources..."
-    sudo apt-get update -qq
+    if ! [ -e "/tmp/dotfiles_apt_get_updated" ]; then
+      echo "== Updating apt sources..."
+      sudo apt-get update -qq
+      touch "/tmp/dotfiles_apt_get_updated"
+    fi
+
     echo "== Installing apt packages..."
     sudo apt-get install -ym $apt_packages | grep -v "is already the newest version"
     sudo apt-get autoremove -ym
@@ -83,6 +85,6 @@ echo -e "\n===== Ubuntu development machine has been set up!\n"
 echo -e "Further manual configuration may be needed:\n"
 echo "    Synergy - Copy your synergy conf to '/etc/synergy.conf' & add to startup:"
 echo "              synergys --config '/etc/synergy.conf'"
-echo "    Dropbox Symlinks - Run 'dropbox_links_setup.sh' after you have set up your Dropbox account."
+echo "    Dropbox Symlinks - Run './setup/dropbox_symlinks.sh' after you have set up your Dropbox account."
 echo
 
