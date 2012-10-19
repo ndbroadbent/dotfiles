@@ -42,6 +42,7 @@ else
   confirm_by_default "Skype"                        'skype'
   confirm_by_default "Keepass 2"                    'keepass2'
   confirm_by_default "bashrc, irbrc, ackrc, etc."   'bashrc'
+  confirm_by_default "SCM Breeze"                   'scm_breeze'
   confirm_by_default "ruby config (dotfiles)"       'ruby_dotfiles'
   confirm_by_default "vim customizations"           'vim'
   confirm_by_default "gnome themes and fonts"       'gnome'
@@ -51,12 +52,10 @@ else
   scripts+="apt-install "
   confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
   confirm_by_default "RVM Hooks (symlink to current gemset)" 'rvm_hooks'
-
-  echo -e "\n===== Thanks. Now executing 'rm -rf /'...       No, not really."
 fi
 
 scripts=`echo $scripts`  # Remove line-breaks
-echo -e "\n===== Now executing the following scripts:"
+echo -e "\n===== Executing the following scripts:"
 echo -e   "      [ $scripts ]\n"
 
 
