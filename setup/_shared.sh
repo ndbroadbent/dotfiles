@@ -56,7 +56,11 @@ if [ -z "$_shared_functions" ]; then
       if [[ "$0" =~ "dev_machine_setup.sh" ]]; then
         apt_packages+="$1 "
       else
-        sudo apt-get update
+        # Packages don't change that often, so one update per session is enough.
+        if ! [ -e "/tmp/dotfiles_apt_get_updated" ]; then
+          sudo apt-get update
+          touch "/tmp/dotfiles_apt_get_updated"
+        fi
         sudo apt-get install -ym $1
       fi
     else
