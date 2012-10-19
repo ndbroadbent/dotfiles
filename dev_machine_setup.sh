@@ -26,7 +26,6 @@ if [ "$1" = "--all" ]; then
   scripts="packages dropbox skype keepass2 bashrc git_config
            vim gnome conky startup apt-install rvm rvm_hooks "
   prompt_for_git
-  prompt_for_netrc
 
 # '--update' flag updates everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
@@ -37,8 +36,6 @@ elif [ "$1" = "--update" ]; then
 else
   confirm_by_default "Git config" 'git_config'
   if [[ "$scripts" =~ "git_config" ]]; then prompt_for_git; fi # prompt for git user details
-  confirm_by_default "~/.netrc"   'netrc'
-  if [[ "$scripts" =~ "netrc" ]]; then prompt_for_netrc; fi # prompt for git user details
 
   confirm_by_default "apt packages"                 'packages'
   confirm_by_default "Dropbox"                      'dropbox'
