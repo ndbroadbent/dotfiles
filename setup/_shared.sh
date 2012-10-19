@@ -37,14 +37,6 @@ if [ -z "$_shared_functions" ]; then
     fi
   }
 
-  function prompt_for_netrc() {
-    read -p "===== [.netrc config] Machine (default = code.crossroads.org.hk): " netrc_machine
-    if [ -z "$netrc_machine" ]; then netrc_machine="code.crossroads.org.hk"; fi
-    read -p "===== [.netrc config] Login: " netrc_login
-    stty -echo; read -p "===== [.netrc config] Password: " netrc_password; stty echo; echo
-  }
-
-
   # Packages
   # --------------------------------------------
   function apt_add_dependency() {
