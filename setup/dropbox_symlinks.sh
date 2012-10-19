@@ -10,8 +10,12 @@ ln -fs $HOME/Dropbox/Design $HOME/Design
 ln -fs $HOME/Dropbox/UbuntuSync/gtk-bookmarks $HOME/.gtk-bookmarks
 
 # Symlinks SSH configuration files from Dropbox
-mkdir -p $HOME/.ssh/
-for f in $HOME/Dropbox/UbuntuSync/ssh/*; do
-  rm -f "$HOME/.ssh/$(basename $f)"
-  ln -fs "$f" "$HOME/.ssh/"
-done
+if [ -d $HOME/Dropbox/UbuntuSync/ssh/ ]; then
+  mkdir -p $HOME/.ssh/
+  for f in $HOME/Dropbox/UbuntuSync/ssh/*; do
+    rm -f "$HOME/.ssh/$(basename $f)"
+    ln -fs "$f" "$HOME/.ssh/"
+  done
+else
+  echo "No directory at $HOME/Dropbox/UbuntuSync/ssh/"
+fi
