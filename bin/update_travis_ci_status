@@ -10,7 +10,24 @@
 source "$DOTFILES_PATH/_shared_bin/functions.sh"
 REVISION_FILE=".travis_status_revision~"
 
-abort_if_revision_unchanged "$REVISION_FILE"
+# Abort if no HEAD commit
+/usr/local/bin/git rev-parse HEAD > /dev/null 2>&1 || exit
+
+# Don't continue if revision hasn't changed since last time, and no builds are running.
+if [ -e "$REVISION_FILE" ]; then
+  if grep -q "$(/usr/local/bin/git rev-parse HEAD)" "$REVISION_FILE"; then
+    echo "No changes in $(pwd)"
+    if [ -e ".travis_status~" ]; then
+      if grep -q " running$" .travis_status~; then
+        echo "Checking running builds..."
+      else
+        exit
+      fi
+    else
+      exit
+    fi
+  fi
+fi
 
 if [ -e ".travis.yml" ]; then
   rvmrc_or_default
