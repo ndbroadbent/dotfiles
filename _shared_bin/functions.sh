@@ -4,6 +4,8 @@
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
+export GIT_BINARY=$(which git)
+
 ensure_gem () {
   if ! gem list $1 | grep --color=auto -q $1; then
     gem install $1;
@@ -27,11 +29,11 @@ rvmrc_or_default() {
 
 abort_if_revision_unchanged() {
   # Abort if no HEAD commit
-  /usr/local/bin/git rev-parse HEAD > /dev/null 2>&1 || exit
+  $GIT_BINARY rev-parse HEAD > /dev/null 2>&1 || exit
 
   # Don't continue if revision hasn't changed since last time.
   if [ -e "$1" ]; then
-    if grep -q "$(/usr/local/bin/git rev-parse HEAD)" "$1"; then
+    if grep -q "$($GIT_BINARY rev-parse HEAD)" "$1"; then
       echo "No changes in $(pwd)"
       exit
     fi
@@ -41,5 +43,5 @@ abort_if_revision_unchanged() {
 store_current_revision() {
   # Store current revision so we don't keep processing unchanged projects
   git_exclude "$1"
-  /usr/local/bin/git rev-parse HEAD > "$1"
+  $GIT_BINARY rev-parse HEAD > "$1"
 }
