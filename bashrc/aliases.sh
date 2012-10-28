@@ -73,7 +73,7 @@ alias apt-a='sudo apt-get autoremove'
 # -------------------------------------------------
 # Adds all changes to current commit and then force pushes.
 # Never use this on a team project!!
-alias GSTOMP='git add -A && git commit --amend -C HEAD && git push -f'
+alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
