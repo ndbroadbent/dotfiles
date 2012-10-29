@@ -20,7 +20,7 @@ bashrc_last_modified() {
 # Run this function at the end of your bashrc.
 finalize_auto_reload() {
   # Sort and clear duplicates from SOURCED_FILES
-  SOURCED_FILES=$(echo \$SOURCED_FILES | tr " " "\n" | sort | uniq | tr "\n" " ")
+  SOURCED_FILES=$(echo $SOURCED_FILES | tr " " "\n" | sort | uniq | tr "\n" " ")
   # Turn off 'source' recording
   unset -f source
   unalias .
