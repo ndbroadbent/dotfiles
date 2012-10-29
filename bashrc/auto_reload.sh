@@ -7,8 +7,8 @@ export autoreload_prompt_command=""
 
 auto_reload_bashrc() {
   local recent_change="$(bashrc_last_modified)"
-  if [ "$BASHRC_LAST_UPDATED" != "$recent_change" ]; then
-    export BASHRC_LAST_UPDATED="$recent_change"
+  if [ "$BASHRC_LAST_MODIFIED" != "$recent_change" ]; then
+    export BASHRC_LAST_MODIFIED="$recent_change"
     source $HOME/.bashrc
   fi
 }
@@ -26,7 +26,7 @@ finalize_auto_reload() {
   unalias .
 
   # Initialize bashrc last updated timestamp
-  export BASHRC_LAST_UPDATED="$(bashrc_last_modified)"
+  export BASHRC_LAST_MODIFIED="$(bashrc_last_modified)"
 
   # Finalize PROMPT_COMMAND
   export PROMPT_COMMAND="auto_reload_bashrc;$autoreload_prompt_command"
