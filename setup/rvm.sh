@@ -14,5 +14,5 @@ if [ -z `which rvm` ]; then
   rvm use 1.9.2 --default
 else
   echo "== Updating rvm..."
-  rvm get latest
+  rvm get stable
 fi
