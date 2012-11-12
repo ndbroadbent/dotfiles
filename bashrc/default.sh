@@ -39,6 +39,7 @@ fi
 # Default editors
 export EDITOR="vim"
 export GUI_EDITOR="sublime-text-2"
+export GEM_DEV_DIR="$HOME/code/gems"
 
 # Set PATH so it includes user's private bin if it exists
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
