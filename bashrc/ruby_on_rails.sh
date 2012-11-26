@@ -65,7 +65,7 @@ alias reprod="RAILS_ENV=production"
 # Rake aliases
 alias r="rake"
 # Run all rake commands with bundle exec, and --trace flag
-alias rake="bundle_exec_if_possible rake --trace stderr"
+alias rake="bundle_exec_if_possible rake"
 alias rdbc="rake db:create"
 alias rdbd="rake db:drop"
 alias rdbm="rake db:migrate"
