@@ -83,6 +83,10 @@ alias gemdir='cd $GEM_HOME/gems'
 
 alias gu="guard"
 
+alias vu="vagrant up"
+alias vs="vagrant ssh"
+alias vh="vagrant halt"
+
 # Gem development shortcuts
 # Toggle between gem development and production mode
 # (Set / unset $GEM_DEV variable)
