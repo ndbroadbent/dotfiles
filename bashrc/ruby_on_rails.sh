@@ -85,6 +85,7 @@ alias gu="guard"
 
 alias vu="vagrant up"
 alias vs="vagrant ssh"
+alias vr="vagrant reload"
 alias vh="vagrant halt"
 
 # Gem development shortcuts
