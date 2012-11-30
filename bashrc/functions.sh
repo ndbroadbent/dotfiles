@@ -56,7 +56,8 @@ find_in_cwd_or_parent() {
 
 # Strip whitespace from all ruby files in the current directory (and subdirectories)
 fix_whitespace() {
-  find . -not -path '.git' -iname '*.rb' -print0 | xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
+  find . -path './.git' -prune -o -path './tmp' -prune -o -path './public' -prune -o -print0 | \
+    xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
 }
 
 # Rejustify the user/group/size columns after username/group is replaced with symbols
