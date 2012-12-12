@@ -37,6 +37,12 @@ alias rstd="rails_cmd server thin -u"
 alias   rc="rails_cmd console"
 alias   rg="rails_cmd generate"
 
+# Aliases for running Rails on different ports
+for p in $(seq 1 9); do
+  alias "rs$p"="rails_cmd server -p 300$p"
+  alias "rsd$p"="rails_cmd server -u -p 300$p"
+done
+
 # Start passenger
 alias pst="passenger start"
 
