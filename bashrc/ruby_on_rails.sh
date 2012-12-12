@@ -74,10 +74,11 @@ alias  rts="rake test"
 alias  rdp="rake deploy"
 
 # RVM ruby versions
-alias 192='rvm use ruby-1.9.2'
-alias 187='rvm use ruby-1.8.7'
-alias 186='rvm use ruby-1.8.6'
-alias  jr='rvm use jruby'
+alias r193='rvm use 1.9.3'
+alias r192='rvm use 1.9.2'
+alias r187='rvm use 1.8.7'
+alias r186='rvm use 1.8.6'
+alias  rjr='rvm use jruby'
 
 alias gemdir='cd $GEM_HOME/gems'
 
