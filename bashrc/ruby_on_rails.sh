@@ -52,7 +52,7 @@ complete -o nospace -f cucumber
 
 
 # Capistrano aliases for each stage
-for stage in dev preview staging live; do
+for stage in staging production; do
   char=`echo $stage | head -c 1`
   alias  c$char\d="cap $stage deploy"
   alias c$char\dm="cap $stage deploy:migrations"
