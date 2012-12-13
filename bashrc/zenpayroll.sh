@@ -1,0 +1,1 @@
+export STE_DRB_URI=druby://localhost:3777
