@@ -54,10 +54,13 @@ find_in_cwd_or_parent() {
   return 1
 }
 
-# Strip whitespace from all ruby files in the current directory (and subdirectories)
+# Strip trailing whitespace, and ensure files end with a newline.
 fix_whitespace() {
-  find . -path './.git' -prune -o -path './tmp' -prune -o -path './public' -prune -o -print0 | \
-    xargs -0 sed -i -e 's/[[:space:]]*$//g' -e '${/^$/!s/$/\n/;}'
+  local exclude_dirs;
+  for d in .git tmp log public; do exclude_dirs+="-path './$d' -prune -o "; done
+  eval find . $exclude_dirs -type f | \
+  xargs file | grep -P "ASCII|UTF-8" | cut -d: -f1 | \
+  xargs -I % sh -c "{ rm % && awk 1 > %; } < %; sed -i % -e 's/[[:space:]]*$//g'"
 }
 
 # Rejustify the user/group/size columns after username/group is replaced with symbols
