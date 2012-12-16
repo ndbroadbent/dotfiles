@@ -56,6 +56,8 @@ for stage in staging production; do
   char=`echo $stage | head -c 1`
   alias  c$char\d="cap $stage deploy"
   alias c$char\dm="cap $stage deploy:migrations"
+  alias  c$char\l="cap $stage deploy:lock"
+  alias  c$char\u="cap $stage deploy:unlock"
   alias  c$char\r="cap $stage revisions"
   # Push, then deploy
   alias pc$char\d="git push; cap  $stage deploy"
