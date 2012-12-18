@@ -25,17 +25,34 @@ done
 
 # Run rails commands on either 2.x and 3.x
 rails_cmd(){
-  if [ -e ./script/rails ]; then ./script/rails $@
-  elif [ -e ./script/$1 ]; then ./script/$@
+  if [ -e ./script/rails ]; then bundle_install_wrapper rails $@
+  elif [ -e ./script/$1 ]; then bundle_install_wrapper ./script/$@
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
 }
 alias   rs="rails_cmd server"
 alias  rsd="rails_cmd server -u"
-alias  rst="rails_cmd server thin"
-alias rstd="rails_cmd server thin -u"
 alias   rc="rails_cmd console"
 alias   rg="rails_cmd generate"
+
+# If a bundler exits with status '7' (GemNotFound),
+# then run 'bundle install' and try again.
+bundle_install_wrapper() {
+  # Run command
+  eval "$@"
+  if [ $? = 7 ]; then
+    # If command crashes, try a bundle install
+    echo -e "\033[1;31m'$@' failed with exit code 7."
+    echo    "This probably means that your system is missing gems defined in your Gemfile."
+    echo -e "Executing 'bundle install'...\033[0m"
+    bundle install
+    # If bundle install was successful, try running command again.
+    if [ $? = 0 ]; then
+      echo "'bundle install' was successful. Retrying '$@'..."
+      eval "$@"
+    fi
+  fi
+}
 
 # Aliases for running Rails on different ports
 for p in $(seq 1 9); do
