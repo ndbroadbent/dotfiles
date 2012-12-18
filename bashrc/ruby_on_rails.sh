@@ -1,6 +1,6 @@
 # bundler
 ensure_gem() { if ! gem list $1 | grep -q $1; then gem install $1; fi; }
-alias bi="ensure_gem bundler; bundle install"
+alias b="ensure_gem bundler; bundle"
 alias bu="ensure_gem bundler; bundle update"
 # rubygems
 alias gmi="gem install"
