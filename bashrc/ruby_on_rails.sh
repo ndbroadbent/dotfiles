@@ -98,7 +98,12 @@ alias  rsp="rake spec"
 alias  rts="rake test"
 alias  rdp="rake deploy"
 
-# RVM ruby versions
+# RVM
+alias rvmi='rvm install'
+alias rvml='rvm list'
+alias rvmgl='rvm gemset list'
+alias rvmp='rvm pkg'
+# -- ruby versions
 alias r193='rvm use 1.9.3'
 alias r192='rvm use 1.9.2'
 alias r187='rvm use 1.8.7'
