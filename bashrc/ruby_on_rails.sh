@@ -11,7 +11,7 @@ alias gmb="gem build"
 bundle_exec_if_possible() {
   ensure_gem bundler
   if find_in_cwd_or_parent Gemfile > /dev/null; then
-    bundle exec "$@"
+    bundle_install_wrapper bundle exec "$@"
   else
     /usr/bin/env "$@"
   fi
@@ -34,6 +34,7 @@ alias   rs="rails_cmd server"
 alias  rsd="rails_cmd server -u"
 alias   rc="rails_cmd console"
 alias   rg="rails_cmd generate"
+alias  rgm="rails_cmd generate migration"
 
 # If a bundler exits with status '7' (GemNotFound),
 # then run 'bundle install' and try again.
