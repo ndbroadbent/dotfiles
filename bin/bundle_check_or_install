@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------------
 source "$DOTFILES_PATH/_shared_bin/functions.sh"
 REVISION_FILE=".bundle_auto_install_revision~"
+SKIP_FILE=".bundle_install_failed~"
 
 abort_if_revision_unchanged "$REVISION_FILE"
 
