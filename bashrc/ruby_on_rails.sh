@@ -25,7 +25,7 @@ done
 
 # Run rails commands on either 2.x and 3.x
 rails_cmd(){
-  if [ -e ./script/rails ]; then bundle_install_wrapper rails $@
+  if [ -e ./script/rails ]; then bundle_install_wrapper rails3_with_editor $@
   elif [ -e ./script/$1 ]; then bundle_install_wrapper ./script/$@
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
@@ -34,7 +34,8 @@ alias   rs="rails_cmd server"
 alias  rsd="rails_cmd server -u"
 alias   rc="rails_cmd console"
 alias   rg="rails_cmd generate"
-alias  rgm="rails_cmd generate migration"
+rge()     { rails_cmd generate "$@" --editor; }
+rgm()     { rails_cmd generate migration "$@" --editor; }
 
 # If a bundler exits with status '7' (GemNotFound),
 # then run 'bundle install' and try again.
