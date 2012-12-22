@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+#
+# Creates a repo on GitHub for the gemspec in the current directory
+#
+require 'rubygems'
+require 'hub'
+
+unless gemspec = Dir['*.gemspec'].first
+  raise "No gemspec in current directory!"
+end
+gem_name = gemspec[/(.*)\.gemspec$/, 1]
+
+load "#{gem_name}.gemspec"
+description = Gem::Specification.find_by_name(gem_name).description
+
+puts "Creating repo '#{gem_name}', with description: '#{description}'"
+Hub::Runner.execute('create', gem_name, '-d', description)
