@@ -15,7 +15,8 @@ pkg_ruby="build-essential openssl libreadline6 libreadline6-dev curl git-core zl
 pkg_dev="git-core git-gui gitk tig python"
 
 # Databases
-pkg_db="postgresql libpq-dev mysql-client libmysqlclient-dev sqlite3 libsqlite3-dev"
+export DEBIAN_FRONTEND=noninteractive  # Don't ask for mysql root password
+pkg_db="postgresql libpq-dev mysql-client mysql-server libmysqlclient-dev sqlite3 libsqlite3-dev"
 
 # Gnome (OS UI)
 pkg_gnome="libnotify-bin python-pyinotify python-webkit python-webkit-dev"
