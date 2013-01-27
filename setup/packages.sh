@@ -25,7 +25,7 @@ pkg_apps="vlc"
 
 # -----------------------------------------------------------------------------------
 # Queue or install apt packages
-apt_queue_or_install "$pkg_base $pkg_ruby $pkg_dev $pkg_gnome $pkg_apps"
+apt_queue_or_install "$pkg_base $pkg_ruby $pkg_dev $pkg_db $pkg_gnome $pkg_apps"
 
 # Add Canonical Partners repository
 sudo add-apt-repository "deb http://archive.canonical.com/ $ubuntu_codename partner"
