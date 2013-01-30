@@ -16,7 +16,7 @@ for file in Rakefile rakefile Rakefile.rb rakefile.rb; do
 
     # Fetch rake commands and store in CACHE_FILE
     echo "Caching Rake commands for $(basename $(pwd))..."
-    rake -sT | cut -d ' ' -f 2 > "$CACHE_FILE"
+    rake -P | grep "^rake" | sed 's/^rake //' > "$CACHE_FILE"
 
     store_current_revision "$REVISION_FILE"
     break
