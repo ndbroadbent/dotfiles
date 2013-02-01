@@ -1,6 +1,9 @@
 # Add file types
+--type-add=ruby=.rake,.feature
 --type-set=haml=.haml,.hamlc
 --type-set=sass=.sass,.scss
+--type-set=less=.less
 --type-set=coffeescript=.coffee
 --type-set=handlebars=.hbs
+--type-set=erb=.erb
 --ignore-dir=tmp/
