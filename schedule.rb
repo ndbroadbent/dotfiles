@@ -7,9 +7,14 @@
 job_type :git_index, "git_index --:task"
 
 # -----------------------------------------------------------------------
+# Rebuild SCM Breeze index
 every 1.minute do
-  # Rebuild SCM Breeze index
   git_index "rebuild"
+end
+
+# Stop Dropbox when connected to 3G AP
+every 1.minute do
+  command "cd $DOTFILES_PATH && ./bin/stop_dropbox_on_3G"
 end
 
 every 10.minutes do
