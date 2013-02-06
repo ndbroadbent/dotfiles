@@ -24,13 +24,13 @@ sudo true
 if [ "$1" = "--all" ]; then
   echo "== Setting up default environment..."
   scripts="packages dropbox skype keepass2 bashrc git_config
-           vim gnome conky startup apt-install rvm rvm_hooks "
+           gnome conky startup apt-install rvm rvm_hooks "
   prompt_for_git
 
 # '--update' flag updates everything that doesn't require user input
 elif [ "$1" = "--update" ]; then
   echo "== Running default update..."
-  scripts="packages bashrc rvm_hooks vim gnome conky startup apt-install "
+  scripts="packages bashrc rvm_hooks gnome conky startup apt-install "
 
 # If no flag given, ask user which scripts they would like to run.
 else
@@ -42,7 +42,6 @@ else
   confirm_by_default "Skype"                        'skype'
   confirm_by_default "Dotfiles (bashrc, etc.)"      'bashrc'
   confirm_by_default "SCM Breeze"                   'scm_breeze'
-  confirm_by_default "Vim customizations"           'vim'
   confirm_by_default "Gnome themes and fonts"       'gnome'
   confirm_by_default "Conky (system stats)"         'conky'
   confirm_by_default "Chrome, terminal & editor on startup"  'startup'
