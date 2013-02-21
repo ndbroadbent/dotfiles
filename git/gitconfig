@@ -28,6 +28,9 @@
 [push]
   default = current
 
+[pull]
+  rebase = true
+
 [merge "bundleinstall"]
   name = runs bundle install to generate Gemfile.lock
   driver = "bash -l -c '[ -e .rvmrc ] && . .rvmrc; bundle install'"
@@ -50,4 +53,3 @@
     end\n\
     File.open(%(%A), %(w)) {|f| f.write(b)}\n\
     exit 1 if b.include?(%(<)*%L)'"
-
