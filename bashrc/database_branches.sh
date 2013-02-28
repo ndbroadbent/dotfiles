@@ -14,7 +14,7 @@ add_branched_db() {
   fi
 
   # Add entry to branch index, so that DB_SUFFIX is exported when switching branches
-  echo "$branch $branched_db" >> $DATABASE_BRANCHES_FILE
+  echo "$branch" >> $DATABASE_BRANCHES_FILE
   echo "Added database branches entry for '$branch' branch."
 }
 
@@ -41,7 +41,7 @@ set_db_name_for_branch() {
   if [ -e $DATABASE_BRANCHES_FILE ]; then
     branch=$(parse_git_branch)
     if grep -q "^$branch" $DATABASE_BRANCHES_FILE; then
-      export DB_SUFFIX="$(grep "^$branch" $DATABASE_BRANCHES_FILE | cut -d" " -f2)"
+      export DB_SUFFIX="_$branch"
     else
       unset DB_SUFFIX
     fi
