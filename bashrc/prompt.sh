@@ -56,7 +56,7 @@ parse_travis_status() {
 }
 
 parse_branched_db_status() {
-  if [ -n "$DB_NAME" ]; then
+  if [ -n "$DB_SUFFIX" ]; then
     # Show that our current database is a unique snowflake
     echo "\[\e[01;35m\]❅ "
   fi
