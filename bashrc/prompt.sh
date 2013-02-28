@@ -55,9 +55,16 @@ parse_travis_status() {
   fi
 }
 
+parse_branched_db_status() {
+  if [ -n "$DB_NAME" ]; then
+    # Show that our current database is a unique snowflake
+    echo "\[\e[01;35m\]❅ "
+  fi
+}
+
 # When developing gems ($GEM_DEV is exported), display a hammer and pick
 parse_gem_development() {
-  if env | grep -q "^GEM_DEV="; then echo "\[\e[0;33m\]⚒ "; fi 
+  if env | grep -q "^GEM_DEV="; then echo "\[\e[0;33m\]⚒ "; fi
 }
 
 # Allow symbols to represent users & machines
@@ -76,6 +83,7 @@ set_ps1() {
   local git_branch=`parse_git_branch`
   local git_dirty=`parse_git_dirty`
   local trav_str=`parse_travis_status "$git_branch"`
+  local db_str=`parse_branched_db_status`
   local gem_dev=`parse_gem_development`
   local ruby=`parse_ruby_version`
 
@@ -93,8 +101,8 @@ set_ps1() {
     unset env_str
   fi
 
-  # < username >@< hostname > < current directory > < ci status > [< git branch >|< ruby version >]
-  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $trav_str$env_str$gem_dev\[$_chr_col\]\$ \[$_txt_col\]" 
+  # < username >@< hostname > < current directory > [< git branch >|< ruby version >] < ci status > < db status > < gem dev status >
+  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str$trav_str$db_str$gem_dev\[$_chr_col\]\$ \[$_txt_col\]"
 }
 
 # Set custom prompt
@@ -118,4 +126,3 @@ if [ -f /etc/debian_version ]; then
   shopt -s cdspell
   shopt -s autocd
 fi
-

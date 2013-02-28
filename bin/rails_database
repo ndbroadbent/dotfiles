@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'yaml'
+require 'erb'
+environment = ARGV[0] || 'development'
+key = ARGV[1] || 'database'
+if File.exists?('config/database.yml')
+  if env = YAML.load_file('config/database.yml')[environment]
+    if key == 'database'
+      ENV['DB_SUFFIX'] = ''
+      puts ERB.new(env['database']).result(binding)
+    else
+      puts env[key]
+    end
+  end
+end
