@@ -36,14 +36,14 @@ rm_branched_db() {
   fi
 }
 
-# Checks branch, and exports DB_NAME if there's a corresponding entry in DATABASE_BRANCHES_FILE
+# Checks branch, and exports DB_SUFFIX if there's a corresponding entry in DATABASE_BRANCHES_FILE
 set_db_name_for_branch() {
   if [ -e $DATABASE_BRANCHES_FILE ]; then
     branch=$(parse_git_branch)
     if grep -q "^$branch" $DATABASE_BRANCHES_FILE; then
-      export DB_NAME="$(grep "^$branch" $DATABASE_BRANCHES_FILE | cut -d" " -f2)"
+      export DB_SUFFIX="$(grep "^$branch" $DATABASE_BRANCHES_FILE | cut -d" " -f2)"
     else
-      unset DB_NAME
+      unset DB_SUFFIX
     fi
   fi
 }
