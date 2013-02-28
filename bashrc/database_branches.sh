@@ -42,10 +42,10 @@ set_db_name_for_branch() {
     branch=$(parse_git_branch)
     if grep -q "^$branch" $DATABASE_BRANCHES_FILE; then
       export DB_SUFFIX="_$branch"
-    else
-      unset DB_SUFFIX
+      return
     fi
   fi
+  unset DB_SUFFIX
 }
 
 # Add branch check to prompt command
