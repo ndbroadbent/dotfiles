@@ -36,6 +36,11 @@ rm_branched_db() {
   fi
 }
 
+reset_branched_db() {
+  rm_branched_db
+  add_branched_db
+}
+
 # Checks branch, and exports DB_SUFFIX if there's a corresponding entry in DATABASE_BRANCHES_FILE
 set_db_name_for_branch() {
   if [ -e $DATABASE_BRANCHES_FILE ]; then
