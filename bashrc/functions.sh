@@ -6,7 +6,7 @@
 gsed() {
   if [ -n "$2" ]; then
     if [ -n "$3" ]; then local path="$3"; else local path="."; fi
-    egrep --exclude-dir=.git --exclude-dir=tmp -lRZ "$1" "$path" | xargs -0 -l sed -i -e "s%${1//\\/}%$2%g"
+    egrep --exclude-dir=.git --exclude-dir=tmp --exclude-dir=log -lRZ "$1" "$path" | xargs -0 -l sed -i -e "s%${1//\\/}%$2%g"
   else
     echo "== Usage: gsed search_string replace_string [path = .]"
   fi
