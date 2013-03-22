@@ -34,8 +34,13 @@ total_replace() {
     for search_string in $search; do
       gsed "$search_string" "$replace" "$path"
       # Replace strings in filenames (exclude tmp and git)
-      for file in $(find "$path" -type d \( -name .git -o -name tmp \) -prune -o -name "*$search_string*" -print); do
-        mv "$file" "${file/$search_string/$replace}"
+      # Repeat until there are no move failures.
+      local repeat=true
+      while [ $repeat = true ]; do
+        repeat=false
+        for file in $(find "$path" -type d \( -name .git -o -name tmp -o -name log \) -prune -o -name "*$search_string*" -print); do
+          mv "$file" "${file/$search_string/$replace}" > /dev/null 2>&1 || repeat=true
+        done
       done
     done
   else
