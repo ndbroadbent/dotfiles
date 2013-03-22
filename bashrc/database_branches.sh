@@ -14,6 +14,7 @@ add_branched_db() {
   fi
 
   # Add entry to branch index, so that DB_SUFFIX is exported when switching branches
+  _rm_db_branch_entry "$branch"
   echo "$branch" >> $DATABASE_BRANCHES_FILE
   echo "Added database branches entry for '$branch' branch."
 }
@@ -28,11 +29,14 @@ rm_branched_db() {
     mysql -u $DATABASE_USER -e "DROP DATABASE IF EXISTS $branched_db;"
     echo "Dropped '$branched_db' database."
   fi
+  _rm_db_branch_entry "$branch"
+  echo "Deleted database branches entry for '$branch' branch."
+}
 
+_rm_db_branch_entry() {
   # Remove entry from branch index
   if [ -e $DATABASE_BRANCHES_FILE ]; then
-    sed "/^$branch/d" -i $DATABASE_BRANCHES_FILE
-    echo "Deleted database branches entry for '$branch' branch."
+    sed "/^$1/d" -i $DATABASE_BRANCHES_FILE
   fi
 }
 
