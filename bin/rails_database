@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'yaml'
 require 'erb'
+require 'active_support/core_ext/object/blank'
 environment = ARGV[0] || 'development'
 key = ARGV[1] || 'database'
 if File.exists?('config/database.yml')
