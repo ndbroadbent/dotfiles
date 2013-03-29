@@ -6,7 +6,7 @@ editor="sublime-text-2"
 open_in_editor() {
   # Strip ':in' from end of file, so we can double-click Ruby backtrace lines
   local file="${1%:in}"
-  # Strip column number and test for file existence
+  # Strip line number and test for file existence
   if [ -f "${file%:*}" ]; then
     eval "$editor" "$file"
     exit 0
