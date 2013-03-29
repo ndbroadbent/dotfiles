@@ -41,6 +41,9 @@ export EDITOR="vim"
 export GUI_EDITOR="sublime-text-2"
 export GEM_DEV_DIR="$HOME/code/gems"
 
+store_cwd() { pwd > ~/.cwd~; }
+autoreload_prompt_command+="store_cwd;"
+
 # Set PATH so it includes user's private bin if it exists
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
