@@ -1,0 +1,26 @@
+#!/bin/bash
+selected="$(xclip -o)"
+cwd_file="/home/$USER/.cwd~"
+editor="sublime-text-2"
+
+open_in_editor() {
+  # Strip ':in' from end of file,
+  # so we can double-click Ruby backtrace lines
+  local file="${1%:in}"
+  # Strip column number and test for file existence
+  if [ -f "${file%:*}" ]; then
+    eval "$editor" "$file"
+    exit 0
+  fi
+}
+
+# Attempt to open selection in editor
+open_in_editor "$selected"
+
+# Attempt to open <current_dir>/selection in editor
+if [ -e "$cwd_file" ]; then
+  cwd=$(cat "$cwd_file")
+  open_in_editor "$cwd/$selected"
+fi
+
+exit 1
