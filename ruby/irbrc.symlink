@@ -35,22 +35,6 @@ rescue Exception => err
   warn msg
 end
 
-
-require_with_bundler_fallback 'wirble' do
-  require 'wirble'
-  Wirble.init
-
-  colors = Wirble::Colorize.colors.merge({
-    :string => :red
-  })
-
-  Wirble::Colorize.colors = colors
-
-  Wirble.colorize
+require_with_bundler_fallback 'awesome_print', 'ap' do
+  AwesomePrint.irb!
 end
-
-require_with_bundler_fallback 'looksee' do
-  Looksee.default_width = 160
-end
-
-require_with_bundler_fallback 'awesome_print', 'ap'
