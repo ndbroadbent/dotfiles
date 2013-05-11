@@ -41,6 +41,11 @@ export EDITOR="vim"
 export GUI_EDITOR="sublime-text-2"
 export GEM_DEV_DIR="$HOME/code/gems"
 
+export GOROOT=$HOME/go
+export GOOS=linux
+export GOBIN="$HOME/go/bin"
+export PATH="$PATH:$GOBIN"
+
 store_cwd() { pwd > ~/.cwd~; }
 autoreload_prompt_command+="store_cwd;"
 
