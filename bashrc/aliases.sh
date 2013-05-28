@@ -25,7 +25,8 @@ alias aki='ack-grep -i'
 alias psg='ps ax | grep'
 alias sbrc="source ~/.bashrc"
 
-alias beep="play /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
+alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
+alias bark="mplayer /usr/share/sounds/gnome/default/alerts/bark.ogg  > /dev/null 2>&1"
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
 function edit_file() {
