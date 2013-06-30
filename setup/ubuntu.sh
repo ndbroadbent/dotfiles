@@ -76,3 +76,9 @@ gconftool-2 --type=string -s /apps/metacity/general/theme "Clearlooks"
 echo "==== Setting GL Slideshow image directory to ~/Dropbox/Wallpapers..."
 echo "imageDirectory: $HOME/Dropbox/Wallpapers" > ~/.xscreensaver
 
+ "==== Replacing notify-osd with notification-daemon..."
+sudo apt-get install -ym notification-daemon
+sudo mv /usr/lib/notify-osd/notify-osd /usr/lib/notify-osd/notify-osd-default
+sudo ln -s /usr/lib/notification-daemon/notification-daemon /usr/lib/notify-osd/notify-osd
+# kill notify-osd so that on reload it is replaced with notification-daemon
+killall -9 notify-osd
