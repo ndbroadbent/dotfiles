@@ -32,7 +32,7 @@ rails_cmd(){
   # Rails 4
   elif [ -e ./config.ru ] && grep -q Rails config.ru; then bundle_install_wrapper rails $@
   # Rails NOPE
-  else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
+  else echo "== I don't think this is a Rails application!"
   fi
 }
 alias   rs="rails_cmd server"
