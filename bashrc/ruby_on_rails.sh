@@ -23,7 +23,7 @@ for c in cap cucumber rspec spec spork tane thin unicorn unicorn_rails; do
   alias $c="bundle_exec_if_possible $c"
 done
 
-# Run rails commands on either 2.x and 3.x
+# Run Rails commands on any version
 rails_cmd(){
   # Rails 3
   if [ -e ./script/rails ]; then bundle_install_wrapper rails3_with_editor $@
@@ -31,7 +31,6 @@ rails_cmd(){
   elif [ -e ./script/$1 ]; then bundle_install_wrapper ./script/$@
   # Rails 4
   elif [ -e ./config.ru ] && grep -q Rails config.ru; then bundle_install_wrapper rails $@
-  # Rails NOPE
   else echo "== I don't think this is a Rails application!"
   fi
 }
