@@ -25,8 +25,13 @@ done
 
 # Run rails commands on either 2.x and 3.x
 rails_cmd(){
+  # Rails 3
   if [ -e ./script/rails ]; then bundle_install_wrapper rails3_with_editor $@
+  # Rails <= 2
   elif [ -e ./script/$1 ]; then bundle_install_wrapper ./script/$@
+  # Rails 4
+  elif [ -e ./config.ru ] && grep -q Rails config.ru; then bundle_install_wrapper rails $@
+  # Rails NOPE
   else echo "== Command not found. (Are you sure this is a rails 2.x or 3.x application?)"
   fi
 }
