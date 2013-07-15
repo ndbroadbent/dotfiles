@@ -19,11 +19,15 @@ alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 alias s='sudo'
 alias n='nautilus .'
 alias le="less"
+alias psg='ps ax | grep'
+alias sbrc="source ~/.bashrc"
+
 alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias aki='ack-grep -i'
-alias psg='ps ax | grep'
-alias sbrc="source ~/.bashrc"
+
+alias akr='ack-grep --type=ruby'
+alias akri='ack-grep -i --type=ruby'
 
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
 alias bark="mplayer /usr/share/sounds/gnome/default/alerts/bark.ogg  > /dev/null 2>&1"
