@@ -114,7 +114,7 @@ export GREP_COLOR='1;32'
 # Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    autoreload_prompt_command+='echo -ne "\e]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
+    #ßautoreload_prompt_command+='echo -ne "\e]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
     ;;
 *)
     ;;
