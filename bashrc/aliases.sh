@@ -22,6 +22,8 @@ alias le="less"
 alias psg='ps ax | grep'
 alias sbrc="source ~/.bashrc"
 
+which ack-grep || alias ack-grep="ack"
+
 alias ak='ack-grep'
 alias aka='ack-grep -a'
 alias aki='ack-grep -i'
