@@ -69,8 +69,8 @@ parse_gem_development() {
 
 # Allow symbols to represent users & machines
 user_symbol(){ [ -e $HOME/.user_sym ] && cat $HOME/.user_sym || echo "$USER"; }
-host_symbol(){ [ -e /home/.hostname_sym ] && cat /home/.hostname_sym || echo "$HOSTNAME"; }
-user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e /home/.hostname_sym ]) || echo "@"; }
+host_symbol(){ [ -e "$HOME/../.hostname_sym" ] && cat $HOME/../.hostname_sym || echo "$HOSTNAME"; }
+user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/../.hostname_sym" ]) || echo "@"; }
 
 # Set the prompt string (PS1)
 # Looks like this:
