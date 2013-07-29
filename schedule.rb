@@ -12,11 +12,6 @@ every 1.minute do
   git_index "rebuild"
 end
 
-# Stop Dropbox when connected to 3G AP
-every 1.minute do
-  command "cd $DOTFILES_PATH && ./bin/stop_dropbox_on_3G"
-end
-
 every 10.minutes do
   # Update dotfiles
   # - Set up new symlinks
