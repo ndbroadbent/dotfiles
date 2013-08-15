@@ -10,3 +10,4 @@
 --type-set=json=.json
 --type-set=yaml=.yml
 --ignore-dir=tmp/
+--ignore-dir=log/
