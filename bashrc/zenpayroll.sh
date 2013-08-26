@@ -8,3 +8,5 @@ export RUBYLIB=${RUBYLIB}:/Applications/RubyMine.app/rb/testing/patch/bdd:/Appli
 
 export ZPDEBUG_EDITOR_PATH=x-mine://open?file=/Users/ndbroadbent/code/zenpayroll/zenpayroll/
 export ZPDEBUG_ENABLED=1
+
+alias vste="pushd ~/code/zenpayroll; vagrant up; vagrant ssh -c \"ste_drb &\"; popd"
