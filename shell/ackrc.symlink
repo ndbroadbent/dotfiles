@@ -11,3 +11,4 @@
 --type-set=yaml=.yml
 --ignore-dir=tmp/
 --ignore-dir=log/
+--ignore-dir=public/capybara_test_assets/
