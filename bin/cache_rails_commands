@@ -33,7 +33,7 @@ if [ -e "config/deploy.rb" ]; then
 
   # Fetch rake commands and store in CACHE_FILE
   echo "Caching Capistrano commands for $(basename $(pwd))..."
-  cap -qvT | head -n -3 | cut -d ' ' -f 2 > "$CACHE_FILE"
+  cap -qvT | cap -qvT | tail -r | tail -n +4 | tail -r | cut -d ' ' -f 2 > "$CACHE_FILE"
 
   store_current_revision "$REVISION_FILE"
 fi
