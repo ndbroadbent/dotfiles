@@ -13,3 +13,5 @@ alias vste="pushd ~/code/zenpayroll; vagrant up; vagrant ssh -c \"\\cd /vagrant/
 
 # Reload ZP code (AJAX requests don't reload code)
 alias zpr="curl http://zenpayroll.dev:3000 > /dev/null"
+
+export CAPISTRANO_STAGES="staging sandbox production"
