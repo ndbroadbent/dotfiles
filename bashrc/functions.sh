@@ -1,12 +1,11 @@
 # Calculator
 ? () { echo "$*" | bc -l; }  # $ ? 1337 - 1295   => 42
 
-
-# Search and replace strings recursively in dir
+# Grep/Sed - Search and replace strings recursively in a given dir
 gsed() {
   if [ -n "$2" ]; then
     if [ -n "$3" ]; then local path="$3"; else local path="."; fi
-    egrep --exclude-dir=.git --exclude-dir=tmp --exclude-dir=log -lRZ "$1" "$path" | xargs -0 -l sed -i -e "s%${1//\\/}%$2%g"
+    egrep --exclude-dir=.git --exclude-dir=tmp --exclude-dir=log -lRZ "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
   else
     echo "== Usage: gsed search_string replace_string [path = .]"
   fi
