@@ -34,11 +34,3 @@ every 30.minutes do
   # Update Travis CI build statuses for current branch of indexed git repos
   git_index "batch-cmd update_travis_ci_status"
 end
-
-every :hour do
-  # Install gem dependencies via Bundler, for all indexed repos that contain a Gemfile.
-  git_index "batch-cmd bundle_check_or_install"
-
-  # Cache rails commands for Rake, Capistrano, etc.
-  git_index "batch-cmd cache_rails_commands"
-end

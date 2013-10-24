@@ -32,6 +32,9 @@ cat >> ~/.bashrc <<EOF
 # Add bash tab completion from hub, if present
 [[ -s "$HOME/.hub.bash_completion" ]] && . "$HOME/.hub.bash_completion"
 
+# This loads Rails Shell into the shell session.
+[[ -s "$HOME/.rails_shell/rails_shell.sh" ]] && . "$HOME/.rails_shell/rails_shell.sh"
+
 # Finalize auto_reload sourced files
 finalize_auto_reload
 EOF
