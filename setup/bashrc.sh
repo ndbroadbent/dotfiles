@@ -26,13 +26,16 @@ done
 # Footer
 cat >> ~/.bashrc <<EOF
 
-# This loads SCM Breeze into the shell session.
+# RVM
+[ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm"
+
+# SCM Breeze
 [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
 
-# Add bash tab completion from hub, if present
+# Hub tab completion
 [ -s "$HOME/.hub.bash_completion" ] && source "$HOME/.hub.bash_completion"
 
-# This loads Rails Shell into the shell session.
+# Rails Shell
 [ -s "$HOME/.rails_shell/rails_shell.sh" ] && source "$HOME/.rails_shell/rails_shell.sh"
 
 # Finalize auto_reload sourced files
