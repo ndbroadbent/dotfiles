@@ -5,7 +5,11 @@
 gsed() {
   if [ -n "$2" ]; then
     if [ -n "$3" ]; then local path="$3"; else local path="."; fi
-    egrep --exclude-dir=.git --exclude-dir=tmp --exclude-dir=log -lRZ "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
+      if type ack-grep > /dev/null 2>&1; then
+        ack-grep -l "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
+      else
+        egrep --exclude-dir=.git --exclude-dir=tmp --exclude-dir=log -lRZ "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
+      fi
   else
     echo "== Usage: gsed search_string replace_string [path = .]"
   fi
