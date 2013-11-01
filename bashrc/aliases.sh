@@ -17,6 +17,8 @@ alias rmrf='rm -rf'
 alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 
 alias s='sudo'
+alias ss='ssh'
+alias ss2='ssh -p2202'
 alias n='nautilus .'
 alias le="less"
 alias psg='ps ax | grep'
