@@ -81,6 +81,10 @@ apt-sd() { apt-cache search $1 | grep "lib.*dev "; } # Search for dev files
 alias apt-r='sudo apt-get remove'
 alias apt-a='sudo apt-get autoremove'
 
+# Mac
+# ---------------
+alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
+
 # Git
 # -------------------------------------------------
 # Adds all changes to current commit and then force pushes.
