@@ -71,6 +71,15 @@ fix_whitespace() {
   xargs -I % sh -c "{ rm % && awk 1 > %; } < %; sed -i % -e 's/[[:space:]]*$//g'"
 }
 
+ping() {
+  for host; do true; done # Set host as last argument
+  if grep -q "\(\t\| \)$host" /etc/hosts; then
+    echo -e "\033[33m/etc/hosts contains an entry for hostname: $host\033[0m"
+  fi
+  /sbin/ping "$@"
+}
+
+
 # Rejustify the user/group/size columns after username/group is replaced with symbols
 rejustify_ls_columns(){
   ruby -e "o=STDIN.read;re=/^(([^ ]* +){2})(([^ ]* +){3})/;u,g,s=o.lines.map{|l|l[re,3]}.compact.map(&:split).transpose.map{|a|a.map(&:size).max+1};puts o.lines.map{|l|l.sub(re){|m|\"%s%-#{u}s %-#{g}s%#{s}s \"%[\$1,*\$3.split]}}"
