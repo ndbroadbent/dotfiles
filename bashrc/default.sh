@@ -50,6 +50,9 @@ export GOOS=linux
 export GOBIN="$HOME/go/bin"
 export PATH="$PATH:$GOBIN"
 
+# Add /usr/local/sbin
+export PATH="$PATH:/usr/local/sbin"
+
 # Don't worry about /var/mail/ notifications
 unset MAILCHECK
 
