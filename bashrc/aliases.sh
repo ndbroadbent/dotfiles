@@ -37,6 +37,11 @@ alias akri='ack-grep -i --type=ruby'
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
 alias bark="mplayer /usr/share/sounds/gnome/default/alerts/bark.ogg  > /dev/null 2>&1"
 
+if [ "$(uname)" = Darwin ]; then
+  alias beep="afplay /System/Library/Sounds/Glass.aiff"
+  alias bark="afplay /System/Library/Sounds/Submarine.aiff"
+fi
+
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
 function edit_file() {
   if type exec_scmb_expand_args > /dev/null 2>&1; then
