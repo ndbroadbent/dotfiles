@@ -16,3 +16,11 @@ alias vste="pushd ~/code/zenpayroll; vagrant up; vagrant ssh -c \"\\cd /vagrant/
 alias zpr="curl http://zenpayroll.dev:3000 > /dev/null"
 
 export CAPISTRANO_STAGES="staging sandbox production"
+
+setup_leeroy_tunnel() {
+  while true; do
+    ssh -L 3777:localhost:3777 leeroy "echo 'Connected to leeroy'; while true; do sleep 60; done"
+    echo 'Connection lost, retrying... (press ctrl-c to quit)'
+    sleep 10
+  done
+}
