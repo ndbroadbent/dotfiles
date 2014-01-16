@@ -14,7 +14,8 @@ auto_reload_bashrc() {
 }
 
 bashrc_last_modified() {
-  find $SOURCED_FILES -type f -printf '%T@ %p\n' | sort -n | tail -1
+  if type gfind > /dev/null 2>&1; then FIND_BIN='gfind'; else FIND_BIN='find'; fi
+  $FIND_BIN $SOURCED_FILES -type f -printf '%T@ %p\n' | sort -n | tail -1
 }
 
 # Run this function at the end of your bashrc.
