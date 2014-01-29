@@ -12,8 +12,8 @@ fi
 # Symlink any files with .symlink extension
 for file in **/*.symlink; do 
   target="$HOME/.$(basename ${file/.symlink})"
-  ln -fs "$(readlink -f $file)" "$target"
+  ln -fs "$(greadlink -f $file)" "$target"
 done
 
 # Symlink ./bin to home directory
-ln -fs "$(readlink -f bin)" "$HOME"
+ln -fs "$(greadlink -f bin)" "$HOME"
