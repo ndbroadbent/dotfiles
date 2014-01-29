@@ -51,6 +51,31 @@ total_replace() {
   fi
 }
 
+timer() {
+  if [ -z "$1" ]; then
+    echo "Usage: timer <time> <message (or blank for random message)>"
+    echo "E.g. timer 5s"
+    echo "E.g. timer 10m \"The pizza is ready\""
+    return 1
+  fi
+
+  message="$2"
+  # Pick a random message if not provided
+  if [ -z "$message" ]; then
+    messages[0]="The time is now, do that thing."
+    messages[1]="Do that thing that you need to do."
+    messages[2]="The task is at hand. Godspeed."
+    messages[3]="Time is short, you must act now."
+    messages[4]="Sir, it is time."
+    messages[5]="The timer has spoken, your destiny awaits."
+    messages[6]="Do what you came here to do."
+    messages[7]="What has been planned must now be executed."
+    rand=$[ $RANDOM % 8 ]
+    message="${messages[$rand]}"
+  fi
+
+  (gsleep $1 && beep && say "$message") &
+}
 
 # Test whether file exists in current or parent directories
 find_in_cwd_or_parent() {
