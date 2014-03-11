@@ -10,7 +10,7 @@ ruby -e 's="#{ENV["HOME"]}/.ssh/config";File.write(s,File.read(s).sub(/### BEGIN
 echo -e "\n\n### BEGIN zp.int hosts ###\n" >> ~/.ssh/config
 for h in $(host -l zp.int | tail -n+2 | cut -f 1 -d' ' | sed "s/\.zp\.int//g" | grep -v "zp-"); do
   # Append host and port
-  echo -e "Host $h\n  Port 2202" >> ~/.ssh/config
+  echo -e "Host $h\n  Port 2202\nHost $h.zp.int\n  Port 2202" >> ~/.ssh/config
 done
 # End hosts block
 echo -e "\n### END zp.int hosts ###" >> ~/.ssh/config
