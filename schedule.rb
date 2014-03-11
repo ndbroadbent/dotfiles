@@ -34,3 +34,7 @@ every 30.minutes do
   # Update Travis CI build statuses for current branch of indexed git repos
   git_index "batch-cmd update_travis_ci_status"
 end
+
+every 10.minutes do
+  command "refresh_zpint_hosts"
+end
