@@ -19,8 +19,8 @@ export CAPISTRANO_STAGES="staging sandbox production"
 
 setup_leeroy_tunnel() {
   while true; do
-    ssh -L 3777:localhost:3777 leeroy "echo 'Connected to leeroy'; while true; do sleep 60; done"
-    echo 'Connection lost, retrying... (press ctrl-c to quit)'
-    sleep 10
+    ssh -L 3777:localhost:3777 -N leeroy
+    echo 'Connection lost, retrying... (press Ctrl-C to quit)'
+    sleep 2
   done
 }
