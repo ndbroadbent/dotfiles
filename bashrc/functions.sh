@@ -51,6 +51,10 @@ total_replace() {
   fi
 }
 
+pwgen() {
+  ruby -e "require 'securerandom'; puts SecureRandom.hex(${1:-16})"
+}
+
 timer() {
   if [ -z "$1" ]; then
     echo "Usage: timer <time> <message (or blank for random message)>"

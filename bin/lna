@@ -7,7 +7,7 @@
 # path to targets that exist
 for ARG in $@
 do
-  if [ -e $ARG ]; then
+  if [ -e $ARG ] && [[ $ARG != /* ]]; then
     LNARGS="${LNARGS} ${PWD}/${ARG}";
   else
     LNARGS="${LNARGS} ${ARG}";
