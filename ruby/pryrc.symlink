@@ -2,12 +2,7 @@
 Pry.config.editor = "sublime"
 
 # format prompt to be <Rails version>@<ruby version>(<object>)>
-Pry.config.prompt = proc do |obj, level, _|
-  prompt = ""
-  prompt << "#{Rails.version} \e[0;32m| \e[2;32m" if defined?(Rails)
-  prompt << "#{RUBY_VERSION}"
-  "\e[2;32m#{prompt} \e[2;37m(#{obj})> \e[0m"
-end
+Pry.config.prompt = Pry::DEFAULT_PROMPT
 
 # use awesome print for all objects in pry
 begin
