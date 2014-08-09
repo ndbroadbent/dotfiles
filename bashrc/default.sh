@@ -45,10 +45,11 @@ export EDITOR="vim"
 export GUI_EDITOR="sublime"
 export GEM_DEV_DIR="$HOME/code/gems"
 
-export GOROOT=$HOME/go
-export GOOS=linux
-export GOBIN="$HOME/go/bin"
-export PATH="$PATH:$GOBIN"
+# Golang
+# export GOROOT=$HOME/go
+# export GOOS=linux
+# export GOBIN="$HOME/go/bin"
+# export PATH="$PATH:$GOBIN"
 
 # Add /usr/local/sbin
 export PATH="$PATH:/usr/local/sbin"
