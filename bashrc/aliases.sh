@@ -96,6 +96,8 @@ alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 # Never use this on a team project!!
 alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 
+alias pv="pivotal"
+
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
 if [ -f ~/.bash_aliases ]; then
