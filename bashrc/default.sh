@@ -50,6 +50,7 @@ export GEM_DEV_DIR="$HOME/code/gems"
 # export GOOS=linux
 # export GOBIN="$HOME/go/bin"
 # export PATH="$PATH:$GOBIN"
+export GOPATH="/Users/ndbroadbent/code/go"
 
 # Add /usr/local/sbin
 export PATH="$PATH:/usr/local/sbin"
