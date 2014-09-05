@@ -19,6 +19,7 @@ alias vste="pushd ~/code/zenpayroll; vagrant up; vagrant ssh -c \"\\cd /vagrant/
 alias zpr="curl http://zenpayroll.dev:3000 > /dev/null"
 
 alias z="cd ~/code/zenpayroll/zenpayroll"
+alias zs="cd ~/code/zenpayroll/zensa"
 
 export CAPISTRANO_STAGES="staging sandbox production"
 
