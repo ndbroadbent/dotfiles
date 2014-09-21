@@ -42,7 +42,7 @@ fi
 
 # Default editors
 export EDITOR="vim"
-export GUI_EDITOR="sublime"
+export GUI_EDITOR="subl"
 export GEM_DEV_DIR="$HOME/code/gems"
 
 # Golang
