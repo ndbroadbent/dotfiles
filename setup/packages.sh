@@ -3,6 +3,7 @@ brew install binutils
 brew install diffutils
 brew install ed --default-names
 brew install findutils --default-names
+brew install coreutils --default-names
 brew install gawk
 brew install gnu-indent --default-names
 brew install gnu-sed --default-names
