@@ -1,32 +1,39 @@
 #!/bin/bash
-if [ "$(basename $(pwd))" = "setup" ]; then . _shared.sh; else . setup/_shared.sh; fi;
-echo "== Setting up default software packages..."
+brew install binutils
+brew install diffutils
+brew install ed --default-names
+brew install findutils --default-names
+brew install gawk
+brew install gnu-indent --default-names
+brew install gnu-sed --default-names
+brew install gnu-tar --default-names
+brew install gnu-which --default-names
+brew install gnutls --default-names
+brew install grep --default-names
+brew install gzip
+brew install screen
+brew install watch
+brew install wdiff --with-gettext
+brew install wget
+brew install ack
 
-# -----------------------------------------------------------------------------------
-# Base
-pkg_base="curl vim htop tmux ack-grep xclip ssh synergy"
+brew install bash
+brew install emacs
+brew install gdb  # gdb requires further actions to make it work. See `brew info gdb`.
+brew install gpatch
+brew install m4
+brew install make
+brew install nano
 
-# Ruby requirements
-pkg_ruby="build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev \
-          libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev \
-          ncurses-dev automake libtool bison subversion pkg-config"
-
-# Development
-pkg_dev="git-core git-gui gitk tig python"
-
-# Databases
-export DEBIAN_FRONTEND=noninteractive  # Don't ask for mysql root password
-pkg_db="postgresql libpq-dev mysql-client mysql-server libmysqlclient-dev sqlite3 libsqlite3-dev"
-
-# Gnome (OS UI)
-pkg_gnome="libnotify-bin python-pyinotify python-webkit python-webkit-dev"
-
-# Applications
-pkg_apps="vlc"
-
-# -----------------------------------------------------------------------------------
-# Queue or install apt packages
-apt_queue_or_install "$pkg_base $pkg_ruby $pkg_dev $pkg_db $pkg_gnome $pkg_apps"
-
-# Add Canonical Partners repository
-sudo add-apt-repository "deb http://archive.canonical.com/ $ubuntu_codename partner"
+brew install file-formula
+brew install git
+brew install less
+brew install openssh --with-brewed-openssl
+brew install perl518   # must run "brew tap homebrew/versions" first!
+brew install python --with-brewed-openssl
+brew install rsync
+brew install svn
+brew install unzip
+brew install vim --override-system-vi
+brew install macvim --override-system-vim --custom-system-icons
+brew install zsh
