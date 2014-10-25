@@ -24,7 +24,7 @@ alias le="less"
 alias psg='ps ax | grep'
 alias sbrc="source ~/.bashrc"
 
-which ack-grep || alias ack-grep="ack"
+which ack-grep > /dev/null 2>&1 || alias ack-grep="ack"
 [ -n "$(which greadlink)" ] && alias readlink="greadlink"
 
 alias ak='ack-grep'
