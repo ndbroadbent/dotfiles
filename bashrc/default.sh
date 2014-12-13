@@ -37,8 +37,11 @@ if ! shopt -oq posix; then
 		source /etc/bash_completion;
 	elif [ -f /usr/local/etc/bash_completion ]; then
 		source /usr/local/etc/bash_completion;
+  elif [ -f /opt/local/etc/bash_completion ]; then
+    source /opt/local/etc/bash_completion
 	fi
 fi
+
 
 # Default editors
 export EDITOR="vim"
