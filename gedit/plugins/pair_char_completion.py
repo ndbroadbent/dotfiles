@@ -17,13 +17,12 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, write to the Free Software Foundation, Inc., 51
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-# 
+#
 
-__version__ = '1.0.5'
+__version__ = '1.0.4'
 __author__ = 'Kevin McGuinness'
 
-import gedit
-import gtk
+from gi.repository import Gtk, Gedit, GObject, Gdk
 import sys
 import os
 
@@ -34,10 +33,12 @@ NEWLINE_CHAR = '\n'
 
 # Map from language identifiers to (opening parens, closing parens) pairs
 language_parens = {}
+par_val='(){}[]""\'\'``'
+par_name='default'
 
 def add_language_parenthesis(name, spec):
-  """Add parenthesis for the given language. The spec should be a string in 
-     which each pair of characters represents a pair of parenthesis for the 
+  """Add parenthesis for the given language. The spec should be a string in
+     which each pair of characters represents a pair of parenthesis for the
      language, eg. "(){}[]".
   """
   parens = [], []
@@ -52,36 +53,42 @@ def to_char(keyval_or_char):
     return keyval_or_char
   return chr(keyval_or_char) if 0 < keyval_or_char < 128 else None
 
-class PairCompletionPlugin(gedit.Plugin):
+class PairCompletionPlugin(GObject.Object, Gedit.WindowActivatable):
   """Automatic pair character completion for gedit"""
-  
+
   ViewHandlerName = 'pair_char_completion_handler'
- 
+
+  window = GObject.property(type=Gedit.Window)
+
   def __init__(self):
-    gedit.Plugin.__init__(self)
+    GObject.Object.__init__(self)
     self.ctrl_enter_enabled = True
     self.language_id = 'plain'
     self.opening_parens = language_parens['default'][0]
     self.closing_parens = language_parens['default'][1]
- 
-  def activate(self, window):
-    self.update_ui(window)
-    
-  def deactivate(self, window):
-    for view in window.get_views():
+
+  def do_activate(self):
+    self.do_update_state()
+
+  def do_deactivate(self):
+    for view in self.window.get_views():
       handler_id = getattr(view, self.ViewHandlerName, None)
       if handler_id is not None:
         view.disconnect(handler_id)
       setattr(view, self.ViewHandlerName, None)
-    
-  def update_ui(self, window):
-    view = window.get_active_view()
-    doc = window.get_active_document()
-    if isinstance(view, gedit.View) and doc:
+
+  def do_update_state(self):
+    self.update_ui()
+
+
+  def update_ui(self):
+    view = self.window.get_active_view()
+    doc = self.window.get_active_document()
+    if isinstance(view, Gedit.View) and doc:
       if getattr(view, self.ViewHandlerName, None) is None:
         handler_id = view.connect('key-press-event', self.on_key_press, doc)
         setattr(view, self.ViewHandlerName, handler_id)
-  
+
   def is_opening_paren(self,char):
     return char in self.opening_parens
 
@@ -111,10 +118,10 @@ class PairCompletionPlugin(gedit.Plugin):
       elif iter1.get_char() == closing_paren:
         balance += 1
     return balance == 0
-  
+
   def compare_marks(self, doc, mark1, mark2):
     return doc.get_iter_at_mark(mark1).compare(doc.get_iter_at_mark(mark2))
-  
+
   def enclose_selection(self, doc, opening_paren):
     closing_paren = self.get_matching_closing_paren(opening_paren)
     doc.begin_user_action()
@@ -128,7 +135,7 @@ class PairCompletionPlugin(gedit.Plugin):
     doc.place_cursor(iter1)
     doc.end_user_action()
     return True
-  
+
   def auto_close_paren(self, doc, opening_paren):
     closing_paren = self.get_matching_closing_paren(opening_paren)
     doc.begin_user_action()
@@ -138,7 +145,7 @@ class PairCompletionPlugin(gedit.Plugin):
     doc.place_cursor(iter1)
     doc.end_user_action()
     return True
-  
+
   def move_cursor_forward(self, doc):
     doc.begin_user_action()
     iter1 = doc.get_iter_at_mark(doc.get_insert())
@@ -157,7 +164,7 @@ class PairCompletionPlugin(gedit.Plugin):
     doc.insert_at_cursor(text)
     doc.end_user_action()
     return True
-    
+
   def insert_two_lines(self, doc, text):
     doc.begin_user_action()
     mark = doc.get_insert()
@@ -171,30 +178,20 @@ class PairCompletionPlugin(gedit.Plugin):
     doc.place_cursor(iter2)
     doc.end_user_action()
     return True
-    
-  def delete_both_parens(self, doc):
-    doc.begin_user_action()
-    start_iter = doc.get_iter_at_mark(doc.get_insert())
-    end_iter = start_iter.copy()
-    start_iter.backward_char()
-    end_iter.forward_char()
-    doc.delete(start_iter, end_iter)
-    doc.end_user_action()
-    return True
-    
+
   def get_char_under_cursor(self, doc):
     return doc.get_iter_at_mark(doc.get_insert()).get_char()
-    
+
   def get_stmt_terminator(self, doc):
     terminator = DEFAULT_STMT_TERMINATOR
     lang = doc.get_language()
     if lang is not None:
       # Allow this to be changed by the language definition
-      lang_terminator = lang.get_metadata(LANG_META_STMT_TERMINATOR_KEY) 
+      lang_terminator = lang.get_metadata(LANG_META_STMT_TERMINATOR_KEY)
       if lang_terminator is not None:
         terminator = lang_terminator
     return terminator
-  
+
   def get_current_line_indent(self, doc):
     it_start = doc.get_iter_at_mark(doc.get_insert())
     it_start.set_line_offset(0)
@@ -209,19 +206,19 @@ class PairCompletionPlugin(gedit.Plugin):
         break
       it_start.forward_char()
     return ''.join(indentation)
-  
+
   def is_ctrl_enter(self, event):
-    return (self.ctrl_enter_enabled and 
-      event.keyval == gtk.keysyms.Return and
-      event.state & gtk.gdk.CONTROL_MASK)
-  
+    return (self.ctrl_enter_enabled and
+      event.keyval == Gdk.KEY_Return and
+      event.get_state() & Gdk.ModifierType.CONTROL_MASK)
+
   def should_auto_close_paren(self, doc):
     iter1 = doc.get_iter_at_mark(doc.get_insert())
     if iter1.is_end() or iter1.ends_line():
       return True
     char = iter1.get_char()
-    return not (char.isalnum() or char == '_') 
-  
+    return not (char.isalnum() or char == '_')
+
   def update_language(self, doc):
     lang = doc.get_language()
     lang_id = lang.get_id() if lang is not None else 'plain'
@@ -230,59 +227,52 @@ class PairCompletionPlugin(gedit.Plugin):
       self.opening_parens = parens[0]
       self.closing_parens = parens[1]
       self.language_id = lang_id
-  
-  def should_delete_both_parens(self, doc, event):
-    if event.keyval == gtk.keysyms.BackSpace:
-      it = doc.get_iter_at_mark(doc.get_insert())
-      current_char = it.get_char()
-      if self.is_closing_paren(current_char):
-        it.backward_char()
-        previous_char = it.get_char()
-        matching_paren = self.get_matching_opening_paren(current_char) 
-        return previous_char == matching_paren
-    return False
-  
+
   def on_key_press(self, view, event, doc):
     handled = False
     self.update_language(doc)
     ch = to_char(event.keyval)
+    key = Gdk.keyval_name(event.keyval)
     if self.is_closing_paren(ch):
-      # Skip over closing parenthesis if doing so would mean that the 
+      # Skip over closing parenthesis if doing so would mean that the
       # preceeding parenthesis are correctly balanced
-      if (self.get_char_under_cursor(doc) == ch and 
+      if (self.get_char_under_cursor(doc) == ch and
           self.would_balance_parens(doc, ch)):
         handled = self.move_cursor_forward(doc)
     if not handled and self.is_opening_paren(ch):
       if doc.get_has_selection():
         # Enclose selection in parenthesis or quotes
         handled = self.enclose_selection(doc, ch)
-      elif self.should_auto_close_paren(doc): 
-        # Insert matching closing parenthesis and move cursor back one 
+      elif self.should_auto_close_paren(doc):
+        # Insert matching closing parenthesis and move cursor back one
         handled = self.auto_close_paren(doc, ch)
     if not handled and self.is_ctrl_enter(event):
       # Handle Ctrl+Return and Ctrl+Shift+Return
       text_to_insert = NEWLINE_CHAR + self.get_current_line_indent(doc)
-      if event.state & gtk.gdk.SHIFT_MASK:
+      if event.get_state() & Gdk.EventMask.SHIFT_MASK:
         text_to_insert = self.get_stmt_terminator(doc) + text_to_insert
       self.move_to_end_of_line_and_insert(doc, text_to_insert)
       view.scroll_mark_onscreen(doc.get_insert())
       handled = True
-    if not handled and event.keyval in (gtk.keysyms.Return, gtk.keysyms.KP_Enter):
+    if not handled and key in ('Enter', 'Return', 'ISO_Return'):
       # Enter was just pressed
-      char_under_cursor = self.get_char_under_cursor(doc)
-      if (self.is_closing_paren(char_under_cursor) and
-        self.would_balance_parens(doc, char_under_cursor)):
+      char_under_cusor = self.get_char_under_cursor(doc)
+      if (self.is_closing_paren(char_under_cusor) and
+        self.would_balance_parens(doc, char_under_cusor)):
         # If the character under the cursor would balance parenthesis
         text_to_insert = NEWLINE_CHAR + self.get_current_line_indent(doc)
-        handled = self.insert_two_lines(doc, text_to_insert)
-    if not handled and self.should_delete_both_parens(doc, event):
-      # Delete parenthesis in front of cursor when one behind is deleted
-      handled = self.delete_both_parens(doc)
+        self.insert_two_lines(doc, text_to_insert)
+        handled = True
     return handled
 
 # Load language parenthesis
 for path in sys.path:
   fn = os.path.join(path, 'pair_char_lang.py')
   if os.path.isfile(fn):
-    execfile(fn, {'lang': add_language_parenthesis})
+    #execfile(fn, {'lang': add_language_parenthesis})
+    add_language_parenthesis(par_name,par_val)
+    #exec(open(fn, {'lang': add_language_parenthesis}).read())
+    #with open(fn) as f:#"pair_char_lang.py") as f:
+    #	code = compile(f.read(), "pair_char_lang.py", 'exec')
+    #	exec(code, global_vars, local_vars)
     break
