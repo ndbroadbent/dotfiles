@@ -104,6 +104,11 @@ ping() {
   /sbin/ping "$@"
 }
 
+moar_wifi_plz() {
+  NEW_MAC=$(openssl rand -hex 3 | sed 's/\(..\)/\1:/g; s/.$//; s/^\(.\)/00:60:2f:\1/')
+  echo "Changing Wifi MAC address to: $NEW_MAC"
+  sudo ifconfig en0 ether "$NEW_MAC"
+}
 
 # Rejustify the user/group/size columns after username/group is replaced with symbols
 rejustify_ls_columns(){
