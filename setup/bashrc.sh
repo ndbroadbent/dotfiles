@@ -12,6 +12,7 @@ bashrc_parts=" \
   tab_completion \
   ruby_on_rails \
   golang \
+  java \
   docker \
   database_branches \
   crossroads \
