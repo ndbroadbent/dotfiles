@@ -1,6 +1,10 @@
 [core]
   editor = vim
 
+[alias]
+  ignore = update-index --assume-unchanged
+  unignore = update-index --no-assume-unchanged
+
 [color]
   branch = auto
   diff = auto
