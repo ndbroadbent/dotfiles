@@ -27,12 +27,11 @@ alias sbrc="source ~/.bashrc"
 which ack-grep > /dev/null 2>&1 || alias ack-grep="ack"
 [ -n "$(which greadlink)" ] && alias readlink="greadlink"
 
-alias ak='ack-grep'
-alias aka='ack-grep -a'
-alias aki='ack-grep -i'
+alias aga='ag -a'
+alias agi='ag -i'
 
-alias akr='ack-grep --type=ruby'
-alias akri='ack-grep -i --type=ruby'
+alias agr='ag --type=ruby'
+alias agri='ag -i --type=ruby'
 
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
 alias bark="mplayer /usr/share/sounds/gnome/default/alerts/bark.ogg  > /dev/null 2>&1"
