@@ -11,6 +11,7 @@ bashrc_parts=" \
   aliases \
   tab_completion \
   ruby_on_rails \
+  javascript \
   golang \
   java \
   docker \
