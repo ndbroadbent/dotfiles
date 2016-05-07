@@ -5,7 +5,7 @@
 gsed() {
   if [ -n "$2" ]; then
     if [ -n "$3" ]; then local path="$3"; else local path="."; fi
-    ack -l "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
+    ag -l "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
   else
     echo "== Usage: gsed search_string replace_string [path = .]"
   fi
