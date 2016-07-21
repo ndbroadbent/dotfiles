@@ -11,14 +11,13 @@ bashrc_parts=" \
   aliases \
   tab_completion \
   ruby_on_rails \
+  capistrano \
   javascript \
   golang \
   java \
   docker \
   database_branches \
-  crossroads \
   shell_fm_aliases \
-  zenpayroll \
   prompt"
 
 # Header
