@@ -40,21 +40,25 @@ done
 # Footer
 cat >> ~/.bashrc <<EOF
 
-# RVM
-[ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm"
-
-# NVM
-export NVM_DIR="$HOME/.nvm"
+# NVM (Node)
+export NVM_DIR="\$HOME/.nvm"
 . "$(brew --prefix nvm)/nvm.sh"
 
+# OPAM configuration (OCaml)
+. \$HOME/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+# RVM (Ruby)
+[ -s "\$HOME/.rvm/scripts/rvm" ] && source "\$HOME/.rvm/scripts/rvm"
+export PATH="\$PATH:\$HOME/.rvm/bin" # Add RVM to PATH for scriptingag
+
 # SCM Breeze
-[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
+[ -s "\$HOME/.scm_breeze/scm_breeze.sh" ] && source "\$HOME/.scm_breeze/scm_breeze.sh"
 
 # Hub tab completion
-[ -s "$HOME/.hub.bash_completion" ] && source "$HOME/.hub.bash_completion"
+[ -s "\$HOME/.hub.bash_completion" ] && source "\$HOME/.hub.bash_completion"
 
 # Rails Shell
-[ -s "$HOME/.rails_shell/rails_shell.sh" ] && source "$HOME/.rails_shell/rails_shell.sh"
+[ -s "\$HOME/.rails_shell/rails_shell.sh" ] && source "\$HOME/.rails_shell/rails_shell.sh"
 
 # Finalize auto_reload sourced files
 finalize_auto_reload
