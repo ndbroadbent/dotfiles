@@ -46,6 +46,7 @@ fi
 # Default editors
 export EDITOR="vim"
 export GUI_EDITOR="subl"
+export REACT_EDITOR="subl"
 export GEM_DEV_DIR="$HOME/code/gems"
 
 # Add /usr/local/sbin
