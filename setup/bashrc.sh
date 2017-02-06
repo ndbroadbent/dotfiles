@@ -15,6 +15,7 @@ bashrc_parts=" \
   javascript \
   golang \
   java \
+  android \
   docker \
   database_branches \
   shell_fm_aliases \
