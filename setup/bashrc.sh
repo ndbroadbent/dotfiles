@@ -48,6 +48,9 @@ export NVM_DIR="\$HOME/.nvm"
 # YARN (Node)
 export PATH="$HOME/.yarn/bin:$PATH"
 
+# NPM
+export PATH="./node_modules/.bin:$PATH"
+
 # OPAM configuration (OCaml)
 . \$HOME/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
