@@ -43,13 +43,13 @@ cat >> ~/.bashrc <<EOF
 
 # NVM (Node)
 export NVM_DIR="\$HOME/.nvm"
-. "$(brew --prefix nvm)/nvm.sh"
+. "\$(brew --prefix nvm)/nvm.sh"
 
 # YARN (Node)
-export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="\$HOME/.yarn/bin:\$PATH"
 
 # NPM
-export PATH="./node_modules/.bin:$PATH"
+export PATH="./node_modules/.bin:\$PATH"
 
 # OPAM configuration (OCaml)
 . \$HOME/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
