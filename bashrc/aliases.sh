@@ -44,9 +44,9 @@ fi
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
 function edit_file() {
   if type exec_scmb_expand_args > /dev/null 2>&1; then
-    exec_scmb_expand_args "$GUI_EDITOR" "$@"
+    exec_scmb_expand_args $GUI_EDITOR "$@"
   else
-    "$GUI_EDITOR" "$@"
+    $GUI_EDITOR "$@"
   fi
 }
 alias e="edit_file"
