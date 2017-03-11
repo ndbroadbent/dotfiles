@@ -44,10 +44,11 @@ fi
 
 
 # Default editors
-export EDITOR="vim"
+export EDITOR="code -g"
 export GUI_EDITOR="code -g"
 export REACT_EDITOR="code -g"
-export GEM_DEV_DIR="$HOME/code/gems"
+export BUNDLER_EDITOR="code -g"
+
 
 # Add /usr/local/sbin
 export PATH="$PATH:/usr/local/sbin"
