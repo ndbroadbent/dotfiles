@@ -40,20 +40,19 @@ done
 
 # Footer
 cat >> ~/.bashrc <<EOF
-
 # NVM (Node)
 export NVM_DIR="\$HOME/.nvm"
 . "\$(brew --prefix nvm)/nvm.sh"
 
-# YARN (Node)
-export PATH="\$HOME/.yarn/bin:\$PATH"
-
-# NPM
-export PATH="./node_modules/.bin:\$PATH"
-
 # RVM (Ruby)
 [ -s "\$HOME/.rvm/scripts/rvm" ] && source "\$HOME/.rvm/scripts/rvm"
-export PATH="\$PATH:\$HOME/.rvm/bin" # Add RVM to PATH for scriptingag
+export PATH="\$PATH:\$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# YARN (Node)
+export PATH="\$PATH:\$HOME/.yarn/bin"
+
+# NPM
+export PATH="\$PATH:./node_modules/.bin"
 
 # SCM Breeze
 [ -s "\$HOME/.scm_breeze/scm_breeze.sh" ] && source "\$HOME/.scm_breeze/scm_breeze.sh"
