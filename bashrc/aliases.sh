@@ -21,7 +21,7 @@ alias ss='ssh'
 alias ss2='ssh -p2202'
 alias n='nautilus .'
 alias le="less"
-alias psg='ps ax | grep'
+alias psg='ps aux | grep'
 alias sbrc="source ~/.bashrc"
 
 which ack-grep > /dev/null 2>&1 || alias ack-grep="ack"
