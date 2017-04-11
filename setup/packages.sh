@@ -28,12 +28,12 @@ brew install nano
 
 brew install file-formula
 brew install git
+brew install hub
 brew install less
 brew install openssh --with-brewed-openssl
 brew install perl518   # must run "brew tap homebrew/versions" first!
 brew install python --with-brewed-openssl
 brew install rsync
-brew install svn
 brew install unzip
 brew install vim --override-system-vi
 brew install macvim --override-system-vim --custom-system-icons

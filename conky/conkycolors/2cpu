@@ -1,3 +1,0 @@
-${offset 1}${voffset 11}${color0}${font Poky:size=16}P${font}${offset -20}${color}${voffset -13}${goto 44}CPU1: ${font Droid Sans:style=Bold:size=9}${color1}${cpu cpu1}%${color}${font} ${alignr}${color2}${cpugraph cpu1 8,60 5C3566 77507B}${color}
-${offset 1}${goto 44}CPU2: ${font Droid Sans:style=Bold:size=9}${color1}${cpu cpu2}%${color}${font} ${alignr}${color2}${cpugraph cpu2 8,60 5C3566 77507B}${color}\
-
