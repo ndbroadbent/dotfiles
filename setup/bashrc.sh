@@ -12,13 +12,11 @@ bashrc_parts=" \
   tab_completion \
   ruby_on_rails \
   capistrano \
-  javascript \
   golang \
   java \
   android \
   docker \
   database_branches \
-  shell_fm_aliases \
   prompt"
 
 # Header
@@ -40,6 +38,7 @@ done
 
 # Footer
 cat >> ~/.bashrc <<EOF
+
 # NVM (Node)
 export NVM_DIR="\$HOME/.nvm"
 . "\$(brew --prefix nvm)/nvm.sh"

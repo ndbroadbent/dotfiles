@@ -23,7 +23,7 @@ else
     fi
 
     # Run SCM Breeze install script
-    . install.sh
+    source install.sh
 
     # If this script was sourced from the terminal, update current shell with SCM Breeze
     if ! [[ "$0" =~ "dev_machine_setup.sh" ]] && [[ "$0" == *bash ]]; then source ~/.bashrc; fi
