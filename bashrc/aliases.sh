@@ -24,6 +24,8 @@ alias le="less"
 alias psg='ps aux | grep'
 alias sbrc="source ~/.bashrc"
 
+alias grd="~/code/git-remove-debug/git-remove-debug"
+
 which ack-grep > /dev/null 2>&1 || alias ack-grep="ack"
 [ -n "$(which greadlink)" ] && alias readlink="greadlink"
 
