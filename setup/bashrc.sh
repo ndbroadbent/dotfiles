@@ -40,8 +40,9 @@ done
 cat >> ~/.bashrc <<EOF
 
 # NVM (Node)
-export NVM_DIR="\$HOME/.nvm"
-. "\$(brew --prefix nvm)/nvm.sh"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # RVM (Ruby)
 [ -s "\$HOME/.rvm/scripts/rvm" ] && source "\$HOME/.rvm/scripts/rvm"
@@ -61,6 +62,9 @@ export PATH="\$PATH:./node_modules/.bin"
 
 # Rails Shell
 [ -s "\$HOME/.rails_shell/rails_shell.sh" ] && source "\$HOME/.rails_shell/rails_shell.sh"
+
+# GNU utils
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # Finalize auto_reload sourced files
 finalize_auto_reload
