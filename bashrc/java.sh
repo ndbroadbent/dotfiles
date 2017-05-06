@@ -1,1 +1,1 @@
-if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+which jenv > /dev/null 2>&1 && eval "$(jenv init -)"
