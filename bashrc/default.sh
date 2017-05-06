@@ -48,6 +48,7 @@ export EDITOR="code -g"
 export GUI_EDITOR="code -g"
 export REACT_EDITOR="code -g"
 export BUNDLER_EDITOR="code -g"
+export GIT_EDITOR="vim"
 
 
 # Add /usr/local/sbin
