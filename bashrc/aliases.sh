@@ -39,7 +39,8 @@ alias fl='fastlane'
 
 alias rn='react-native'
 alias rnl='react-native link'
-alias rns='react-native start'
+# The React Native packager often crashes.
+alias rns='while true; do react-native start; done'
 alias rnsr='react-native start --reset-cache'
 alias rni='react-native run-ios'
 alias rnli='react-native log-ios'
