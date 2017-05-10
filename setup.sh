@@ -5,7 +5,7 @@
 scripts=""
 
 if [[ $EUID -eq 0 ]]; then
-  echo -e "\e[01;31mPlease do not use sudo to run this script!\e[00m" 2>&1
+  echo -e "\033[01;31mPlease do not use sudo to run this script!\033[00m" 2>&1
   exit 1
 fi
 

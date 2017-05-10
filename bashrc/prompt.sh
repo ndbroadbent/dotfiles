@@ -3,15 +3,15 @@
 # -------------------------------------------------------
 
 # Prompt colors
-_txt_col="\e[00m"     # Std text (white)
-_bld_col="\e[1;37m"   # Bold text (white)
-_wrn_col="\e[1;31m"   # Warning
-_sep_col="\e[2;32m"   # Separators
-_usr_col="\e[1;32m"   # Username
+_txt_col="\033[00m"     # Std text (white)
+_bld_col="\033[1;37m"   # Bold text (white)
+_wrn_col="\033[1;31m"   # Warning
+_sep_col="\033[2;32m"   # Separators
+_usr_col="\033[1;32m"   # Username
 _cwd_col=$_txt_col    # Current directory
-_hst_col="\e[0;32m"   # Host
-_env_col="\e[0;36m"   # Prompt environment
-_git_col="\e[1;36m"   # Git branch
+_hst_col="\033[0;32m"   # Host
+_env_col="\033[0;36m"   # Prompt environment
+_git_col="\033[1;36m"   # Git branch
 _chr_col=$_txt_col    # Prompt char
 
 # Returns the current git branch (returns nothing if not a git repository)
@@ -23,7 +23,7 @@ parse_git_dirty() {
   local git_status="$(\git status --short --porcelain 2> /dev/null)"
   if [ -n "$git_status" ]; then
     # Default blue for only untracked files
-    local color="\e[1;34m"
+    local color="\033[1;34m"
 
     if echo "$git_status" | grep -q '^[^?]'; then
       # Red if not just untracked files.
@@ -48,9 +48,9 @@ parse_travis_status() {
   local stat_file=$(find_in_cwd_or_parent ".travis_status~")
   if [ -e "$stat_file" ]; then
     case "$(grep -m 1 "^$branch " "$stat_file")" in
-    *passed)  echo "\[\e[01;32m\]✔ ";; # green
-    *failed)  echo "\[\e[01;31m\]✘ ";; # red
-    *running) echo "\[\e[01;33m\]⁇ ";; # yellow
+    *passed)  echo "\[\033[01;32m\]✔ ";; # green
+    *failed)  echo "\[\033[01;31m\]✘ ";; # red
+    *running) echo "\[\033[01;33m\]⁇ ";; # yellow
     esac
   fi
 }
@@ -58,13 +58,13 @@ parse_travis_status() {
 parse_branched_db_status() {
   if [ -n "$DB_SUFFIX" ]; then
     # Show that our current database is a unique snowflake
-    echo "\[\e[01;35m\]❅ "
+    echo "\[\033[01;35m\]❅ "
   fi
 }
 
 # When developing gems ($GEM_DEV is exported), display a hammer and pick
 parse_gem_development() {
-  if env | grep -q "^GEM_DEV="; then echo "\[\e[0;33m\]⚒ "; fi
+  if env | grep -q "^GEM_DEV="; then echo "\[\033[0;33m\]⚒ "; fi
 }
 
 # Allow symbols to represent users & machines
@@ -114,7 +114,7 @@ export GREP_COLOR='1;32'
 # Custom Xterm/RXVT Title
 case "$TERM" in
 xterm*|rxvt*)
-    #ßautoreload_prompt_command+='echo -ne "\e]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
+    #ßautoreload_prompt_command+='echo -ne "\033]0;$(user_symbol)$(user_host_sep)$(host_symbol) ${PWD/$HOME/~}\007";'
     ;;
 *)
     ;;
