@@ -35,10 +35,10 @@ for part in $bashrc_parts; do
     echo "source \"\$DOTFILES_PATH/bashrc/$part.sh\"" >> ~/.bashrc
   fi
 done
+echo >> ~/.bashrc
 
 # Footer
 cat >> ~/.bashrc <<EOF
-
 # NVM (Node)
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -65,6 +65,9 @@ export PATH="\$PATH:./node_modules/.bin"
 
 # GNU utils
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+
+# Dotfiles Scripts
+export PATH="\$PATH:$DOTFILES_PATH/bin"
 
 # Finalize auto_reload sourced files
 finalize_auto_reload
