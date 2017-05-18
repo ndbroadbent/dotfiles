@@ -69,6 +69,9 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # Dotfiles Scripts
 export PATH="\$PATH:$DOTFILES_PATH/bin"
 
+# System Python
+export PATH="\$PATH:$HOME/Library/Python/2.7/bin/"
+
 # Finalize auto_reload sourced files
 finalize_auto_reload
 EOF
