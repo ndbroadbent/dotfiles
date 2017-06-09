@@ -1,0 +1,31 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "workbench.colorTheme": "One Dark Pro",
+    "workbench.iconTheme": "vs-seti",
+    "files.autoSave": "onFocusChange",
+    "files.trimTrailingWhitespace": true,
+    "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
+    "files.eol": "\n",
+    "files.associations": {
+        "*.twiml": "ruby",
+        "Fastfile": "ruby"
+    },
+    "typescript.validate.enable": false,
+    "javascript.validate.enable": false,
+    "flow.pathToFlow": "/usr/local/bin/flow",
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "window.zoomLevel": 0,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "log/*": true,
+        "tmp/**/*": true,
+        ".cached*": true,
+        "db/structure.sql": true,
+        "Gemfile.lock": true
+    }
+}
