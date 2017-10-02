@@ -61,7 +61,7 @@ alias bork="bark"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="afplay /System/Library/Sounds/Glass.aiff"
-  alias bark="afplay /System/Library/Sounds/Submarine.aiff"
+  alias bark="afplay $DOTFILES_PATH/sounds/bark.aiff"
   alias bork="bark"
 fi
 
