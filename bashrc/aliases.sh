@@ -57,10 +57,12 @@ alias rnwp='react-native run-wpf'
 
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
 alias bark="mplayer /usr/share/sounds/gnome/default/alerts/bark.ogg  > /dev/null 2>&1"
+alias bork="bark"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="afplay /System/Library/Sounds/Glass.aiff"
   alias bark="afplay /System/Library/Sounds/Submarine.aiff"
+  alias bork="bark"
 fi
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
