@@ -72,6 +72,9 @@ export PATH="\$PATH:$DOTFILES_PATH/bin"
 # System Python
 export PATH="\$PATH:$HOME/Library/Python/2.7/bin/"
 
+# Node modules in current dir
+export PATH="\$PATH:node_modules/.bin"
+
 # Finalize auto_reload sourced files
 finalize_auto_reload
 EOF
