@@ -44,15 +44,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# RVM (Ruby)
-[ -s "\$HOME/.rvm/scripts/rvm" ] && source "\$HOME/.rvm/scripts/rvm"
-export PATH="\$PATH:\$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 # YARN (Node)
 export PATH="\$PATH:\$HOME/.yarn/bin"
 
 # NPM
 export PATH="\$PATH:./node_modules/.bin"
+
+# RVM (Ruby)
+[ -s "\$HOME/.rvm/scripts/rvm" ] && source "\$HOME/.rvm/scripts/rvm"
+export PATH="\$PATH:\$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # SCM Breeze
 [ -s "\$HOME/.scm_breeze/scm_breeze.sh" ] && source "\$HOME/.scm_breeze/scm_breeze.sh"
@@ -64,7 +64,7 @@ export PATH="\$PATH:./node_modules/.bin"
 [ -s "\$HOME/.rails_shell/rails_shell.sh" ] && source "\$HOME/.rails_shell/rails_shell.sh"
 
 # GNU utils
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH="\$PATH:/usr/local/opt/coreutils/libexec/gnubin"
 
 # Dotfiles Scripts
 export PATH="\$PATH:$DOTFILES_PATH/bin"
@@ -75,10 +75,9 @@ export PATH="\$PATH:$HOME/Library/Python/2.7/bin/"
 # Node modules in current dir
 export PATH="\$PATH:node_modules/.bin"
 
-
-export PATH="/Users/ndbroadbent/anaconda/bin:$PATH"
-export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+export PATH="\$PATH:/Users/ndbroadbent/anaconda/bin"
+export PATH="\$PATH:/usr/local/opt/imagemagick@6/bin"
+export PATH="\$PATH:\$(brew --prefix qt@5.5)/bin"
 
 # Finalize auto_reload sourced files
 finalize_auto_reload
