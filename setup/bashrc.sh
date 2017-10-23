@@ -75,6 +75,11 @@ export PATH="\$PATH:$HOME/Library/Python/2.7/bin/"
 # Node modules in current dir
 export PATH="\$PATH:node_modules/.bin"
 
+
+export PATH="/Users/ndbroadbent/anaconda/bin:$PATH"
+export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+
 # Finalize auto_reload sourced files
 finalize_auto_reload
 EOF
