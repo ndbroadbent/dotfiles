@@ -15,7 +15,6 @@ bashrc_parts=" \
   golang \
   java \
   android \
-  docker \
   database_branches \
   prompt"
 
