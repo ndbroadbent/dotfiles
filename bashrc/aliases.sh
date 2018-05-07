@@ -56,7 +56,7 @@ alias rnwp='react-native run-wpf'
 
 
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
-alias bark="mplayer /usr/share/sounds/gnome/default/alerts/bark.ogg  > /dev/null 2>&1"
+alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
 alias bork="bark"
 
 if [ "$(uname)" = Darwin ]; then
