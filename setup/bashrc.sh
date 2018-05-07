@@ -9,6 +9,7 @@ bashrc_parts=" \
   default \
   functions \
   aliases \
+  convox \
   tab_completion \
   ruby_on_rails \
   capistrano \
