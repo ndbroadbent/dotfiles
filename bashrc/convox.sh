@@ -1,6 +1,6 @@
 alias cx="convox"
-alias cxs="cp ~/.convox/host.staging ~/.convox/host && printf 'Switched to staging host: ' && cat ~/.convox/host"
-alias cxp="cp ~/.convox/host.prod ~/.convox/host && printf 'Switched to prod host: ' && cat ~/.convox/host"
+alias cxs="cp ~/.convox/host.staging ~/.convox/host && rm -f ~/.convox/rack && printf 'Switched to staging host: ' && cat ~/.convox/host"
+alias cxp="cp ~/.convox/host.prod ~/.convox/host && cp ~/.convox/rack.prod ~/.convox/rack && printf 'Switched to prod host: ' && cat ~/.convox/host"
 alias cr="convox rack"
 alias cxe="convox exec"
 alias cxr="convox run"
