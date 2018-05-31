@@ -23,8 +23,8 @@ start_rails_server_on_available_port() {
   done
 }
 
-alias   rs="rails_cmd server"
-alias  rsd="rails_cmd server -u"
+alias   rs="rails_cmd server --binding=127.0.0.1"
+alias  rsd="rails_cmd server -u --binding=127.0.0.1"
 alias   rc="rails_cmd console"
 alias  rdb="rails_cmd dbconsole"
 alias   rg="rails_cmd generate"
