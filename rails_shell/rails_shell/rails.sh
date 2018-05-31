@@ -13,6 +13,7 @@ is_rails_app() {
   [ -e ./script/rails ] || [ -e ./script/$1 ] || ([ -e ./config.ru ] && grep -q Rails ./config.ru)
 }
 
+# This is annoying, don't use it
 start_rails_server_on_available_port() {
   for p in $(seq 3000 3099); do
     if ! pgrep -qf "127\.0\.0\.1:$p"; then
@@ -22,8 +23,8 @@ start_rails_server_on_available_port() {
   done
 }
 
-alias   rs="start_rails_server_on_available_port"
-alias  rsd="start_rails_server_on_available_port -u"
+alias   rs="rails_cmd server"
+alias  rsd="rails_cmd server -u"
 alias   rc="rails_cmd console"
 alias  rdb="rails_cmd dbconsole"
 alias   rg="rails_cmd generate"
