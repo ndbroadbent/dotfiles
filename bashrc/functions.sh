@@ -137,4 +137,3 @@ idevicearchiveallapps() {
     echo "Usage: $0 <backup path>"
   fi
 }
-
