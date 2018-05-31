@@ -61,7 +61,7 @@ export PATH="\$PATH:\$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [ -s "\$HOME/.hub.bash_completion" ] && source "\$HOME/.hub.bash_completion"
 
 # Rails Shell
-[ -s "\$HOME/.rails_shell/rails_shell.sh" ] && source "\$HOME/.rails_shell/rails_shell.sh"
+source "\$DOTFILES_PATH/rails_shell/rails_shell.sh"
 
 # GNU utils
 PATH="\$PATH:/usr/local/opt/coreutils/libexec/gnubin"

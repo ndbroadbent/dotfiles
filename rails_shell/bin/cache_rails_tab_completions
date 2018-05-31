@@ -1,0 +1,108 @@
+#!/bin/bash -l
+REVISION_FILE=".cached_completions_revision~"
+
+GIT_BINARY="$(which git)"
+git_exclude() {
+  local f=".git/info/exclude"
+  if [ -n "$1" ] && ! ([ -e $f ] && grep -q "$1" $f); then echo "$1" >> $f; fi
+}
+
+# Set up RVM
+if type rvm > /dev/null 2>&1; then
+  # Use .rvmrc, or default ruby
+  if [ -e .rvmrc ]; then
+    if ! source .rvmrc; then
+      # Quit if ruby version not installed.
+      echo "source .rvmrc failed!"
+      exit
+    fi
+  else
+    rvm default
+  fi
+fi
+
+# Abort if no HEAD commit
+$GIT_BINARY rev-parse HEAD > /dev/null 2>&1 || exit
+
+# Don't continue if revision hasn't changed since last time.
+if [ -e "$REVISION_FILE" ]; then
+  if grep -q "$($GIT_BINARY rev-parse HEAD)" "$REVISION_FILE"; then
+    echo "No changes in $(pwd)!"
+    exit
+  fi
+fi
+
+# Run bundle install if Gemfile is present
+if [ -e Gemfile ]; then
+  ensure_bundler
+  if ! bundle check; then
+    if bundle install; then
+      echo "bundle install failed!"
+      exit
+    fi
+  fi
+fi
+
+# Rake completions
+for file in Rakefile rakefile Rakefile.rb rakefile.rb; do
+  if [ -e $file ]; then
+    git_exclude "$RAKE_COMP_FILE"
+
+    # Fetch rake commands and store in file
+    echo "Caching Rake commands for $(basename $(pwd))..."
+    rake -P | grep "^rake" | sed 's/^rake //' > "$RAKE_COMP_FILE"
+    completions_generated="true"
+
+    break
+  fi
+done
+
+# Capistrano completions
+if [ -e "config/deploy.rb" ]; then
+  git_exclude "$CAP_COMP_FILE"
+
+  # Fetch rake commands and store in file
+  echo "Caching Capistrano commands for $(basename $(pwd))..."
+  cap -qvT | tail -r | tail -n +4 | tail -r | cut -d ' ' -f 2 > "$CAP_COMP_FILE"
+  completions_generated="true"
+fi
+
+# Rails generator completions
+if is_rails_app; then
+  git_exclude "$RAILS_G_COMP_FILE"
+
+  echo "Caching Rails generators for $(basename $(pwd))..."
+  echo "
+    require ::File.expand_path('../config/application',  __FILE__)
+    require 'rails/generators'
+
+    Rails::Generators.lookup!
+
+    hidden_namespaces = Rails::Generators.hidden_namespaces + ['rails:app']
+    generators = Rails::Generators.subclasses.select do |generator|
+      hidden_namespaces.exclude? generator.namespace
+    end
+
+    shell = Thor::Shell::Basic.new
+    generators_opts = generators.inject({}) do |hash, generator|
+      options = (generator.class_options_help(shell).values.flatten +
+                  generator.class_options.values).uniq.map do |opt|
+        boolean_opt = opt.type == :boolean || opt.banner.empty?
+        boolean_opt ? opt.switch_name : \"#{opt.switch_name}=\"
+      end
+      hash[generator.namespace.gsub(/^rails:/, '')] = options
+      hash
+    end
+
+    File.open(File.join(Rails.root, '${RAILS_G_COMP_FILE}'), 'w') do |f|
+      YAML.dump(generators_opts, f)
+    end
+  " | ruby > /dev/null
+  completions_generated="true"
+fi
+
+if [ "$completions_generated" = "true" ]; then
+  # Store current revision so we only process changed projects
+  git_exclude "$REVISION_FILE"
+  $GIT_BINARY rev-parse HEAD > "$REVISION_FILE"
+fi

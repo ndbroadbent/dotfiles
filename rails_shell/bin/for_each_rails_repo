@@ -1,0 +1,17 @@
+#!/bin/bash -l
+REPO_INDEX="$HOME/.rails_repos"
+
+if ! [ -e "$REPO_INDEX" ]; then
+  echo "$REPO_INDEX does not exist."
+  exit 1
+fi
+
+if [ -z "$1" ]; then
+  echo "Usage: for_each_rails_repo CMD"
+  exit 1
+fi
+
+for f in $(cat $REPO_INDEX); do
+  cd $f
+  eval $1
+done
