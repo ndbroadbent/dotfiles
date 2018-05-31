@@ -8,6 +8,7 @@ bashrc_parts=" \
   auto_reload \
   default \
   functions \
+  ip \
   aliases \
   convox \
   tab_completion \
