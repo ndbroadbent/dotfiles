@@ -11,6 +11,7 @@ bashrc_parts=" \
   ip \
   aliases \
   convox \
+  docker \
   tab_completion \
   ruby_on_rails \
   capistrano \
