@@ -32,6 +32,8 @@ alias   ru="rails_cmd runner"
 
 alias   fs="foreman start"
 
+alias crb='crystalball'
+
 # Aliases for running Rails on different ports
 for p in $(seq 3001 3009); do
   alias "rs$p"="rails_cmd server --binding=127.0.0.1 -p $p"
