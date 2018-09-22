@@ -19,6 +19,7 @@ bashrc_parts=" \
   java \
   android \
   database_branches \
+  tmux \
   prompt"
 
 # Header
