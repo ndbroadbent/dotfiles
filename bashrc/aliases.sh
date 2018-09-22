@@ -54,6 +54,7 @@ alias rnla='react-native log-android'
 alias rnw='react-native run-windows'
 alias rnwp='react-native run-wpf'
 
+alias ds='osascript .dev.scpt "$(pwd)"'
 
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
 alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
