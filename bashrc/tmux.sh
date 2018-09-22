@@ -1,0 +1,1 @@
+alias ts="tmuxinator start"
