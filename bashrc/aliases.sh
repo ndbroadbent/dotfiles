@@ -56,6 +56,8 @@ alias rnwp='react-native run-wpf'
 
 alias ds='osascript .dev.scpt "$(pwd)"'
 
+alias f='cd ~/code/form_api'
+
 alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
 alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
 alias bork="bark"
