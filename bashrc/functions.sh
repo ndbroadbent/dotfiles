@@ -137,3 +137,15 @@ idevicearchiveallapps() {
     echo "Usage: $0 <backup path>"
   fi
 }
+
+
+version() {
+  case "$1" in
+  "") echo "Usage: version <ruby|python|java|go|hugo|imagemagick|etc.>";;
+  imagemagick) identify --version;;
+  java) "$1" -version;;
+  go|dep|hugo) "$1" version;;
+  *) "$1" --version;;  # git, ruby, rails, python, php, mono, bash, etc.
+  esac
+}
+alias v="version"
