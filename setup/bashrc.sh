@@ -78,6 +78,12 @@ export PATH="\$PATH:$HOME/Library/Python/2.7/bin/"
 # Node modules in current dir
 export PATH="\$PATH:node_modules/.bin"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ndbroadbent/google-cloud-sdk/path.bash.inc' ]; then source '/Users/ndbroadbent/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ndbroadbent/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/ndbroadbent/google-cloud-sdk/completion.bash.inc'; fi
+
 export PATH="\$PATH:/Users/ndbroadbent/anaconda/bin"
 export PATH="\$PATH:/usr/local/opt/imagemagick@6/bin"
 export PATH="\$PATH:\$(brew --prefix qt@5.5)/bin"
