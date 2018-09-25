@@ -149,3 +149,9 @@ version() {
   esac
 }
 alias v="version"
+
+# Nicer bash prompt for screen recordings
+screencast() {
+  export PROMPT_COMMAND="auto_reload_bashrc;"
+  PS1="\w \$ "
+}
