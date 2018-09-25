@@ -5,9 +5,9 @@
 # Substitute user/group with user symbol, if defined at ~/.user_sym
 # Before : -rw-rw-r-- 1 ndbroadbent ndbroadbent 1.1K Sep 19 21:39 scm_breeze.sh
 # After  : -rw-rw-r-- 1 𝐍  𝐍  1.1K Sep 19 21:39 scm_breeze.sh
-if [ -e $HOME/.user_sym ]; then
-  _ll_processor=" | sed \"s/ $USER/ \$(/bin/cat $HOME/.user_sym)/g\" | rejustify_ls_columns"
-fi
+# if [ -e $HOME/.user_sym ]; then
+#   _ll_processor=" | sed \"s/ $USER/ \$(/bin/cat $HOME/.user_sym)/g\" | rejustify_ls_columns"
+# fi
 
 alias l="ls -Cv --group-directories-first"
 alias ll="ls -lhv --group-directories-first $_ls_processor"
@@ -54,7 +54,7 @@ alias rnla='react-native log-android'
 alias rnw='react-native run-windows'
 alias rnwp='react-native run-wpf'
 
-alias ds='osascript .dev.scpt "$(pwd)"'
+alias ds='osascript .dev.scpt "$(pwd)" &'
 
 alias f='cd ~/code/form_api'
 alias fd='f; ds'
