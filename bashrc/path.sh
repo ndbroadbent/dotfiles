@@ -24,7 +24,5 @@ export PATH="${PATH}:${HOME}/Library/Python/2.7/bin/"
 export PATH="${PATH}:node_modules/.bin"
 
 export PATH="${PATH}:/Users/ndbroadbent/anaconda/bin"
-export PATH="${PATH}:/usr/local/opt/imagemagick@6/bin"
-
-# export PATH="${PATH}:$(brew --prefix qt@5.5)/bin"
+export PATH="${PATH}:/usr/local/opt/imagemagick/bin"
 export PATH="${PATH}:/usr/local/opt/qt@5.5/bin"
