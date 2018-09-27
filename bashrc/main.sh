@@ -10,13 +10,19 @@ BASHRC_MODULES=" \
   capistrano
   golang
   java
-  android
   database_branches
   tmux
   prompt
   path
 "
 
+brew() {
+  local BREW_PATH=$(which brew)
+  local RESULT=$($BREW_PATH $@)
+  echo -e "\033[1;31mDon't run 'brew $@' in your ~/.bashrc!" >&2
+  echo -e "Replace this call with: $RESULT\033[0m" >&2
+  echo $RESULT
+}
 # DEBUG_BASHRC=true
 
 for BASHRC_MODULE in $BASHRC_MODULES; do
@@ -58,4 +64,5 @@ source "$DOTFILES_PATH/rails_shell/rails_shell.sh"
 [[ -n $DEBUG_BASHRC ]] && echo "Finalizing Bash autoreload..."
 finalize_auto_reload
 
+unset -f brew
 unset DEBUG_BASHRC
