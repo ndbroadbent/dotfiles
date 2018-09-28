@@ -34,10 +34,16 @@ finalize_auto_reload() {
   unset autoreload_prompt_command
 }
 
-# Records the list of files sourced from $HOME directory
-source() {
-  for f in $@; do [[ "$f" =~ "$HOME" ]] && SOURCED_FILES+=" $f"; done
-  builtin source $@
-}
-alias .="source"
-export SOURCED_FILES="$HOME/.bashrc $DOTFILES_PATH/bashrc/auto_reload.sh"
+if [ -n "$DISABLE_BASHRC_AUTORELOAD" ]; then
+  finalize_auto_reload() {
+    export PROMPT_COMMAND="$autoreload_prompt_command"
+  }
+else
+  # Records the list of files sourced from $HOME directory
+  source() {
+    for f in $@; do [[ "$f" =~ "$HOME" ]] && SOURCED_FILES+=" $f"; done
+    builtin source $@
+  }
+  alias .="source"
+  export SOURCED_FILES="$HOME/.bashrc $DOTFILES_PATH/bashrc/auto_reload.sh"
+fi
