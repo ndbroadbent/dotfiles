@@ -1,10 +1,7 @@
 # Run Rails commands on any version
-rails_cmd(){
-  # Rails 3
-  if [ -e ./script/rails ]; then bundle_install_wrapper bundle exec rails3_with_editor "$@"
-  # Rails <= 2
-  elif [ -e ./script/$1 ]; then bundle_install_wrapper "./script/$@"
-  # Rails 4
+rails_cmd() {
+  if [ -e ./script/$1 ]; then bundle_install_wrapper "./script/$@"
+  elif [ -e ./bin/rails ]; then bundle_install_wrapper "./bin/rails $@"
   elif [ -e ./config.ru ] && grep -q Rails ./config.ru; then bundle_install_wrapper bundle exec rails "$@"
   else echo "== I don't think this is a Rails application!"
   fi
@@ -40,7 +37,6 @@ rspec() { if [ -f ./bin/rspec ]; then ./bin/rspec "$@"; else $(which rspec) "$@"
 rails() { if [ -f ./bin/rails ]; then ./bin/rails "$@"; else $(which rails) "$@"; fi }
 rake() { if [ -f ./bin/rake ]; then ./bin/rake "$@"; else $(which rake) "$@"; fi }
 spring() { if [ -f ./bin/spring ]; then ./bin/spring "$@"; else $(which spring) "$@"; fi }
-
 
 # Aliases for running Rails on different ports
 for p in $(seq 3001 3009); do

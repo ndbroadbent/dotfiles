@@ -1,7 +1,6 @@
 # Rake aliases
 alias r="bundle_install_wrapper rake"
 # Run all rake commands with bundle exec, and --trace flag
-alias rake="bundle_install_wrapper rake"
 alias rdc="bundle_install_wrapper  rake db:create"
 alias rdp="bundle_install_wrapper  rake db:drop"
 alias rdm="bundle_install_wrapper  rake db:migrate"
