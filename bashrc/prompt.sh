@@ -72,7 +72,7 @@ parse_convox_host() {
     if [ -e ~/.convox/host ]; then
       local CONVOX_HOST="$(cat ~/.convox/host)"
       if [ $CONVOX_HOST = "console.convox.com" ]; then
-        echo " \[\033[00;33m\][P]\033[00m "
+        echo " \[\033[00;35m\][P]\033[00m "
       else
         echo " \[\033[00;32m\][S]\033[00m "
       fi
