@@ -8,11 +8,11 @@ _bld_col="\033[1;37m"   # Bold text (white)
 _wrn_col="\033[1;31m"   # Warning
 _sep_col="\033[2;32m"   # Separators
 _usr_col="\033[1;32m"   # Username
-_cwd_col=$_txt_col    # Current directory
+_cwd_col=$_txt_col      # Current directory
 _hst_col="\033[0;32m"   # Host
 _env_col="\033[0;36m"   # Prompt environment
 _git_col="\033[1;36m"   # Git branch
-_chr_col=$_txt_col    # Prompt char
+_chr_col=$_txt_col      # Prompt char
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
@@ -67,10 +67,23 @@ parse_gem_development() {
   if env | grep -q "^GEM_DEV="; then echo "\[\033[0;33m\]⚒ "; fi
 }
 
+parse_convox_host() {
+  if [[ $PWD == */code/form_api* ]]; then
+    if [ -e ~/.convox/host ]; then
+      local CONVOX_HOST="$(cat ~/.convox/host)"
+      if [ $CONVOX_HOST = "console.convox.com" ]; then
+        echo " \[\033[00;33m\][P]\033[00m "
+      else
+        echo " \[\033[00;32m\][S]\033[00m "
+      fi
+    fi
+  fi
+}
+
 # Allow symbols to represent users & machines
 user_symbol(){ [ -e $HOME/.user_sym ] && cat $HOME/.user_sym || echo "$USER"; }
-host_symbol(){ [ -e "$HOME/../.hostname_sym" ] && cat $HOME/../.hostname_sym || echo "$HOSTNAME"; }
-user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/../.hostname_sym" ]) || echo "@"; }
+host_symbol(){ [ -e "$HOME/.hostname_sym" ] && cat $HOME/.hostname_sym || echo "$HOSTNAME"; }
+user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/.hostname_sym" ]) || echo "@"; }
 
 # Set the prompt string (PS1)
 # Looks like this:
@@ -86,6 +99,7 @@ set_ps1() {
   local db_str=`parse_branched_db_status`
   local gem_dev=`parse_gem_development`
   local ruby=`parse_ruby_version`
+  local convox_host=`parse_convox_host`
 
   git_str="\[$_git_col\]$git_branch$git_dirty"
   # Git repo & ruby version
@@ -102,7 +116,8 @@ set_ps1() {
   fi
 
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >] < ci status > < db status > < gem dev status >
-  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str$trav_str$db_str$gem_dev\[$_chr_col\]\$ \[$_txt_col\]"
+  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str \
+$env_str$trav_str$db_str$gem_dev$convox_host\[$_chr_col\]\$ \[$_txt_col\]"
 }
 
 # Set custom prompt
