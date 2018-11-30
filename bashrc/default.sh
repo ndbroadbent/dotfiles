@@ -50,6 +50,8 @@ export REACT_EDITOR="code -g"
 export BUNDLER_EDITOR="code -g"
 export GIT_EDITOR="vim"
 
+# GPG
+export GPG_TTY=$(tty)
 
 # Add /usr/local/sbin
 export PATH="$PATH:/usr/local/sbin"
