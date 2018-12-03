@@ -14,13 +14,34 @@ _env_col="\033[0;36m"   # Prompt environment
 _git_col="\033[1;36m"   # Git branch
 _chr_col=$_txt_col      # Prompt char
 
-# Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  \git branch 2> /dev/null | sed "s/^\* \([^ ]*\)/\1/;tm;d;:m"
+  git rev-parse --abbrev-ref HEAD 2> /dev/null
 }
 
 parse_git_dirty() {
-  local git_status="$(\git status --short --porcelain 2> /dev/null)"
+  [ -f .git/info/slow-status ] && return;
+
+  local START_TIME=$(gdate +%s%3N)
+  git_status="$(\git status --short --porcelain 2>/dev/null)"
+  local ELAPSED_TIME=$(expr $(gdate +%s%3N) - $START_TIME)
+
+  # Show a warning for huge repos where git status is slow, e.g. Chromium, Linux.
+  # Then touch '.git/info/slow-status' to disable the prompt for this repo.
+  if [ "$ELAPSED_TIME" -gt 500 ]; then
+    touch .git/info/slow-status
+    echo -e "\033[1;31m'git status' took $ELAPSED_TIME milliseconds." \
+      "That's a really long time." 1>&2
+    echo -e "You might want to install 'rs-git-fsmonitor' to set up a" \
+      "file watcher daemon." 1>&2
+    echo -e "See: https://github.com/jgavris/rs-git-fsmonitor" 1>&2
+    echo -e "Then run: git config core.fsmonitor rs-git-fsmonitor" 1>&2
+    echo 1>&2
+    echo -e "Unfortunately it will still be too slow to show the git status" 1>&2
+    echo -e "in your bash prompt, so we've disabled it for this repo." 1>&2
+    echo -e "(A file was created at: .git/info/slow-status)\033[0m" 1>&2
+    echo 1>&2
+  fi
+
   if [ -n "$git_status" ]; then
     # Default blue for only untracked files
     local color="\033[1;34m"
@@ -93,13 +114,8 @@ user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/.hostname_sym" ]) || ec
 set_ps1() {
   local user_str="\[$_usr_col\]$(user_symbol)\[$_sep_col\]$(user_host_sep)\[$_hst_col\]$(host_symbol)\[$_txt_col\]"
   local dir_str="\[$_cwd_col\]\w"
-  local git_branch=''
-  local git_dirty=''
-  # It takes 7 seconds to run 'git status' for the Chromium repo
-  if ! grep -q "url = .*chromium\/src\.git" .git/config 2>/dev/null; then
-    local git_branch=`parse_git_branch`
-    local git_dirty=`parse_git_dirty`
-  fi
+  local git_branch=`parse_git_branch`
+  local git_dirty=`parse_git_dirty`
   local ruby=`parse_ruby_version`
   local convox_host=`parse_convox_host`
 
