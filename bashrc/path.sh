@@ -27,6 +27,9 @@ export PATH="${PATH}:/Users/ndbroadbent/anaconda/bin"
 export PATH="${PATH}:/usr/local/opt/imagemagick/bin"
 export PATH="${PATH}:/usr/local/opt/qt@5.5/bin"
 
+# depot_tools (Chromium)
+export PATH="${PATH}:/Users/ndbroadbent/code/depot_tools"
+
 # Prefer binstubs in Rails applications over binaries from RVM gems
 # e.g. rspec is wrapped with the spring preloader
 export PATH="./bin:${PATH}"
