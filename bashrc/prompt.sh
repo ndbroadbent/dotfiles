@@ -95,9 +95,6 @@ set_ps1() {
   local dir_str="\[$_cwd_col\]\w"
   local git_branch=`parse_git_branch`
   local git_dirty=`parse_git_dirty`
-  local trav_str=`parse_travis_status "$git_branch"`
-  local db_str=`parse_branched_db_status`
-  local gem_dev=`parse_gem_development`
   local ruby=`parse_ruby_version`
   local convox_host=`parse_convox_host`
 
@@ -117,7 +114,7 @@ set_ps1() {
 
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >] < ci status > < db status > < gem dev status >
   PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str \
-$env_str$trav_str$db_str$gem_dev$convox_host\[$_chr_col\]\$ \[$_txt_col\]"
+$env_str$convox_host\[$_chr_col\]\$ \[$_txt_col\]"
 }
 
 # Set custom prompt
