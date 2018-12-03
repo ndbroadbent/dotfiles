@@ -93,8 +93,13 @@ user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/.hostname_sym" ]) || ec
 set_ps1() {
   local user_str="\[$_usr_col\]$(user_symbol)\[$_sep_col\]$(user_host_sep)\[$_hst_col\]$(host_symbol)\[$_txt_col\]"
   local dir_str="\[$_cwd_col\]\w"
-  local git_branch=`parse_git_branch`
-  local git_dirty=`parse_git_dirty`
+  local git_branch=''
+  local git_dirty=''
+  # It takes 7 seconds to run 'git status' for the Chromium repo
+  if ! grep -q "url = .*chromium\/src\.git" .git/config 2>/dev/null; then
+    local git_branch=`parse_git_branch`
+    local git_dirty=`parse_git_dirty`
+  fi
   local ruby=`parse_ruby_version`
   local convox_host=`parse_convox_host`
 
