@@ -59,13 +59,17 @@ alias ds='osascript .dev.scpt "$(pwd)" &'
 alias f='cd ~/code/form_api'
 alias fd='f; ds'
 
-alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
-alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
-alias bork="bark"
-
 if [ "$(uname)" = Darwin ]; then
   alias beep="afplay /System/Library/Sounds/Glass.aiff"
-  alias bark="afplay $DOTFILES_PATH/sounds/bark.aiff"
+  bark() {
+    for i in $(seq ${1:-1}); do
+      afplay $DOTFILES_PATH/sounds/bark.aiff
+    done
+  }
+  alias bork="bark"
+else
+  alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
+  alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
   alias bork="bark"
 fi
 
