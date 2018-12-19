@@ -11,6 +11,7 @@ _usr_col="\033[1;32m"   # Username
 _cwd_col=$_txt_col      # Current directory
 _hst_col="\033[0;32m"   # Host
 _env_col="\033[0;36m"   # Prompt environment
+_ruby_col="\033[1;36m"  # Ruby version
 _git_col="\033[1;36m"   # Git branch
 _chr_col=$_txt_col      # Prompt char
 
@@ -57,7 +58,7 @@ parse_git_dirty() {
 # Returns the current ruby version.
 parse_ruby_version() {
   if (which ruby | grep -q ruby); then
-    ruby -v | cut -d ' ' -f2
+    ruby -v | cut -d ' ' -f2 | cut -d 'p' -f 1
   fi
 }
 
@@ -69,9 +70,9 @@ parse_travis_status() {
   local stat_file=$(find_in_cwd_or_parent ".travis_status~")
   if [ -e "$stat_file" ]; then
     case "$(grep -m 1 "^$branch " "$stat_file")" in
-    *passed)  echo "\[\033[01;32m\]✔ ";; # green
-    *failed)  echo "\[\033[01;31m\]✘ ";; # red
-    *running) echo "\[\033[01;33m\]⁇ ";; # yellow
+    *passed)  echo "\[\033[1;32m\]✔ ";; # green
+    *failed)  echo "\[\033[1;31m\]✘ ";; # red
+    *running) echo "\[\033[1;33m\]⁇ ";; # yellow
     esac
   fi
 }
@@ -79,7 +80,7 @@ parse_travis_status() {
 parse_branched_db_status() {
   if [ -n "$DB_SUFFIX" ]; then
     # Show that our current database is a unique snowflake
-    echo "\[\033[01;35m\]❅ "
+    echo "\[\033[1;35m\]❅ "
   fi
 }
 
@@ -93,9 +94,9 @@ parse_convox_host() {
     if [ -e ~/.convox/host ]; then
       local CONVOX_HOST="$(cat ~/.convox/host)"
       if [ $CONVOX_HOST = "console.convox.com" ]; then
-        echo " \[\033[00;35m\][P]\033[00m "
+        echo "\[\033[1;35m\]P"
       else
-        echo " \[\033[00;32m\][S]\033[00m "
+        echo "\[\033[1;32m\]S"
       fi
     fi
   fi
@@ -112,7 +113,7 @@ user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/.hostname_sym" ]) || ec
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {
-  local user_str="\[$_usr_col\]$(user_symbol)\[$_sep_col\]$(user_host_sep)\[$_hst_col\]$(host_symbol)\[$_txt_col\]"
+  local user_str="\[$_usr_col\]$(user_symbol) \[$_sep_col\]$(user_host_sep)\[$_hst_col\]$(host_symbol)\[$_txt_col\]"
   local dir_str="\[$_cwd_col\]\w"
   local git_branch=`parse_git_branch`
   local git_dirty=`parse_git_dirty`
@@ -120,22 +121,25 @@ set_ps1() {
   local convox_host=`parse_convox_host`
 
   git_str="\[$_git_col\]$git_branch$git_dirty"
+  # Git repo & ruby version & Convox host
+  if [ -n "$git_branch" ] && [ -n "$ruby" ] && [ -n "$convox_host" ]; then
+    env_str="\[$_env_col\][$git_str\[$_env_col\]|\[$_ruby_col\]$ruby\[$_env_col\]|$convox_host\[$_env_col\]]"
   # Git repo & ruby version
-  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][$git_str\[$_env_col\]|$ruby]"
+  elif [ -n "$git_branch" ] && [ -n "$ruby" ]; then
+    env_str="\[$_env_col\][$git_str\[$_env_col\]|\[$_ruby_col\]$ruby\[$_env_col\]]"
   # Just git repo
   elif [ -n "$git_branch" ]; then
     env_str="\[$_env_col\][$git_str\[$_env_col\]]"
   # Just ruby version
   elif [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][$ruby]"
+    env_str="\[$_env_col\][\[$_ruby_col\]$ruby\[$_env_col\]]"
   else
     unset env_str
   fi
 
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >] < ci status > < db status > < gem dev status >
   PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str \
-$env_str$convox_host\[$_chr_col\]\$ \[$_txt_col\]"
+$env_str\[$_chr_col\] \$ \[$_txt_col\]"
 }
 
 # Set custom prompt
