@@ -8,6 +8,7 @@ BASHRC_MODULES=" \
   docker
   ruby_on_rails
   capistrano
+  python
   golang
   java
   database_branches
