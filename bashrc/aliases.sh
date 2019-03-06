@@ -61,6 +61,8 @@ alias ds='osascript .dev.scpt "$(pwd)" &'
 alias f='cd ~/code/form_api'
 alias fd='f; ds'
 
+alias ed='c envkey-client-server; ds'
+
 if [ "$(uname)" = Darwin ]; then
   alias beep="afplay /System/Library/Sounds/Glass.aiff"
   bark() {
