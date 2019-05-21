@@ -58,8 +58,8 @@ alias rnwp='react-native run-wpf'
 
 alias ds='osascript .dev.scpt "$(pwd)" &'
 
-alias f='cd ~/code/form_api'
-alias fd='f; ds'
+alias d='cd ~/code/docspring'
+alias dds='d; ds'
 
 alias ed='c envkey-client-server; ds'
 
