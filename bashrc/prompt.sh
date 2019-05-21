@@ -90,7 +90,7 @@ parse_gem_development() {
 }
 
 parse_convox_host() {
-  if [[ $PWD == */code/form_api* ]]; then
+  if [[ $PWD == */code/docspring* ]]; then
     if [ -e ~/.convox/host ]; then
       local CONVOX_HOST="$(cat ~/.convox/host)"
       if [ $CONVOX_HOST = "console.convox.com" ]; then
