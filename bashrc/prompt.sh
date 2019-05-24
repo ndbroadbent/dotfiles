@@ -95,6 +95,8 @@ parse_convox_host() {
       local CONVOX_HOST="$(cat ~/.convox/host)"
       if [ $CONVOX_HOST = "console.convox.com" ]; then
         echo "\[\033[1;35m\]P"
+      elif [[ $CONVOX_HOST == "docspring-eu"* ]]; then
+        echo "\[\033[1;33m\]EU"
       else
         echo "\[\033[1;32m\]S"
       fi
