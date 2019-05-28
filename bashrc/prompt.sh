@@ -20,7 +20,10 @@ parse_git_branch() {
 }
 
 parse_git_dirty() {
-  [ -f .git/info/slow-status ] && return;
+  if [ -f .git/info/slow-status ]; then
+    echo -e "\[\033[1;33m\]?"
+    return
+  fi
 
   local START_TIME=$(gdate +%s%3N)
   git_status="$(\git status --short --porcelain 2>/dev/null)"
