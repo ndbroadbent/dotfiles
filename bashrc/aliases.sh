@@ -69,6 +69,7 @@ if [ "$(uname)" = Darwin ]; then
   alias bork="bark"
 else
   alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
+  alias alert="mplayer $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1"
   alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
   alias bork="bark"
 fi
