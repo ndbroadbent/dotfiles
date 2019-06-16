@@ -21,7 +21,6 @@ alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 alias s='sudo'
 alias ss='ssh'
 alias ss2='ssh -p2202'
-alias n='nautilus .'
 alias le="less"
 alias psg='ps aux | grep'
 alias sbrc="source ~/.bashrc"
@@ -65,17 +64,25 @@ alias ed='c envkey-client-server; ds'
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="afplay /System/Library/Sounds/Glass.aiff"
-  bark() {
-    for i in $(seq ${1:-1}); do
-      afplay $DOTFILES_PATH/sounds/bark.aiff
-    done
-  }
+  alias alert="afplay $DOTFILES_PATH/sounds/alert.mp3"
+  alias bark="afplay $DOTFILES_PATH/sounds/bark.aiff"
   alias bork="bark"
 else
   alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
   alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
   alias bork="bark"
 fi
+
+function n() {
+  if [ -z "$1" ]; then
+    alert
+    osascript -e "display notification \"Alert from Bash\""
+  else
+    "$@"
+    alert
+    osascript -e "display notification \"Finished running: $*\""
+  fi
+}
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
 function edit_file() {
