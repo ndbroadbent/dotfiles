@@ -75,12 +75,15 @@ fi
 
 function n() {
   local ALERT="Alert from Bash"
+  local EXIT_CODE=0
   if [ -n "$1" ]; then
     "$@"
+    EXIT_CODE=$?
     ALERT="Finished running: $*"
   fi
   alert
   osascript -e "display notification \"$ALERT\""
+  return "$EXIT_CODE"
 }
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
