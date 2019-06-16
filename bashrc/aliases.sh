@@ -74,14 +74,13 @@ else
 fi
 
 function n() {
-  if [ -z "$1" ]; then
-    alert
-    osascript -e "display notification \"Alert from Bash\""
-  else
+  local ALERT="Alert from Bash"
+  if [ -n "$1" ]; then
     "$@"
-    alert
-    osascript -e "display notification \"Finished running: $*\""
+    ALERT="Finished running: $*"
   fi
+  alert
+  osascript -e "display notification \"$ALERT\""
 }
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
