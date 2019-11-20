@@ -31,20 +31,20 @@ parse_git_dirty() {
 
   # Show a warning for huge repos where git status is slow, e.g. Chromium, Linux.
   # Then touch '.git/info/slow-status' to disable the prompt for this repo.
-  if [ "$ELAPSED_TIME" -gt 2500 ]; then
-    touch .git/info/slow-status
-    echo -e "\033[1;31m'git status' took $ELAPSED_TIME milliseconds." \
-      "That's a really long time." 1>&2
-    echo -e "You might want to install 'rs-git-fsmonitor' to set up a" \
-      "file watcher daemon." 1>&2
-    echo -e "See: https://github.com/jgavris/rs-git-fsmonitor" 1>&2
-    echo -e "Then run: git config core.fsmonitor rs-git-fsmonitor" 1>&2
-    echo 1>&2
-    echo -e "Unfortunately it will still be too slow to show the git status" 1>&2
-    echo -e "in your bash prompt, so we've disabled it for this repo." 1>&2
-    echo -e "(A file was created at: .git/info/slow-status)\033[0m" 1>&2
-    echo 1>&2
-  fi
+  # if [ "$ELAPSED_TIME" -gt 2500 ]; then
+  #   touch .git/info/slow-status
+  #   echo -e "\033[1;31m'git status' took $ELAPSED_TIME milliseconds." \
+  #     "That's a really long time." 1>&2
+  #   echo -e "You might want to install 'rs-git-fsmonitor' to set up a" \
+  #     "file watcher daemon." 1>&2
+  #   echo -e "See: https://github.com/jgavris/rs-git-fsmonitor" 1>&2
+  #   echo -e "Then run: git config core.fsmonitor rs-git-fsmonitor" 1>&2
+  #   echo 1>&2
+  #   echo -e "Unfortunately it will still be too slow to show the git status" 1>&2
+  #   echo -e "in your bash prompt, so we've disabled it for this repo." 1>&2
+  #   echo -e "(A file was created at: .git/info/slow-status)\033[0m" 1>&2
+  #   echo 1>&2
+  # fi
 
   if [ -n "$git_status" ]; then
     # Default blue for only untracked files
