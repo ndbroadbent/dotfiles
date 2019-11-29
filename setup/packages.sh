@@ -10,12 +10,13 @@ if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
   brew tap heroku/brew
 fi
 
-brew install mackup rbenv nvm git bash wget curl yarn \
+brew install mackup rbenv nvm git bash wget curl yarn jq \
   ack vim nano less htop unrar ffmpeg \
   postgres redis imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep
 
+mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
 brew cask install flux google-chrome firefox iterm2 spectacle \
