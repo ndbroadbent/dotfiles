@@ -8,6 +8,6 @@ Started using [Mackup](https://github.com/lra/mackup) to store most config files
 
 ### Set up a new machine:
 
-
-
-bc. sudo apt-get install -ym git-core && git clone https://github.com/ndbroadbent/dotfiles.git /tmp/dotfiles && cd /tmp/dotfiles && ./dev_machine_setup.sh
+```
+curl dotfiles.ndbroadbent.com | bash
+```
