@@ -9,5 +9,5 @@ Started using [Mackup](https://github.com/lra/mackup) to store most config files
 ### Set up a new machine:
 
 ```
-curl dotfiles.ndbroadbent.com | bash
+curl https://dotfiles.ndbroadbent.com | bash
 ```
