@@ -1,0 +1,74 @@
+#!/bin/bash
+set -eo pipefail
+
+
+if ! [ -d "$HOME/Dropbox" ]; then
+  echo "Could not find Dropbox folder at $HOME/Dropbox. Please set up Dropbox first."
+  exit 1
+fi
+
+if ! which openssl > /dev/null 2>&1; then
+  echo "openssl is required! Please install packages first."
+  exit 1
+fi
+
+function usage() {
+  cat <<HELP >&2
+Usage: $0
+  -s Encrypt and save ~/.[ssh|convox] to Dropbox
+  -r Decrypt and restore ~/.[ssh|convox] from Dropbox
+HELP
+}
+
+if [ -z "$1" ]; then
+  usage
+  exit 1
+fi
+CONFIG_DIR="$1"
+shift
+
+DROPBOX_FOLDER="$HOME/Dropbox"
+ENCRYPTED_FILES_PATH="$DROPBOX_FOLDER/$CONFIG_DIR.tar.gz.encrypted"
+
+function save_files() {
+  echo "=> Encrypting $HOME/.$CONFIG_DIR and saving to ${ENCRYPTED_FILES_PATH}..."
+  cd "$HOME/.$CONFIG_DIR"
+  tar cz * | openssl enc -aes-256-cbc -e > "${ENCRYPTED_FILES_PATH}"
+}
+
+function restore_files() {
+  if ! [ -f "$ENCRYPTED_FILES_PATH" ]; then
+    echo "Could not find encrypted files at ${ENCRYPTED_FILES_PATH}"
+    exit 1
+  fi
+
+  echo "=> Decrypting and extracting ~/.$CONFIG_DIR from ${ENCRYPTED_FILES_PATH}..."
+  openssl aes-256-cbc -d -in "${ENCRYPTED_FILES_PATH}" -out /tmp/$CONFIG_DIR.tar.gz
+  rm -rf "$HOME/.$CONFIG_DIR"
+  mkdir -p "$HOME/.$CONFIG_DIR"
+  cd "$HOME/.$CONFIG_DIR"
+  tar xvf /tmp/$CONFIG_DIR.tar.gz
+  rm -rf /tmp/$CONFIG_DIR.tar.gz
+}
+
+
+function parse_options() {
+  local OPTIND=1
+  local opt
+  while getopts "srh" opt; do
+    case "$opt" in
+    s)
+      save_files;;
+    r)
+      restore_files;;
+    h)
+      usage
+      exit;;
+    *)
+      echo "Unknown option: -$opt" >&2
+      return 1;;
+    esac
+  done
+  shift $((OPTIND -1))
+}
+parse_options "$@"
