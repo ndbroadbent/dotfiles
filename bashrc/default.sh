@@ -56,6 +56,9 @@ export GPG_TTY=$(tty)
 # Add /usr/local/sbin
 export PATH="$PATH:/usr/local/sbin"
 
+# Homebrew updates way too regularly by default
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # Don't worry about /var/mail/ notifications
 unset MAILCHECK
 

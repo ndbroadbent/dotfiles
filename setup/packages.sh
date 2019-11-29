@@ -1,40 +1,23 @@
 #!/bin/bash
-brew install binutils
-brew install diffutils
-brew install ed --default-names
-brew install findutils --default-names
-brew install coreutils --default-names
-brew install gawk
-brew install gnu-indent --default-names
-brew install gnu-sed --default-names
-brew install gnu-tar --default-names
-brew install gnu-which --default-names
-brew install gnutls --default-names
-brew install grep --default-names
-brew install gzip
-brew install screen
-brew install watch
-brew install wdiff --with-gettext
-brew install wget
-brew install ack
+# Refs: https://gist.github.com/t-io/8255711
 
-brew install bash
-brew install emacs
-brew install gdb  # gdb requires further actions to make it work. See `brew info gdb`.
-brew install gpatch
-brew install m4
-brew install make
-brew install nano
+if ! which brew > /dev/null 2>&1; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 
-brew install file-formula
-brew install git
-brew install hub
-brew install less
-brew install openssh --with-brewed-openssl
-brew install perl518   # must run "brew tap homebrew/versions" first!
-brew install python --with-brewed-openssl
-brew install rsync
-brew install unzip
-brew install vim --override-system-vi
-brew install macvim --override-system-vim --custom-system-icons
-brew install zsh
+if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
+  brew tap heroku/brew
+fi
+
+brew install mackup rbenv nvm git bash wget curl yarn \
+  ack vim nano less htop unrar ffmpeg \
+  postgresql imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
+  gzip screen file-formula openssh python rsync unzip \
+  findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep
+
+brew cask install flux google-chrome firefox iterm2 spectacle \
+  visual-studio-code virtualbox dropbox vlc charles skype spotify docker
+
+echo -e "\n====> Run 'mackup restore' after you've signed in to Dropbox.\n"
+# echo "Running brew cleanup..."
+# brew cleanup

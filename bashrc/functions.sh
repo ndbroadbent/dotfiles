@@ -150,7 +150,6 @@ idevicearchiveallapps() {
   fi
 }
 
-
 version() {
   case "$1" in
   "") echo "Usage: version <ruby|python|java|go|hugo|imagemagick|etc.>";;

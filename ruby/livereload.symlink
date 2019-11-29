@@ -1,2 +1,0 @@
-# additional extensions to monitor
-config.exts << 'haml'

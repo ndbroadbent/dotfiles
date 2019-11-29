@@ -1,2 +1,0 @@
-export rvm_path="$HOME/.rvm"
-rvm_trust_rvmrcs_flag=1

@@ -1,57 +1,23 @@
 #!/bin/bash
-. setup/_shared.sh
-# This bash script will set up (or update) your development environment.
-
-scripts=""
+set -eo pipefail
 
 if [[ $EUID -eq 0 ]]; then
   echo -e "\033[01;31mPlease do not use sudo to run this script!\033[00m" 2>&1
   exit 1
 fi
 
-echo -e "
----------------------------------
-| Mac Developer Setup Script |
----------------------------------\n"
+echo -e "Setting up Mac..."
+source setup/bashrc.sh
+source setup/packages.sh
+source setup/mac_settings.sh
+source setup/scm_breeze.sh
 
-# Prerequisites
-# -------------------------------------
-# Requires root permissions (requests password here)
-sudo true
-
-# '--all' flag installs everything
-if [ "$1" = "--all" ]; then
-  echo "== Setting up default environment..."
-  scripts="packages bashrc git_config rvm rvm_hooks "
-  prompt_for_git
-
-# '--update' flag updates everything that doesn't require user input
-elif [ "$1" = "--update" ]; then
-  echo "== Running default update..."
-  scripts="packages bashrc rvm_hooks "
-
-# If no flag given, ask user which scripts they would like to run.
-else
-  confirm_by_default "Git config" 'git_config'
-  if [[ "$scripts" =~ "git_config" ]]; then prompt_for_git; fi # prompt for git user details
-
-  confirm_by_default "Brew packages"                'packages'
-  confirm_by_default "Dotfiles (bashrc, etc.)"      'bashrc'
-  confirm_by_default "SCM Breeze"                   'scm_breeze'
-  confirm_by_default "RVM (Ruby Version Manager)"   'rvm'
-  confirm_by_default "RVM Hooks (symlink to current gemset)" 'rvm_hooks'
+if [ "$BASH" != "/bin/bash" ]; then
+  echo "Changing shell to /bin/bash for ${USER}"
+  sudo chsh -s /bin/bash "${USER}"
 fi
 
-scripts=`echo $scripts`  # Remove line-breaks
-echo -e "\n===== Executing the following scripts:"
-echo -e   "      [ $scripts ]\n"
+echo "🍀" > "$HOME/.user_sym"
+echo "" > "$HOME/.hostname_sym"
 
-
-# Include each configured script
-# --------------------------------------------------------------
-for script in $scripts; do
-  source setup/$script.sh
-done
-
-echo -e "\n===== Development machine has been set up!\n"
-
+echo -e "\n=> All done!"

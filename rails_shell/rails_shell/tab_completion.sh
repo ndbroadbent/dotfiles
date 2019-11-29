@@ -30,14 +30,14 @@ __railscomp(){
 #
 # @param $1 Name of variable to return result to
 # @param $2 Command list
-__railscmd(){
-  any_command=$(echo $2 | sed -e 's/[[:space:]]/|/g')
-  for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
-    if [[ ${COMP_WORDS[i]} == @($any_command) ]]; then
-      eval $1="${COMP_WORDS[i]}"
-    fi
-  done
-}
+# __railscmd(){
+#   any_command=$(echo $2 | sed -e 's/[[:space:]]/|/g')
+#   for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
+#     if [[ ${COMP_WORDS[i]} == @($any_command) ]]; then
+#       eval $1="${COMP_WORDS[i]}"
+#     fi
+#   done
+# }
 
 __rails_env(){
   __railscomp "{-e,--environment=}{test,development,staging,sandbox,production}"
