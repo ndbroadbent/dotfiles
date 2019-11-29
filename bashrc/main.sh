@@ -70,5 +70,11 @@ source "$DOTFILES_PATH/rails_shell/rails_shell.sh"
 [[ -n $DEBUG_BASHRC ]] && echo "Finalizing Bash autoreload..."
 finalize_auto_reload
 
+# Fixes: +[__NSCFConstantString initialize] may have been in progress in another
+# thread when fork() was called. See:
+# * https://github.com/rbenv/ruby-build/issues/1385
+# * https://github.com/puma/puma/issues/1421
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
 unset -f brew
 unset DEBUG_BASHRC
