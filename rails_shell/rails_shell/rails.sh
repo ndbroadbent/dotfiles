@@ -31,8 +31,6 @@ alias   fs="foreman start"
 
 alias crb='crystalball'
 
-# RVM keeps pushing itself to the front of the PATH.
-# Workaround is to use functions.
 rspec() { if [ -f ./bin/rspec ]; then ./bin/rspec "$@"; else $(which rspec) "$@"; fi }
 rails() { if [ -f ./bin/rails ]; then ./bin/rails "$@"; else $(which rails) "$@"; fi }
 rake() { if [ -f ./bin/rake ]; then ./bin/rake "$@"; else $(which rake) "$@"; fi }

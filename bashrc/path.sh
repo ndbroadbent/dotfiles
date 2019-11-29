@@ -8,9 +8,6 @@ export PATH="${PATH}:${HOME}/.yarn/bin"
 # NPM
 export PATH="${PATH}:./node_modules/.bin"
 
-# RVM (Ruby)
-export PATH="${PATH}:${HOME}/.rvm/bin"
-
 # GNU utils
 export PATH="${PATH}:/usr/local/opt/coreutils/libexec/gnubin"
 
@@ -30,8 +27,5 @@ export PATH="${PATH}:/usr/local/opt/qt@5.5/bin"
 # depot_tools (Chromium)
 export PATH="${PATH}:/Users/ndbroadbent/code/depot_tools"
 
-# Prefer binstubs in Rails applications over binaries from RVM gems
-# e.g. rspec is wrapped with the spring preloader
-# NOTE: DON'T DO THIS! Sometimes an app will have ./bin/ssh, and that
-# really screws things up.
-# export PATH="./bin:${PATH}"
+# rbenv (adds ~/.rbenv/shims to PATH)
+eval "$(rbenv init -)"

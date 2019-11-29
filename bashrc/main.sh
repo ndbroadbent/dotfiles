@@ -1,3 +1,7 @@
+export LC_ALL=en_US.UTF-8
+# Hide "The default interactive shell is now zsh" on macOS
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 BASHRC_MODULES=" \
   auto_reload
   default
@@ -7,12 +11,9 @@ BASHRC_MODULES=" \
   convox
   docker
   ruby_on_rails
-  capistrano
-  python
+  react_native
   golang
   java
-  database_branches
-  tmux
   prompt
   path
 "
@@ -48,10 +49,6 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-
-# RVM
-[[ -n $DEBUG_BASHRC ]] && echo "Loading RVM..."
-[ -s "$HOME/.rvm/scripts/rvm" ] && source "$HOME/.rvm/scripts/rvm"
 
 # SCM Breeze
 [[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."

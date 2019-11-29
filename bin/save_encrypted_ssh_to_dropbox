@@ -1,3 +1,0 @@
-#!/bin/bash
-cd "$HOME/.ssh"
-tar cz * | openssl enc -aes-256-cbc -e > "$HOME/Dropbox/ssh.tar.gz.encrypted"

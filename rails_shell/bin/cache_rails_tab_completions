@@ -7,20 +7,6 @@ git_exclude() {
   if [ -n "$1" ] && ! ([ -e $f ] && grep -q "$1" $f); then echo "$1" >> $f; fi
 }
 
-# Set up RVM
-if type rvm > /dev/null 2>&1; then
-  # Use .rvmrc, or default ruby
-  if [ -e .rvmrc ]; then
-    if ! source .rvmrc; then
-      # Quit if ruby version not installed.
-      echo "source .rvmrc failed!"
-      exit
-    fi
-  else
-    rvm default
-  fi
-fi
-
 # Abort if no HEAD commit
 $GIT_BINARY rev-parse HEAD > /dev/null 2>&1 || exit
 
@@ -56,16 +42,6 @@ for file in Rakefile rakefile Rakefile.rb rakefile.rb; do
     break
   fi
 done
-
-# Capistrano completions
-if [ -e "config/deploy.rb" ]; then
-  git_exclude "$CAP_COMP_FILE"
-
-  # Fetch rake commands and store in file
-  echo "Caching Capistrano commands for $(basename $(pwd))..."
-  cap -qvT | tail -r | tail -n +4 | tail -r | cut -d ' ' -f 2 > "$CAP_COMP_FILE"
-  completions_generated="true"
-fi
 
 # Rails generator completions
 if is_rails_app; then
