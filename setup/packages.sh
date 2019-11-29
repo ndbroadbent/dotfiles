@@ -16,6 +16,8 @@ brew install mackup rbenv nvm git bash wget curl yarn \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep
 
+mkdir -p "$HOME/.nvm"
+
 brew cask install flux google-chrome firefox iterm2 spectacle \
   visual-studio-code virtualbox dropbox vlc charles skype telegram spotify docker
 
