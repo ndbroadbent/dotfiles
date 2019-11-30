@@ -9,7 +9,7 @@ fi
 echo -e "Setting up Mac..."
 source setup/bashrc.sh
 source setup/packages.sh
-source setup/mac_settings.sh
+./setup/mac_settings.sh
 source setup/scm_breeze.sh
 
 if [ "$BASH" != "/bin/bash" ]; then
@@ -20,4 +20,35 @@ fi
 echo "🍀" > "$HOME/.user_sym"
 echo "" > "$HOME/.hostname_sym"
 
-echo -e "\n=> All done!"
+echo "Opening installed applications..."
+open -a "/Applications/iTerm.app"
+open -a "/Applications/Rectangle.app"
+open -a "/Applications/Dozer.app"
+open -a "/Applications/Flux.app"
+open -a "/Applications/RescueTime.app"
+open -a "/Applications/Docker.app"
+open -a "/Applications/Dropbox.app"
+open -a "/Applications/Backup and Sync.app"
+open -a "/Applications/Google Chrome.app"
+open -a "App Store"
+
+echo
+echo "Next Steps:"
+echo "================================="
+echo
+echo "=> Sign in to Chrome"
+echo "  ↪ Sign in to LastPass"
+echo "=> Sign in to the App Store"
+echo "  ↪ Run ./setup/mas.sh to install apps from App Store"
+echo "=> Sign in to Dropbox"
+echo "  ↪ Run 'mackup restore'"
+echo "  ↪ Run 'dropbox_backup -r'"
+echo "=> Sign in to DocSpring Google Drive"
+echo "=> Sign in to Personal Google Drive"
+echo "=> Sign in to RescueTime"
+echo "=> Sign in to Skype"
+echo "=> Sign in to Line"
+echo "=> Sign in to Telegram"
+echo "=> Sign in to Slack"
+echo "=> Sign in to Spotify"
+echo
