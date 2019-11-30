@@ -1,0 +1,18 @@
+#!/bin/bash
+gource \
+  --title "DocSpring" \
+  --hide filenames,dirnames,usernames \
+  --font-size 30 \
+  --user-font-size 24 \
+  --dir-font-size 18 \
+  --file-font-size 18 \
+  --filename-time 3 \
+  --font-colour "eeeeee" \
+  --date-format "%b %Y" \
+  --background-image $DOTFILES_PATH/gource/gource_bg.jpg \
+  --font-file $DOTFILES_PATH/gource/Inconsolata/Inconsolata-Bold.ttf \
+  --user-image-dir $DOTFILES_PATH/gource/avatars \
+  --auto-skip-seconds 3 \
+  --output-framerate 30 \
+  -s 0.05 \
+  -800x450
