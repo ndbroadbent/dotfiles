@@ -28,8 +28,8 @@ brew install mackup rbenv nvm git bash bash-completion wget curl yarn jq \
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
-brew cask install flux google-chrome firefox iterm2 spectacle \
-  visual-studio-code virtualbox vlc charles skype telegram spotify docker \
+brew cask install flux google-chrome firefox iterm2 rectangle dozer \
+  visual-studio-code virtualbox vlc charles skype telegram spotify docker  \
   dropbox google-backup-and-sync
 
 echo -e "\n====> Run the following commands after you've signed in to Dropbox:"
