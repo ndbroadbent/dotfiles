@@ -10,8 +10,17 @@ if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
   brew tap heroku/brew
 fi
 
+# Install Java and maven
+if /usr/libexec/java_home -V 2>&1 | grep "No Java runtime"; then
+  if ! [ -d "/usr/local/Homebrew/Library/Taps/adoptopenjdk" ]; then
+    brew tap AdoptOpenJDK/openjdk
+  fi
+  echo "Installing Java..."
+  brew cask install adoptopenjdk8
+fi
+
 brew install mackup rbenv nvm git bash bash-completion wget curl yarn jq \
-  ack vim nano less htop unrar ffmpeg \
+  ack vim nano less htop unrar ffmpeg maven \
   postgres redis imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep
