@@ -29,7 +29,8 @@ mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
 brew cask install flux google-chrome firefox iterm2 spectacle \
-  visual-studio-code virtualbox dropbox vlc charles skype telegram spotify docker
+  visual-studio-code virtualbox vlc charles skype telegram spotify docker \
+  dropbox google-backup-and-sync
 
 echo -e "\n====> Run the following commands after you've signed in to Dropbox:"
 eho "      * mackup restore"
