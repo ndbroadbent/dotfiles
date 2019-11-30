@@ -10,7 +10,7 @@ if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
   brew tap heroku/brew
 fi
 
-brew install mackup rbenv nvm git bash wget curl yarn jq \
+brew install mackup rbenv nvm git bash bash-completion wget curl yarn jq \
   ack vim nano less htop unrar ffmpeg \
   postgres redis imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
   gzip screen file-formula openssh python rsync unzip \
