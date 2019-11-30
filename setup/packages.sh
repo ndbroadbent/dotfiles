@@ -19,8 +19,8 @@ if /usr/libexec/java_home -V 2>&1 | grep "No Java runtime"; then
   brew cask install adoptopenjdk8
 fi
 
-brew install mackup rbenv nvm git bash bash-completion wget curl yarn jq \
-  ack vim nano less htop unrar ffmpeg maven \
+brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
+  ack vim nano less htop unrar ffmpeg maven defaultbrowser \
   postgres redis imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep
@@ -28,13 +28,14 @@ brew install mackup rbenv nvm git bash bash-completion wget curl yarn jq \
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
-brew cask install flux google-chrome firefox iterm2 rectangle dozer \
+brew cask install google-chrome firefox iterm2 \
+  flux rectangle dozer \
   visual-studio-code virtualbox vlc charles skype telegram spotify docker  \
-  dropbox google-backup-and-sync
+  dropbox google-backup-and-sync \
+  rescuetime
 
-echo -e "\n====> Run the following commands after you've signed in to Dropbox:"
-eho "      * mackup restore"
-eho "      * dropbox_backup ssh -r"
-eho "      * dropbox_backup convox -r"
 # echo "Running brew cleanup..."
 # brew cleanup
+
+echo "Setting default browser to Google Chrome..."
+defaultbrowser chrome
