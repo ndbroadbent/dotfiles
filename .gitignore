@@ -1,2 +1,3 @@
 bin/hub
 .DS_Store
+/gource/*

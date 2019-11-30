@@ -23,7 +23,8 @@ brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
   ack vim nano less htop unrar ffmpeg maven defaultbrowser \
   postgres redis imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
   gzip screen file-formula openssh python rsync unzip \
-  findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource
+  findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
+  youtube-dl
 
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"

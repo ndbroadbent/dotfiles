@@ -1,0 +1,71 @@
+#!/bin/bash
+cd $DOTFILES_PATH/gource
+
+# Background Image:
+# -------------------------------------------------------------------
+# Must be double the resolution. e.g. 800x450 => 1600x900
+
+# https://thrutu.com/why-everybody-is-talking-about-programming-the-simple-truth-revealed/
+
+# if [ -f "$DOTFILES_PATH/gource_bg.jpg" ]; then
+#   GOURCE_BG_IMG="$DOTFILES_PATH/gource_bg.jpg"
+# else
+#   echo "No background image found at $DOTFILES_PATH/gource_bg.jpg."
+#   echo "Download one from here maybe: https://wallpapercave.com/hacker-background"
+#   echo "This one is cool: https://wallpapercave.com/w/W9Yjyl7"
+#   echo
+#   echo "    \$ curl https://wallpapercave.com/wp/W9Yjyl7.jpg -o \$DOTFILES_PATH/gource_bg.jpg"
+#   echo
+#   echo "Or you can set the GOURCE_BG_IMG env var to an image path."
+# fi
+# if [ -n "$GOURCE_BG_IMG" ]; then
+#   GOURCE_BG_IMG_ARG="--background-image $GOURCE_BG_IMG"
+# fi
+
+# Music:
+# -------------------------------------------------------------------
+# Cold Funk - Kevin MacLeod: https://www.youtube.com/watch?v=Vhd6Kc4TZls
+# youtube-dl -F https://www.youtube.com/watch?v=d432TRZEeYw
+# youtube-dl --no-continue -f 251 -o gource-music.webm https://www.youtube.com/watch?v=Vhd6Kc4TZls
+# Trim first ~1 second of audio
+# ffmpeg -y -i gource-music.webm -ss 00:00:00.2 -codec:a libmp3lame -qscale:a 2 gource-music.mp3
+
+# Rewrite commit authors / emails
+# -----------------------------------------------
+# See: https://stackoverflow.com/a/11768843/304706
+#
+# git shortlog --summary --numbered --email
+# git change-commits GIT_AUTHOR_NAME "old name" "new name"
+# git change-commits GIT_AUTHOR_EMAIL "old@email.com" "new@email.com
+
+# export FILTER_BRANCH_SQUELCH_WARNING=1
+# git filter-branch -f --env-filter "case \"\$GIT_AUTHOR_NAME\" in \
+#   Nathan*|n)\
+#     export GIT_AUTHOR_NAME=\"Nathan Broadbent\";;\
+#   esac"
+
+gource $DOTFILES_PATH \
+  --title "https://github.com/ndbroadbent/dotfiles" \
+  --font-size 30 \
+  --user-font-size 24 \
+  --dir-font-size 24 \
+  --file-font-size 24 \
+  --filename-time 5 \
+  --font-colour "eeeeee" \
+  --date-format "%b %Y" \
+  --background-image gource_bg.jpg \
+  --font-file Inconsolata/Inconsolata-Bold.ttf \
+  --user-image-dir avatars \
+  --auto-skip-seconds 3 \
+  --output-framerate 30 \
+  -s 0.005 \
+  -800x450 -o - | \
+  ffmpeg -i - -i gource-music.m4a \
+  -framerate 30 \
+  -c:v libx264 -crf 22 -preset veryfast \
+  -c:a aac \
+  -err_detect ignore_err \
+  -strict experimental \
+  -af 'afade=in:st=0:d=4' \
+  -map 0:v:0 -map 1:a:0 -shortest \
+  -y gource.mp4
