@@ -1,7 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-
 if ! [ -d "$HOME/Dropbox" ]; then
   echo "Could not find Dropbox folder at $HOME/Dropbox. Please set up Dropbox first."
   exit 1
@@ -15,8 +14,9 @@ fi
 function usage() {
   cat <<HELP >&2
 Usage: $0
-  -s Encrypt and save ~/.[ssh|convox] to Dropbox
-  -r Decrypt and restore ~/.[ssh|convox] from Dropbox
+  -d <directory> Run for a specific directory (ssh, convox, etc.)
+  -s Encrypt and save ~/.{ssh,convox} to Dropbox
+  -r Decrypt and restore ~/.{ssh,convox} from Dropbox
 HELP
 }
 
@@ -24,19 +24,21 @@ if [ -z "$1" ]; then
   usage
   exit 1
 fi
-CONFIG_DIR="$1"
-shift
 
-DROPBOX_FOLDER="$HOME/Dropbox"
-ENCRYPTED_FILES_PATH="$DROPBOX_FOLDER/$CONFIG_DIR.tar.gz.encrypted"
+DROPBOX_FOLDER="$HOME/Dropbox/Config"
 
 function save_files() {
+  mkdir -p "$DROPBOX_FOLDER"
+  CONFIG_DIR="$1"
+  ENCRYPTED_FILES_PATH="$DROPBOX_FOLDER/$CONFIG_DIR.tar.gz.encrypted"
   echo "=> Encrypting $HOME/.$CONFIG_DIR and saving to ${ENCRYPTED_FILES_PATH}..."
   cd "$HOME/.$CONFIG_DIR"
   tar cz * | openssl enc -aes-256-cbc -e > "${ENCRYPTED_FILES_PATH}"
 }
 
 function restore_files() {
+  CONFIG_DIR="$1"
+  ENCRYPTED_FILES_PATH="$DROPBOX_FOLDER/$CONFIG_DIR.tar.gz.encrypted"
   if ! [ -f "$ENCRYPTED_FILES_PATH" ]; then
     echo "Could not find encrypted files at ${ENCRYPTED_FILES_PATH}"
     exit 1
@@ -51,24 +53,27 @@ function restore_files() {
   rm -rf /tmp/$CONFIG_DIR.tar.gz
 }
 
-
-function parse_options() {
-  local OPTIND=1
-  local opt
-  while getopts "srh" opt; do
-    case "$opt" in
-    s)
-      save_files;;
-    r)
-      restore_files;;
-    h)
-      usage
-      exit;;
-    *)
-      echo "Unknown option: -$opt" >&2
-      return 1;;
-    esac
-  done
-  shift $((OPTIND -1))
-}
-parse_options "$@"
+while getopts "d:srh" opt; do
+  case "$opt" in
+  d)
+    CONFIG_DIRS="$OPTARG";;
+  s)
+    if [ -z "$CONFIG_DIRS" ]; then
+      CONFIG_DIRS="ssh convox"
+    fi
+    for DIR in $CONFIG_DIRS; do
+      save_files "$DIR"
+    done;;
+  r)
+    for DIR in $CONFIG_DIRS; do
+      restore_files "$DIR"
+    done;;
+  h)
+    usage
+    exit;;
+  *)
+    echo "Unknown option: -$opt" >&2
+    return 1;;
+  esac
+done
+shift $((OPTIND -1))
