@@ -22,7 +22,7 @@ fi
 brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
   ack the_silver_searcher vim nano less htop unrar ffmpeg maven defaultbrowser \
   postgres redis imagemagick vim hugo watch gnupg binutils diffutils ed \
-  heroku awscli \
+  heroku awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
   youtube-dl
