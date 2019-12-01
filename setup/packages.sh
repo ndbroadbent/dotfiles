@@ -20,8 +20,9 @@ if /usr/libexec/java_home -V 2>&1 | grep "No Java runtime"; then
 fi
 
 brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
-  ack vim nano less htop unrar ffmpeg maven defaultbrowser \
-  postgres redis imagemagick vim hugo watch heroku gnupg binutils diffutils ed \
+  ack the_silver_searcher vim nano less htop unrar ffmpeg maven defaultbrowser \
+  postgres redis imagemagick vim hugo watch gnupg binutils diffutils ed \
+  heroku awscli \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
   youtube-dl
