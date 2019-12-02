@@ -25,7 +25,8 @@ brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
   heroku awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
-  youtube-dl
+  youtube-dl \
+  crystal llvm
 
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
