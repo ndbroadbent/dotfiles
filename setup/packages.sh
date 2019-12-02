@@ -32,7 +32,7 @@ mkdir -p "$HOME/.nvm"
 
 brew cask install google-chrome firefox iterm2 \
   flux rectangle dozer \
-  visual-studio-code virtualbox vlc charles skype telegram spotify docker  \
+  visual-studio-code virtualbox vlc charles skype telegram spotify docker sketch \
   dropbox google-backup-and-sync \
   rescuetime
 
