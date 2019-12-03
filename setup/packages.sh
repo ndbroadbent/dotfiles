@@ -31,11 +31,11 @@ brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
-brew cask install google-chrome firefox iterm2 \
-  flux rectangle dozer \
-  visual-studio-code virtualbox vlc charles skype telegram spotify docker sketch \
+brew cask install google-chrome firefox \
+  flux rectangle dozer rescuetime \
   dropbox google-backup-and-sync \
-  rescuetime
+  iterm2 visual-studio-code docker virtualbox postico charles \
+  skype telegram spotify vlc sketch
 
 # echo "Running brew cleanup..."
 # brew cleanup
