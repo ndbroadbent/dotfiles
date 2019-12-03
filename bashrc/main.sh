@@ -9,6 +9,7 @@ BASHRC_MODULES=" \
   ip
   aliases
   convox
+  crystal
   docker
   ruby_on_rails
   react_native
