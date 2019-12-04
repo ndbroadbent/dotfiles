@@ -53,18 +53,23 @@ function restore_files() {
   rm -rf /tmp/$CONFIG_DIR.tar.gz
 }
 
+function set_default_dirs() {
+  if [ -z "$CONFIG_DIRS" ]; then
+    CONFIG_DIRS="ssh convox"
+  fi
+}
+
 while getopts "d:srh" opt; do
   case "$opt" in
   d)
     CONFIG_DIRS="$OPTARG";;
   s)
-    if [ -z "$CONFIG_DIRS" ]; then
-      CONFIG_DIRS="ssh convox"
-    fi
+    set_default_dirs
     for DIR in $CONFIG_DIRS; do
       save_files "$DIR"
     done;;
   r)
+    set_default_dirs
     for DIR in $CONFIG_DIRS; do
       restore_files "$DIR"
     done;;
