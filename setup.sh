@@ -38,6 +38,11 @@ echo "================================="
 echo
 echo "=> Sign in to Chrome"
 echo "  ↪ Sign in to LastPass"
+echo "  ↪ Sign in to GitHub"
+echo "=> Install Settings Sync extension for VS Code. Sign in with GitHub. Restore settings from this Gist:"
+echo "   https://gist.github.com/ndbroadbent/59198ab02dae656842cba3d8392a62ce"
+echo
+echo "=> Sign in to GitLab"
 echo "=> Sign in to the App Store"
 echo "  ↪ Run ./setup/mas.sh to install apps from App Store"
 echo "=> Sign in to Dropbox"
