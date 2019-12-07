@@ -36,6 +36,13 @@ rails() { if [ -f ./bin/rails ]; then ./bin/rails "$@"; else $(which rails) "$@"
 rake() { if [ -f ./bin/rake ]; then ./bin/rake "$@"; else $(which rake) "$@"; fi }
 spring() { if [ -f ./bin/spring ]; then ./bin/spring "$@"; else $(which spring) "$@"; fi }
 
+export PARALLEL_TEST_PROCESSORS=8
+parallel_rspec() {
+  if [ -f ./bin/parallel_rspec ]; then ./bin/parallel_rspec "$@";
+  else $(which parallel_rspec) "$@"; fi
+}
+alias prs=parallel_rspec
+
 # Aliases for running Rails on different ports
 for p in $(seq 3001 3009); do
   alias "rs$p"="rails_cmd server --binding=127.0.0.1 -p $p"
