@@ -24,7 +24,7 @@ alias   rs="rails_cmd server --binding=127.0.0.1"
 alias  rsd="rails_cmd server -u --binding=127.0.0.1"
 alias   rc="rails_cmd console"
 alias  rdb="rails_cmd dbconsole"
-alias   rg="rails_cmd generate"
+alias   rgn="rails_cmd generate"
 alias   ru="rails_cmd runner"
 
 alias   fs="foreman start"
