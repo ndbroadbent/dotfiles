@@ -61,7 +61,7 @@ function n() {
   local ALERT="Alert from Bash"
   local EXIT_CODE=0
   if [ -n "$1" ]; then
-    "$@"
+    eval "$@"
     EXIT_CODE=$?
     ALERT="Finished running: $*"
   fi
