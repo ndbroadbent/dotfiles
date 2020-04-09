@@ -11,6 +11,7 @@ BASHRC_MODULES=" \
   convox
   crystal
   docker
+  haskell
   ruby_on_rails
   react_native
   golang
