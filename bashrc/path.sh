@@ -29,3 +29,7 @@ export PATH="${PATH}:/Users/ndbroadbent/code/depot_tools"
 
 # rbenv (adds ~/.rbenv/shims to PATH)
 eval "$(rbenv init -)"
+
+# Rubocop daemon wrapper
+# https://github.com/fohte/rubocop-daemon
+export PATH="/usr/local/bin/rubocop-daemon-wrapper:${PATH}"
