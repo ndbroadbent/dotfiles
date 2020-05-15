@@ -57,6 +57,7 @@ else
   alias bork="bark"
 fi
 
+# eval "$@" doesn't work. See: https://stackoverflow.com/a/42429180/304706
 function n() {
   local ALERT="Alert from Bash"
   local EXIT_CODE=0
