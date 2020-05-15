@@ -34,8 +34,10 @@ mkdir -p "$HOME/.nvm"
 brew cask install google-chrome firefox \
   flux rectangle dozer rescuetime \
   dropbox google-backup-and-sync \
-  iterm2 visual-studio-code docker virtualbox postico db-browser-for-sqlite charles \
+  iterm2 visual-studio-code docker virtualbox postico charles \
   skype telegram spotify vlc sketch
+  sequel-pro db-browser-for-sqlite
+
 
 # echo "Running brew cleanup..."
 # brew cleanup
