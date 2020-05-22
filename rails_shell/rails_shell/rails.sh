@@ -31,7 +31,13 @@ alias   fs="foreman start"
 
 alias crb='crystalball'
 
-rspec() { if [ -f ./bin/rspec ]; then ./bin/rspec "$@"; else $(which rspec) "$@"; fi }
+rspec() {
+  if [ -f ./bin/rspec ]; then
+    exec_scmb_expand_args ./bin/rspec "$@"
+  else
+    exec_scmb_expand_args $(which rspec) "$@"
+  fi
+}
 rails() { if [ -f ./bin/rails ]; then ./bin/rails "$@"; else $(which rails) "$@"; fi }
 rake() { if [ -f ./bin/rake ]; then ./bin/rake "$@"; else $(which rake) "$@"; fi }
 spring() { if [ -f ./bin/spring ]; then ./bin/spring "$@"; else $(which spring) "$@"; fi }
