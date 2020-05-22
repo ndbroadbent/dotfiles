@@ -46,14 +46,14 @@ alias dds='d; ds'
 alias ed='c envkey-client-server; ds'
 
 if [ "$(uname)" = Darwin ]; then
-  alias beep="afplay /System/Library/Sounds/Glass.aiff"
-  alias alert="afplay $DOTFILES_PATH/sounds/alert.mp3"
-  alias bark="afplay $DOTFILES_PATH/sounds/bark.aiff"
+  alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
+  alias alert="(afplay $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
+  alias bark="(afplay $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1 &)"
   alias bork="bark"
 else
-  alias beep="mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1"
-  alias alert="mplayer $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1"
-  alias bark="mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1"
+  alias beep="(mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1 &)"
+  alias alert="(mplayer $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
+  alias bark="(mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1 &)"
   alias bork="bark"
 fi
 
@@ -67,7 +67,7 @@ function n() {
     ALERT="Finished running: $*"
   fi
   alert
-  osascript -e "display notification \"$ALERT\""
+  (osascript -e "display notification \"$ALERT\"" &)
   return "$EXIT_CODE"
 }
 
