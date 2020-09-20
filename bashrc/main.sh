@@ -16,6 +16,7 @@ BASHRC_MODULES=" \
   react_native
   golang
   java
+  nvm
   prompt
   path
 "
@@ -44,20 +45,6 @@ fi
 # The next line enables shell command completion for gcloud.
 if [ -f '~/google-cloud-sdk/completion.bash.inc' ]; then
   source '~/google-cloud-sdk/completion.bash.inc'
-fi
-
-# NVM
-[[ -n $DEBUG_BASHRC ]] && echo "Loading NVM..."
-export NVM_DIR="$HOME/.nvm"
-if [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
-  source "/usr/local/opt/nvm/nvm.sh"
-elif [ -s "$NVM_DIR/nvm.sh" ]; then
-  source "$NVM_DIR/nvm.sh"
-fi
-if [ -s '/usr/local/opt/nvm/etc/bash_completion.d/nvm' ]; then
-  source '/usr/local/opt/nvm/etc/bash_completion.d/nvm'
-elif [ -s "$NVM_DIR/bash_completion" ]; then
-  source "$NVM_DIR/bash_completion"
 fi
 
 # SCM Breeze

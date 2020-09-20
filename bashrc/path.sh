@@ -5,9 +5,6 @@ export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools"
 # YARN (Node)
 export PATH="${PATH}:${HOME}/.yarn/bin"
 
-# NPM
-export PATH="${PATH}:./node_modules/.bin"
-
 # GNU utils
 export PATH="${PATH}:/usr/local/opt/coreutils/libexec/gnubin"
 
@@ -17,8 +14,8 @@ export PATH="${PATH}:${DOTFILES_PATH}/bin"
 # System Python
 export PATH="${PATH}:${HOME}/Library/Python/2.7/bin/"
 
-# Node modules in current dir
-export PATH="${PATH}:node_modules/.bin"
+# Prefer Node modules in current dir
+export PATH="./node_modules/.bin:${PATH}"
 
 export PATH="${PATH}:/Users/ndbroadbent/anaconda/bin"
 export PATH="${PATH}:/usr/local/opt/imagemagick/bin"
