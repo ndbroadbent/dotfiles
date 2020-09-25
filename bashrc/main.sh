@@ -51,6 +51,9 @@ fi
 [[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."
 [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
 
+# Some custom git stuff that needs to be loaded after SCM Breeze
+source "${DOTFILES_PATH}/bashrc/gitlab.sh"
+
 # Rails Shell
 [[ -n $DEBUG_BASHRC ]] && echo "Loading Rails Shell..."
 source "$DOTFILES_PATH/rails_shell/rails_shell.sh"
