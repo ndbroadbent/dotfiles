@@ -1,6 +1,8 @@
 # Android
-export ANDROID_HOME=${HOME}/Library/Android/sdk
-export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools"
+export ANDROID_HOME="${HOME}/Library/Android/sdk"
+export ANDROID_SDK="$ANDROID_HOME"
+export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 # YARN (Node)
 export PATH="${PATH}:${HOME}/.yarn/bin"
