@@ -16,8 +16,10 @@ export PATH="${PATH}:${DOTFILES_PATH}/bin"
 # System Python
 export PATH="${PATH}:${HOME}/Library/Python/2.7/bin/"
 
-# Prefer Node modules in current dir
-export PATH="./node_modules/.bin:${PATH}"
+# Use binaries from node_modules in the current dir.
+# But don't prioritize these because there's an NPM package that
+# also installs a 'which' binary, and this is annoying.
+export PATH="${PATH}:./node_modules/.bin"
 
 export PATH="${PATH}:/Users/ndbroadbent/anaconda/bin"
 export PATH="${PATH}:/usr/local/opt/imagemagick/bin"
