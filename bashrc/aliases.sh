@@ -39,9 +39,8 @@ alias agri='ag -i --type=ruby'
 alias fl='fastlane'
 
 alias ds='osascript .dev.scpt "$(pwd)" &'
-
+alias dds='cd ~/code/docspring && ds'
 alias d='cd ~/code/docspring'
-alias dds='d; ds'
 
 alias ed='c envkey-client-server; ds'
 
