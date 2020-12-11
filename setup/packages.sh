@@ -11,12 +11,12 @@ if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
 fi
 
 # Install Java and maven
-if /usr/libexec/java_home -V 2>&1 | grep "No Java runtime"; then
+if ! /usr/libexec/java_home -V; then
   if ! [ -d "/usr/local/Homebrew/Library/Taps/adoptopenjdk" ]; then
     brew tap AdoptOpenJDK/openjdk
   fi
   echo "Installing Java..."
-  brew cask install adoptopenjdk8
+  brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
 fi
 
 brew install mas mackup duti rbenv nvm git bash bash-completion wget curl yarn jq \
@@ -31,7 +31,7 @@ brew install mas mackup duti rbenv nvm git bash bash-completion wget curl yarn j
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
-brew cask install google-chrome firefox \
+brew install --cask google-chrome firefox \
   adoptopenjdk13 \
   flux rectangle dozer rescuetime \
   dropbox google-backup-and-sync \
