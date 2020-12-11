@@ -16,10 +16,11 @@ MAC_APP_STORE_APPS=(
   "Kindle"
   "Evernote"
   "Slack"
+  "WhatsApp Desktop"
 )
 for APP_NAME in "${MAC_APP_STORE_APPS[@]}"; do
   echo "+ mas search $APP_NAME"
-  mas search "$APP_NAME" | head -n1
+  mas search "$APP_NAME" | grep "$APP_NAME" | head -n1
   echo "=> Installing $APP_NAME..."
   mas lucky "$APP_NAME"
 done

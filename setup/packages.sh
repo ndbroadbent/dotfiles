@@ -19,7 +19,7 @@ if /usr/libexec/java_home -V 2>&1 | grep "No Java runtime"; then
   brew cask install adoptopenjdk8
 fi
 
-brew install mas mackup rbenv nvm git bash bash-completion wget curl yarn jq \
+brew install mas mackup duti rbenv nvm git bash bash-completion wget curl yarn jq \
   ripgrep vim nano less htop unrar ffmpeg maven defaultbrowser \
   postgres redis imagemagick vim hugo watch gnupg binutils diffutils ed \
   heroku awscli getsentry/tools/sentry-cli \
@@ -32,11 +32,12 @@ mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
 brew cask install google-chrome firefox \
+  adoptopenjdk13 \
   flux rectangle dozer rescuetime \
   dropbox google-backup-and-sync \
-  iterm2 visual-studio-code android-studio docker 
+  iterm2 visual-studio-code android-studio docker \
   virtualbox postico charles \
-  skype telegram spotify vlc sketch \
+  zoom skype telegram spotify vlc sketch \
   sequel-pro db-browser-for-sqlite
 
 # echo "Running brew cleanup..."

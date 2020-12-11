@@ -10,7 +10,11 @@ echo -e "Setting up Mac..."
 source setup/bashrc.sh
 source setup/packages.sh
 ./setup/mac_settings.sh
+./setup/duti_vscode.sh
 source setup/scm_breeze.sh
+
+# echo "Running 'java --request' to install Java..."
+# java --request
 
 if [ "$BASH" != "/bin/bash" ]; then
   echo "Changing shell to /bin/bash for ${USER}"
@@ -39,15 +43,14 @@ echo
 echo "=> Sign in to Chrome"
 echo "  ↪ Sign in to LastPass"
 echo "  ↪ Sign in to GitHub"
-echo "=> Install Settings Sync extension for VS Code. Sign in with GitHub. Restore settings from this Gist:"
-echo "   https://gist.github.com/ndbroadbent/59198ab02dae656842cba3d8392a62ce"
-echo
+echo "=> Sync VS Code settings (use built-in sync)"
 echo "=> Sign in to GitLab"
 echo "=> Sign in to the App Store"
-echo "  ↪ Run ./setup/mas.sh to install apps from App Store"
+echo "  ↪ Then run ./setup/mas.sh to install apps from App Store"
 echo "=> Sign in to Dropbox"
 echo "  ↪ Run 'mackup restore'"
 echo "  ↪ Run 'dropbox_backup -r'"
+echo
 echo "=> Sign in to DocSpring Google Drive"
 echo "=> Sign in to Personal Google Drive"
 echo "=> Sign in to RescueTime"
