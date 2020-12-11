@@ -31,6 +31,14 @@ brew install mas mackup duti rbenv nvm git bash bash-completion wget curl yarn j
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
+
+# Cloning the homebrew cask tap is extremely slow. Just checkout with depth 1.
+if ! [ -d /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask ]; then
+  mkdir -p /usr/local/Homebrew/Library/Taps/caskroom/
+  git clone --depth 1 https://github.com/caskroom/homebrew-cask.git \
+    /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask
+fi
+
 brew install --cask google-chrome firefox \
   adoptopenjdk13 \
   flux rectangle dozer rescuetime \

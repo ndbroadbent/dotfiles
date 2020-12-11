@@ -24,8 +24,10 @@ BASHRC_MODULES=" \
 brew() {
   local BREW_PATH=$(which brew)
   local RESULT=$($BREW_PATH $@)
-  echo -e "\033[1;31mDon't run 'brew $@' in your ~/.bashrc!" >&2
-  echo -e "Replace this call with: $RESULT\033[0m" >&2
+  echo -e "\033[1;31mDon't run 'brew $@' in your ~/.bashrc! (It's too slow.)" >&2
+  echo -e "Replace this call with the result: $RESULT\033[0m" >&2
+  printf "'brew $@' was called from: " >&2
+  caller >&2
   echo $RESULT
 }
 # DEBUG_BASHRC=true
