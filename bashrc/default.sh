@@ -67,3 +67,7 @@ autoreload_prompt_command+="store_cwd;"
 
 # Set PATH so it includes user's private bin if it exists
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+
+# https://superuser.com/questions/433746/is-there-a-fix-for-the-too-many-open-files-in-system-error-on-os-x-10-7-1
+ulimit -n 1000000
+ulimit -u 2048
