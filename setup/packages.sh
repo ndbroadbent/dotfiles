@@ -41,7 +41,7 @@ fi
 
 brew install --cask google-chrome firefox \
   adoptopenjdk13 \
-  flux rectangle dozer rescuetime \
+  flux rectangle dozer rescuetime qbittorrent \
   dropbox google-backup-and-sync \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postico charles \
