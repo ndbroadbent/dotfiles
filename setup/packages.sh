@@ -20,7 +20,7 @@ if ! /usr/libexec/java_home -V; then
 fi
 
 brew install mas mackup duti rbenv nvm git bash bash-completion wget curl yarn jq \
-  ripgrep vim nano less htop unrar ffmpeg maven defaultbrowser \
+  ripgrep vim less htop ffmpeg maven defaultbrowser \
   postgres redis imagemagick vim hugo watch gnupg binutils diffutils ed \
   heroku awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rsync unzip \
@@ -39,14 +39,13 @@ if ! [ -d /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask ]; then
     /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask
 fi
 
-brew install --cask google-chrome firefox \
+brew install --cask firefox \
   adoptopenjdk13 \
-  flux rectangle dozer rescuetime qbittorrent \
-  dropbox google-backup-and-sync \
+  flux dozer rescuetime qbittorrent \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postico charles \
-  zoom skype telegram spotify vlc sketch \
-  sequel-pro db-browser-for-sqlite
+  skype telegram spotify vlc
+
 
 # echo "Running brew cleanup..."
 # brew cleanup
