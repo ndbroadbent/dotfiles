@@ -15,7 +15,6 @@ MAC_APP_STORE_APPS=(
   "LINE"
   "Kindle"
   "Evernote"
-  "Slack"
   "WhatsApp Desktop"
 )
 for APP_NAME in "${MAC_APP_STORE_APPS[@]}"; do

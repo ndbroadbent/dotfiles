@@ -44,7 +44,8 @@ brew install --cask firefox google-chrome \
   flux dozer rectangle rescuetime qbittorrent \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postico charles \
-  skype zoom telegram spotify vlc
+  skype zoom slack telegram spotify vlc \
+  dropbox google-backup-and-sync
 
 # echo "Running brew cleanup..."
 # brew cleanup

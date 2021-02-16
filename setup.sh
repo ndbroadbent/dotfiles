@@ -49,7 +49,7 @@ echo "=> Sign in to the App Store"
 echo "  ↪ Then run ./setup/mas.sh to install apps from App Store"
 echo "=> Sign in to Dropbox"
 echo "  ↪ Run 'mackup restore'"
-echo "  ↪ Run 'dropbox_backup -r'"
+echo "  ↪ Run './bin/dropbox_backup -r'"
 echo
 echo "=> Sign in to DocSpring Google Drive"
 echo "=> Sign in to Personal Google Drive"
