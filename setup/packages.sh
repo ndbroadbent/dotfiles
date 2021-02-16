@@ -39,13 +39,12 @@ if ! [ -d /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask ]; then
     /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask
 fi
 
-brew install --cask firefox \
+brew install --cask firefox google-chrome \
   adoptopenjdk13 \
-  flux dozer rescuetime qbittorrent \
+  flux dozer rectangle rescuetime qbittorrent \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postico charles \
-  skype telegram spotify vlc
-
+  skype zoom telegram spotify vlc
 
 # echo "Running brew cleanup..."
 # brew cleanup
