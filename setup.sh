@@ -6,6 +6,12 @@ if [[ $EUID -eq 0 ]]; then
   exit 1
 fi
 
+echo "Installing developer tools..."
+sudo xcode-select --install || true
+
+echo "Changing shell to /bin/bash for ${USER}"
+chsh -s /bin/bash || true
+
 echo -e "Setting up Mac..."
 source setup/bashrc.sh
 source setup/packages.sh
@@ -15,11 +21,6 @@ source setup/scm_breeze.sh
 
 # echo "Running 'java --request' to install Java..."
 # java --request
-
-if [ "$BASH" != "/bin/bash" ]; then
-  echo "Changing shell to /bin/bash for ${USER}"
-  sudo chsh -s /bin/bash "${USER}"
-fi
 
 echo "🍀" > "$HOME/.user_sym"
 echo "" > "$HOME/.hostname_sym"

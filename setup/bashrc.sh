@@ -1,9 +1,6 @@
 #!/bin/bash
 CURRENT_DIR=$(pwd)
 
-# Set default shell to bash
-chsh -s /bin/bash
-
 echo "=> Setting up ~/.bash_profile..."
 cat > ~/.bash_profile <<EOF
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
