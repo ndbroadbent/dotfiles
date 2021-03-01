@@ -71,3 +71,13 @@ autoreload_prompt_command+="store_cwd;"
 # https://superuser.com/questions/433746/is-there-a-fix-for-the-too-many-open-files-in-system-error-on-os-x-10-7-1
 ulimit -n 1000000
 ulimit -u 2048
+
+# Touch ID for sudo
+# From: https://news.ycombinator.com/item?id=26304832
+sudo() {
+    unset -f sudo
+    if [[ "$(uname)" == 'Darwin' ]] && ! grep 'pam_tid.so' /etc/pam.d/sudo --silent; then
+        sudo sed -i -e '1s;^;auth       sufficient     pam_tid.so\n;' /etc/pam.d/sudo
+    fi
+    sudo "$@"
+}
