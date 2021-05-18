@@ -64,6 +64,11 @@ source "$DOTFILES_PATH/rails_shell/rails_shell.sh"
 [[ -n $DEBUG_BASHRC ]] && echo "Finalizing Bash autoreload..."
 finalize_auto_reload
 
+# Direnv - https://direnv.net
+# Load .envrc in a directory after cd
+# NOTE: Sets PROMPT_COMMAND, so has to come after finalize_auto_reload
+eval "$(direnv hook bash)"
+
 # Fixes: +[__NSCFConstantString initialize] may have been in progress in another
 # thread when fork() was called. See:
 # * https://github.com/rbenv/ruby-build/issues/1385
