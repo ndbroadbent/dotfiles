@@ -21,6 +21,13 @@ BASHRC_MODULES=" \
   path
 "
 
+# Automatically replace '$(brew --prefix)' in /usr/local/etc/bash_completion.d/brew-services
+# This keeps getting updated after brew upgrades.
+if grep -q '"$(brew --prefix)"' /usr/local/etc/bash_completion.d/brew-services; then
+  sed 's%"$(brew --prefix)"%"/usr/local"%' /usr/local/etc/bash_completion.d/brew-services > /tmp/brew-services
+  mv /tmp/brew-services /usr/local/etc/bash_completion.d/brew-services
+fi
+
 brew() {
   local BREW_PATH=$(which brew)
   local RESULT=$($BREW_PATH $@)
