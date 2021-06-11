@@ -19,6 +19,7 @@ BASHRC_MODULES=" \
   nvm
   prompt
   path
+  yubikey
 "
 
 # Automatically replace '$(brew --prefix)' in /usr/local/etc/bash_completion.d/brew-services
