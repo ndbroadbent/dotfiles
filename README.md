@@ -6,8 +6,6 @@
 
 Started using [Mackup](https://github.com/lra/mackup) to store most config files and application settings in Dropbox.
 
-testing github dev
-
 ### Set up a new machine:
 
 ```
