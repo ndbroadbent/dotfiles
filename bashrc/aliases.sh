@@ -130,6 +130,10 @@ alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 # Never use this on a team project!!
 alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 
+# A bash alias that checks out the master branch, pulls the latest changes,
+# checks out the previous branch, and then rebases onto master.
+alias grbl='git checkout master && git pull && git checkout - && git rebase master'
+
 alias pv="pivotal"
 
 # -------------------------------------------------
