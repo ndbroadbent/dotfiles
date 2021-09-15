@@ -65,10 +65,10 @@ parse_ruby_version() {
   fi
 }
 
-# Returns the Travis CI status for a given branch, default 'master'
+# Returns the Travis CI status for a given branch, default 'main'
 parse_travis_status() {
   local branch="$1"
-  if [ -z "$branch" ]; then branch="master"; fi
+  if [ -z "$branch" ]; then branch="main"; fi
 
   local stat_file=$(find_in_cwd_or_parent ".travis_status~")
   if [ -e "$stat_file" ]; then
@@ -114,7 +114,7 @@ user_host_sep() { ([ -e $HOME/.user_sym ] && [ -e "$HOME/.hostname_sym" ]) || ec
 
 # Set the prompt string (PS1)
 # Looks like this:
-#     user@computer ~/src/ubuntu_config [master|1.8.7]$
+#     user@computer ~/src/ubuntu_config [main|1.8.7]$
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {

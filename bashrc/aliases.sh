@@ -130,9 +130,19 @@ alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 # Never use this on a team project!!
 alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 
-# A bash alias that checks out the master branch, pulls the latest changes,
-# checks out the previous branch, and then rebases onto master.
-alias grbl='git checkout master && git pull && git checkout - && git rebase master'
+# A bash alias that checks out the main branch, pulls the latest changes,
+# checks out the previous branch, and then rebases onto main.
+alias grbl='git checkout main && git pull && git checkout - && git rebase main'
+
+# Delete git branch locally and on remote
+function gbDA() {
+  if [ "$1" == 'master' ] || [ "$1" == 'main' ]; then
+    echo "Cannot delete $1 branch."
+    return 1
+  fi
+  _scmb_git_branch_shortcuts -D "$1";
+  exec_scmb_expand_args git push origin --delete "$1";
+}
 
 alias pv="pivotal"
 
