@@ -49,6 +49,7 @@ export GUI_EDITOR="code -g"
 export REACT_EDITOR="code -g"
 export BUNDLER_EDITOR="code -g"
 export GIT_EDITOR="vim"
+export KUBE_EDITOR="code --wait"
 
 # GPG
 export GPG_TTY=$(tty)
