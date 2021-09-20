@@ -132,7 +132,7 @@ alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 
 # A bash alias that checks out the main branch, pulls the latest changes,
 # checks out the previous branch, and then rebases onto main.
-alias grbl='git checkout main && git pull && git checkout - && git rebase main'
+alias grbl='BRANCH=$(grep -q '"'"'branch "master"'"'"' .git/config && echo master || echo main) && git checkout "$BRANCH" && git pull && git checkout - && git rebase "$BRANCH"'
 
 # Delete git branch locally and on remote
 function gbDA() {
