@@ -34,5 +34,8 @@ alias cxps="convox ps"
 # See also: https://community.convox.com/t/what-happened-to-gen-2-cli-downloads/741
 # https://docsv2.convox.com/introduction/installation
 # Upgrading: https://docs.convox.com/help/upgrading
-alias convox2="set -x && sudo ln -fs /usr/local/bin/convox2 /usr/local/bin/convox && set +x"
-alias convox3="set -x && sudo ln -fs /usr/local/bin/convox3 /usr/local/bin/convox && set +x"
+# alias convox2="set -x && sudo ln -fs /usr/local/bin/convox2 /usr/local/bin/convox && set +x"
+# alias convox3="set -x && sudo ln -fs /usr/local/bin/convox3 /usr/local/bin/convox && set +x"
+
+alias cx2="convox2"
+alias cx3="convox3"
