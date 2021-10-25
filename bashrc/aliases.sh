@@ -43,6 +43,8 @@ alias dds='cd ~/code/docspring && ds'
 alias sds='cd ~/code/spin && ds'
 alias d='cd ~/code/docspring'
 
+alias da='direnv allow'
+
 alias ed='c envkey-client-server; ds'
 
 if [ "$(uname)" = Darwin ]; then
