@@ -30,9 +30,11 @@ DROPBOX_FOLDER="$HOME/Dropbox/Config"
 function save_files() {
   mkdir -p "$DROPBOX_FOLDER"
   CONFIG_DIR="$1"
+  CONFIG_PATH="$HOME/.$CONFIG_DIR"
+  if ! [ -d "$CONFIG_PATH" ]; then return; fi
   ENCRYPTED_FILES_PATH="$DROPBOX_FOLDER/$CONFIG_DIR.tar.gz.encrypted"
-  echo "=> Encrypting $HOME/.$CONFIG_DIR and saving to ${ENCRYPTED_FILES_PATH}..."
-  cd "$HOME/.$CONFIG_DIR"
+  echo "=> Encrypting $CONFIG_PATH and saving to ${ENCRYPTED_FILES_PATH}..."
+  cd "$CONFIG_PATH"
   tar cz * | openssl enc -aes-256-cbc -e > "${ENCRYPTED_FILES_PATH}"
 }
 
@@ -41,7 +43,7 @@ function restore_files() {
   ENCRYPTED_FILES_PATH="$DROPBOX_FOLDER/$CONFIG_DIR.tar.gz.encrypted"
   if ! [ -f "$ENCRYPTED_FILES_PATH" ]; then
     echo "Could not find encrypted files at ${ENCRYPTED_FILES_PATH}"
-    exit 1
+    return
   fi
 
   echo "=> Decrypting and extracting ~/.$CONFIG_DIR from ${ENCRYPTED_FILES_PATH}..."
@@ -55,6 +57,7 @@ function restore_files() {
 
 function set_default_dirs() {
   if [ -z "$CONFIG_DIRS" ]; then
+    #CONFIG_DIRS="ssh convox"
     CONFIG_DIRS="ssh convox"
   fi
 }
