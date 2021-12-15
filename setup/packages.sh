@@ -6,6 +6,10 @@ if ! which brew > /dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# Install homebrew autoupdate
+brew tap homebrew/autoupdate
+brew autoupdate start
+
 if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
   brew tap heroku/brew
 fi
@@ -41,7 +45,7 @@ fi
 
 brew install --cask firefox google-chrome \
   adoptopenjdk13 \
-  flux dozer rectangle background-music rescuetime qbittorrent \
+  flux dozer rectangle muzzle background-music rescuetime qbittorrent \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postico db-browser-for-sqlite charles \
   skype zoom slack telegram spotify vlc \
