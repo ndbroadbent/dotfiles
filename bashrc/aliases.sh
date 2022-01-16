@@ -197,3 +197,6 @@ rm_alias() {
   fi
 }
 
+
+# Shortcut.com
+alias st="short st --git-branch-short"
