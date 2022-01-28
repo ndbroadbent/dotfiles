@@ -1,5 +1,6 @@
 # See: https://docs.gitlab.com/ee/user/project/push_options.html
 
 # Create a new merge request if it doesn't already exist.
-# Configure any merge requests to get automatically merged when the CI build is successful.
-alias gpsm="git push -o merge_request.create -o merge_request.target=main -o merge_request.merge_when_pipeline_succeeds && git checkout main"
+# Update: don't automatically merge when pipeline succeeds (-o merge_request.merge_when_pipeline_succeeds)
+# We deploy from branches, and then merge to main after it's deployed.
+alias gpsm="git push -o merge_request.create -o merge_request.target=main && git checkout main"
