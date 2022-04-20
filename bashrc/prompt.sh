@@ -94,14 +94,14 @@ parse_gem_development() {
 
 parse_convox_host() {
   if [[ $PWD == */code/docspring* ]]; then
-    if [ -e ~/.convox/host ]; then
-      local CONVOX_HOST="$(cat ~/.convox/host)"
-      if [ $CONVOX_HOST = "console.convox.com" ]; then
+    if [ -e "$HOME/Library/Preferences/convox/current" ]; then
+      local CONVOX_HOST="$(jq -r ".name" "$HOME/Library/Preferences/convox/current")"
+      if [ $CONVOX_HOST = "formapi/production-v3" ]; then
         echo "\[\033[1;35m\]P"
-      elif [[ $CONVOX_HOST == "docspring-eu"* ]]; then
+      elif [[ $CONVOX_HOST == "formapi/europe-v3"* ]]; then
         echo "\[\033[1;33m\]EU"
-      else
-        echo "\[\033[1;32m\]S"
+      # else
+      #   echo "\[\033[1;32m\]S"
       fi
     fi
   fi
