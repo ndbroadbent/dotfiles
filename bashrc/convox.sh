@@ -6,7 +6,7 @@ alias cx="convox"
 #   && printf 'Switched to Staging host: ' \
 #   && cat ~/.convox/host"
 alias cxp="convox switch formapi/production-v3"
-alias cxeu="convox switch formapi/europe-v3"
+alias cxeu="convox switch europe-v3"
 
 alias cxr="convox rack"
 alias cxe="convox exec"

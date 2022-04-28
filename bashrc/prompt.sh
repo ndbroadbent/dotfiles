@@ -96,9 +96,9 @@ parse_convox_host() {
   if [[ $PWD == */code/docspring* ]]; then
     if [ -e "$HOME/Library/Preferences/convox/current" ]; then
       local CONVOX_HOST="$(jq -r ".name" "$HOME/Library/Preferences/convox/current")"
-      if [ $CONVOX_HOST = "formapi/production-v3" ]; then
+      if [[ $CONVOX_HOST == *"production-v3" ]]; then
         echo "\[\033[1;35m\]P"
-      elif [[ $CONVOX_HOST == "formapi/europe-v3"* ]]; then
+      elif [[ $CONVOX_HOST == *"europe-v3" ]]; then
         echo "\[\033[1;33m\]EU"
       # else
       #   echo "\[\033[1;32m\]S"
