@@ -107,6 +107,11 @@ parse_convox_host() {
   fi
 }
 
+parse_ci_status() {
+  if ! [ -f "scripts/gitlab_ci_pipeline_status" ]; then return; fi
+  ./scripts/gitlab_ci_pipeline_status
+}
+
 # Allow symbols to represent users & machines
 user_symbol(){ [ -e $HOME/.user_sym ] && cat $HOME/.user_sym || echo "$USER"; }
 host_symbol(){ [ -e "$HOME/.hostname_sym" ] && cat $HOME/.hostname_sym || echo "$HOSTNAME"; }
@@ -124,11 +129,12 @@ set_ps1() {
   local git_dirty=`parse_git_dirty`
   local ruby=`parse_ruby_version`
   local convox_host=`parse_convox_host`
+  local ci_status=`parse_ci_status`
 
   git_str="\[$_git_col\]$git_branch$git_dirty"
-  # Git repo & ruby version & Convox host
-  if [ -n "$git_branch" ] && [ -n "$ruby" ] && [ -n "$convox_host" ]; then
-    env_str="\[$_env_col\][$git_str\[$_env_col\]|\[$_ruby_col\]$ruby\[$_env_col\]|$convox_host\[$_env_col\]]"
+  # Git repo & ruby version & Convox host & CI status
+  if [ -n "$git_branch" ] && [ -n "$ruby" ] && [ -n "$convox_host" ] && [ -n "$ci_status" ]; then
+    env_str="\[$_env_col\][$git_str\[$_env_col\]|\[$_ruby_col\]$ruby\[$_env_col\]|$convox_host\[$_env_col\]|$ci_status\[$_env_col\]]"
   # Git repo & ruby version
   elif [ -n "$git_branch" ] && [ -n "$ruby" ]; then
     env_str="\[$_env_col\][$git_str\[$_env_col\]|\[$_ruby_col\]$ruby\[$_env_col\]]"
