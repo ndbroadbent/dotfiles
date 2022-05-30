@@ -7,9 +7,6 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 # YARN (Node)
 export PATH="${PATH}:${HOME}/.yarn/bin"
 
-# GNU utils
-export PATH="${PATH}:/usr/local/opt/coreutils/libexec/gnubin"
-
 # Dotfiles Scripts
 export PATH="${PATH}:${DOTFILES_PATH}/bin"
 
@@ -40,3 +37,6 @@ export PATH="/usr/local/bin/rubocop-daemon-wrapper:${PATH}"
 # export LDFLAGS="-L/usr/local/opt/postgresql@9.6/lib"
 # export CPPFLAGS="-I/usr/local/opt/postgresql@9.6/include"
 # export PKG_CONFIG_PATH="/usr/local/opt/postgresql@9.6/lib/pkgconfig"
+
+# GNU utils
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
