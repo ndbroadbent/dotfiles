@@ -59,6 +59,7 @@ export PATH="$PATH:/usr/local/sbin"
 
 # Homebrew updates way too regularly by default
 export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 
 # Don't worry about /var/mail/ notifications
 unset MAILCHECK
