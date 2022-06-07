@@ -17,6 +17,7 @@ BASHRC_MODULES=" \
   golang
   java
   nvm
+  pyenv
   prompt
   path
   yubikey

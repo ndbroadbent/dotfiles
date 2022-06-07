@@ -23,7 +23,7 @@ if ! /usr/libexec/java_home -V; then
   brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
 fi
 
-brew install mas mackup duti direnv rbenv nvm git bash bash-completion wget curl yarn jq \
+brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wget curl yarn jq \
   ripgrep vim less htop ffmpeg maven defaultbrowser \
   postgres redis imagemagick vim hugo watch gnupg binutils diffutils ed \
   heroku awscli getsentry/tools/sentry-cli \
