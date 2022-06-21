@@ -214,7 +214,7 @@ alias st="short st --git-branch-short"
 
 # Create new git branch for the story that is currently in development
 stc() {
-  local STORY_IDS=$(short search "is:started owner:nathan" -f "%id")
+  local STORY_IDS=$(short search 'owner:nathan state:"in development"' -f "%id")
   local STORY_COUNT="$(echo "$STORY_IDS" | wc -l)"
   if [ "$STORY_COUNT" -eq 0 ]; then
     echo "No stories found."
