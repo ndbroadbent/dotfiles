@@ -59,18 +59,42 @@ else
   alias bork="bark"
 fi
 
-# eval "$@" doesn't work. See: https://stackoverflow.com/a/42429180/304706
+# https://stackoverflow.com/a/42429180/304706
+run_command() {
+  local cmd_str='' arg arg_q
+  for arg; do
+    if [[ $arg = "|" ]]; then
+      cmd_str+=" | "
+    else
+      printf -v arg_q '%q' "$arg"
+      cmd_str+=" $arg_q"
+    fi
+  done
+  eval "$cmd_str"
+}
+
 function n() {
   local ALERT="Alert from Bash"
   local EXIT_CODE=0
   if [ -n "$1" ]; then
-    "$@"
+    run_command "$@"
     EXIT_CODE=$?
-    ALERT="Finished running: $*"
+    ALERT="$*"
   fi
   alert
-  (osascript -e "display notification \"$ALERT\"" &)
+  (osascript -e "display notification \"$ALERT\" with title \"Command Finished ($EXIT_CODE)\"" &)
   return "$EXIT_CODE"
+}
+
+function notify() {
+  (alert &)
+  MESSAGE="$*"
+  if [ -n "$TITLE" ];
+  then
+    (osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\"" &)
+  else
+    (osascript -e "display notification \"$MESSAGE\"" &)
+  fi
 }
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
