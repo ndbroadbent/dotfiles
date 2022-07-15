@@ -6,9 +6,6 @@ rails_cmd() {
   else echo "== I don't think this is a Rails application!"
   fi
 }
-is_rails_app() {
-  [ -e ./script/rails ] || [ -e ./script/$1 ] || ([ -e ./config.ru ] && grep -q Rails ./config.ru)
-}
 
 # This is annoying, don't use it
 start_rails_server_on_available_port() {

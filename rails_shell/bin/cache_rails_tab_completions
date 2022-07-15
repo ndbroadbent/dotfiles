@@ -44,7 +44,7 @@ for file in Rakefile rakefile Rakefile.rb rakefile.rb; do
 done
 
 # Rails generator completions
-if is_rails_app; then
+if _is_rails_app; then
   git_exclude "$RAILS_G_COMP_FILE"
 
   echo "Caching Rails generators for $(basename $(pwd))..."
@@ -52,7 +52,7 @@ if is_rails_app; then
     require ::File.expand_path('../config/application',  __FILE__)
     require 'rails/generators'
 
-    Rails::Generators.lookup!
+    Rails::Generators.send :lookup!
 
     hidden_namespaces = Rails::Generators.hidden_namespaces + ['rails:app']
     generators = Rails::Generators.subclasses.select do |generator|
@@ -60,14 +60,16 @@ if is_rails_app; then
     end
 
     shell = Thor::Shell::Basic.new
-    generators_opts = generators.inject({}) do |hash, generator|
-      options = (generator.class_options_help(shell).values.flatten +
-                  generator.class_options.values).uniq.map do |opt|
-        boolean_opt = opt.type == :boolean || opt.banner.empty?
-        boolean_opt ? opt.switch_name : \"#{opt.switch_name}=\"
+    generators_opts = {}
+    generators.each do |generator|
+      generator_options_help_values = generator.class_options_help(shell).values.flatten
+      generator_options = (generator_options_help_values + generator.class_options.values).uniq
+      options = generator_options.map do |opt|
+        boolean_opt = (opt.type == :boolean || opt.banner.empty?)
+        next opt.switch_name if boolean_opt
+        \"#{opt.switch_name}=\"
       end
-      hash[generator.namespace.gsub(/^rails:/, '')] = options
-      hash
+      generators_opts[generator.namespace.gsub(/^rails:/, '')] = options
     end
 
     File.open(File.join(Rails.root, '${RAILS_G_COMP_FILE}'), 'w') do |f|

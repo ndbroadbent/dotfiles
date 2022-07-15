@@ -18,6 +18,9 @@ complete -F _cached_cap_task_completion cap
 complete -o nospace -f rspec
 complete -o nospace -f cucumber
 
+_is_rails_app() {
+  [ -f ./bin/rails ] || [ -f ./script/rails ] || [ -f ./script/$1 ] || ([ -f ./config.ru ] && grep -q Rails ./config.ru)
+}
 
 # Rails commands
 # ------------------
@@ -30,14 +33,14 @@ __railscomp(){
 #
 # @param $1 Name of variable to return result to
 # @param $2 Command list
-# __railscmd(){
-#   any_command=$(echo $2 | sed -e 's/[[:space:]]/|/g')
-#   for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
-#     if [[ ${COMP_WORDS[i]} == @($any_command) ]]; then
-#       eval $1="${COMP_WORDS[i]}"
-#     fi
-#   done
-# }
+__railscmd(){
+  any_command=$(echo $2 | sed -e 's/[[:space:]]/|/g')
+  for (( i=0; i < ${#COMP_WORDS[@]}-1; i++ )); do
+    if [[ ${COMP_WORDS[i]} == @($any_command) ]]; then
+      eval $1="${COMP_WORDS[i]}"
+    fi
+  done
+}
 
 __rails_env(){
   __railscomp "{-e,--environment=}{test,development,staging,sandbox,production}"
@@ -140,7 +143,7 @@ _rails_new(){
 }
 
 _rails_plugin(){
-  if [[ -f "script/rails" ]]; then
+  if _is_rails_app; then
     __railscomp "--help --verbose --root= install remove"
   else
     __railscomp "new"
@@ -269,7 +272,7 @@ _rails(){
   _get_comp_words_by_ref cur
 
   options="--help --version"
-  if [[ -f "script/rails" ]]; then
+  if _is_rails_app; then
     commands="s server c console g generate d destroy r runner profiler plugin benchmarker db dbconsole"
   else
     commands="new plugin"
