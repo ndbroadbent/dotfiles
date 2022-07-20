@@ -155,8 +155,48 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 # Four-letter codes for the other view modes: `icnv`, `clmv`, `glyv`
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
-# Disable the warning before emptying the Trash
+# Disable warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# Automatically remove items from the trash after 30 days
+defaults write com.apple.finder FXRemoveOldTrashItems -bool true
+
+# Can't do this due to security issues:
+
+# https://www.reddit.com/r/MacOS/comments/ta2npi/comment/i047x4r/?utm_source=reddit&utm_medium=web2x&context=3
+
+# The method for this is to open the terminal and much like turning off SIP, you can use the same utility to turn off SSV.
+# csrutil authenticated-root disable
+# Then mount the system volume (you might need to mount as read-write), update the icons and finally bless a new snapshot so you can boot.
+# sudo bless --folder /[mountpath]/System/Library/CoreServices --bootefi --create-snapshot
+# Read here for more info and a whole article about SSV.
+# In terms of updating the icons, if you have another Mac I think you can edit in place using target disk mode.
+
+# # I don't like seeing the full trash icon in the dock
+# TRASH_ICONS_DIR="/System/Library/CoreServices/Dock.app/Contents/Resources"
+# for ICON_EMPTY_VARIANT in empty empty2 empty2@2x empty@2x; do
+# 	ICON_EMPTY_FILENAME="trash$ICON_EMPTY_VARIANT.png"
+# 	ICON_EMPTY_PATH="$TRASH_ICONS_DIR/$ICON_EMPTY_FILENAME"
+# 	if [ -f "$ICON_EMPTY_PATH" ]; then
+# 		ICON_FULL_VARIANT="$(echo $ICON_EMPTY_VARIANT | sed 's/empty/full/')"
+# 		ICON_FULL_FILENAME="trash$ICON_FULL_VARIANT.png"
+# 		ICON_FULL_PATH="$TRASH_ICONS_DIR/$ICON_FULL_FILENAME"
+# 		ICON_FULL_ORIG_PATH="$TRASH_ICONS_DIR/$ICON_FULL_FILENAME.orig"
+# 		if [ -f "$ICON_FULL_ORIG_PATH" ]; then
+# 			echo "$ICON_FULL_FILENAME was already updated"
+# 		else
+# 			if [ -f "$ICON_FULL_PATH" ]; then
+# 				echo "Copying $ICON_EMPTY_FILENAME to $ICON_FULL_FILENAME (in $TRASH_ICONS_DIR)"
+# 				sudo cp "$ICON_FULL_PATH" "$ICON_FULL_ORIG_PATH"
+# 				sudo cp "$ICON_EMPTY_PATH" "$ICON_FULL_PATH"
+# 			else
+# 				echo "WARNING: Could not find full trash icon at $ICON_FULL_PATH"
+# 			fi
+# 		fi
+# 	else
+# 		echo "WARNING: Could not find empty trash icon at $ICON_EMPTY_PATH"
+# 	fi
+# done
 
 # Enable AirDrop over Ethernet and on unsupported Macs running Lion
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
