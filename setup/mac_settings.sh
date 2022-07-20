@@ -355,7 +355,9 @@ defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 # Autodelete files in Downloads after they haven't been accessed for 30 days
 # (Excludes TVShows and Movies)
 AUTODELETE_PLIST_FILE="$HOME/Library/LaunchAgents/com.my.autodelete.downloads.plist"
-if [ ! -f "$AUTODELETE_PLIST_FILE" ]; then
+if [ -f "$AUTODELETE_PLIST_FILE" ]; then
+  echo "=> $AUTODELETE_PLIST_FILE already set up"
+else
   echo "Creating $AUTODELETE_PLIST_FILE"
   cat > "$AUTODELETE_PLIST_FILE" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
