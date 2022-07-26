@@ -54,7 +54,7 @@ brew install --cask firefox google-chrome \
   virtualbox postico db-browser-for-sqlite charles \
   skype zoom slack telegram spotify vlc \
   dropbox google-backup-and-sync \
-  font-fira-code font-fira-mono font-fira-mono-for-powerline font-fira-sans
+  font-fira-code font-fira-mono font-fira-sans
 
 # echo "Running brew cleanup..."
 # brew cleanup
