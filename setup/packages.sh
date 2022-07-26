@@ -35,12 +35,16 @@ brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wge
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
 
-
 # Cloning the homebrew cask tap is extremely slow. Just checkout with depth 1.
-if ! [ -d /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask ]; then
+if ! [ -d "/usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask" ]; then
   mkdir -p /usr/local/Homebrew/Library/Taps/caskroom/
   git clone --depth 1 https://github.com/caskroom/homebrew-cask.git \
     /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask
+fi
+
+# Fira fonts
+if ! [ -d "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask-fonts" ]; then
+  brew tap homebrew/cask-fonts
 fi
 
 brew install --cask firefox google-chrome \
@@ -49,7 +53,8 @@ brew install --cask firefox google-chrome \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postico db-browser-for-sqlite charles \
   skype zoom slack telegram spotify vlc \
-  dropbox google-backup-and-sync
+  dropbox google-backup-and-sync \
+  font-fira-code font-fira-mono font-fira-mono-for-powerline font-fira-sans
 
 # echo "Running brew cleanup..."
 # brew cleanup
