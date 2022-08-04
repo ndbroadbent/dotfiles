@@ -23,6 +23,8 @@ if ! /usr/libexec/java_home -V; then
   brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
 fi
 
+brew tap petere/postgresql
+
 brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wget curl yarn jq \
   ripgrep vim less htop ffmpeg maven defaultbrowser \
   postgres postgresql-common redis imagemagick vim hugo watch gnupg binutils diffutils ed \
