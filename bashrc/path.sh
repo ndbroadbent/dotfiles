@@ -4,6 +4,10 @@ export ANDROID_SDK="$ANDROID_HOME"
 export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
 export JAVA_HOME=$(/usr/libexec/java_home)
 
+# pnpm
+export PNPM_HOME="/Users/ndbroadbent/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
 # YARN (Node)
 export PATH="${PATH}:${HOME}/.yarn/bin"
 
