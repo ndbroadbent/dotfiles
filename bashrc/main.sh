@@ -16,10 +16,10 @@ BASHRC_MODULES=" \
   react_native
   golang
   java
-  nvm
   pyenv
   prompt
   path
+  nvm
   yubikey
 "
 
