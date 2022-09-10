@@ -1,0 +1,26 @@
+{
+  "title": "Press the []<- button on Microsoft Surface Ergonomic Keyboard to take a photo on my iPhone and copy it to the Mac clipboard",
+  "rules": [
+    {
+      "description": "Press the []<- button on Microsoft Surface Ergonomic Keyboard to take a photo on my iPhone and copy it to the Mac clipboard",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "d",
+            "modifiers": {
+              "mandatory": [
+                "left_option"
+              ]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "export LC_ALL=en_US.UTF-8; /Users/ndbroadbent/code/mac_iphone_photo_clipboard/take_photo.sh"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
