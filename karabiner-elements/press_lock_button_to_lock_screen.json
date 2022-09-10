@@ -1,0 +1,30 @@
+{
+  "title": "Press the lock button on Microsoft Surface Ergonomic Keyboard to lock screen",
+  "rules": [
+    {
+      "description": "Press the lock button on Microsoft Surface Ergonomic Keyboard to lock Mac screen by pressing Control+Command+q",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "mandatory": [
+                "left_option"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "q",
+              "modifiers": [
+                "left_control",
+                "left_command"
+              ]
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
