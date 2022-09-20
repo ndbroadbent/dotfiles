@@ -44,3 +44,6 @@ export PATH="/usr/local/bin/rubocop-daemon-wrapper:${PATH}"
 
 # GNU utils
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+
+# Postgres.app
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:${PATH}"
