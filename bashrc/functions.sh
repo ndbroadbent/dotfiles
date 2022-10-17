@@ -110,7 +110,7 @@ fix_whitespace() {
 
 ping() {
   for host; do true; done # Set host as last argument
-  if grep -q "\(\t\| \)$host" /etc/hosts; then
+  if grep -v "^#" /etc/hosts | grep -q "\(\t\| \)$host"; then
     echo -e "\033[33m/etc/hosts contains an entry for hostname: $host\033[0m"
   fi
   /sbin/ping "$@"
