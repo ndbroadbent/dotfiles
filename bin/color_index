@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+
 # Bash Colors Index
 # Shows an index of all available bash colors
 # ------------------------------------------------

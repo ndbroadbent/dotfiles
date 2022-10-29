@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ -d "$HOME/code/scm_breeze" ]; then
   echo "SCM Breeze is already installed!"
 else

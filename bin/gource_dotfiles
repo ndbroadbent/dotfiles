@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd $DOTFILES_PATH/gource
 
 # Background Image:

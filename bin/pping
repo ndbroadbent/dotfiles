@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Written by Denilson Figueiredo de Sá <denilsonsa@gmail.com>
 # MIT license
@@ -550,7 +550,7 @@ BEGIN {
 	clear(lastn_rtt)
 
 	############################################################
-	# Terminal height and width 
+	# Terminal height and width
 
 	# These are sane defaults, in case we cannot query the actual terminal size
 	LINES    = 24

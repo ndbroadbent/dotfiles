@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/usr/bin/env bash -l
 REVISION_FILE=".cached_completions_revision~"
 
 GIT_BINARY="$(which git)"

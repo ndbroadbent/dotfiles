@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 gource \
   --title "DocSpring" \
   --hide filenames,dirnames,usernames \

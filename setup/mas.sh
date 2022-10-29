@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Use mas to install apps from Mac App Store (https://github.com/mas-cli/mas)
 # See list of installed apps: $ mas list

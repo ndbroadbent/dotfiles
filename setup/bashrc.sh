@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 CURRENT_DIR=$(pwd)
 
 echo "=> Setting up ~/.bash_profile..."

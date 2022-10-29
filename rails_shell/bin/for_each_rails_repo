@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/usr/bin/env bash -l
 REPO_INDEX="$HOME/.rails_repos"
 
 if ! [ -e "$REPO_INDEX" ]; then

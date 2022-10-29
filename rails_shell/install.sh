@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # locate the dir where this script is stored
 export RAILS_SHELL_DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 

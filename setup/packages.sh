@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Refs: https://gist.github.com/t-io/8255711
 
 if ! which brew > /dev/null 2>&1; then

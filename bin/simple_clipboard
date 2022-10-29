@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # A shortcut function that simplifies usage of xclip. (or pbcopy on Mac)
 # - Accepts input from either stdin (pipe), or a parameter.
 # ----------------------------------------------------------

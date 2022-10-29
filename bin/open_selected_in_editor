@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 selected="$(xclip -o)"
 cwd_file="/home/$USER/.cwd~"
 
