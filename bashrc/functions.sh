@@ -1,5 +1,5 @@
 # Restart loop used in dev scripts
-restart_loop() {
+restart_loop() (
   trap true INT;
   while
     echo "Starting $1..."
@@ -8,7 +8,7 @@ restart_loop() {
   do
     continue
   done
-}
+)
 
 # Calculator
 ? () { echo "$*" | bc -l; }  # $ ? 1337 - 1295   => 42
