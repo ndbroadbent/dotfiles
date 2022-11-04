@@ -41,7 +41,10 @@ dev() (
   short st --git-branch-short "$STORY_ID"
 
   echo "Opening story in new Google Chrome window: ${STORY_URL}"
-  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window "${STORY_URL}" 2>/dev/null
+  CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  "$CHROME_BIN" --new-window "${STORY_URL}" 2>/dev/null
+  "$CHROME_BIN" "http://admin.docspring.local:3000" 2>/dev/null
+  "$CHROME_BIN" "http://app.docspring.local:3000" 2>/dev/null
 
   local WAS_RUNNING="false"
   if pgrep -f 'Visual Studio Code' > /dev/null; then WAS_RUNNING="true"; fi
