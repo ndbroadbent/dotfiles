@@ -5,21 +5,22 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 BASHRC_MODULES=" \
   auto_reload
   default
-  functions
-  ip
   aliases
+  functions
+  path
+  prompt
   convox
   crystal
+  development
   docker
-  haskell
-  ruby_on_rails
-  react_native
   golang
+  haskell
+  ip
   java
-  pyenv
-  prompt
-  path
   nvm
+  pyenv
+  react_native
+  ruby_on_rails
   yubikey
 "
 

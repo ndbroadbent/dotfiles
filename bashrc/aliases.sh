@@ -38,13 +38,6 @@ alias agri='ag -i --type=ruby'
 
 alias fl='fastlane'
 
-alias ds='osascript .dev.scpt "$(pwd)" &'
-alias dds='cd ~/code/docspring && ds'
-alias sds='cd ~/code/spin && ds'
-alias d='cd ~/code/docspring'
-
-alias da='direnv allow'
-
 alias ed='c envkey-client-server; ds'
 
 if [ "$(uname)" = Darwin ]; then
@@ -228,25 +221,4 @@ rm_alias() {
   else
     echo "Usage: rm_alias <alias>"
   fi
-}
-
-
-# Shortcut.com
-# ------------------------------------------------
-# Create new git branch for a story ID
-alias st="short st --git-branch-short"
-
-# Create new git branch for the story that is currently in development
-stc() {
-  local STORY_IDS=$(short search 'owner:nathan state:"in development"' -f "%id")
-  local STORY_COUNT="$(echo "$STORY_IDS" | wc -l)"
-  if [ "$STORY_COUNT" -eq 0 ]; then
-    echo "No stories found."
-    return 1
-  elif [ "$STORY_COUNT" -gt 1 ]; then
-    echo "Multiple stories found with state 'In Development':" $STORY_IDS
-    return 1
-  fi
-
-  short st --git-branch-short "$STORY_IDS"
 }
