@@ -47,3 +47,6 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 
 # Postgres.app
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:${PATH}"
+
+# Old PHP 7.4 for API client tests
+export PATH="/usr/local/opt/php@7.4/bin:$PATH"
