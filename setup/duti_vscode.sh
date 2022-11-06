@@ -4,9 +4,37 @@
 # Required duti to be installed. `brew install duti`
 
 extensions=(
-  public.plain-text public.unix-executable 
-  .c .cpp .cs .css .env .erb .haml .hbs .hs .java .js .json 
-  .lock .map .md .rb .sass .scss .svg .sh .ts .txt .yaml .yml .zsh)
+  public.plain-text
+  public.unix-executable
+  .c
+  .cpp
+  .cs
+  .css
+  .env
+  .erb
+  .go
+  .haml
+  .hbs
+  .hs
+  .java
+  .js
+  .json
+  .lock
+  .map
+  .md
+  .php
+  .rb
+  .sass
+  .scss
+  .sh
+  .svg
+  .ts
+  .txt
+  .xml
+  .yaml
+  .yml
+  .zsh
+)
 vscodeinsiders=com.microsoft.VSCodeInsiders
 vscode=com.microsoft.VSCode
 atom=com.github.atom
