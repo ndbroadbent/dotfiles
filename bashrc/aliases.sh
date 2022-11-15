@@ -156,7 +156,7 @@ alias grbl='MAIN_BRANCH=$((! [ -f .git/config ] && echo "master") || (grep -q '"
 # Gitlab CI (DocSpring)
 # -------------------------------------------------
 # Refresh CI status in prompt
-alias rci="./scripts/gitlab_ci_pipeline_status -f > /dev/null"
+alias rci="./scripts/circleci_pipeline_status -f > /dev/null"
 # Show latest CI pipeline in browser
 alias sci="./scripts/show_latest_gitlab_ci_pipeline"
 # Run failed tests from the most recent failed CI pipeline

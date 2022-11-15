@@ -108,8 +108,8 @@ parse_convox_host() {
 }
 
 parse_ci_status() {
-  if ! [ -f "scripts/gitlab_ci_pipeline_status" ]; then return; fi
-  ./scripts/gitlab_ci_pipeline_status
+  if ! [ -f "scripts/circleci_pipeline_status" ]; then return; fi
+  ./scripts/circleci_pipeline_status
 }
 
 # Allow symbols to represent users & machines
