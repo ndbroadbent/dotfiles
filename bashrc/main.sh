@@ -1,3 +1,4 @@
+#!/bin/bash
 export LC_ALL=en_US.UTF-8
 # Hide "The default interactive shell is now zsh" on macOS
 export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -35,12 +36,12 @@ SOURCED_FILES="$SOURCED_FILES $DOTFILES_PATH/bashrc/main.sh"
 
 [[ -n $DEBUG_BASHRC ]] && echo "Loading Google Cloud SDK..."
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '~/google-cloud-sdk/path.bash.inc' ]; then
-  source '~/google-cloud-sdk/path.bash.inc'
+if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then
+  source "$HOME/google-cloud-sdk/path.bash.inc"
 fi
 # The next line enables shell command completion for gcloud.
-if [ -f '~/google-cloud-sdk/completion.bash.inc' ]; then
-  source '~/google-cloud-sdk/completion.bash.inc'
+if [ -f "$HOME/google-cloud-sdk/completion.bash.inc" ]; then
+  source "$HOME/google-cloud-sdk/completion.bash.inc"
 fi
 
 # SCM Breeze
