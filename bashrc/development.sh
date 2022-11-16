@@ -25,17 +25,28 @@ dev() (
     osascript .dev.scpt "$(pwd)"
   fi
 
-  local STORY_ID_AND_URL=$(short search 'owner:nathan state:"in development"' -f "%id;%u")
-  local STORY_COUNT="$(echo "$STORY_ID_AND_URL" | wc -l)"
+  local STORY_ID_AND_URL
+  STORY_ID_AND_URL=$(short search 'owner:nathan state:"in development"' -f "%id;%u")
+  local STORY_COUNT
+  STORY_COUNT="$(echo "$STORY_ID_AND_URL" | wc -l)"
   if [ "$STORY_COUNT" -eq 0 ]; then
     echo "No stories found."
     return 1
   elif [ "$STORY_COUNT" -gt 1 ]; then
-    echo "Multiple stories found with state 'In Development':" $STORY_ID_AND_URL
+    echo "Multiple stories found with state 'In Development':" "$STORY_ID_AND_URL"
     return 1
   fi
-  local STORY_ID=$(echo $STORY_ID_AND_URL | cut -d ';' -f 1)
-  local STORY_URL=$(echo $STORY_ID_AND_URL | cut -d ';' -f 2)
+  local STORY_ID
+  STORY_ID=$(echo "$STORY_ID_AND_URL" | cut -d ';' -f 1)
+  local STORY_URL
+  STORY_URL=$(echo "$STORY_ID_AND_URL" | cut -d ';' -f 2)
+
+  echo "Fetching story description..."
+  local STORY_DESCRIPTION
+  STORY_DESCRIPTION=$(short st "$STORY_ID" -f "%d")
+  # Find first Sentry URL in the description (https://sentry.io/...)
+  local SENTRY_URL
+  SENTRY_URL=$(echo "$STORY_DESCRIPTION" | grep -m1 -o 'https://sentry.io/[^ )]*')
 
   # Create new git branch for story
   short st --git-branch-short "$STORY_ID"
@@ -43,6 +54,12 @@ dev() (
   echo "Opening story in new Google Chrome window: ${STORY_URL}"
   CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   "$CHROME_BIN" --new-window "${STORY_URL}" 2>/dev/null
+  # Open Sentry error (if present)
+  if [ -n "$SENTRY_URL" ]; then
+    echo "Opening Sentry error: ${SENTRY_URL}"
+    "$CHROME_BIN" "${SENTRY_URL}" 2>/dev/null
+  fi
+  # Open DocSpring development URLs
   "$CHROME_BIN" "http://admin.docspring.local:3000" 2>/dev/null
   "$CHROME_BIN" "http://app.docspring.local:3000" 2>/dev/null
 

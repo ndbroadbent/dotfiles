@@ -1,3 +1,6 @@
 {
-  "files.trimTrailingWhitespace": true
+  "files.trimTrailingWhitespace": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.shellcheck": true
+  },
 }
