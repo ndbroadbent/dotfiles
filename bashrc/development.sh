@@ -46,7 +46,7 @@ dev() (
   STORY_DESCRIPTION=$(short st "$STORY_ID" -f "%d")
   # Find first Sentry URL in the description (https://sentry.io/...)
   local SENTRY_URL
-  SENTRY_URL=$(echo "$STORY_DESCRIPTION" | grep -m1 -o 'https://sentry.io/[^ )]*')
+  SENTRY_URL=$(echo "$STORY_DESCRIPTION" | grep -m1 -o 'https://sentry.io/[^ )]*' || true)
 
   # Create new git branch for story
   short st --git-branch-short "$STORY_ID"
