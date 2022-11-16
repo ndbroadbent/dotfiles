@@ -1,5 +1,7 @@
 {
   "files.trimTrailingWhitespace": true,
+  "shellcheck.customArgs": ["-x"],
+  "shellcheck.useWorkspaceRootAsCwd": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.shellcheck": true
   },
