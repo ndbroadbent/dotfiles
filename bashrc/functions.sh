@@ -26,13 +26,15 @@ gsed() {
 # Replace all instances of a simple string in all files, as well as renaming any files
 # Use -c option to substitute both lowercase and capitalized search string
 total_replace() {
+  local search replace lowercased capitalized
+
   if [ -n "$2" ]; then
-    local search="$1"
-    local replace="$2"
+    search="$1"
+    replace="$2"
 
     if [ "$3" = "-c" ] || [ "$4" = "-c" ]; then
-      local lowercased=$(printf $search | sed 's/[^ _-]*/\L&/g')
-      local capitalized=$(printf $search | sed 's/[^ _-]*/\L\u&/g')
+      lowercased=$(echo -n "$search" | sed 's/[^ _-]*/\L&/g')
+      capitalized=$(echo -n "$search" | sed 's/[^ _-]*/\L\u&/g')
       search="$lowercased $capitalized"
     fi
     if [ "$3" = "-c" ]; then
@@ -82,11 +84,11 @@ timer() {
     messages[5]="The timer has spoken, your destiny awaits."
     messages[6]="Do what you came here to do."
     messages[7]="What has been planned must now be executed."
-    rand=$[ $RANDOM % 8 ]
+    rand=$(( RANDOM % 8 ))
     message="${messages[$rand]}"
   fi
 
-  (gsleep $1 && beep && say "$message") &
+  (gsleep "$1" && beep && say "$message") &
 }
 
 # Test whether file exists in current or parent directories
@@ -101,10 +103,12 @@ find_in_cwd_or_parent() {
 
 # Strip trailing whitespace, and ensure files end with a newline.
 fix_whitespace() {
-  local exclude_dirs;
-  for d in .git tmp log public; do exclude_dirs+="-path './$d' -prune -o "; done
-  eval find . $exclude_dirs -type f | \
-  xargs file | grep -P "ASCII|UTF-8" | cut -d: -f1 | \
+  local exclude_dirs=();
+  for d in .git tmp log public; do
+    exclude_dirs+=("-path" "./$d" "-prune" "-o")
+  done
+  find . "${exclude_dirs[@]}" -type f -exec file {} \; | \
+  grep -e "ASCII\|UTF-8" | cut -d: -f1 | \
   xargs -I % sh -c "{ rm % && awk 1 > %; } < %; sed -i % -e 's/[[:space:]]*$//g'"
 }
 
@@ -130,12 +134,12 @@ rejustify_ls_columns(){
 if [ "$(uname)" != Darwin ]; then
   # If not on mac, set up 'say' command using
   # Google Translate text-to-speech | mplayer
-  say() { if [[ "${1}" =~ -[a-z]{2} ]]; then local lang=${1#-}; local text="${*#$1}"; else local lang=${LANG%_*}; local text="$*";fi; mplayer "http://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&q=${text}" &> /dev/null ; }
+  say() { if [[ "${1}" =~ -[a-z]{2} ]]; then local lang=${1#-}; local text="${*#"$1"}"; else local lang=${LANG%_*}; local text="$*";fi; mplayer "http://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&q=${text}" &> /dev/null ; }
 fi
 
 # Look busy
 random_hex() { for i in $(seq 1 2); do echo -n $(echo "obase=16; $(($RANDOM % 16))" | bc | tr '[A-Z]' '[a-z]'); done; }
-look_busy() { clear; while true; do head -n 500 /dev/urandom | hexdump -C | grep --color=auto "`random_hex` `random_hex`"; done; }
+look_busy() { clear; while true; do head -n 500 /dev/urandom | hexdump -C | grep --color=auto "$(random_hex) $(random_hex)"; done; }
 
 
 # Archive and backup all iPhone applications
@@ -143,7 +147,7 @@ idevicearchiveallapps() {
   if [ -n "$1" ]; then
     for app in $(ideviceinstaller -l | grep " - " | sed "s/ - .*//g"); do
       echo "== Archiving and backing up: $app ..."
-      ideviceinstaller -a $app -o copy=$1 -o remove
+      ideviceinstaller -a "$app" -o copy="$1" -o remove
     done
   else
     echo "Usage: $0 <backup path>"

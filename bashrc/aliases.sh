@@ -95,9 +95,9 @@ function edit_file() {
   if type exec_scmb_expand_args > /dev/null 2>&1; then
     if [ -z "$1" ]; then
       # No arguments supplied, open the editor at the current directory.
-      exec_scmb_expand_args $GUI_EDITOR "."
+      exec_scmb_expand_args "$GUI_EDITOR" "."
     else
-      exec_scmb_expand_args $GUI_EDITOR "$@"
+      exec_scmb_expand_args "$GUI_EDITOR" "$@"
     fi
   else
     $GUI_EDITOR "$@"
@@ -105,13 +105,13 @@ function edit_file() {
 }
 alias e="edit_file"
 
-alias ~='cd ~'
-alias -- -='cd -'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
+alias ~='\cd ~'
+alias -- -='\cd -'
+alias ..='\cd ..'
+alias ...='\cd ../..'
+alias ....='\cd ../../..'
+alias .....='\cd ../../../..'
+alias ......='\cd ../../../../..'
 
 for mod in x w r; do
   alias -- "+$mod"="chmod +$mod"
@@ -135,7 +135,7 @@ alias cbg="echo 'Copying latest commit hash to clipboard...' && git rev-parse --
 alias apt-i='sudo apt-get install -y'
 alias apt-u='sudo apt-get update'
 alias apt-s='apt-cache search'
-apt-sd() { apt-cache search $1 | grep "lib.*dev "; } # Search for dev files
+apt-sd() { apt-cache search "$1" | grep "lib.*dev "; } # Search for dev files
 alias apt-r='sudo apt-get remove'
 alias apt-a='sudo apt-get autoremove'
 
@@ -201,7 +201,7 @@ add_alias() {
 # ------------------------------------------------
 add_dir_alias() {
   if [ -n "$1" ] && [ -n "$2" ]; then
-    path=`dirname $2/.`   # Fetches absolute path.
+    path=$(dirname "$2"/.)   # Fetches absolute path.
     touch ~/.bash_aliases
     echo "alias $1=\"cd $path; ll\"" >> ~/.bash_aliases
     source ~/.bashrc
@@ -216,7 +216,7 @@ rm_alias() {
     touch ~/.bash_aliases
     grep -Ev "alias $1=" ~/.bash_aliases > ~/.bash_aliases.tmp
     mv ~/.bash_aliases.tmp ~/.bash_aliases
-    unalias $1
+    unalias "$1"
     source ~/.bashrc
   else
     echo "Usage: rm_alias <alias>"

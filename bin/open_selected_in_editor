@@ -17,7 +17,7 @@ open_in_editor "$selected"
 
 # Attempt to open <current_dir>/selection in editor
 if [ -e "$cwd_file" ]; then
-  cwd=$(cat "$cwd_file")
+  cwd=$(\cat "$cwd_file")
   open_in_editor "$cwd/$selected"
 fi
 

@@ -1,10 +1,10 @@
 alias cx="convox"
 
 # alias cxs="echo formapi > ~/code/docspring/.convox/app \
-#   && cp ~/.convox/host.staging ~/.convox/host \
-#   && rm -f ~/.convox/rack \
+#   && \cp ~/.convox/host.staging ~/.convox/host \
+#   && \rm -f ~/.convox/rack \
 #   && printf 'Switched to Staging host: ' \
-#   && cat ~/.convox/host"
+#   && \cat ~/.convox/host"
 alias cxp="convox switch production-v3"
 alias cxeu="convox switch europe-v3"
 

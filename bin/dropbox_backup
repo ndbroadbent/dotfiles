@@ -12,7 +12,7 @@ if ! which openssl > /dev/null 2>&1; then
 fi
 
 function usage() {
-  cat <<HELP >&2
+  \cat <<HELP >&2
 Usage: $0
   -d <directory> Run for a specific directory (ssh, convox, etc.)
   -s Encrypt and save ~/.{ssh,convox} to Dropbox

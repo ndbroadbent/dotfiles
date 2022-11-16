@@ -27,12 +27,17 @@ BASHRC_MODULES=" \
 
 # DEBUG_BASHRC=true
 
+# SCM Breeze
+[[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."
+[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
+
+
 for BASHRC_MODULE in $BASHRC_MODULES; do
   [[ -n $DEBUG_BASHRC ]] && echo "Loading ${BASHRC_MODULE}..."
   source "${DOTFILES_PATH}/bashrc/${BASHRC_MODULE}.sh"
 done
 unset BASHRC_MODULE
-SOURCED_FILES="$SOURCED_FILES $DOTFILES_PATH/bashrc/main.sh"
+SOURCED_FILES+=("$DOTFILES_PATH/bashrc/main.sh")
 
 [[ -n $DEBUG_BASHRC ]] && echo "Loading Google Cloud SDK..."
 # The next line updates PATH for the Google Cloud SDK.
@@ -43,10 +48,6 @@ fi
 if [ -f "$HOME/google-cloud-sdk/completion.bash.inc" ]; then
   source "$HOME/google-cloud-sdk/completion.bash.inc"
 fi
-
-# SCM Breeze
-[[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."
-[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
 
 # Some custom git stuff that needs to be loaded after SCM Breeze
 source "${DOTFILES_PATH}/bashrc/gitlab.sh"
