@@ -68,9 +68,9 @@ dev() (
   echo "Starting Visual Studio Code in ${PWD}..."
   code .
   if [[ "$WAS_RUNNING" == "false" ]]; then
-    sleep 10
+    sleep 8
   else
-    sleep 1
+    sleep 3
   fi
 
   # Close all editor tabs and collapse all files in VS Code
