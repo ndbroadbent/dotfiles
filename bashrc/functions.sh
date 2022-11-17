@@ -101,15 +101,26 @@ find_in_cwd_or_parent() {
   return 1
 }
 
-# Strip trailing whitespace, and ensure files end with a newline.
-fix_whitespace() {
+files_in_directory() {
+  if [ -d .git ]; then
+    git ls-files
+    return
+  fi
   local exclude_dirs=();
-  for d in .git tmp log public; do
+  for d in tmp log public; do
     exclude_dirs+=("-path" "./$d" "-prune" "-o")
   done
-  find . "${exclude_dirs[@]}" -type f -exec file {} \; | \
-  grep -e "ASCII\|UTF-8" | cut -d: -f1 | \
-  xargs -I % sh -c "{ rm % && awk 1 > %; } < %; sed -i % -e 's/[[:space:]]*$//g'"
+  find . "${exclude_dirs[@]}" -type f
+}
+
+text_files_in_directory() {
+  files_in_directory | xargs file | grep -e "ASCII\|UTF-8" | cut -d: -f1
+}
+
+# Trim trailing whitespace for all text files in directory, and ensure files end with a newline.
+trim_trailing_whitespace() {
+  echo "Trimming trailing whitespace for all text files in ${PWD}..."
+  text_files_in_directory | xargs -I {} -- sh -c "echo '{}'; sed -i '' -e 's/[[:space:]]*$//g' -e '\$a\\' {}"
 }
 
 ping() {
