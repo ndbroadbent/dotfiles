@@ -95,9 +95,11 @@ function edit_file() {
   if type exec_scmb_expand_args > /dev/null 2>&1; then
     if [ -z "$1" ]; then
       # No arguments supplied, open the editor at the current directory.
-      exec_scmb_expand_args "$GUI_EDITOR" "."
+      # shellcheck disable=SC2086
+      exec_scmb_expand_args $GUI_EDITOR "."
     else
-      exec_scmb_expand_args "$GUI_EDITOR" "$@"
+      # shellcheck disable=SC2086
+      exec_scmb_expand_args $GUI_EDITOR "$@"
     fi
   else
     $GUI_EDITOR "$@"
