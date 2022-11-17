@@ -6,4 +6,5 @@ alias rubomain="be rubocop \$(git diff HEAD..origin/main --name-only | grep '\.r
 
 export THOR_MERGE="code -d \$1 \$2"
 
-alias rf="rspec --only-failures"
+alias ro="rspec --only-failures"
+alias rn='rspec --next-failure'
