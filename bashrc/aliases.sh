@@ -145,37 +145,6 @@ alias apt-a='sudo apt-get autoremove'
 # ---------------
 alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
-# Git
-# -------------------------------------------------
-# Adds all changes to current commit and then force pushes.
-# Never use this on a team project!!
-alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
-
-# A bash alias that checks out the main branch, pulls the latest changes,
-# checks out the previous branch, and then rebases onto main.
-alias grbl='MAIN_BRANCH=$((! [ -f .git/config ] && echo "master") || (grep -q '"'"'branch "master"'"'"' .git/config && echo master || echo main)) && git checkout "$MAIN_BRANCH" && git pull && git checkout - && git rebase "$MAIN_BRANCH"'
-
-# Gitlab CI (DocSpring)
-# -------------------------------------------------
-# Refresh CI status in prompt
-alias rci="./scripts/circleci_pipeline_status -f > /dev/null"
-# Show latest CI pipeline in browser
-alias sci="./scripts/show_latest_gitlab_ci_pipeline"
-# Run failed tests from the most recent failed CI pipeline
-alias fci="./scripts/run_failed_gitlab_pipeline_specs"
-
-# Delete git branch locally and on remote
-function gbDA() {
-  if [ "$1" == 'master' ] || [ "$1" == 'main' ]; then
-    echo "Cannot delete $1 branch."
-    return 1
-  fi
-  _scmb_git_branch_shortcuts -D "$1";
-  exec_scmb_expand_args git push origin --delete "$1";
-}
-
-alias pv="pivotal"
-
 # -------------------------------------------------
 # Include configurable bash aliases, if file exists
 if [ -f ~/.bash_aliases ]; then
