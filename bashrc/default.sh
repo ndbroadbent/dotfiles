@@ -42,12 +42,12 @@ if ! shopt -oq posix; then
 	fi
 fi
 
-
 # Default editors
-export EDITOR="code -g"
-export GUI_EDITOR="code -g"
-export REACT_EDITOR="code -g"
-export BUNDLER_EDITOR="code -g"
+export EDITOR="vim"
+export VISUAL="codew"
+export GUI_EDITOR="codeg"
+export REACT_EDITOR="codeg"
+export BUNDLER_EDITOR="codeg"
 export GIT_EDITOR="vim"
 export KUBE_EDITOR="code --wait"
 

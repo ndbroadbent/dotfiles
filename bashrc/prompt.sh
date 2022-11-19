@@ -159,7 +159,7 @@ set_ps1() {
   git_dirty=$(parse_git_dirty)
   ruby=$(parse_ruby_version)
   convox_host=$(parse_convox_host)
-  ci_status=$(parse_ci_status "$git_branch)")
+  ci_status=$(parse_ci_status "$git_branch")
 
   local num_procs
   num_procs=$(jobs -p | wc -l)
