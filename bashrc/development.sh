@@ -49,12 +49,12 @@ alias stb="short st --git-branch-short"
 dev() (
   set -euo pipefail
 
-  osascript -e 'tell application "iTerm" to activate' \
-            -e 'tell application "System Events" to keystroke "f" using {command down, option down}'
-
   cd ~/code/docspring
   if [[ "${_DEV_SCRIPT:-}" != "true" ]]; then
     osascript .dev.scpt "$(pwd)"
+  else
+    osascript -e 'tell application "iTerm" to activate' \
+              -e 'tell application "System Events" to keystroke "f" using {command down, option down}'
   fi
 
   local STORY_ID_AND_URL
