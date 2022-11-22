@@ -57,47 +57,60 @@ dev() (
               -e 'tell application "System Events" to keystroke "f" using {command down, option down}'
   fi
 
-  local STORY_ID_AND_URL
-  STORY_ID_AND_URL=$(short search 'owner:nathan state:"in development"' -f "%id;%u")
-  local STORY_COUNT
-  STORY_COUNT="$(echo "$STORY_ID_AND_URL" | wc -l)"
+  local STORY_ID STORY_COUNT STORY_JSON STORY_URL SENTRY_URL
+
+  SHORT_SEARCH='owner:nathan state:"in development"'
+  echo "Searching for stories: $SHORT_SEARCH" >&2
+  STORY_ID=$(short search "$SHORT_SEARCH" -f "%id")
+  STORY_COUNT="$(echo "$STORY_ID" | wc -l)"
   if [ "$STORY_COUNT" -eq 0 ]; then
-    echo "No stories found."
+    echo "No stories found." >&2
     return 1
   elif [ "$STORY_COUNT" -gt 1 ]; then
-    echo "Multiple stories found with state 'In Development':" "$STORY_ID_AND_URL"
+    echo "Multiple stories found with state 'In Development':" "$STORY_ID" >&2
     return 1
   fi
-  local STORY_ID
-  STORY_ID=$(echo "$STORY_ID_AND_URL" | cut -d ';' -f 1)
-  local STORY_URL
-  STORY_URL=$(echo "$STORY_ID_AND_URL" | cut -d ';' -f 2)
 
-  echo "Fetching story description..."
-  local STORY_DESCRIPTION
-  STORY_DESCRIPTION=$(short st "$STORY_ID" -f "%d")
-  # Find first Sentry URL in the description (https://sentry.io/...)
-  local SENTRY_URL
-  SENTRY_URL=$(echo "$STORY_DESCRIPTION" | grep -m1 -o 'https://sentry.io/[^ )]*' || true)
+  echo "Fetching story JSON..." >&2
+  STORY_JSON=$(short st "$STORY_ID" -f "%j")
+  STORY_URL=$(echo "$STORY_JSON" | jq -r '.app_url')
 
   # Create new git branch for story
   short st --git-branch-short "$STORY_ID"
 
-  echo "Opening story in new Google Chrome window: ${STORY_URL}"
+  echo "=> Opening story in new Google Chrome window: ${STORY_URL}" >&2
   CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   "$CHROME_BIN" --new-window "${STORY_URL}" 2>/dev/null
+
+  # Find Sentry URL in the description (https://sentry.io/...)
+  SENTRY_URL=$(echo "$STORY_JSON" | jq -r '.description' | grep -m1 -o 'https://sentry.io/[^ )]*' || true)
+
   # Open Sentry error (if present)
   if [ -n "$SENTRY_URL" ]; then
-    echo "Opening Sentry error: ${SENTRY_URL}"
+    echo "=> Opening Sentry error: ${SENTRY_URL}" >&2
     "$CHROME_BIN" "${SENTRY_URL}" 2>/dev/null
   fi
+
+  # Open any external links
+  for EXTERNAL_LINK in $(echo "$STORY_JSON" | jq -r '.external_links | join("\n")'); do
+    echo "=> Opening external link: ${EXTERNAL_LINK}" >&2
+    "$CHROME_BIN" "${EXTERNAL_LINK}" 2>/dev/null
+  done
+
   # Open DocSpring development URLs
-  "$CHROME_BIN" "http://admin.docspring.local:3000" 2>/dev/null
-  "$CHROME_BIN" "http://app.docspring.local:3000" 2>/dev/null
+  for DEV_URL in "http://admin.docspring.local:3000" "http://app.docspring.local:3000"; do
+    echo "=> Opening development URL: ${DEV_URL}" >&2
+    "$CHROME_BIN" "$DEV_URL" 2>/dev/null
+  done
 
   local WAS_RUNNING="false"
-  if pgrep -f 'Visual Studio Code' > /dev/null; then WAS_RUNNING="true"; fi
-  echo "Starting Visual Studio Code in ${PWD}..."
+  if pgrep -f 'Visual Studio Code' > /dev/null; then
+    WAS_RUNNING="true"
+    echo "Opening Visual Studio Code in ${PWD}..." >&2
+  else
+    echo "Starting Visual Studio Code in ${PWD}..." >&2
+  fi
+
   code .
   if [[ "$WAS_RUNNING" == "false" ]]; then
     sleep 8
@@ -108,4 +121,3 @@ dev() (
   # Close all editor tabs and collapse all files in VS Code
   osascript "${DOTFILES_PATH}/applescript/reset-vscode.scpt"
 )
-
