@@ -82,20 +82,27 @@ dev() (
   CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   "$CHROME_BIN" --new-window "${STORY_URL}" 2>/dev/null
 
-  # Find Sentry URL in the description (https://sentry.io/...)
-  SENTRY_URL=$(echo "$STORY_JSON" | jq -r '.description' | grep -m1 -o 'https://sentry.io/[^ )]*' || true)
-
-  # Open Sentry error (if present)
-  if [ -n "$SENTRY_URL" ]; then
-    echo "=> Opening Sentry error: ${SENTRY_URL}" >&2
-    "$CHROME_BIN" "${SENTRY_URL}" 2>/dev/null
-  fi
-
+  OPENED_SENTRY_URL='false'
   # Open any external links
   for EXTERNAL_LINK in $(echo "$STORY_JSON" | jq -r '.external_links | join("\n")'); do
     echo "=> Opening external link: ${EXTERNAL_LINK}" >&2
     "$CHROME_BIN" "${EXTERNAL_LINK}" 2>/dev/null
+
+    if [[ "${EXTERNAL_LINK}" == *"sentry.io"* ]]; then
+      OPENED_SENTRY_URL='true'
+    fi
   done
+
+  if [ "$OPENED_SENTRY_URL" == 'false' ]; then
+    # Find Sentry URL in the description (https://sentry.io/...)
+    SENTRY_URL=$(echo "$STORY_JSON" | jq -r '.description' | grep -m1 -o 'https://sentry.io/[^ )]*' || true)
+
+    # Open Sentry error (if present)
+    if [ -n "$SENTRY_URL" ]; then
+      echo "=> Opening Sentry error: ${SENTRY_URL}" >&2
+      "$CHROME_BIN" "${SENTRY_URL}" 2>/dev/null
+    fi
+  fi
 
   # Open DocSpring development URLs
   for DEV_URL in "http://admin.docspring.local:3000" "http://app.docspring.local:3000"; do
