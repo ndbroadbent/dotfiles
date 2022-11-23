@@ -8,3 +8,4 @@ export THOR_MERGE="code -d \$1 \$2"
 
 alias ro="rspec --only-failures"
 alias rn='rspec --next-failure'
+alias rch='rspec $(git ls-files --modified --others spec)'
