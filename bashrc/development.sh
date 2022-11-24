@@ -61,15 +61,17 @@ dev() (
 
   SHORT_SEARCH='owner:nathan state:"in development"'
   echo "Searching for stories: $SHORT_SEARCH" >&2
-  STORY_ID=$(short search "$SHORT_SEARCH" -f "%id")
-  STORY_COUNT="$(echo "$STORY_ID" | wc -l)"
+  STORY_IDS=$(short search "$SHORT_SEARCH" -f "%id")
+  read -ra STORY_IDS <<< "$STORY_IDS"
+  STORY_COUNT=${#STORY_IDS[@]}
   if [ "$STORY_COUNT" -eq 0 ]; then
     echo "No stories found." >&2
     return 1
   elif [ "$STORY_COUNT" -gt 1 ]; then
-    echo "Multiple stories found with state 'In Development':" "$STORY_ID" >&2
+    echo "Multiple stories found with state 'In Development':" "${STORY_IDS[*]}" >&2
     return 1
   fi
+  STORY_ID="${STORY_IDS[0]}"
 
   echo "Fetching story JSON..." >&2
   STORY_JSON=$(short st "$STORY_ID" -f "%j")
