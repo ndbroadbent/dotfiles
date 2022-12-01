@@ -79,19 +79,14 @@ ulimit -u 2048
 # Also: https://akrabat.com/add-apple-watch-authentication-to-sudo/
 sudo() {
     unset -f sudo
-    if [[ "$(uname)" == 'Darwin' ]] && ! grep 'pam_tid.so' /etc/pam.d/sudo --silent; then
-        echo "=> Setting up Touch ID for sudo... (sudo password is required)"
-        sudo sed -i -e '1s;^;auth       sufficient     pam_tid.so\n;' /etc/pam.d/sudo
-    fi
-    if [[ "$(uname)" == 'Darwin' ]] && ! grep 'pam_watchid.so' /etc/pam.d/sudo --silent; then
-        if [ -f /usr/local/lib/pam/pam_watchid.so.2 ]; then
-            echo "=> Setting up Apple Watch for sudo... (sudo password is required)"
-            sudo sed -i -e '1s;^;auth       sufficient     pam_watchid.so\n;' /etc/pam.d/sudo
-        else
+    if [[ "$(uname)" == 'Darwin' ]]; then
+        if ! [ -f /usr/local/lib/pam/pam_watchid.so.2 ]; then
             echo "=> Apple Watch PAM library not found." \
                  "Please compile and install pam_watchid: https://github.com/biscuitehh/pam-watchid"
+        elif ! grep -q 'Touch ID and Apple Watch' /etc/pam.d/sudo; then
+            echo "=> Setting up Touch ID and Apple Watch for sudo... (sudo password is required)"
+            sudo sed -i -e '1s;^;# Touch ID and Apple Watch added by dotfiles/bashrc/default.sh\nauth       sufficient     pam_tid.so\nauth       sufficient     pam_watchid.so\n;' /etc/pam.d/sudo
         fi
     fi
-
     sudo "$@"
 }
