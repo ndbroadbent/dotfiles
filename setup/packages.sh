@@ -29,7 +29,7 @@ brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wge
   ripgrep vim less htop ffmpeg maven defaultbrowser \
   redis imagemagick vim hugo watch gnupg binutils diffutils ed \
   heroku awscli getsentry/tools/sentry-cli \
-  gzip screen file-formula openssh python rsync unzip \
+  gzip screen file-formula openssh python rsync unzip terraform \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
   crystal llvm yt-dlp
 
@@ -54,7 +54,7 @@ brew install --cask firefox google-chrome \
   iterm2 visual-studio-code android-studio docker \
   virtualbox postgres-unofficial postico db-browser-for-sqlite charles \
   skype zoom slack telegram spotify vlc \
-  dropbox \
+  dropbox notion \
   bambu-studio openscad \
   font-fira-code font-fira-mono font-fira-sans
 
