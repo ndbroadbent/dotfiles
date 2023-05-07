@@ -45,9 +45,9 @@ fi
 # Default editors
 export EDITOR="vim"
 export VISUAL="codew"
-export GUI_EDITOR="codeg"
-export REACT_EDITOR="codeg"
-export BUNDLER_EDITOR="codeg"
+export GUI_EDITOR="code"
+export REACT_EDITOR="code"
+export BUNDLER_EDITOR="code"
 export GIT_EDITOR="vim"
 export KUBE_EDITOR="code --wait"
 

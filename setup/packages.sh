@@ -8,7 +8,7 @@ fi
 
 # Install homebrew autoupdate
 brew tap homebrew/autoupdate
-brew autoupdate start
+brew autoupdate start || true
 
 if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
   brew tap heroku/brew
@@ -23,16 +23,15 @@ if ! /usr/libexec/java_home -V; then
   brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
 fi
 
-brew tap petere/postgresql
+# brew tap petere/postgresql
 
 brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wget curl yarn jq \
   ripgrep vim less htop ffmpeg maven defaultbrowser \
-  postgres postgresql-common redis imagemagick vim hugo watch gnupg binutils diffutils ed \
+  redis imagemagick vim hugo watch gnupg binutils diffutils ed \
   heroku awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rsync unzip \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
-  youtube-dl \
-  crystal llvm
+  crystal llvm yt-dlp
 
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
@@ -53,9 +52,10 @@ brew install --cask firefox google-chrome \
   adoptopenjdk13 \
   flux dozer rectangle muzzle rescuetime qbittorrent \
   iterm2 visual-studio-code android-studio docker \
-  virtualbox postico db-browser-for-sqlite charles \
+  virtualbox postgres-unofficial postico db-browser-for-sqlite charles \
   skype zoom slack telegram spotify vlc \
-  dropbox google-backup-and-sync \
+  dropbox \
+  bambu-studio openscad \
   font-fira-code font-fira-mono font-fira-sans
 
 # echo "Running brew cleanup..."

@@ -12,9 +12,8 @@
 # ----------------------------------------------------------------
 MAC_APP_STORE_APPS=(
   "Spark - Email App"
-  "LINE"
   "Kindle"
-  "Evernote"
+  "UpNote"
   "WhatsApp Desktop"
 )
 for APP_NAME in "${MAC_APP_STORE_APPS[@]}"; do
