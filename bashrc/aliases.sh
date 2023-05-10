@@ -40,6 +40,8 @@ alias fl='fastlane'
 
 alias ed='c envkey-client-server; ds'
 
+alias cat='bat'
+
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
   alias alert="(afplay $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"

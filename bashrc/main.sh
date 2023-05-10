@@ -74,3 +74,5 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 unset -f brew
 unset DEBUG_BASHRC
+
+eval "$(starship init bash)"
