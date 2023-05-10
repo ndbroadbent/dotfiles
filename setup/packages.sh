@@ -29,7 +29,7 @@ brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wge
   ripgrep vim less htop ffmpeg maven defaultbrowser \
   redis imagemagick vim hugo watch gnupg binutils diffutils ed \
   heroku awscli getsentry/tools/sentry-cli \
-  gzip screen file-formula openssh python rsync unzip terraform \
+  gzip screen file-formula openssh python rust rsync unzip terraform \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
   crystal llvm yt-dlp bat starship
 

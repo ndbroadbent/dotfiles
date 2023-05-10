@@ -11,9 +11,9 @@
 
 LS_CMD=$(which gls > /dev/null 2>&1 && echo "gls" || echo "ls")
 
-alias l="\\$LS_CMD -Cv --group-directories-first"
-alias ll="\\$LS_CMD -lhv --group-directories-first $_ls_processor"
-alias la="\\$LS_CMD -lhvA --group-directories-first $_ls_processor"
+alias l="\\$LS_CMD -Cv --color=auto --group-directories-first"
+alias ll="\\$LS_CMD -lhv --color=auto --group-directories-first $_ls_processor"
+alias la="\\$LS_CMD -lhvA --color=auto --group-directories-first $_ls_processor"
 
 alias rmrf='rm -rf'
 alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
