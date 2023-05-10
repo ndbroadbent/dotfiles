@@ -27,7 +27,7 @@ fi
 
 brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wget curl yarn jq \
   ripgrep vim less htop ffmpeg maven defaultbrowser \
-  redis imagemagick vim hugo watch gnupg binutils diffutils ed \
+  redis imagemagick vim hugo watch gnupg binutils diffutils ed reattach-to-user-namespace \
   heroku awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rust rsync unzip terraform \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
