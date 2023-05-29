@@ -31,7 +31,7 @@ brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wge
   heroku awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rust rsync unzip terraform \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
-  crystal llvm yt-dlp bat starship
+  crystal llvm yt-dlp bat starship hub gh
 
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
