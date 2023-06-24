@@ -24,6 +24,10 @@ extensions=(
   .md
   .php
   .rb
+  .rake
+  Gemfile
+  Rakefile
+  .lock
   .sass
   .scss
   .sh
@@ -72,5 +76,5 @@ editor=$vscode
 
 for extension in "${extensions[@]}"; do
   echo "duti -s $editor $extension"
-  duti -s $editor $extension all
+  duti -s $editor "$extension" all
 done

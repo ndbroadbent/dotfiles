@@ -122,6 +122,9 @@ for mod in x w r; do
   alias -- "-$mod"="chmod -- -$mod"
 done
 
+# Git diff with inline images
+alias gdi="git --no-pager -c diff.image.textconv=imgcat -c diff.image.command=imgdiff diff"
+
 # Aliases for scripts in ~/bin
 # ----------------------------
 alias cb="simple_clipboard"
