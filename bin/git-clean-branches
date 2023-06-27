@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+# git fetch --prune
+
+IFS=$'\n' read -r -d '' -a DELETED_BRANCHES < <( git branch -vv | grep ': gone]' | grep -v "\*" | awk '{ print $1; }' && printf '\0' )
+
+if [ ${#DELETED_BRANCHES[@]} -eq 0 ]; then
+  echo "No branches to delete."
+  exit 0
+fi
+
+if [ "$1" == "-d" ] || [ "$1" == "--dry-run" ]; then
+  echo "[Dry Run] Will delete the following git branches:"
+  echo "-------------------------------------------------"
+  for BRANCH in "${DELETED_BRANCHES[@]}"; do echo "$BRANCH"; done
+else
+  for BRANCH in "${DELETED_BRANCHES[@]}"; do
+    git branch -d "$BRANCH"
+  done
+fi
