@@ -124,6 +124,7 @@ done
 
 # Git diff with inline images
 alias gdi="git --no-pager -c diff.image.textconv=imgcat -c diff.image.command=imgdiff diff"
+alias gf="git fetch --prune"
 
 # Aliases for scripts in ~/bin
 # ----------------------------
