@@ -1,7 +1,10 @@
 #!/bin/bash
 
 if [[ -f "$1" ]] && [[ -f "$2" ]]; then
-  echo "    Before    |     Diff    |     After"
+  echo
+  echo "-----------------------------------------------"
+  echo "File: $1"
+  echo "     Before     |     Diff     |     After"
   compare "$2" "$1" png:- | montage -geometry +4+4 "$2" - "$1" png:- | imgcat
 else
   if [[ -f "$1" ]]; then
