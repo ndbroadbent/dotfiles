@@ -50,3 +50,5 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 
 # Old PHP 7.4 for API client tests
 export PATH="/usr/local/opt/php@7.4/bin:$PATH"
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
