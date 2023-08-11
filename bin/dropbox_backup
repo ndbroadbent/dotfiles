@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-DROPBOX_DIR="$HOME/Library/CloudStorage/Dropbox"
+DROPBOX_DIR="$HOME/Dropbox"
 
 if ! [ -d "$DROPBOX_DIR" ]; then
   echo "Could not find Dropbox folder at $DROPBOX_DIR. Please set up Dropbox first."
