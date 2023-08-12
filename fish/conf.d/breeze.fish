@@ -1,5 +1,5 @@
 abbr -a cdgtop 'cd (git rev-parse --show-toplevel)'
-abbr -a g 'git'
+abbr -a g git
 abbr -a gaa 'git add --all'
 abbr -a gap 'git add -pu'
 abbr -a gash 'git stash'
@@ -28,7 +28,10 @@ abbr -a gpl 'git pull'
 abbr -a gplr 'git pull --rebase'
 abbr -a gps 'git push'
 abbr -a gpsf 'git push --force-with-lease'
-abbr -a gr 'git remote -v'
+abbr -a gr 'git remote'
+abbr -a gra 'git remote add'
+abbr -a grr 'git remote rename'
+abbr -a grv 'git remote -v'
 abbr -a grb 'git rebase'
 abbr -a grbi 'git rebase -i'
 abbr -a grs 'git reset --'
@@ -72,6 +75,8 @@ function _breeze_uninstall -e breeze_uninstall
     abbr -e gps
     abbr -e gpsf
     abbr -e gr
+    abbr -e gra
+    abbr -e grr
     abbr -e grb
     abbr -e grbi
     abbr -e grs
