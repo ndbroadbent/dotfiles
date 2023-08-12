@@ -15,13 +15,14 @@ if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
 fi
 
 # Install Java and maven
-if ! /usr/libexec/java_home -V; then
-  if ! [ -d "/usr/local/Homebrew/Library/Taps/adoptopenjdk" ]; then
-    brew tap AdoptOpenJDK/openjdk
-  fi
-  echo "Installing Java..."
-  brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
-fi
+# if ! /usr/libexec/java_home -V; then
+#   if ! [ -d "/usr/local/Homebrew/Library/Taps/adoptopenjdk" ]; then
+#     brew tap AdoptOpenJDK/openjdk
+#   fi
+#   echo "Installing Java..."
+#   brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
+# fi
+brew install openjdk
 
 # brew tap petere/postgresql
 
@@ -31,7 +32,7 @@ brew install mas mackup duti direnv rbenv nvm pyenv git bash bash-completion wge
   awscli getsentry/tools/sentry-cli \
   gzip screen file-formula openssh python rsync unzip terraform \
   findutils coreutils gawk gnu-indent gnu-sed gnu-tar gnu-which gnutls grep gource \
-  yt-dlp bat starship hub gh
+  yt-dlp bat starship hub gh trash
 
 mkdir -p "$HOME/.rbenv/cache"
 mkdir -p "$HOME/.nvm"
@@ -48,13 +49,10 @@ if ! [ -d "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask-fonts" ]; the
   brew tap homebrew/cask-fonts
 fi
 
-brew install --cask firefox google-chrome \
-  adoptopenjdk13 \
-  flux dozer rectangle muzzle rescuetime qbittorrent \
-  iterm2 visual-studio-code android-studio docker \
-  virtualbox postgres-unofficial postico db-browser-for-sqlite charles \
-  skype zoom slack telegram spotify vlc \
-  dropbox notion \
+brew install --cask firefox \
+  flux dozer rectangle muzzle rescuetime docker \
+  postgres-unofficial postico \
+  skype zoom spotify vlc notion \
   bambu-studio openscad \
   font-fira-code font-fira-mono font-fira-sans
 
