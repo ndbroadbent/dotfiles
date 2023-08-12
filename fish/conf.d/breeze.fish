@@ -26,6 +26,7 @@ abbr -a gmnff 'git merge --no-ff'
 abbr -a gopen 'git config --get remote.origin.url | xargs open'
 abbr -a gpl 'git pull'
 abbr -a gplr 'git pull --rebase'
+abbr -a gpls 'git pull && git push'
 abbr -a gps 'git push'
 abbr -a gpsf 'git push --force-with-lease'
 abbr -a gr 'git remote'
@@ -72,6 +73,7 @@ function _breeze_uninstall -e breeze_uninstall
     abbr -e gopen
     abbr -e gpl
     abbr -e gplr
+    abbr -e gpls
     abbr -e gps
     abbr -e gpsf
     abbr -e gr
