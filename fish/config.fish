@@ -22,7 +22,7 @@ function c
     end
 end
 # Autocomplete directories in ~/code
-# Don't autocomplete current 
+# Don't autocomplete current
 complete -c c -x -a "(ls ~/code)"
 
 alias d="cd ~/code/docspring"

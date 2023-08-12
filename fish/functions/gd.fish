@@ -21,18 +21,18 @@ function __gd
     # first < last
     if [ $last != '' ]
         if [ $first -lt $last ]
-           set arr_length (count $arr)
+            set arr_length (count $arr)
 
-           # clamp as array length
-           if [ $arr_length -lt $last ]
-             set last $arr_length
-           end
+            # clamp as array length
+            if [ $arr_length -lt $last ]
+                set last $arr_length
+            end
 
-           #for i in (seq $first 1 $last)
-           for i in $res
-               set myarg $arr[$i]
-               git diff $toplevel/$myarg
-           end
+            #for i in (seq $first 1 $last)
+            for i in $res
+                set myarg $arr[$i]
+                git diff $toplevel/$myarg
+            end
         else
             echo 'Argument is not valid.'
         end
@@ -44,7 +44,9 @@ function __gd
 end
 
 function gd
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
     # If we have no arguments, just run git diff
     if [ (count $argv) -eq 0 ]
         git diff

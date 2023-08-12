@@ -14,7 +14,7 @@ function __set_variables
 end
 
 function __sanitize_flags -d "only allow for predefined flags"
-    set whitelist "--ignored" "--renames" "--no-renames"
+    set whitelist --ignored --renames --no-renames
     set sanitized
 
     for flag in (string split " " -- $argv)
@@ -30,25 +30,25 @@ function __parse_unmerged -a us them -d "parse shorthand status for unmerged pat
     switch $code
         case DD
             set current_status "both deleted"
-            set current_color 'red'
+            set current_color red
         case AU
             set current_status "added by us"
-            set current_color 'yellow'
+            set current_color yellow
         case UD
             set current_status "deleted by them"
-            set current_color 'red'
+            set current_color red
         case UA
             set current_status "added by them"
-            set current_color 'yellow'
+            set current_color yellow
         case DU
             set current_status "deleted by us"
-            set current_color 'red'
+            set current_color red
         case AA
             set current_status "both added"
-            set current_color 'yellow'
+            set current_color yellow
         case UU
             set current_status "both modified"
-            set current_color 'green'
+            set current_color green
     end
 
     echo $current_status
@@ -58,25 +58,25 @@ function __parse_status -a code -d "parse shorthand status"
     switch $code
         case A
             set current_status "new file"
-            set current_color 'yellow'
+            set current_color yellow
         case C
-            set current_status "copied"
-            set current_color 'magenta'
+            set current_status copied
+            set current_color magenta
         case D
-            set current_status "deleted"
-            set current_color 'red'
+            set current_status deleted
+            set current_color red
         case M
-            set current_status "modified"
-            set current_color 'green'
+            set current_status modified
+            set current_color green
         case R
-            set current_status "renamed"
-            set current_color 'blue'
+            set current_status renamed
+            set current_color blue
         case !
-            set current_status "ignored"
-            set current_color 'white'
+            set current_status ignored
+            set current_color white
         case '?'
-            set current_status "untracked"
-            set current_color 'cyan'
+            set current_status untracked
+            set current_color cyan
     end
 
     echo $current_status
@@ -100,8 +100,8 @@ function __parse_state -a state -d "parse the current state"
 end
 
 function __handle_renames_and_copies -a idx name -d "removes explict rename or copy paths for unstaged files"
-    if test $idx = "R"
-        or test $idx = "C"
+    if test $idx = R
+        or test $idx = C
         set elements (string split " -> " $name)
         set name $elements[2]
     end
@@ -190,9 +190,11 @@ function __gs -a flags -d "group statuses by state and print to screen"
 end
 
 function gs $argv
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
     set res (git rev-parse --is-inside-work-tree)
-    if [ $res = 'true' ]
+    if [ $res = true ]
         __set_variables
         __gs (__sanitize_flags $argv)
     else

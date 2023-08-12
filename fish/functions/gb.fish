@@ -29,7 +29,7 @@ function __gb
     # >
     if [ $length -gt 1 ]
         set last $res[2]
-    # >
+        # >
     else
         # just one
         __git_branch $argv
@@ -42,16 +42,16 @@ function __gb
 
         # clamp as array length
         if [ $arr_length -lt $last ]
-          set last $arr_length
+            set last $arr_length
         end
 
         # first < last
         if [ $first -lt $last ]
-          for i in (seq $first 1 $last)
-              __git_branch $i
-          end
+            for i in (seq $first 1 $last)
+                __git_branch $i
+            end
         else
-          echo 'Argument is not valid.'
+            echo 'Argument is not valid.'
         end
     else
         git branch $argv[1] $first
@@ -59,7 +59,9 @@ function __gb
 end
 
 function gb
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
 
     set op ""
     set length (count $argv)
@@ -69,7 +71,7 @@ function gb
         # more than 1
         set fst (echo $argv[1] | string sub -l 1)
         # if first string is -, it is option
-        if [ $fst = '-' ]
+        if [ $fst = - ]
             # option ex:-D
             set op $argv[1]
             set args $argv[2..(count $argv)]
@@ -80,7 +82,7 @@ function gb
 
     set check_count (git branch)
     set length (count $check_count)
-        if [ $length -gt 1 ]
+    if [ $length -gt 1 ]
         # reset
         set arr ""
     end

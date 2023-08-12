@@ -31,14 +31,14 @@ function __gl
     # first < last
     if [ $last != '' ]
         if [ $first -lt $last ]
-          #for i in (seq $first 1 $last)
-          for i in $res
-              #set myarg $arr[$i]
-              #git log $myarg
-              __git_log $i
-          end
+            #for i in (seq $first 1 $last)
+            for i in $res
+                #set myarg $arr[$i]
+                #git log $myarg
+                __git_log $i
+            end
         else
-          echo 'argument is not valid.'
+            echo 'argument is not valid.'
         end
     else
         #set myarg $arr[$first]
@@ -49,6 +49,8 @@ function __gl
 end
 
 function gl
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
     __gl $argv
 end

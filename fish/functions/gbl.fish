@@ -29,11 +29,11 @@ function __gbl
     # first < last
     if [ $last != '' ]
         if [ $first -lt $last ]
-          for i in (seq $first 1 $last)
-              __git_blame $i
-          end
+            for i in (seq $first 1 $last)
+                __git_blame $i
+            end
         else
-          echo 'argument is not valid.'
+            echo 'argument is not valid.'
         end
     else
         __git_blame $first
@@ -42,9 +42,11 @@ function __gbl
 end
 
 function gbl
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
 
-    echo '--'
+    echo --
     # space like, `gbl 1 2 3`
     echo $argv
     set res (string split " " -- (string trim $argv))

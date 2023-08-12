@@ -44,11 +44,11 @@ function __gco
     if [ $last != '' ]
         # first < last
         if [ $first -lt $last ]
-          for i in (seq $first 1 $last)
-              __git_checkout $i
-          end
+            for i in (seq $first 1 $last)
+                __git_checkout $i
+            end
         else
-          echo 'Argument is not valid.'
+            echo 'Argument is not valid.'
         end
     else
         __git_checkout $first
@@ -56,7 +56,9 @@ function __gco
 end
 
 function gco
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
     # TODO: space like, `gco 1 2 3`
     set length (count $argv)
 
@@ -64,7 +66,7 @@ function gco
         # more than 1
         set fst (echo $argv[1] | string sub -l 1)
         # if first string is -, it is option
-        if [ $fst = '-' ]
+        if [ $fst = - ]
             git checkout $argv
             return
         end

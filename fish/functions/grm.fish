@@ -31,14 +31,14 @@ function __grm
     # first < last
     if [ $last != '' ]
         if [ $first -lt $last ]
-          #for i in (seq $first 1 $last)
-          for i in $res
-              #set myarg $arr[$i]
-              #git rm $myarg
-              __git_rm $i
-          end
+            #for i in (seq $first 1 $last)
+            for i in $res
+                #set myarg $arr[$i]
+                #git rm $myarg
+                __git_rm $i
+            end
         else
-          echo 'argument is not valid.'
+            echo 'argument is not valid.'
         end
     else
         #set myarg $arr[$first]
@@ -49,7 +49,9 @@ function __grm
 end
 
 function grm
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
 
     # TODO: space like, `grm 1 2 3`
     set res (string split " " -- (string trim $argv))

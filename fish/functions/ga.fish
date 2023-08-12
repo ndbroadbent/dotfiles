@@ -31,7 +31,7 @@ function __ga
     # >
     if [ $length -gt 1 ]
         set last $res[2]
-    # >
+        # >
     else
         # just one
         __git_add $res
@@ -44,16 +44,16 @@ function __ga
 
         # clamp as array length
         if [ $arr_length -lt $last ]
-          set last $arr_length
+            set last $arr_length
         end
 
         # first < last
         if [ $first -lt $last ]
-          for i in (seq $first 1 $last)
-              __git_add $i
-          end
+            for i in (seq $first 1 $last)
+                __git_add $i
+            end
         else
-          echo 'Argument is not valid.'
+            echo 'Argument is not valid.'
         end
     else
         __git_add $first
@@ -61,7 +61,9 @@ function __ga
 end
 
 function ga
-    if ! fail_if_not_git_repo; return; end
+    if ! fail_if_not_git_repo
+        return
+    end
 
     # space like, `ga 1 2 3`
     set res (string split " " -- (string trim $argv))
