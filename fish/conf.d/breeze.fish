@@ -8,6 +8,7 @@ abbr -a gashl 'git stash list'
 abbr -a gashp 'git stash pop'
 abbr -a gashu 'git stash --include-untracked'
 abbr -a gau 'git add -u'
+abbr -a gba 'git branch --all'
 abbr -a gc 'git commit'
 abbr -a gce 'git clean'
 abbr -a gcef 'git clean -fd'
@@ -49,50 +50,3 @@ abbr -a gt 'git tag'
 abbr -a gtop 'git rev-parse --show-toplevel'
 abbr -a gurl 'git config --get remote.origin.url'
 abbr -a runsv 'python -m SimpleHTTPServer'
-
-function _breeze_uninstall -e breeze_uninstall
-    abbr -e cdgtop
-    abbr -e g
-    abbr -e gaa
-    abbr -e gap
-    abbr -e gash
-    abbr -e gasha
-    abbr -e gashl
-    abbr -e gashp
-    abbr -e gashu
-    abbr -e gau
-    abbr -e gc
-    abbr -e gce
-    abbr -e gcef
-    abbr -e gcl
-    abbr -e gcmsg
-    abbr -e gdf
-    abbr -e gdnw
-    abbr -e gdw
-    abbr -e gf
-    abbr -e gfa
-    abbr -e gfr
-    abbr -e glg
-    abbr -e gm
-    abbr -e gmff
-    abbr -e gmnff
-    abbr -e gopen
-    abbr -e gpl
-    abbr -e gplr
-    abbr -e gpls
-    abbr -e gps
-    abbr -e gpsf
-    abbr -e gr
-    abbr -e gra
-    abbr -e grr
-    abbr -e grb
-    abbr -e grbi
-    abbr -e grs
-    abbr -e grsh
-    abbr -e grsl
-    abbr -e gsh
-    abbr -e gt
-    abbr -e gtop
-    abbr -e gurl
-    abbr -e runsv
-end
