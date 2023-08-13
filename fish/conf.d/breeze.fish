@@ -29,7 +29,13 @@ abbr -a gplr 'git pull --rebase'
 abbr -a gpls 'git pull && git push'
 abbr -a gps 'git push'
 abbr -a gpsf 'git push --force-with-lease'
-abbr -a gr 'git remote'
+function gr
+    if [ (count $argv) -eq 0 ]
+        git remote -v
+    else
+        git remote $argv
+    end
+end
 abbr -a gra 'git remote add'
 abbr -a grr 'git remote rename'
 abbr -a grv 'git remote -v'

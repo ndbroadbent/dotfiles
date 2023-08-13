@@ -11,7 +11,9 @@ direnv hook fish | source
 
 fish_add_path /opt/homebrew/opt/openjdk/bin
 
-alias reload="exec fish"
+abbr -a reload "exec fish"
+abbr -a config "code ~/code/dotfiles"
+abbr -a conf "code ~/code/dotfiles"
 
 # c alias - cd to ~/code, or to ~/code/<arg>
 function c
@@ -25,8 +27,8 @@ end
 # Don't autocomplete current
 complete -c c -x -a "(ls ~/code)"
 
-alias d="cd ~/code/docspring"
-alias rm="trash"
+abbr -a d "cd ~/code/docspring"
+abbr -a rm trash
 
 function edit_file
     if test -z "$argv[1]"
@@ -36,3 +38,4 @@ function edit_file
     end
 end
 alias e="edit_file"
+alias cx="convox"
