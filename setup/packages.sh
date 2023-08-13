@@ -51,7 +51,7 @@ fi
 
 brew install --cask firefox \
   flux dozer rectangle muzzle rescuetime docker \
-  postgres-unofficial postico \
+  postgres-unofficial postico mqtt-explorer \
   skype zoom spotify vlc notion \
   bambu-studio openscad \
   font-fira-code font-fira-mono font-fira-sans
