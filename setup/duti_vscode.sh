@@ -31,6 +31,7 @@ extensions=(
   .sass
   .scss
   .sh
+  .fish
   .svg
   .ts
   .txt

@@ -29,6 +29,7 @@ complete -c c -x -a "(ls ~/code)"
 
 abbr -a d "cd ~/code/docspring"
 abbr -a rm trash
+abbr -a rmrf "rm -rf"
 
 function edit_file
     if test -z "$argv[1]"
