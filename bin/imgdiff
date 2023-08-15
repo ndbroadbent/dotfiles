@@ -5,14 +5,16 @@ if [[ -f "$1" ]] && [[ -f "$2" ]]; then
   echo "-----------------------------------------------"
   echo "File: $1"
   echo "     Before     |     Diff     |     After"
-  compare "$2" "$1" png:- | montage -geometry +4+4 "$2" - "$1" png:- | imgcat
+  compare "$2" "$1" png:- | montage -geometry +4+4 "$2" - "$1" png:- | ~/.iterm2/imgcat
 else
   if [[ -f "$1" ]]; then
     echo "+ Image Added"
-    imgcat "$1"
-  else
+    ~/.iterm2/imgcat "$1"
+  elif [[ -f "$1" ]]; then
     echo "- Image Removed"
-    imgcat "$2"
+    ~/.iterm2/imgcat "$2"
+  else
+    echo "No images provided."
   fi
 fi
 
