@@ -10,6 +10,7 @@ rtx activate fish | source
 direnv hook fish | source
 
 fish_add_path /opt/homebrew/opt/openjdk/bin
+fish_add_path /Applications/Postgres.app/Contents/Versions/15/bin/
 
 abbr -a reload "exec fish"
 abbr -a config "code ~/code/dotfiles"
@@ -31,6 +32,8 @@ abbr -a d "cd ~/code/docspring"
 abbr -a rm trash
 abbr -a rmrf "rm -rf"
 
+abbr -a +x "chmod +x"
+
 function edit_file
     if test -z "$argv[1]"
         code "."
@@ -39,4 +42,6 @@ function edit_file
     end
 end
 alias e="edit_file"
-alias cx="convox"
+abbr -a cx convox
+abbr -a b bundle
+abbr -a bu "bundle update"
