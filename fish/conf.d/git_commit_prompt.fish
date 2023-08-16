@@ -67,7 +67,7 @@ function git_commit_prompt
     set GIT_PIPE_STATUS $status
     if test "$GIT_PIPE_STATUS" -eq 0
         # Delete saved commit message if commit was successful
-        rm -f "/tmp/.git_commit_message~"
+        /bin/rm -f "/tmp/.git_commit_message~"
     end
 end
 
