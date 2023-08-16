@@ -18,7 +18,7 @@ abbr -a conf "code ~/code/dotfiles"
 
 # c alias - cd to ~/code, or to ~/code/<arg>
 function c
-    if test -z "$argv[1]"
+    if test (count $argv) -eq 0
         cd ~/code
     else
         cd ~/code/$argv
@@ -28,15 +28,13 @@ end
 # Don't autocomplete current
 complete -c c -x -a "(ls ~/code)"
 
-abbr -a d "cd ~/code/docspring"
 abbr -a rm trash
 abbr -a rmrf "rm -rf"
-
 abbr -a +x "chmod +x"
 
 function edit_file
-    if test -z "$argv[1]"
-        code "."
+    if test (count $argv) -eq 0
+        code .
     else
         code $argv
     end
@@ -45,3 +43,10 @@ alias e="edit_file"
 abbr -a cx convox
 abbr -a b bundle
 abbr -a bu "bundle update"
+
+alias ds='osascript .dev.scpt "$(pwd)" &'
+abbr -a dds 'cd ~/code/docspring && ds'
+abbr -a d "cd ~/code/docspring"
+abbr -a da 'direnv allow'
+
+abbr -a tmk "tmux kill-session"
