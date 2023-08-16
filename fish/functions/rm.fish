@@ -59,7 +59,7 @@ function __rm
 end
 
 function rm
-    if not find_in_cwd_or_parent ".git" >/dev/null || $argv = --version ] | [ $argv = --help ] || [ $argv = -h ]
+    if not find_in_cwd_or_parent ".git" >/dev/null || [ $argv = --version ] || [ $argv = --help ] || [ $argv = -h ]
         /bin/rm $argv
         return
     end
