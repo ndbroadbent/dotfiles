@@ -1,0 +1,31 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+command_timeout = 1500
+
+# # Replace the '❯' symbol in the prompt with '➜'
+# [character] # The name of the module we are configuring is 'character'
+# success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+
+[docker_context]
+disabled = true
+
+[custom.convox]
+command = """
+  set -l CONVOX_CURRENT (cat "$HOME/Library/Preferences/convox/current" | jq -r .name)
+  if test "$CONVOX_CURRENT" = "docspring-staging"; then
+    echo "Staging 🚧"
+  else if test "$CONVOX_CURRENT" = "production-v3"; then
+    echo "US 🇺🇸"
+  else if test "$CONVOX_CURRENT" = "europe-v3"; then
+    echo "EU 🇪🇺"
+  end
+"""
+when = """
+  test (string match -r '/code/docspring' $PWD) -a -f "$HOME/Library/Preferences/convox/current"
+"""
+style = "bold white"
+format = '[on](white) 󰒋 [$symbol($output  )]($style)'

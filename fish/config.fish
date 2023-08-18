@@ -5,16 +5,24 @@ end
 # Remove greeting
 set -U fish_greeting
 
+fish_add_path --path /opt/homebrew/bin
+fish_add_path --path /opt/homebrew/opt/openjdk/bin
+fish_add_path --path /Applications/Postgres.app/Contents/Versions/15/bin/
+fish_add_path --path -p ./bin
+
 starship init fish | source
 rtx activate fish | source
 direnv hook fish | source
 
-fish_add_path /opt/homebrew/opt/openjdk/bin
-fish_add_path /Applications/Postgres.app/Contents/Versions/15/bin/
-
 abbr -a reload "exec fish"
 abbr -a config "code ~/code/dotfiles"
 abbr -a conf "code ~/code/dotfiles"
+
+alias python="python3"
+alias py="python3"
+alias pip="pip3"
+
+alias rb="ruby"
 
 # c alias - cd to ~/code, or to ~/code/<arg>
 function c
