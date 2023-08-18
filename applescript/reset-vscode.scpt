@@ -1,6 +1,11 @@
 tell application "System Events" to tell process "Code"
 	set frontmost to true
-	keystroke "e" using {shift down, command down}
+	-- Scroll up to first file
+	keystroke "p" using {shift down, command down} -- Open Command Palette
+	keystroke "Focus on Folders"
+	key code 36 -- Enter
+	key code 115 -- Home
+
 	keystroke "p" using {shift down, command down} -- Open Command Palette
 	keystroke "collapse folders"
 	key code 36 -- Send enter to execute command
