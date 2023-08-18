@@ -57,4 +57,8 @@ abbr -a dds 'cd ~/code/docspring && ds'
 abbr -a d "cd ~/code/docspring"
 abbr -a da 'direnv allow'
 
+abbr -a grsl 'git reset HEAD~'
+abbr -a gcm 'git commit --amend'
+abbr -a gcmh 'git commit --amend -C HEAD'
+
 abbr -a tmk "tmux kill-session"
