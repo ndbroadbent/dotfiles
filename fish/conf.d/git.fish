@@ -7,6 +7,9 @@ abbr -a gcm 'git commit --amend'
 abbr -a gcmh 'git commit --amend -C HEAD'
 abbr -a gdc 'git diff --cached'
 
+abbr -a grbc 'git rebase --continue'
+abbr -a grba 'git rebase --abort'
+
 abbr -a gbd 'git branch -d'
 abbr -a gbD 'git branch -D'
 
