@@ -39,9 +39,8 @@ git_push_open_pr_wait_for_ci() {
 git_push_open_pr_wait_for_ci
 '"'"
 
-alias gpsw 'bash -c '"'"'
-set -euo pipefail
-echo "Pushing changes to GitHub..."
-git push
-[ -f scripts/wait_for_ci_build ] && scripts/wait_for_ci_build
-'"'"
+function gpsw
+    echo "Pushing changes to GitHub..."
+    git push $argv
+    test -f scripts/wait_for_ci_build && scripts/wait_for_ci_build
+end

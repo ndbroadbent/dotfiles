@@ -58,3 +58,13 @@ abbr -a d "cd ~/code/docspring"
 abbr -a da 'direnv allow'
 abbr -a dev 'cd ~/code/docspring && rtx exec ruby node -- ./scripts/dev_iterm'
 abbr -a tmk "tmux kill-session"
+
+# CI
+# Show latest CI pipeline in terminal
+alias ci="./scripts/circleci_pipeline_status -f '#%n: %s. URL: %u'"
+# Show latest CI pipeline in browser
+alias sci="./scripts/show_latest_circleci_pipeline"
+# Run failed tests from the most recent failed CI pipeline
+alias rci="./scripts/run_failed_ci_pipeline_specs"
+# Refresh CI status in prompt
+alias rfci="./scripts/circleci_pipeline_status > /dev/null"
