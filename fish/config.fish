@@ -8,6 +8,7 @@ set -U fish_greeting
 fish_add_path --path /opt/homebrew/bin
 fish_add_path --path /opt/homebrew/opt/openjdk/bin
 fish_add_path --path /Applications/Postgres.app/Contents/Versions/15/bin/
+fish_add_path --path ~/code/dotfiles/bin
 fish_add_path --path -p ./bin
 
 starship init fish | source
@@ -61,10 +62,12 @@ abbr -a tmk "tmux kill-session"
 
 # CI
 # Show latest CI pipeline in terminal
-alias ci="./scripts/circleci_pipeline_status -f '#%n: %s. URL: %u'"
+abbr -a ci "./scripts/circleci_pipeline_status -f '#%n: %s. URL: %u'"
 # Show latest CI pipeline in browser
-alias sci="./scripts/show_latest_circleci_pipeline"
+abbr -a cis "./scripts/show_latest_circleci_pipeline"
 # Run failed tests from the most recent failed CI pipeline
-alias rci="./scripts/run_failed_ci_pipeline_specs"
+abbr -a cir "./scripts/run_failed_ci_pipeline_specs"
 # Refresh CI status in prompt
-alias rfci="./scripts/circleci_pipeline_status > /dev/null"
+abbr -a cirf "./scripts/circleci_pipeline_status > /dev/null"
+# Wait for current CI build to finish
+abbr -a ciw "./scripts/wait_for_ci_build"

@@ -13,6 +13,10 @@ abbr -a grba 'git rebase --abort'
 abbr -a gbd 'git branch -d'
 abbr -a gbD 'git branch -D'
 
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+abbr -a gsf "git show --oneline --name-only"
+alias gdi="git --no-pager -c diff.image.textconv=imgcat -c diff.image.command=imgdiff diff"
+
 function grbi
     if test (count $argv) -eq 0
         git rebase -i HEAD~10

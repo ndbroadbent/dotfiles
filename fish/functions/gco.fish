@@ -73,8 +73,13 @@ function gco
     end
 
     set res (string split " " -- (string trim $argv))
-    for i in $res
-        #echo $i
-        __gco $i
+    for arg in $res
+        # Check if arg is an integer or range
+        if string match -qr '^[0-9]+(-[0-9]+)?$' -- "$arg"
+            __gco $arg
+            continue
+        else
+            git checkout $arg
+        end
     end
 end
