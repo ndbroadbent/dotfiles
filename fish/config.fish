@@ -10,6 +10,8 @@ fish_add_path --path /opt/homebrew/opt/openjdk/bin
 fish_add_path --path /Applications/Postgres.app/Contents/Versions/15/bin/
 fish_add_path --path ~/code/dotfiles/bin
 fish_add_path --path -p ./bin
+fish_add_path --path -p /usr/local/bin/rubocop-daemon-wrapper
+fish_add_path --path ~/.cargo/bin
 
 starship init fish | source
 rtx activate fish | source
@@ -71,3 +73,7 @@ abbr -a cir "./scripts/run_failed_ci_pipeline_specs"
 abbr -a cirf "./scripts/circleci_pipeline_status > /dev/null"
 # Wait for current CI build to finish
 abbr -a ciw "./scripts/wait_for_ci_build"
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
