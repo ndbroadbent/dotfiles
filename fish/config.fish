@@ -9,13 +9,15 @@ fish_add_path --path /opt/homebrew/bin
 fish_add_path --path /opt/homebrew/opt/openjdk/bin
 fish_add_path --path /Applications/Postgres.app/Contents/Versions/15/bin/
 fish_add_path --path ~/code/dotfiles/bin
+fish_add_path --path -p ~/.local/bin
 fish_add_path --path -p ./bin
 fish_add_path --path -p /usr/local/bin/rubocop-daemon-wrapper
 fish_add_path --path ~/.cargo/bin
 
 starship init fish | source
-rtx activate fish | source
+mise activate fish | source
 direnv hook fish | source
+zoxide init fish | source
 
 abbr -a reload "exec fish"
 abbr -a config "code ~/code/dotfiles"
@@ -59,7 +61,7 @@ alias ds='osascript .dev.scpt "$PWD"'
 abbr -a dds 'cd ~/code/docspring && ds'
 abbr -a d "cd ~/code/docspring"
 abbr -a da 'direnv allow'
-abbr -a dev 'cd ~/code/docspring && rtx exec ruby node -- ./scripts/dev_iterm'
+abbr -a dev 'cd ~/code/docspring && mise exec ruby node -- ./scripts/dev_iterm'
 abbr -a tmk "tmux kill-session"
 
 # CI
