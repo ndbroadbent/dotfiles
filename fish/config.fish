@@ -5,19 +5,22 @@ end
 # Remove greeting
 set -U fish_greeting
 
+fish_add_path --path ~/.local/share/mise/shims
 fish_add_path --path /opt/homebrew/bin
 fish_add_path --path /opt/homebrew/opt/openjdk/bin
 fish_add_path --path /Applications/Postgres.app/Contents/Versions/15/bin/
-fish_add_path --path ~/code/dotfiles/bin
 fish_add_path --path -p ~/.local/bin
-fish_add_path --path -p ./bin
-fish_add_path --path -p /usr/local/bin/rubocop-daemon-wrapper
-fish_add_path --path ~/.cargo/bin
 
 starship init fish | source
 mise activate fish | source
+# mise activate --shims | source
 direnv hook fish | source
 zoxide init fish | source
+
+fish_add_path --path ~/code/dotfiles/bin
+fish_add_path --path -p /usr/local/bin/rubocop-daemon-wrapper
+fish_add_path --path -p ./bin
+fish_add_path --path ~/.cargo/bin
 
 abbr -a reload "exec fish"
 abbr -a config "code ~/code/dotfiles"
