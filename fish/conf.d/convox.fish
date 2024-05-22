@@ -1,8 +1,9 @@
 abbr -a cx convox
 
-abbr -a cxs "convox switch docspring-staging"
-abbr -a cxp "convox switch production-v3"
-abbr -a cxeu "convox switch europe-v3"
+abbr -a cxs "convox switch staging"
+abbr -a cxp "convox switch us"
+abbr -a cxeu "convox switch eu"
+abbr -a cxem "convox switch emreach"
 
 abbr -a cxr "convox rack"
 abbr -a cxe "convox exec"

@@ -5,9 +5,9 @@ alias cx="convox"
 #   && \rm -f ~/.convox/rack \
 #   && printf 'Switched to Staging host: ' \
 #   && \cat ~/.convox/host"
-alias cxs="convox switch docspring-staging"
-alias cxp="convox switch production-v3"
-alias cxeu="convox switch europe-v3"
+alias cxs="convox switch staging"
+alias cxp="convox switch us"
+alias cxeu="convox switch eu"
 
 alias cxr="convox rack"
 alias cxe="convox exec"
