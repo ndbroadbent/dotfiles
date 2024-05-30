@@ -16,11 +16,11 @@ disabled = true
 [custom.convox]
 command = """
   set -l CONVOX_CURRENT (cat "$HOME/Library/Preferences/convox/current" | jq -r .name)
-  if test "$CONVOX_CURRENT" = "docspring-staging"; then
+  if test "$CONVOX_CURRENT" = "staging"; then
     echo "Staging 🚧"
-  else if test "$CONVOX_CURRENT" = "production-v3"; then
+  else if test "$CONVOX_CURRENT" = "us"; then
     echo "US 🇺🇸"
-  else if test "$CONVOX_CURRENT" = "europe-v3"; then
+  else if test "$CONVOX_CURRENT" = "eu"; then
     echo "EU 🇪🇺"
   end
 """

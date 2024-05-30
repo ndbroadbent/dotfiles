@@ -1,6 +1,7 @@
 abbr -a cx convox
 
 abbr -a cxs "convox switch staging"
+abbr -a cxu "convox switch us"
 abbr -a cxp "convox switch us"
 abbr -a cxeu "convox switch eu"
 abbr -a cxem "convox switch emreach"
