@@ -7,7 +7,7 @@ SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fish
 SETUVAR _fisher_plugins:jorgebucaran/fisher\x1eshinriyo/breeze\x1ehalostatue/fish\x2ddirenv\x1ehalostatue/fish\x2drake
 SETUVAR _fisher_shinriyo_2F_breeze_files:\x7e/\x2econfig/fish/functions/__breeze_variables\x2efish\x1e\x7e/\x2econfig/fish/functions/__title_case\x2efish\x1e\x7e/\x2econfig/fish/functions/breeze\x2efish\x1e\x7e/\x2econfig/fish/functions/ga\x2efish\x1e\x7e/\x2econfig/fish/functions/gb\x2efish\x1e\x7e/\x2econfig/fish/functions/gbl\x2efish\x1e\x7e/\x2econfig/fish/functions/gbu\x2efish\x1e\x7e/\x2econfig/fish/functions/gco\x2efish\x1e\x7e/\x2econfig/fish/functions/gd\x2efish\x1e\x7e/\x2econfig/fish/functions/gl\x2efish\x1e\x7e/\x2econfig/fish/functions/grm\x2efish\x1e\x7e/\x2econfig/fish/functions/gs\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/breeze\x2efish\x1e\x7e/\x2econfig/fish/completions/breeze\x2efish
 SETUVAR _fisher_upgraded_to_4_4:\x1d
-SETUVAR fish_color_autosuggestion:555\x1ebrblack
+SETUVAR fish_color_autosuggestion:black
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:blue
 SETUVAR fish_color_comment:red
