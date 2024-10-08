@@ -17,6 +17,10 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 abbr -a gsf "git show --oneline --name-only"
 alias gdi="git --no-pager -c diff.image.textconv=imgcat -c diff.image.command=imgdiff diff"
 
+# Adds all changes to current commit and then force pushes.
+# Never use this on a team project!!
+alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
+
 function grbi
     if test (count $argv) -eq 0
         git rebase -i HEAD~10
