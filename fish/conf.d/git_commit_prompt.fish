@@ -62,10 +62,11 @@ function git_commit_prompt
     echo "$commit_msg" >"/tmp/.git_commit_message~"
     eval $argv # run any prequisite commands
 
-    echo "$commit_msg" | git commit -F - | tail -n +2
+    set -l git_commit_output (echo "$commit_msg" | git commit -F -)
+    set -l GIT_COMMIT_STATUS $status
+    echo "$git_commit_output" | tail -n +2
 
-    set GIT_PIPE_STATUS $status
-    if test "$GIT_PIPE_STATUS" -eq 0
+    if test "$GIT_COMMIT_STATUS" -eq 0
         # Delete saved commit message if commit was successful
         /bin/rm -f "/tmp/.git_commit_message~"
     end
