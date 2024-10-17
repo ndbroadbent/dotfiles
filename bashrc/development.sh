@@ -1,4 +1,4 @@
-alias ds='osascript .dev.scpt "$(pwd)" &'
+alias ds='cat .dev.scpt | osascript - "$(pwd)" &'
 alias dds='cd ~/code/docspring && ds'
 alias sds='cd ~/code/spin && ds'
 alias d='cd ~/code/docspring'

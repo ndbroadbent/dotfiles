@@ -60,7 +60,7 @@ abbr -a cx convox
 abbr -a b bundle
 abbr -a bu "bundle update"
 
-alias ds='osascript .dev.scpt "$PWD"'
+alias ds='cat .dev.scpt | osascript - "$PWD"'
 abbr -a dds 'cd ~/code/docspring && ds'
 abbr -a d "cd ~/code/docspring"
 abbr -a da 'direnv allow'
