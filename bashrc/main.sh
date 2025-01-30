@@ -25,6 +25,9 @@ BASHRC_MODULES=" \
 
 # DEBUG_BASHRC=true
 
+# Mise
+eval "$(~/.local/bin/mise activate bash)"
+
 # SCM Breeze
 [[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."
 [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"

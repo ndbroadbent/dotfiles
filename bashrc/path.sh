@@ -1,16 +1,16 @@
 # Mise
-export PATH="${PATH}:~/.local/share/mise/shims"
+export PATH="$HOME/.local/share/mise/shims:${PATH}"
 # Homebrew
 export PATH="${PATH}:/opt/homebrew/bin:/opt/homebrew/opt/openjdk/bin"
 
 export PATH="${PATH}:~/.local/bin"
 
-
 # Android
 # export ANDROID_HOME="${HOME}/Library/Android/sdk"
 # export ANDROID_SDK="$ANDROID_HOME"
 export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
-export JAVA_HOME=$(/usr/libexec/java_home)
+JAVA_HOME="$(/usr/libexec/java_home)"
+export JAVA_HOME
 
 # pnpm
 export PNPM_HOME="/Users/ndbroadbent/Library/pnpm"
@@ -57,3 +57,6 @@ export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/php@7.4/bin:$PATH"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# Use local ./bin directory for executables
+# export PATH="./bin:$PATH"
