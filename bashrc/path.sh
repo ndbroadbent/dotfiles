@@ -1,6 +1,14 @@
+# Mise
+export PATH="${PATH}:~/.local/share/mise/shims"
+# Homebrew
+export PATH="${PATH}:/opt/homebrew/bin:/opt/homebrew/opt/openjdk/bin"
+
+export PATH="${PATH}:~/.local/bin"
+
+
 # Android
-export ANDROID_HOME="${HOME}/Library/Android/sdk"
-export ANDROID_SDK="$ANDROID_HOME"
+# export ANDROID_HOME="${HOME}/Library/Android/sdk"
+# export ANDROID_SDK="$ANDROID_HOME"
 export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
 export JAVA_HOME=$(/usr/libexec/java_home)
 
@@ -29,9 +37,6 @@ export PATH="${PATH}:/usr/local/opt/qt@5.5/bin"
 # depot_tools (Chromium)
 export PATH="${PATH}:/Users/ndbroadbent/code/depot_tools"
 
-# rbenv (adds ~/.rbenv/shims to PATH)
-eval "$(rbenv init -)"
-
 # Rubocop daemon wrapper
 # https://github.com/fohte/rubocop-daemon
 export PATH="/usr/local/bin/rubocop-daemon-wrapper:${PATH}"
@@ -46,7 +51,7 @@ export PATH="/usr/local/bin/rubocop-daemon-wrapper:${PATH}"
 export PATH="/Applications/Postgres.app/Contents/Versions/15/bin:${PATH}"
 
 # GNU utils
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 # Old PHP 7.4 for API client tests
 export PATH="/usr/local/opt/php@7.4/bin:$PATH"

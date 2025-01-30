@@ -17,21 +17,21 @@ if ! grep -q "$exec_string" "$HOME/.bashrc"; then
 fi
 
 echo "== Run 'source ~/.bashrc' to load Rails Shell into your current shell."
-echo
-echo "== Installing scheduled task to generate tab completion caches..."
+# echo
+# echo "== Installing scheduled task to generate tab completion caches..."
 
-if [ -e "$HOME/.scm_breeze" ]; then
-  # Use SCM Breeze git_index if available
-  cron_task="git_index --batch-cmd cache_rails_tab_completions"
-else
-  # Fall back to basic 'for_each_rails_repo' script, which iterates over
-  # directories listed in ~/.rails_repos
-  cron_task="for_each_rails_repo cache_rails_tab_completions"
-fi
+# if [ -e "$HOME/.scm_breeze" ]; then
+#   # Use SCM Breeze git_index if available
+#   cron_task="git_index --batch-cmd cache_rails_tab_completions"
+# else
+#   # Fall back to basic 'for_each_rails_repo' script, which iterates over
+#   # directories listed in ~/.rails_repos
+#   cron_task="for_each_rails_repo cache_rails_tab_completions"
+# fi
 
 # Add task to crontab
-crontab -l 2>/dev/null | grep -v "cache_rails_tab_completions" | \
-  { cat; echo "0 * * * * /bin/bash -l -c '$cron_task'"; } | crontab -
+# crontab -l 2>/dev/null | grep -v "cache_rails_tab_completions" | \
+  # { cat; echo "0 * * * * /bin/bash -l -c '$cron_task'"; } | crontab -
 
 echo
 echo "How to setup scheduled tab completion cache"

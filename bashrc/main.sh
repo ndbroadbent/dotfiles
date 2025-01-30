@@ -18,8 +18,6 @@ BASHRC_MODULES=" \
   haskell
   ip
   java
-  nvm
-  pyenv
   react_native
   ruby_on_rails
   yubikey
@@ -68,7 +66,6 @@ eval "$(direnv hook bash)"
 
 # Fixes: +[__NSCFConstantString initialize] may have been in progress in another
 # thread when fork() was called. See:
-# * https://github.com/rbenv/ruby-build/issues/1385
 # * https://github.com/puma/puma/issues/1421
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 

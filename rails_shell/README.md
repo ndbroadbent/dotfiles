@@ -26,20 +26,20 @@ See the [rails_completion README](https://github.com/jweslley/rails_completion/#
 
 #### Basic (works by default)
 
-  * Create a file at `~/.rails_repos`, where each line is an absolute path to a Rails repo.
-  * The scheduled task will run every hour to update cached tab completions for each of these repos.
-  * To update tab completions manually, cd to your Rails directory and run: `cache_rails_tab_completions`
+- Create a file at `~/.rails_repos`, where each line is an absolute path to a Rails repo.
+- The scheduled task will run every hour to update cached tab completions for each of these repos.
+- To update tab completions manually, cd to your Rails directory and run: `cache_rails_tab_completions`
 
 #### Use SCM Breeze's [Repository Index](https://github.com/ndbroadbent/scm_breeze#repository-index)
 
-  * Install SCM Breeze from https://github.com/ndbroadbent/scm_breeze
-  * After installing, re-run `~/.rails_shell/install.sh`, and the scheduled task will be updated to use the repository index from SCM Breeze.
+- Install SCM Breeze from https://github.com/ndbroadbent/scm_breeze
+- After installing, re-run `~/.rails_shell/install.sh`, and the scheduled task will be updated to use the repository index from SCM Breeze.
 
 ## Bundler
 
 ### Auto `bundle exec`
 
-All gem commands (*rails*, *rake*, *rspec*, etc.) are wrapped with `bundle exec`, so you'll never need to type it.
+All gem commands (_rails_, _rake_, _rspec_, etc.) are wrapped with `bundle exec`, so you'll never need to type it.
 
 ### Auto `bundle install` on `GemNotFound` error
 
@@ -48,8 +48,8 @@ If you run a command that fails because bundler can't find a gem,
 
 # Thanks
 
-* [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) - Shares some of the same aliases and functions
-* [rails_completion](https://github.com/jweslley/rails_completion) - Bash completion for Rails commands
+- [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) - Shares some of the same aliases and functions
+- [rails_completion](https://github.com/jweslley/rails_completion) - Bash completion for Rails commands
 
 # Contributing
 
