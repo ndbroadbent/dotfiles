@@ -17,7 +17,6 @@ BASHRC_MODULES=" \
   golang
   haskell
   ip
-  java
   react_native
   ruby_on_rails
   yubikey

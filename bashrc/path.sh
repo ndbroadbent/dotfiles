@@ -1,7 +1,7 @@
 # Mise
 export PATH="$HOME/.local/share/mise/shims:${PATH}"
 # Homebrew
-export PATH="${PATH}:/opt/homebrew/bin:/opt/homebrew/opt/openjdk/bin"
+export PATH="${PATH}:/opt/homebrew/bin"
 
 export PATH="${PATH}:~/.local/bin"
 
@@ -9,8 +9,9 @@ export PATH="${PATH}:~/.local/bin"
 # export ANDROID_HOME="${HOME}/Library/Android/sdk"
 # export ANDROID_SDK="$ANDROID_HOME"
 export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
-JAVA_HOME="$(/usr/libexec/java_home)"
-export JAVA_HOME
+
+export JAVA_HOME="/opt/homebrew/opt/openjdk@23"
+export PATH="/opt/homebrew/opt/openjdk@23/bin:${PATH}"
 
 # pnpm
 export PNPM_HOME="/Users/ndbroadbent/Library/pnpm"
