@@ -43,8 +43,8 @@ if ! shopt -oq posix; then
 fi
 
 # Default editors
-export EDITOR="vim"
-export VISUAL="codew"
+export EDITOR="code --wait"
+export VISUAL="code --wait"
 export GUI_EDITOR="code"
 export REACT_EDITOR="code"
 export BUNDLER_EDITOR="code"
