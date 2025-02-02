@@ -60,4 +60,4 @@ export PATH="/usr/local/opt/php@7.4/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Use local ./bin directory for executables
-# export PATH="./bin:$PATH"
+export PATH="./bin:$PATH"

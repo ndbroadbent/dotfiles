@@ -40,7 +40,8 @@ alias fl='fastlane'
 
 alias ed='c envkey-client-server; ds'
 
-alias cat='bat'
+# This is a stupid idea. if you want bat, type bat.
+# alias cat='bat'
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
