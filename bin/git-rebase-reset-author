@@ -1,0 +1,12 @@
+#!/bin/sh
+# https://stackoverflow.com/a/78956304/304706
+# git_rebase_reset_author.sh
+
+if [ "$#" -eq 0 ]; then
+    echo "Usage: git rebase-reset-author <sha>"
+    exit 1
+fi
+
+# shellcheck disable=SC2016
+git rebase "$@" \
+    --exec 'author_date="$(git log -1 HEAD --pretty=format:"%ad")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'

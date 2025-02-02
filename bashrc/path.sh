@@ -1,7 +1,7 @@
 # Mise
 export PATH="$HOME/.local/share/mise/shims:${PATH}"
 # Homebrew
-export PATH="${PATH}:/opt/homebrew/bin"
+export PATH="/opt/homebrew/bin:${PATH}"
 
 export PATH="${PATH}:~/.local/bin"
 
