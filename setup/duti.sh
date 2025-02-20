@@ -42,6 +42,8 @@ extensions=(
 )
 vscodeinsiders=com.microsoft.VSCodeInsiders
 vscode=com.microsoft.VSCode
+cursor=com.todesktop.230313mzl4w4u92
+windsurf=com.exafunction.windsurf
 atom=com.github.atom
 sublime2=com.sublimetext.2
 sublime3=com.sublimetext.3

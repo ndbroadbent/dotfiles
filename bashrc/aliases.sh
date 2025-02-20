@@ -40,6 +40,10 @@ alias fl='fastlane'
 
 alias ed='c envkey-client-server; ds'
 
+alias python="python3"
+alias py="python3"
+alias pip="pip3"
+
 # This is a stupid idea. if you want bat, type bat.
 # alias cat='bat'
 
