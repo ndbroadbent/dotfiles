@@ -49,7 +49,8 @@ sublime2=com.sublimetext.2
 sublime3=com.sublimetext.3
 macvim=org.vim.MacVim
 
-editor=$vscode
+# editor=$vscode
+editor=$cursor
 
 # editors=("Atom" "MacVim" "SublimeText2" "SublimeText3" "VisualStudioCode" "VisualStudioCodeInsiders")
 
