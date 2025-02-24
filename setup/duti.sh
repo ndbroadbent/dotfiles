@@ -23,9 +23,11 @@ extensions=(
   .map
   .md
   .php
+  .py
   .rb
   .rake
   Gemfile
+  Procfile
   Rakefile
   .lock
   .sass
@@ -33,6 +35,8 @@ extensions=(
   .sh
   .fish
   .svg
+  .tf
+  .tfstate
   .ts
   .txt
   .xml
@@ -77,6 +81,9 @@ editor=$cursor
 #     break
 #   fi
 # done
+
+echo "Setting default editor to $editor"
+echo "-----------------------------------------"
 
 for extension in "${extensions[@]}"; do
   echo "duti -s $editor $extension"
