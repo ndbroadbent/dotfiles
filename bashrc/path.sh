@@ -61,3 +61,6 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Use local ./bin directory for executables
 export PATH="./bin:$PATH"
+
+# Terraform wrapper to speed up convox commands
+export PATH="$HOME/code/convox_racks_terraform/scripts/terraform_wrapper:${PATH}"
