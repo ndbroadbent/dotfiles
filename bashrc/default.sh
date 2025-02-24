@@ -43,13 +43,13 @@ if ! shopt -oq posix; then
 fi
 
 # Default editors
-export EDITOR="code --wait"
-export VISUAL="code --wait"
-export GUI_EDITOR="code"
-export REACT_EDITOR="code"
-export BUNDLER_EDITOR="code"
+export EDITOR="cursor --wait"
+export VISUAL="cursor --wait"
+export GUI_EDITOR="cursor"
+export REACT_EDITOR="cursor"
+export BUNDLER_EDITOR="cursor"
 export GIT_EDITOR="vim"
-export KUBE_EDITOR="code --wait"
+export KUBE_EDITOR="cursor --wait"
 
 # GPG
 export GPG_TTY=$(tty)

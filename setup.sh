@@ -16,7 +16,7 @@ echo -e "Setting up Mac..."
 source setup/bashrc.sh
 source setup/packages.sh
 ./setup/mac_settings.sh
-./setup/duti_vscode.sh
+./setup/duti.sh
 source setup/scm_breeze.sh
 
 # echo "Running 'java --request' to install Java..."
