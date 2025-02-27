@@ -29,7 +29,7 @@ __define_git_completion() {
   "
 
   # Apply the completion
-  complete -o default -o nospace -F _git_${alias_name}_shortcut "$alias_name"
+  complete -o default -o nospace -F "_git_${alias_name}_shortcut" "$alias_name"
 }
 
 # Add completions for common git aliases
