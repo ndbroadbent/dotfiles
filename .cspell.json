@@ -1,0 +1,12 @@
+{
+  "ignorePaths": [],
+  "overrides": [],
+  "useGitignore": true,
+  "words": [
+    "afplay",
+    "greadlink",
+    "mplayer",
+    "ndbroadbent",
+    "osascript"
+  ]
+}
