@@ -4,9 +4,11 @@
   "useGitignore": true,
   "words": [
     "afplay",
+    "convox",
     "greadlink",
     "mplayer",
     "ndbroadbent",
-    "osascript"
+    "osascript",
+    "yubikey"
   ]
 }

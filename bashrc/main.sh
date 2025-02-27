@@ -52,6 +52,7 @@ fi
 # Some custom git stuff that needs to be loaded after SCM Breeze
 source "${DOTFILES_PATH}/bashrc/gitlab.sh"
 source "${DOTFILES_PATH}/bashrc/github.sh"
+source "${DOTFILES_PATH}/bashrc/git_completions.sh"
 
 # Rails Shell
 [[ -n $DEBUG_BASHRC ]] && echo "Loading Rails Shell..."
