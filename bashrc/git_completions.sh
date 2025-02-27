@@ -21,9 +21,9 @@ __define_git_completion() {
       local cur words cword prev
       _get_comp_words_by_ref -n =: cur words cword prev
       COMP_LINE=\"git ${cmd} \${COMP_LINE/${alias_name} }\"
-      let COMP_POINT+=$((4+${#cmd}-${#alias_name}))
+      (( COMP_POINT+=$((4+${#cmd}-${#alias_name})) ))
       COMP_WORDS=(git ${cmd} \"\${COMP_WORDS[@]:1}\")
-      let COMP_CWORD+=1
+      (( COMP_CWORD+=1 ))
       __git_wrap__git_main
     }
   "

@@ -3,7 +3,7 @@ restart_loop() (
   trap true INT;
   while
     echo "Starting $1..."
-    eval "${@:2}"
+    "${@:2}"
     sleep 0.5
   do
     continue
@@ -194,8 +194,8 @@ rspec_show_affected_files() {
 
     for file in $(git show --pretty="format:" --name-only "$@" | \grep -v '^$'); do
         if [[ "$file" == spec/* ]]; then
-            let f++;
-            export "$git_env_char"$f="$file";
+            (( f++ ))
+            export "$GIT_ENV_CHAR"$f="$file";
             echo -e "#     \033[2;37m[\033[0m$f\033[2;37m]\033[0m $file";
             spec_files+=("$file");
         fi
