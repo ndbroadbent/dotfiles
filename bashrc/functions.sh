@@ -181,3 +181,38 @@ screencast() {
   export PROMPT_COMMAND="auto_reload_bashrc;"
   PS1="\w \$ "
 }
+
+# Run RSpec tests for spec files affected in the last commit
+rspec_show_affected_files() {
+    fail_if_not_git_repo || return 1;
+    local f=0;
+    local spec_files=();
+
+    echo -n "# ";
+    git show --oneline --name-only "$@" | head -n1;
+    echo "# ";
+
+    for file in $(git show --pretty="format:" --name-only "$@" | \grep -v '^$'); do
+        if [[ "$file" == spec/* ]]; then
+            let f++;
+            export "$git_env_char"$f="$file";
+            echo -e "#     \033[2;37m[\033[0m$f\033[2;37m]\033[0m $file";
+            spec_files+=("$file");
+        fi
+    done;
+
+    echo "# ";
+
+    if [ ${#spec_files[@]} -eq 0 ]; then
+        echo "# No spec files found in this commit.";
+        return 0;
+    fi
+
+    echo "# Running RSpec tests for affected spec files...";
+    echo "# ";
+
+    bundle exec rspec "${spec_files[@]}"
+}
+
+# Alias for rspec_show_affected_files
+alias rsf='rspec_show_affected_files'
