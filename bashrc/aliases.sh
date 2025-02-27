@@ -44,6 +44,10 @@ alias python="python3"
 alias py="python3"
 alias pip="pip3"
 
+alias gfp="git fetch --prune"
+# cspell:disable-next-line
+alias gmain="git checkout main && git pull --prune && git-clean-branches"
+
 # This is a stupid idea. if you want bat, type bat.
 # alias cat='bat'
 
