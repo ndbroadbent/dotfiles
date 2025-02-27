@@ -10,13 +10,13 @@ fi
 brew tap homebrew/autoupdate
 brew autoupdate start || true
 
-if ! [ -d "/usr/local/Homebrew/Library/Taps/heroku" ]; then
+if ! [ -d "/opt/homebrew/Library/Taps/heroku" ]; then
   brew tap heroku/brew
 fi
 
 # Install Java and maven
 # if ! /usr/libexec/java_home -V; then
-#   if ! [ -d "/usr/local/Homebrew/Library/Taps/adoptopenjdk" ]; then
+#   if ! [ -d "/opt/homebrew/Library/Taps/adoptopenjdk" ]; then
 #     brew tap AdoptOpenJDK/openjdk
 #   fi
 #   echo "Installing Java..."
@@ -35,14 +35,14 @@ brew install mas mackup duti direnv git bash bash-completion wget curl yarn jq \
   yt-dlp bat starship hub gh trash keycastr
 
 # Cloning the homebrew cask tap is extremely slow. Just checkout with depth 1.
-if ! [ -d "/usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask" ]; then
-  mkdir -p /usr/local/Homebrew/Library/Taps/caskroom/
+if ! [ -d "/opt/homebrew/Library/Taps/caskroom/homebrew-cask" ]; then
+  mkdir -p /opt/homebrew/Library/Taps/caskroom/
   git clone --depth 1 https://github.com/caskroom/homebrew-cask.git \
-    /usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask
+    /opt/homebrew/Library/Taps/caskroom/homebrew-cask
 fi
 
 # Fira fonts
-if ! [ -d "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask-fonts" ]; then
+if ! [ -d "/opt/homebrew/Library/Taps/homebrew/homebrew-cask-fonts" ]; then
   brew tap homebrew/cask-fonts
 fi
 

@@ -1,3 +1,4 @@
+#!/bin/bash
 # Mise
 export PATH="$HOME/.local/share/mise/shims:${PATH}"
 # Homebrew
@@ -32,21 +33,17 @@ export PATH="${PATH}:${HOME}/Library/Python/2.7/bin/"
 export PATH="${PATH}:./node_modules/.bin"
 
 export PATH="${PATH}:/Users/ndbroadbent/anaconda/bin"
-export PATH="${PATH}:/usr/local/opt/imagemagick/bin"
-export PATH="${PATH}:/usr/local/opt/qt@5.5/bin"
+export PATH="${PATH}:/opt/homebrew/opt/imagemagick/bin"
+export PATH="${PATH}:/opt/homebrew/opt/qt@5.5/bin"
 
 # depot_tools (Chromium)
 export PATH="${PATH}:/Users/ndbroadbent/code/depot_tools"
 
-# Rubocop daemon wrapper
-# https://github.com/fohte/rubocop-daemon
-export PATH="/usr/local/bin/rubocop-daemon-wrapper:${PATH}"
-
 # Postgres 9.6
-# export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
-# export LDFLAGS="-L/usr/local/opt/postgresql@9.6/lib"
-# export CPPFLAGS="-I/usr/local/opt/postgresql@9.6/include"
-# export PKG_CONFIG_PATH="/usr/local/opt/postgresql@9.6/lib/pkgconfig"
+# export PATH="/opt/homebrew/opt/postgresql@9.6/bin:$PATH"
+# export LDFLAGS="-L/opt/homebrew/opt/postgresql@9.6/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/postgresql@9.6/include"
+# export PKG_CONFIG_PATH="/opt/homebrew/opt/postgresql@9.6/lib/pkgconfig"
 
 # Postgres.app
 export PATH="/Applications/Postgres.app/Contents/Versions/15/bin:${PATH}"
@@ -55,7 +52,7 @@ export PATH="/Applications/Postgres.app/Contents/Versions/15/bin:${PATH}"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 # Old PHP 7.4 for API client tests
-export PATH="/usr/local/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
