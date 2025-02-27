@@ -39,6 +39,8 @@ if ! shopt -oq posix; then
 		source /usr/local/etc/bash_completion;
   elif [ -f /opt/local/etc/bash_completion ]; then
     source /opt/local/etc/bash_completion
+  elif [ -f /opt/homebrew/etc/bash_completion ]; then
+    source /opt/homebrew/etc/bash_completion
 	fi
 fi
 

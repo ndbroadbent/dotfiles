@@ -1,3 +1,4 @@
+#!/bin/bash
 # -------------------------------------------------------
 # Aliases, functions & key bindings
 # -------------------------------------------------------
@@ -11,9 +12,9 @@
 
 LS_CMD=$(which gls > /dev/null 2>&1 && echo "gls" || echo "ls")
 
-alias l="\\$LS_CMD -Cv --color=auto --group-directories-first"
-alias ll="\\$LS_CMD -lhv --color=auto --group-directories-first $_ls_processor"
-alias la="\\$LS_CMD -lhvA --color=auto --group-directories-first $_ls_processor"
+alias l="\$LS_CMD -Cv --color=auto --group-directories-first"
+alias ll="\$LS_CMD -lhv --color=auto --group-directories-first"
+alias la="\$LS_CMD -lhvA --color=auto --group-directories-first"
 
 alias rmrf='rm -rf'
 alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
@@ -53,13 +54,13 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
-  alias alert="(afplay $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
-  alias bark="(afplay $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1 &)"
+  alias alert="(afplay \$DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
+  alias bark="(afplay \$DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1 &)"
   alias bork="bark"
 else
   alias beep="(mplayer /usr/share/sounds/gnome/default/alerts/glass.ogg > /dev/null 2>&1 &)"
-  alias alert="(mplayer $DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
-  alias bark="(mplayer $DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1 &)"
+  alias alert="(mplayer \$DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
+  alias bark="(mplayer \$DOTFILES_PATH/sounds/bark.aiff > /dev/null 2>&1 &)"
   alias bork="bark"
 fi
 
