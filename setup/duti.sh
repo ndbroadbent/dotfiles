@@ -25,6 +25,8 @@ extensions=(
   .php
   .py
   .rb
+  .rbi
+  .rbs
   .rake
   Gemfile
   Procfile
