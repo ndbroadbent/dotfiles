@@ -9,6 +9,7 @@ BASHRC_MODULES=" \
   aliases
   functions
   path
+  bash_completions
   prompt
   convox
   crystal
