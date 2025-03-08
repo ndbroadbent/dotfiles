@@ -26,7 +26,7 @@ brew install openjdk
 
 # brew tap petere/postgresql
 
-brew install mas mackup duti direnv git bash bash-completion wget curl yarn jq \
+brew install mas mackup duti direnv git bash bash-completion wget curl yarn yarn-completion jq \
   ripgrep vim less htop ffmpeg maven defaultbrowser \
   redis imagemagick vim hugo watch gnupg binutils diffutils ed reattach-to-user-namespace \
   awscli getsentry/tools/sentry-cli \
