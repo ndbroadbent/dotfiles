@@ -18,6 +18,7 @@ extensions=(
   .hs
   .java
   .js
+  .jsx
   .json
   .lock
   .map
@@ -31,6 +32,7 @@ extensions=(
   Gemfile
   Procfile
   Rakefile
+  .gemspec
   .lock
   .sass
   .scss
@@ -40,6 +42,7 @@ extensions=(
   .tf
   .tfstate
   .ts
+  .tsx
   .txt
   .xml
   .yaml
