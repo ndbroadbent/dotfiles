@@ -14,6 +14,10 @@ export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HO
 export JAVA_HOME="/opt/homebrew/opt/openjdk@23"
 export PATH="/opt/homebrew/opt/openjdk@23/bin:${PATH}"
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 # pnpm
 export PNPM_HOME="/Users/ndbroadbent/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
