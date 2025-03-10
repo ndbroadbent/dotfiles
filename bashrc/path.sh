@@ -1,6 +1,15 @@
 #!/bin/bash
+
+
+# Use binaries from node_modules in the current dir.
+# But don't prioritize these because there's an NPM package that
+# also installs a 'which' binary, and this is annoying.
+# But they do need to come before mise shims
+export PATH="${PATH}:./node_modules/.bin"
+
 # Mise
-export PATH="$HOME/.local/share/mise/shims:${PATH}"
+export PATH="${PATH}:$HOME/.local/share/mise/shims"
+
 # Homebrew
 export PATH="/opt/homebrew/bin:${PATH}"
 
@@ -31,11 +40,6 @@ export PATH="${PATH}:${DOTFILES_PATH}/bin"
 # System Python
 export PATH="${PATH}:${HOME}/Library/Python/2.7/bin/"
 
-# Use binaries from node_modules in the current dir.
-# But don't prioritize these because there's an NPM package that
-# also installs a 'which' binary, and this is annoying.
-export PATH="${PATH}:./node_modules/.bin"
-
 export PATH="${PATH}:/Users/ndbroadbent/anaconda/bin"
 export PATH="${PATH}:/opt/homebrew/opt/imagemagick/bin"
 export PATH="${PATH}:/opt/homebrew/opt/qt@5.5/bin"
@@ -60,8 +64,8 @@ export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-# Use local ./bin directory for executables
-export PATH="./bin:$PATH"
-
 # Terraform wrapper to speed up convox commands
 export PATH="$HOME/code/convox_racks_terraform/scripts/terraform_wrapper:${PATH}"
+
+# Use local ./bin directory for executables
+export PATH="./bin:$PATH"

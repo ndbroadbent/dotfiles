@@ -13,3 +13,8 @@ if ! shopt -oq posix; then
     source /opt/homebrew/etc/bash_completion
   fi
 fi
+
+# Bun completion
+if [ -f "$DOTFILES_PATH/bash_completions/bun.bash" ]; then
+  source "$DOTFILES_PATH/bash_completions/bun.bash"
+fi
