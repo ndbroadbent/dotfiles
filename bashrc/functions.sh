@@ -193,7 +193,7 @@ rspec_show_affected_files() {
     echo "# ";
 
     for file in $(git show --pretty="format:" --name-only "$@" | \grep -v '^$'); do
-        if [[ "$file" == spec/* ]]; then
+        if [[ "$file" == spec/* ]] && [[ "$file" == *_spec.rb ]]; then
             (( f++ ))
             export "$GIT_ENV_CHAR"$f="$file";
             echo -e "#     \033[2;37m[\033[0m$f\033[2;37m]\033[0m $file";

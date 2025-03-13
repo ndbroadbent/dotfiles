@@ -7,8 +7,11 @@
 # But they do need to come before mise shims
 export PATH="${PATH}:./node_modules/.bin"
 
-# Mise
-export PATH="${PATH}:$HOME/.local/share/mise/shims"
+# NPM Global
+export PATH="$HOME/.npm-global/bin:${PATH}"
+
+# Mise (Must come before existing PATH so we prioritize shims)
+export PATH="$HOME/.local/share/mise/shims:${PATH}"
 
 # Homebrew
 export PATH="/opt/homebrew/bin:${PATH}"
