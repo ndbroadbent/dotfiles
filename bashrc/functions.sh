@@ -187,6 +187,7 @@ rspec_show_affected_files() {
     fail_if_not_git_repo || return 1;
     local f=0;
     local spec_files=();
+    local seen_files=();
 
     echo -n "# ";
     git show --oneline --name-only "$@" | head -n1;
@@ -194,6 +195,12 @@ rspec_show_affected_files() {
 
     for file in $(git show --pretty="format:" --name-only "$@" | \grep -v '^$'); do
         if [[ "$file" == spec/* ]] && [[ "$file" == *_spec.rb ]]; then
+            # Skip if we've already seen this file
+            if [[ " ${seen_files[*]} " == *" $file "* ]]; then
+                continue
+            fi
+            seen_files+=("$file")
+
             (( f++ ))
             export "$GIT_ENV_CHAR"$f="$file";
             echo -e "#     \033[2;37m[\033[0m$f\033[2;37m]\033[0m $file";
