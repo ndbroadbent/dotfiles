@@ -52,6 +52,8 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 # This is a stupid idea. if you want bat, type bat.
 # alias cat='bat'
 
+alias cl="claude"
+
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
   alias alert="(afplay \$DOTFILES_PATH/sounds/alert.mp3 > /dev/null 2>&1 &)"
