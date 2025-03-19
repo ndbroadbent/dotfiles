@@ -183,7 +183,7 @@ screencast() {
 }
 
 # Run RSpec tests for spec files affected in the last commit
-rspec_show_affected_files() {
+rspec_run_changed_files() {
     fail_if_not_git_repo || return 1;
     local f=0;
     local spec_files=();
@@ -224,8 +224,11 @@ rspec_show_affected_files() {
     echo "# Running RSpec tests for affected spec files...";
     echo "# ";
 
-    bundle exec rspec "${spec_files[@]}"
+    (
+      set -x
+      bundle exec rspec "${spec_files[@]}"
+    )
 }
 
-# Alias for rspec_show_affected_files
-alias rsf='rspec_show_affected_files'
+# Alias for rspec_run_changed_files
+alias rsf='rspec_run_changed_files'
