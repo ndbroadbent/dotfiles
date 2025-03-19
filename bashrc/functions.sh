@@ -201,6 +201,12 @@ rspec_show_affected_files() {
             fi
             seen_files+=("$file")
 
+            # Skip if file was deleted
+            if [[ ! -f "$file" ]]; then
+                echo -e "#     \033[2;37m[\033[0m-\033[2;37m]\033[0m $file (deleted)";
+                continue
+            fi
+
             (( f++ ))
             export "$GIT_ENV_CHAR"$f="$file";
             echo -e "#     \033[2;37m[\033[0m$f\033[2;37m]\033[0m $file";
