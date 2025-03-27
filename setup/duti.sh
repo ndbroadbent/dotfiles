@@ -4,50 +4,107 @@
 # Required duti to be installed. `brew install duti`
 
 extensions=(
-  public.plain-text
-  public.unix-executable
+  .bash
+  .bashrc
+  .builder
   .c
+  .cjs
+  .cjsx
+  .coffee
+  .config
   .cpp
+  .cppm
   .cs
   .css
+  .dockerignore
+  .editorconfig
   .env
+  .envrc
   .erb
+  .eslintrc
+  .fish
+  .gemspec
+  .gitattributes
+  .gitconfig
+  .gitignore
+  .gitmodules
   .go
+  .graphql
   .haml
   .hbs
+  .hcl
   .hs
+  .htm
+  .html
+  .ico
   .java
   .js
-  .jsx
+  .js.map
   .json
+  .json5
+  .jsx
+  .jsx.map
+  .less
   .lock
+  .log
   .map
   .md
+  .mjs
+  .mk
+  .npmrc
+  .p12
+  .pem
   .php
+  .postcss
+  .prettierrc
+  .ps1
+  .puma
   .py
+  .r
+  .rake
   .rb
   .rbi
   .rbs
-  .rake
-  Gemfile
-  Procfile
-  Rakefile
-  .gemspec
-  .lock
+  .rbw
+  .rdoc
+  .resx
+  .rjs
+  .rs
+  .rubocop.yml
+  .ruby-version
   .sass
   .scss
+  .scss.map
   .sh
-  .fish
+  .sh.example
+  .sql
+  .svelte
   .svg
+  .swift
+  .targets
   .tf
   .tfstate
+  .toml
   .ts
+  .ts.map
   .tsx
+  .tsx.map
   .txt
+  .vb
+  .vue
+  .wasm
   .xml
   .yaml
   .yml
   .zsh
+  .zshrc
+  Dockerfile
+  Gemfile
+  Makefile
+  Procfile
+  public.plain-text
+  public.unix-executable
+  Rakefile
 )
 vscodeinsiders=com.microsoft.VSCodeInsiders
 vscode=com.microsoft.VSCode
