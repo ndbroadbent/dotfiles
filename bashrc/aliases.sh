@@ -52,7 +52,7 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 # This is a stupid idea. if you want bat, type bat.
 # alias cat='bat'
 
-alias cl="claude"
+alias cl="/Users/ndbroadbent/.claude/local/claude"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
@@ -130,8 +130,8 @@ alias .....='\cd ../../../..'
 alias ......='\cd ../../../../..'
 
 for mod in x w r; do
-  alias -- "+$mod"="chmod +$mod"
-  alias -- "-$mod"="chmod -- -$mod"
+  alias "+$mod"="chmod +$mod"
+  alias -- "-$mod"="chmod -$mod"
 done
 
 # Git diff with inline images
