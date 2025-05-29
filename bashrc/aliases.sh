@@ -122,7 +122,7 @@ function edit_file() {
 alias e="edit_file"
 
 alias ~='\cd ~'
-alias -- -='\cd -'
+# alias -- -='\cd -'
 alias ..='\cd ..'
 alias ...='\cd ../..'
 alias ....='\cd ../../..'
@@ -131,7 +131,7 @@ alias ......='\cd ../../../../..'
 
 for mod in x w r; do
   alias "+$mod"="chmod +$mod"
-  alias -- "-$mod"="chmod -$mod"
+  # alias -- "-$mod"="chmod -$mod"
 done
 
 # Git diff with inline images
