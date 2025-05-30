@@ -1,0 +1,74 @@
+#!/bin/bash
+# Stack all unstacked windows together by app name or title
+
+APP_NAME=""
+TITLE_PATTERN=""
+FOLLOW_MODE=false
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --app)
+      APP_NAME="$2"
+      shift 2
+      ;;
+    --title)
+      TITLE_PATTERN="$2"
+      shift 2
+      ;;
+    --follow)
+      FOLLOW_MODE=true
+      shift
+      ;;
+    *)
+      echo "Usage: $0 [--app APP_NAME] [--title TITLE_PATTERN] [--follow]"
+      echo "Example: $0 --app Cursor"
+      echo "Example: $0 --title 'Huddle with'"
+      echo "Example: $0 --app Cursor --follow  # Stack follows moved window"
+      exit 1
+      ;;
+  esac
+done
+
+# Build jq filter based on arguments
+if [ -n "$APP_NAME" ] && [ -n "$TITLE_PATTERN" ]; then
+  FILTER=".[] | select(.app == \"$APP_NAME\" and (.title | contains(\"$TITLE_PATTERN\")))"
+elif [ -n "$APP_NAME" ]; then
+  FILTER=".[] | select(.app == \"$APP_NAME\")"
+elif [ -n "$TITLE_PATTERN" ]; then
+  FILTER=".[] | select(.title | contains(\"$TITLE_PATTERN\"))"
+else
+  echo "Error: Must specify either --app or --title"
+  exit 1
+fi
+
+# Get matching windows
+WINDOWS=($(yabai -m query --windows | jq -r "$FILTER | .id"))
+
+if [ ${#WINDOWS[@]} -lt 2 ]; then
+  exit 0  # Need at least 2 windows to stack
+fi
+
+# In follow mode, use the unstacked window (stack-index 0) as the new base
+# In normal mode, use the existing base (stack-index 1) or first window
+if [ "$FOLLOW_MODE" = true ]; then
+  BASE_WINDOW=$(yabai -m query --windows | jq -r "$FILTER | select(.\"stack-index\" == 0) | .id" | head -1)
+  if [ -z "$BASE_WINDOW" ]; then
+    # No unstacked window found, use first window
+    BASE_WINDOW="${WINDOWS[0]}"
+  fi
+else
+  # Normal mode: find existing base window (stack-index 1)
+  BASE_WINDOW=$(yabai -m query --windows | jq -r "$FILTER | select(.\"stack-index\" == 1) | .id" | head -1)
+  if [ -z "$BASE_WINDOW" ]; then
+    # No base window found, use first window as base
+    BASE_WINDOW="${WINDOWS[0]}"
+  fi
+fi
+
+# Stack all other windows with the base window
+for window in "${WINDOWS[@]}"; do
+  if [ "$window" != "$BASE_WINDOW" ]; then
+    yabai -m window "$BASE_WINDOW" --stack "$window" 2>/dev/null || true
+  fi
+done

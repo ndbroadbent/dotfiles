@@ -1,0 +1,74 @@
+#!/bin/bash
+# Setup OBS for screen sharing cropped ultrawide content
+
+set -e
+
+# Get screen dimensions
+SCREEN_INFO=$(system_profiler SPDisplaysDataType | grep Resolution)
+SCREEN_WIDTH=$(echo "$SCREEN_INFO" | awk '{print $2}' | head -1)
+SCREEN_HEIGHT=$(echo "$SCREEN_INFO" | awk '{print $4}' | head -1)
+
+# Calculate crop dimensions for middle section of ultrawide
+# Assume we want roughly 16:9 aspect ratio from the middle
+CROP_WIDTH=$((SCREEN_WIDTH * 2 / 3))  # Take middle 2/3 of width
+CROP_HEIGHT=$((CROP_WIDTH * 9 / 16))   # 16:9 aspect ratio
+CROP_X=$(((SCREEN_WIDTH - CROP_WIDTH) / 2))  # Center horizontally
+CROP_Y=$(((SCREEN_HEIGHT - CROP_HEIGHT) / 2))  # Center vertically
+
+echo "Setting up OBS screen share..."
+echo "Screen: ${SCREEN_WIDTH}x${SCREEN_HEIGHT}"
+echo "Crop: ${CROP_WIDTH}x${CROP_HEIGHT} at offset ${CROP_X},${CROP_Y}"
+
+# Start OBS if not running
+if ! pgrep -x "OBS" > /dev/null; then
+  echo "Starting OBS..."
+  open -a "OBS Studio"
+  sleep 3
+fi
+
+# Check if obs-websocket is available
+if ! command -v obs-cli > /dev/null 2>&1; then
+  echo "Error: obs-cli not found. Install with: npm install -g obs-cli"
+  exit 1
+fi
+
+# Wait for OBS to be ready
+echo "Waiting for OBS WebSocket connection..."
+sleep 2
+
+# Create/switch to screen share scene
+obs-cli scene switch "Screen Share" 2>/dev/null || {
+  echo "Creating Screen Share scene..."
+  obs-cli scene create "Screen Share"
+  obs-cli scene switch "Screen Share"
+}
+
+# Add display capture source with crop
+echo "Setting up display capture with crop..."
+obs-cli source create "Cropped Display" display_capture "Screen Share" 2>/dev/null || {
+  echo "Display source already exists, updating..."
+}
+
+# Configure the display capture (this might need manual setup in OBS GUI)
+echo "Note: You may need to manually configure the display capture source in OBS:"
+echo "1. Right-click 'Cropped Display' source -> Filters"
+echo "2. Add 'Crop/Pad' filter"
+echo "3. Set crop values: Left=${CROP_X}, Top=${CROP_Y}, Right=$((SCREEN_WIDTH - CROP_X - CROP_WIDTH)), Bottom=$((SCREEN_HEIGHT - CROP_Y - CROP_HEIGHT))"
+
+# Start windowed projector for sharing
+echo "Opening windowed preview..."
+obs-cli source projector "Cropped Display" &
+
+# Wait a moment for the projector window to appear
+sleep 2
+
+# Position the projector window using yabai (right third of screen)
+if command -v yabai > /dev/null 2>&1; then
+  echo "Positioning preview window with yabai..."
+  # Focus the OBS projector window and position it
+  yabai -m window --focus "$(yabai -m query --windows | jq -r '.[] | select(.app == "OBS Studio" and (.title | contains("Projector"))) | .id')" 2>/dev/null || true
+  yabai -m window --grid 1:3:2:0:1:1 2>/dev/null || true
+fi
+
+echo "✅ OBS screen share setup complete!"
+echo "Share the 'Windowed Projector' window in Slack calls"
