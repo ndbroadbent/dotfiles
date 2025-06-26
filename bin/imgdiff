@@ -5,7 +5,7 @@ if [[ -f "$1" ]] && [[ -f "$2" ]]; then
   echo "-----------------------------------------------"
   echo "File: $1"
   echo "     Before     |     Diff     |     After"
-  compare "$2" "$1" png:- | montage -geometry +4+4 "$2" - "$1" png:- | ~/.iterm2/imgcat
+  compare "$2" "$1" png:- | montage -geometry +4+4 -bordercolor black -borderwidth 1 "$2" - "$1" png:- | ~/.iterm2/imgcat -W 100%
 else
   if [[ -f "$1" ]]; then
     echo "+ Image Added"

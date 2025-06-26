@@ -52,7 +52,8 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 # This is a stupid idea. if you want bat, type bat.
 # alias cat='bat'
 
-alias cl="/Users/ndbroadbent/.claude/local/claude"
+alias cl="~/.npm-global/bin/claude"
+alias claude="~/.npm-global/bin/claude"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
