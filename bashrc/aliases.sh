@@ -53,6 +53,9 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 # alias cat='bat'
 
 alias cl="~/.npm-global/bin/claude"
+alias clr="~/.npm-global/bin/claude -r"
+alias cls="~/.npm-global/bin/claude --dangerously-skip-permissions"
+alias clsr="~/.npm-global/bin/claude --dangerously-skip-permissions -r"
 alias claude="~/.npm-global/bin/claude"
 
 if [ "$(uname)" = Darwin ]; then

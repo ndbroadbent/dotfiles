@@ -15,6 +15,9 @@ alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 # checks out the previous branch, and then rebases onto main.
 alias grbl='MAIN_BRANCH=$((! [ -f .git/config ] && echo "master") || (grep -q '"'"'branch "master"'"'"' .git/config && echo master || echo main)) && git checkout "$MAIN_BRANCH" && git pull && git checkout - && git rebase "$MAIN_BRANCH"'
 
+alias gpss="git push && ./scripts/ci/approve staging"
+alias gpsa="git push && ./scripts/ci/approve all"
+
 # Gitlab CI (DocSpring)
 # -------------------------------------------------
 # Show latest CI pipeline in terminal
