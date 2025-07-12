@@ -1,9 +1,15 @@
+# cspell:disable
+
 alias ds='cat .dev.scpt | osascript - "$(pwd)" &'
 alias dds='cd ~/code/docspring && ds'
 alias sds='cd ~/code/spin && ds'
 alias d='cd ~/code/docspring'
 
 alias da='direnv allow'
+
+# pnpm
+alias p="pnpm"
+alias pi="pnpm install"
 
 # Git
 # -------------------------------------------------
@@ -16,7 +22,9 @@ alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 alias grbl='MAIN_BRANCH=$((! [ -f .git/config ] && echo "master") || (grep -q '"'"'branch "master"'"'"' .git/config && echo master || echo main)) && git checkout "$MAIN_BRANCH" && git pull && git checkout - && git rebase "$MAIN_BRANCH"'
 
 alias gpss="git push && ./scripts/ci/approve staging"
+alias gpsbs="git push && ./scripts/ci/approve build && ./scripts/ci/approve staging"
 alias gpsa="git push && ./scripts/ci/approve all"
+alias gpsba="git push && ./scripts/ci/approve build && ./scripts/ci/approve all"
 
 # Gitlab CI (DocSpring)
 # -------------------------------------------------
