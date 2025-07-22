@@ -55,7 +55,8 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 alias cl="claude"
 alias clr="claude -r"
 alias cls="claude --dangerously-skip-permissions"
-alias clsr="claude --dangerously-skip-permissions -r"
+alias clsr="claude --dangerously-skip-permissions --resume"
+alias clsc="claude --dangerously-skip-permissions --continue"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
