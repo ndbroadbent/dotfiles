@@ -21,10 +21,32 @@ alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 # checks out the previous branch, and then rebases onto main.
 alias grbl='MAIN_BRANCH=$((! [ -f .git/config ] && echo "master") || (grep -q '"'"'branch "master"'"'"' .git/config && echo master || echo main)) && git checkout "$MAIN_BRANCH" && git pull && git checkout - && git rebase "$MAIN_BRANCH"'
 
-alias gpss="git push && ./scripts/ci/approve staging"
-alias gpsbs="git push && ./scripts/ci/approve build && ./scripts/ci/approve staging"
-alias gpsa="git push && ./scripts/ci/approve all"
-alias gpsba="git push && ./scripts/ci/approve build && ./scripts/ci/approve all"
+# Helper function for git push with CI approvals
+_git_push_and_approve() {
+  local push_flags=""
+  local approvals=()
+
+  # Check for -f flag
+  if [[ "$1" == "-f" ]]; then
+    push_flags="-f"
+    shift
+  fi
+
+  # Collect remaining arguments as approvals
+  approvals=("$@")
+
+  # Execute git push and approvals
+  git push $push_flags && {
+    for approval in "${approvals[@]}"; do
+      ./scripts/ci/approve "$approval" || return 1
+    done
+  }
+}
+
+gpss() { _git_push_and_approve "$@" staging; }
+gpsbs() { _git_push_and_approve "$@" build staging; }
+gpsa() { _git_push_and_approve "$@" all; }
+gpsba() { _git_push_and_approve "$@" build all; }
 
 # Gitlab CI (DocSpring)
 # -------------------------------------------------
