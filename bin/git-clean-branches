@@ -1,20 +1,176 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
-# git fetch --prune
 
-IFS=$'\n' read -r -d '' -a DELETED_BRANCHES < <( git branch -vv | grep ': gone]' | grep -v "\*" | awk '{ print $1; }' && printf '\0' )
+# Function to get the main repository path
+get_main_repo_path() {
+  # If we're in a worktree, get the main repo path
+  if [ -f .git ]; then
+    # This is a worktree, read the gitdir
+    local gitdir
+    gitdir=$(sed 's/gitdir: //' .git)
+    # The main repo is the parent of the worktree gitdir
+    dirname "$gitdir"
+  else
+    # This is the main repo
+    pwd
+  fi
+}
 
-if [ ${#DELETED_BRANCHES[@]} -eq 0 ]; then
-  echo "No branches to delete."
-  exit 0
-fi
+# Function to get worktree branches (branches that are checked out in worktrees)
+get_worktree_branches() {
+  local main_repo="$1"
+  git -C "$main_repo" worktree list --porcelain | \
+    grep -E '^branch' | \
+    sed 's/branch //' | \
+    sed 's/refs\/heads\///'
+}
 
-if [ "$1" == "-d" ] || [ "$1" == "--dry-run" ]; then
-  echo "[Dry Run] Will delete the following git branches:"
-  echo "-------------------------------------------------"
-  for BRANCH in "${DELETED_BRANCHES[@]}"; do echo "$BRANCH"; done
-else
-  for BRANCH in "${DELETED_BRANCHES[@]}"; do
-    git branch -d "$BRANCH"
+# Function to get worktree paths for a specific branch
+get_worktree_paths_for_branch() {
+  local main_repo="$1"
+  local branch="$2"
+  git -C "$main_repo" worktree list --porcelain | \
+    awk -v branch="$branch" '
+      BEGIN { found = 0 }
+      /^branch refs\/heads\// {
+        # Extract branch name from the line
+        split($0, parts, "refs/heads/")
+        if (parts[2] == branch) {
+          found = 1
+          next
+        }
+      }
+      found && /^worktree / {
+        print $2
+        found = 0
+      }
+    '
+}
+
+# Function to check if remove_worktree script exists
+has_remove_worktree_script() {
+  local main_repo="$1"
+  [ -f "$main_repo/scripts/remove_worktree" ]
+}
+
+# Function to check if a branch exists
+branch_exists() {
+  local main_repo="$1"
+  local branch="$2"
+  git -C "$main_repo" rev-parse --verify "$branch" >/dev/null 2>&1
+}
+
+# Main script
+main() {
+  local dry_run=false
+
+  # Parse command line arguments
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -d|--dry-run)
+        dry_run=true
+        shift
+        ;;
+      -h|--help)
+        echo "Usage: $0 [-d|--dry-run] [-h|--help]"
+        echo "  -d, --dry-run    Show what would be deleted without actually deleting"
+        echo "  -h, --help       Show this help message"
+        exit 0
+        ;;
+      *)
+        echo "Unknown option: $1"
+        echo "Use -h or --help for usage information"
+        exit 1
+        ;;
+    esac
   done
-fi
+
+  # Get the main repository path
+  local main_repo
+  main_repo=$(get_main_repo_path)
+
+  # Get branches with gone upstreams, properly handling worktree branches
+  local branches_to_delete
+  mapfile -t branches_to_delete < <(
+    git -C "$main_repo" branch -vv | \
+      grep ': gone]' | \
+      # Remove the current branch (marked with *)
+      grep -v "^\*" | \
+      # Extract branch name, handling worktree branches that start with +
+      sed 's/^+ //' | \
+      awk '{ print $1; }'
+  )
+
+  if [ ${#branches_to_delete[@]} -eq 0 ]; then
+    echo "No branches to delete."
+    exit 0
+  fi
+
+  if [ "$dry_run" = true ]; then
+    echo "[Dry Run] Will delete the following git branches:"
+    echo "-------------------------------------------------"
+    for branch in "${branches_to_delete[@]}"; do
+      echo "$branch"
+    done
+
+    # Check if we're in a repository that uses worktrees
+    if has_remove_worktree_script "$main_repo"; then
+      echo ""
+      echo "Note: Worktrees will be removed using './scripts/remove_worktree'"
+    fi
+    exit 0
+  fi
+
+  # Get worktree branches
+  local worktree_branches
+  mapfile -t worktree_branches < <(get_worktree_branches "$main_repo")
+
+  # Delete branches
+  for branch in "${branches_to_delete[@]}"; do
+    echo "Deleting branch $branch..."
+
+    # Get the commit hash before deleting the branch
+    local commit_hash
+    commit_hash=$(git -C "$main_repo" rev-parse --short "$branch" 2>/dev/null || echo "unknown")
+
+    # Check if this branch is checked out in a worktree
+    local is_worktree_branch=false
+    for worktree_branch in "${worktree_branches[@]}"; do
+      if [ "$branch" = "$worktree_branch" ]; then
+        is_worktree_branch=true
+        break
+      fi
+    done
+
+    if [ "$is_worktree_branch" = true ]; then
+      echo "  Branch $branch is checked out in a worktree. Removing worktree first..."
+
+      # Get worktree paths for this branch
+      local worktree_paths
+      mapfile -t worktree_paths < <(get_worktree_paths_for_branch "$main_repo" "$branch")
+
+      for worktree_path in "${worktree_paths[@]}"; do
+        if [ -n "$worktree_path" ]; then
+          echo "  Removing worktree at: $worktree_path"
+
+          # Use remove_worktree script if available, otherwise use git worktree remove
+          if has_remove_worktree_script "$main_repo"; then
+            (cd "$main_repo" && ./scripts/remove_worktree "$branch")
+          else
+            git -C "$main_repo" worktree remove "$worktree_path" --force
+          fi
+        fi
+      done
+    fi
+
+    # Delete the branch only if it still exists (remove_worktree might have already deleted it)
+    if branch_exists "$main_repo" "$branch"; then
+      git -C "$main_repo" branch -D "$branch"
+      echo "Deleted branch $branch (was $commit_hash)."
+    else
+      echo "Branch $branch was already deleted by worktree removal."
+    fi
+  done
+}
+
+main "$@"
