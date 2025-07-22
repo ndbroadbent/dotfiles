@@ -77,3 +77,6 @@ unset -f brew
 unset DEBUG_BASHRC
 
 eval "$(starship init bash)"
+
+# Zoxide
+eval "$(zoxide init bash)"
