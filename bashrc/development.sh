@@ -83,3 +83,38 @@ dev() (
   cd ~/code/docspring || exit
   ./scripts/dev_iterm
 )
+
+# Git worktree navigation
+# ------------------------------------------------
+# Use fzf to select a git worktree and cd to it
+dw() {
+  local worktree_list
+  local selected_worktree
+  local filter="$1"
+
+  # Get list of worktrees, filter out main branch
+  worktree_list="$(git -C ~/code/docspring worktree list | grep -v '\[main\]')"
+
+      # Use fzf with optional filter and auto-select if single match
+  local fzf_opts=(
+    --prompt="Select worktree: "
+    --height=~40%
+    --layout=reverse
+    --border=rounded
+    --info=right
+    --exact
+  )
+
+  if [ -n "$filter" ]; then
+    fzf_opts+=(--select-1 -q "$filter")
+  fi
+
+  selected_worktree="$(echo "$worktree_list" | fzf "${fzf_opts[@]}")"
+
+  # If a worktree was selected, cd to it
+  if [ -n "$selected_worktree" ]; then
+    local worktree_path
+    worktree_path="$(echo "$selected_worktree" | awk '{print $1}')"
+    cd "$worktree_path" || return 1
+  fi
+}
