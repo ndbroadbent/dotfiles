@@ -127,12 +127,6 @@ main() {
 
   # Delete branches
   for branch in "${branches_to_delete[@]}"; do
-    echo "Deleting branch $branch..."
-
-    # Get the commit hash before deleting the branch
-    local commit_hash
-    commit_hash=$(git -C "$main_repo" rev-parse --short "$branch" 2>/dev/null || echo "unknown")
-
     # Check if this branch is checked out in a worktree
     local is_worktree_branch=false
     for worktree_branch in "${worktree_branches[@]}"; do
@@ -166,9 +160,6 @@ main() {
     # Delete the branch only if it still exists (remove_worktree might have already deleted it)
     if branch_exists "$main_repo" "$branch"; then
       git -C "$main_repo" branch -D "$branch"
-      echo "Deleted branch $branch (was $commit_hash)."
-    else
-      echo "Branch $branch was already deleted by worktree removal."
     fi
   done
 }

@@ -18,3 +18,8 @@ fi
 if [ -f "$DOTFILES_PATH/bash_completions/bun.bash" ]; then
   source "$DOTFILES_PATH/bash_completions/bun.bash"
 fi
+
+# Code jump completion
+if [ -f "$DOTFILES_PATH/bash_completions/code_jump.bash" ]; then
+  source "$DOTFILES_PATH/bash_completions/code_jump.bash"
+fi

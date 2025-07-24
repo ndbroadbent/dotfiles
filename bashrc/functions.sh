@@ -238,26 +238,30 @@ code_jump() {
     local repo_list
     local selected_repo
     local filter="$1"
-    
+
+    if [ -z "$filter" ]; then
+        cd "$HOME/code/"
+        return 0
+    fi
+
     # List all directories under ~/code
     repo_list=$(ls -1 ~/code 2>/dev/null | sort)
-    
+
     local fzf_opts=(
         --prompt="Select repository: "
         --height=~40%
         --layout=reverse
         --border=rounded
         --info=right
-        --exact
     )
-    
+
     # If filter provided and only one match, go directly there
     if [ -n "$filter" ]; then
         fzf_opts+=(--select-1 -q "$filter")
     fi
-    
+
     selected_repo=$(echo "$repo_list" | fzf "${fzf_opts[@]}")
-    
+
     if [ -n "$selected_repo" ]; then
         cd "$HOME/code/$selected_repo" || return 1
     fi
