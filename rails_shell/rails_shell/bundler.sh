@@ -25,30 +25,32 @@ bundle_exec_if_possible() {
 bundle_install_wrapper() {
   ensure_bundler
   # Try running command
-  $@
-  if [ $? = 7 ]; then
-    # If command crashes, try a bundle install
-    echo -e "\033[1;31m'$@' failed with exit code 7."
-    echo    "This probably means that your system is missing gems defined in your Gemfile."
-    echo -e "Executing 'bundle install'...\033[0m"
-    bundle install
-    # If bundle install was successful, try running command again.
-    if [ $? = 0 ]; then
-      echo "'bundle install' was successful. Retrying '$@'..."
-      eval "$@"
+  if ! "$@"; then
+    exit_code=$?
+    if [ $exit_code = 7 ]; then
+      # If command crashes, try a bundle install
+      echo -e "\033[1;31m'$*' failed with exit code 7."
+      echo    "This probably means that your system is missing gems defined in your Gemfile."
+      echo -e "Executing 'bundle install'...\033[0m"
+      if bundle install; then
+        echo "'bundle install' was successful. Retrying '$*'..."
+        "$@"
+      fi
+    else
+      return $exit_code
     fi
   fi
 }
 
 # The following is based on https://github.com/gma/bundler-exec
-bundled_commands="annotate berks cap capify cucumber foodcritic foreman \
-  guard jekyll kitchen knife middleman nanoc rackup rainbows shotgun spec \
-  spin spork strainer tailor taps thin thor unicorn unicorn_rails puma"
+bundled_commands="rails rake rspec spring"
 for cmd in $bundled_commands; do
-  alias $cmd="bundle_exec_if_possible $cmd"
+  eval "$cmd() { bundle_exec_if_possible $cmd \"\$@\"; }"
 done
 
+# shellcheck disable=SC2139
 alias b="ensure_bundler; bundle --jobs=$ACTUAL_CPU_CORES"
+# shellcheck disable=SC2139
 alias bi="ensure_bundler; bundle install --jobs=$ACTUAL_CPU_CORES"
 alias bu="ensure_bundler; bundle update"
 alias be="ensure_bundler; bundle exec"

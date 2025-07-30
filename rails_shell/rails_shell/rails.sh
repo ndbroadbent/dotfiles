@@ -1,6 +1,6 @@
 # Run Rails commands on any version
 rails_cmd() {
-  if [ -e ./script/$1 ]; then bundle_install_wrapper "./script/$@"
+  if [ -e ./script/"$1" ]; then bundle_install_wrapper "./script/$@"
   elif [ -e ./bin/rails ]; then bundle_install_wrapper "./bin/rails $@"
   elif [ -e ./config.ru ] && grep -q Rails ./config.ru; then bundle_install_wrapper bundle exec rails "$@"
   else echo "== I don't think this is a Rails application!"
@@ -11,7 +11,7 @@ rails_cmd() {
 start_rails_server_on_available_port() {
   for p in $(seq 3000 3099); do
     if ! pgrep -qf "127\.0\.0\.1:$p"; then
-      rails_cmd server --binding=127.0.0.1 -p $p "$@"
+      rails_cmd server --binding=127.0.0.1 -p "$p" "$@"
       break
     fi
   done
@@ -27,17 +27,6 @@ alias   ru="rails_cmd runner"
 alias   fs="foreman start"
 
 alias crb='crystalball'
-
-rspec() {
-  if [ -f ./bin/rspec ]; then
-    exec_scmb_expand_args ./bin/rspec "$@"
-  else
-    exec_scmb_expand_args $(which rspec) "$@"
-  fi
-}
-rails() { if [ -f ./bin/rails ]; then ./bin/rails "$@"; else $(which rails) "$@"; fi }
-rake() { if [ -f ./bin/rake ]; then ./bin/rake "$@"; else $(which rake) "$@"; fi }
-spring() { if [ -f ./bin/spring ]; then ./bin/spring "$@"; else $(which spring) "$@"; fi }
 
 export PARALLEL_TEST_PROCESSORS=8
 parallel_rspec() {

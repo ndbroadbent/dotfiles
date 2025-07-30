@@ -41,6 +41,8 @@ _git_push_and_approve() {
       ./scripts/ci/approve "$approval" || return 1
     done
   }
+
+  ./scripts/wait_for_ci_build
 }
 
 gpss() { _git_push_and_approve "$@" staging; }
