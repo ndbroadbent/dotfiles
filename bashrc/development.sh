@@ -4,6 +4,7 @@ alias ds='cat .dev.scpt | osascript - "$(pwd)" &'
 alias dds='cd ~/code/docspring && ds'
 alias sds='cd ~/code/spin && ds'
 alias d='cd ~/code/docspring'
+alias dt='cd ~/code/dotfiles'
 
 alias da='direnv allow'
 
@@ -76,6 +77,7 @@ function gbDA() {
 # ------------------------------------------------
 # Create new git branch for a story ID
 alias stb="short st --git-branch-short"
+alias sss="./scripts/start_shortcut_story"
 
 # - Open all development tabs in iTerm2
 # - Start and reset VS Code (close all files, collapse folders)
