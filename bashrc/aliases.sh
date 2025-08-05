@@ -110,6 +110,20 @@ function notify() {
 
 # Edit file function - if SCM Breeze is installed, expand numeric arguments
 function edit_file() {
+  # Workaround for Secure Keyboard Entry blocking window focus on macOS
+  if [ "$GUI_EDITOR" = "cursor" ] && [ "$(uname)" = "Darwin" ]; then
+    # Check if Secure Keyboard Entry is enabled (has checkmark)
+    SKE_STATE=$(osascript -e 'tell application "System Events" to tell process "iTerm2" to get value of attribute "AXMenuItemMarkChar" of menu item "Secure Keyboard Entry" of menu 1 of menu bar item "iTerm2" of menu bar 1' 2>/dev/null)
+
+    if [ "$SKE_STATE" = "✓" ]; then
+      # Toggle OFF if it's currently enabled
+      osascript -e 'tell application "System Events" to tell process "iTerm2" to click menu item "Secure Keyboard Entry" of menu 1 of menu bar item "iTerm2" of menu bar 1' >/dev/null 2>&1
+      SKE_WAS_ENABLED=true
+    else
+      SKE_WAS_ENABLED=false
+    fi
+  fi
+
   if type exec_scmb_expand_args > /dev/null 2>&1; then
     if [ -z "$1" ]; then
       # No arguments supplied, open the editor at the current directory.
@@ -121,6 +135,13 @@ function edit_file() {
     fi
   else
     $GUI_EDITOR "$@"
+  fi
+
+  # Toggle Secure Keyboard Entry back ON if it was enabled before
+  if [ "$GUI_EDITOR" = "cursor" ] && [ "$(uname)" = "Darwin" ] && [ "$SKE_WAS_ENABLED" = "true" ]; then
+    # Give Cursor time to open and come to foreground
+    sleep 0.5
+    osascript -e 'tell application "System Events" to tell process "iTerm2" to click menu item "Secure Keyboard Entry" of menu 1 of menu bar item "iTerm2" of menu bar 1' >/dev/null 2>&1
   fi
 }
 alias e="edit_file"

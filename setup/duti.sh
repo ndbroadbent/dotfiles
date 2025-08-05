@@ -3,109 +3,59 @@
 # Change default editor for the listed filetypes on MacOS.
 # Required duti to be installed. `brew install duti`
 
-extensions=(
-  .bash
-  .bashrc
-  .builder
-  .c
-  .cjs
-  .cjsx
-  .coffee
-  .config
-  .cpp
-  .cppm
-  .cs
-  .css
-  .dockerignore
-  .editorconfig
-  .env
-  .envrc
-  .erb
-  .eslintrc
-  .fish
-  .gemspec
-  .gitattributes
-  .gitconfig
-  .gitignore
-  .gitmodules
-  .go
-  .graphql
-  .haml
-  .hbs
-  .hcl
-  .hs
-  .htm
-  .html
-  .ico
-  .java
-  .js
-  .js.map
-  .json
-  .json5
-  .jsx
-  .jsx.map
-  .less
-  .lock
-  .log
-  .map
-  .md
-  .mjs
-  .mk
-  .npmrc
-  .p12
-  .pem
-  .php
-  .postcss
-  .prettierrc
-  .ps1
-  .puma
-  .py
-  .r
-  .rake
-  .rb
-  .rbi
-  .rbs
-  .rbw
-  .rdoc
-  .resx
-  .rjs
-  .rs
-  .rubocop.yml
-  .ruby-version
-  .sass
-  .scss
-  .scss.map
-  .sh
-  .sh.example
-  .sql
-  .svelte
-  .svg
-  .swift
-  .targets
-  .tf
-  .tfstate
-  .toml
-  .ts
-  .ts.map
-  .tsx
-  .tsx.map
-  .txt
-  .vb
-  .vue
-  .wasm
-  .xml
-  .yaml
-  .yml
-  .zsh
-  .zshrc
-  Dockerfile
-  Gemfile
-  Makefile
-  Procfile
-  public.plain-text
-  public.unix-executable
-  Rakefile
+#  parent UTIs to bind to Cursor (safe – won’t steal PDFs, Office docs, images, etc.)
+duti_utis=(
+  public.source-code      # language files
+  public.script           # generic scripts
+  public.make-source      # Make/Autotools
+  public.shell-script     # sh, zsh, bash, fish…
+  public.css              # CSS
+  public.yaml             # YAML
+  public.json             # JSON
+  public.xml              # XML/SVG
+  public.plain-text       # txt, md, log
+  public.log              # macOS unified-log bundles
 )
+
+# individual extensions & filename-only items to bind directly
+duti_extensions=(
+  # ── modern web / frameworks ───────────────────────────────
+  .html .css .astro .svelte .vue .mdx .jsx .tsx .ts .cjs .mjs .cjsx
+  .graphql .coffee .less .sass .scss .postcss
+  .map .js.map .ts.map .tsx.map .jsx.map .scss.map
+
+  # ── infra / build / IaC ───────────────────────────────────
+  .tf .tfvars .tfstate .hcl .toml .gradle .kts .bazel .bzl .ninja
+  .dockerignore BUILD WORKSPACE CMakeLists MesonBuild
+
+  # ── extra languages / data files macOS leaves as “public.data” ──
+  .cppm .cs .go .hs .rs .nim .zig .d .elm .purs
+  .ex .exs .erl .hrl .fs .fsi .fsx .ml .mli .scala .sc .kt
+  .dart .hx .gd .proto .wgsl .glsl .vert .frag .vb .wasm
+
+  # ── configs & dotfiles ────────────────────────────────────
+  .bashrc .builder .config .editorconfig .env .envrc .env.example
+  .gemspec .gitattributes .gitconfig .gitignore .gitmodules
+  .npmrc .lock .p12 .pem .prettierrc .eslintrc .stylelintrc
+  .browserslistrc .ps1 .fish .pylintrc .flake8 .yamllint
+  .cfg .conf .ini .properties .json5
+  .csr .crt .der .key
+  .zshrc .bazel
+
+  # ── markup / docs / templates ─────────────────────────────
+  .erb .haml .hbs .rdoc .rjs .rst .adoc .asciidoc .org .resx
+
+  # ── misc dev artefacts ────────────────────────────────────
+  .rake .puma .rbi .rbs .ruby-version .targets .sh.example
+  .ico .ics .postcss
+  public.plain-text        # explicit UTI to force plain-text files
+
+  # ── filename-only project manifests ───────────────────────
+  Dockerfile Gemfile Makefile Procfile Rakefile
+  Jenkinsfile Vagrantfile Brewfile Capfile Podfile Fastfile Guardfile
+  Dangerfile Taskfile Tiltfile Caddyfile
+)
+
 vscodeinsiders=com.microsoft.VSCodeInsiders
 vscode=com.microsoft.VSCode
 cursor=com.todesktop.230313mzl4w4u92
@@ -147,7 +97,12 @@ editor=$cursor
 echo "Setting default editor to $editor"
 echo "-----------------------------------------"
 
-for extension in "${extensions[@]}"; do
+for uti in "${duti_utis[@]}"; do
+  echo "duti -s $editor $uti"
+  duti -s $editor "$uti" all
+done
+
+for extension in "${duti_extensions[@]}"; do
   echo "duti -s $editor $extension"
   duti -s $editor "$extension" all
 done
