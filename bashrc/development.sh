@@ -122,3 +122,8 @@ dw() {
     cd "$worktree_path" || return 1
   fi
 }
+
+# Global cache for rust deps
+RUSTC_WRAPPER="$(command -v sccache)"
+SCCACHE_DIR="${SCCACHE_DIR:-$HOME/.cache/sccache}"
+export RUSTC_WRAPPER SCCACHE_DIR

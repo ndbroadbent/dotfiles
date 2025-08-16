@@ -39,6 +39,8 @@ alias agri='ag -i --type=ruby'
 
 alias fl='fastlane'
 
+alias rn='renamify'
+
 alias ed='c envkey-client-server; ds'
 
 alias python="python3"
@@ -140,7 +142,7 @@ function edit_file() {
   # Toggle Secure Keyboard Entry back ON if it was enabled before
   if [ "$GUI_EDITOR" = "cursor" ] && [ "$(uname)" = "Darwin" ] && [ "$SKE_WAS_ENABLED" = "true" ]; then
     # Give Cursor time to open and come to foreground
-    sleep 0.5
+    sleep 1
     osascript -e 'tell application "System Events" to tell process "iTerm2" to click menu item "Secure Keyboard Entry" of menu 1 of menu bar item "iTerm2" of menu bar 1' >/dev/null 2>&1
   fi
 }

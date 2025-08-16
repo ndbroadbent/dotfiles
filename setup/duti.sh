@@ -22,7 +22,7 @@ duti_extensions=(
   # ── modern web / frameworks ───────────────────────────────
   .html .css .astro .svelte .vue .mdx .jsx .tsx .ts .cjs .mjs .cjsx
   .graphql .coffee .less .sass .scss .postcss
-  .map .js.map .ts.map .tsx.map .jsx.map .scss.map
+  .map .js.map .ts.map .tsx.map .jsx.map .scss.map .jsonc
 
   # ── infra / build / IaC ───────────────────────────────────
   .tf .tfvars .tfstate .hcl .toml .gradle .kts .bazel .bzl .ninja
@@ -47,8 +47,7 @@ duti_extensions=(
 
   # ── misc dev artefacts ────────────────────────────────────
   .rake .puma .rbi .rbs .ruby-version .targets .sh.example
-  .ico .ics .postcss
-  public.plain-text        # explicit UTI to force plain-text files
+  .ico .ics .postcss .patch
 
   # ── filename-only project manifests ───────────────────────
   Dockerfile Gemfile Makefile Procfile Rakefile
