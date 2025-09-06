@@ -59,6 +59,7 @@ alias clr="claude -r"
 alias cls="claude --dangerously-skip-permissions"
 alias clsr="claude --dangerously-skip-permissions --resume"
 alias clsc="claude --dangerously-skip-permissions --continue"
+alias cdx="codex --dangerously-bypass-approvals-and-sandbox"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"

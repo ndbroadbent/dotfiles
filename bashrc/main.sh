@@ -20,7 +20,6 @@ BASHRC_MODULES=" \
   ip
   react_native
   ruby_on_rails
-  yubikey
 "
 
 # DEBUG_BASHRC=true
