@@ -31,13 +31,13 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Default editors
-export EDITOR="cursor --wait"
-export VISUAL="cursor --wait"
-export GUI_EDITOR="cursor"
-export REACT_EDITOR="cursor"
-export BUNDLER_EDITOR="cursor"
+export EDITOR="cursor editor --wait"
+export VISUAL="cursor editor --wait"
+export GUI_EDITOR="cursor editor"
+export REACT_EDITOR="cursor editor"
+export BUNDLER_EDITOR="cursor editor"
 export GIT_EDITOR="vim"
-export KUBE_EDITOR="cursor --wait"
+export KUBE_EDITOR="cursor editor --wait"
 
 # GPG
 export GPG_TTY=$(tty)
