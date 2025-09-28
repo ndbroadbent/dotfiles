@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+"""Wait for GitHub Actions associated with the current HEAD commit."""
+from __future__ import annotations
+
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+from typing import Dict, List, Tuple
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+
+POLL_INTERVAL = max(int(os.getenv("POLL_INTERVAL", "10")), 1)
+POLL_TIMEOUT = max(int(os.getenv("POLL_TIMEOUT", "0")), 0)
+GIT_REMOTE = os.getenv("GIT_REMOTE", "origin")
+SUCCESS_CONCLUSIONS = {"success", "neutral", "skipped"}
+
+DEVNULL = subprocess.DEVNULL
+
+
+def run_git(*args: str) -> str:
+    try:
+        return subprocess.check_output(["git", *args], text=True).strip()
+    except subprocess.CalledProcessError:
+        print("wait-for-github-actions: failed to run git", file=sys.stderr)
+        sys.exit(1)
+
+
+def ensure_git_repo() -> None:
+    try:
+        subprocess.check_call(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            stdout=DEVNULL,
+            stderr=DEVNULL,
+        )
+    except subprocess.CalledProcessError:
+        print("wait-for-github-actions: not inside a git repository", file=sys.stderr)
+        sys.exit(1)
+
+
+def resolve_repo() -> Tuple[str, str]:
+    remote_url = run_git("remote", "get-url", GIT_REMOTE)
+    match = re.search(r"github.com[:/]+([^/]+)/(.+)$", remote_url)
+    if not match:
+        print(
+            f"wait-for-github-actions: remote '{remote_url}' is not a GitHub repository",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    owner = match.group(1)
+    repo = match.group(2)
+    if repo.endswith(".git"):
+        repo = repo[:-4]
+    return owner, repo
+
+
+def resolve_dotfiles_path(script_path: Path) -> Path:
+    env_path = os.getenv("DOTFILES_PATH")
+    if env_path:
+        return Path(env_path)
+    return script_path.parent.parent
+
+
+def load_token(dotfiles_path: Path) -> str:
+    token = os.getenv("GITHUB_TOKEN")
+    if token:
+        return token.strip()
+
+    token_path = dotfiles_path / ".github-token"
+    if token_path.exists():
+        return token_path.read_text(encoding="utf-8").strip()
+
+    print(
+        "wait-for-github-actions: missing GitHub token. Set GITHUB_TOKEN or create "
+        f"{token_path}",
+        file=sys.stderr,
+    )
+    sys.exit(1)
+
+
+def github_request(url: str, token: str) -> Dict:
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "wait-for-github-actions",
+    }
+
+    request = Request(url, headers=headers)
+    try:
+        with urlopen(request) as response:
+            body = response.read()
+            status_code = response.getcode()
+    except HTTPError as exc:  # pragma: no cover - network failure path
+        body = exc.read()
+        print(
+            f"wait-for-github-actions: GitHub API returned status {exc.code}",
+            file=sys.stderr,
+        )
+        if body:
+            print(body.decode("utf-8", errors="replace"), file=sys.stderr)
+        sys.exit(1)
+    except URLError as exc:  # pragma: no cover - network failure path
+        print(f"wait-for-github-actions: failed to reach GitHub: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    if status_code >= 400:
+        print(
+            f"wait-for-github-actions: GitHub API returned status {status_code}",
+            file=sys.stderr,
+        )
+        print(body.decode("utf-8", errors="replace"), file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        return json.loads(body.decode("utf-8"))
+    except json.JSONDecodeError:
+        print("wait-for-github-actions: failed to parse GitHub response", file=sys.stderr)
+        print(body.decode("utf-8", errors="replace"), file=sys.stderr)
+        sys.exit(1)
+
+
+def build_summary(runs: List[Dict]) -> str:
+    lines: List[str] = []
+    for run in runs:
+        name = run.get("name") or run.get("display_title") or str(run.get("id"))
+        event = run.get("event") or "?"
+        status = run.get("status") or "?"
+        conclusion = run.get("conclusion") or "?"
+        url = run.get("html_url") or ""
+        lines.append(
+            f"- {name} [{event}] status={status} conclusion={conclusion}"
+            + (f" -> {url}" if url else "")
+        )
+    return "\n".join(lines) if lines else "Waiting for workflow runs to start..."
+
+
+def compute_state(runs: List[Dict]) -> str:
+    if not runs:
+        return "empty"
+
+    all_completed = True
+    has_failure = False
+
+    for run in runs:
+        status = (run.get("status") or "").lower()
+        conclusion = (run.get("conclusion") or "").lower()
+
+        if status != "completed":
+            all_completed = False
+        elif conclusion not in SUCCESS_CONCLUSIONS:
+            has_failure = True
+
+    if all_completed:
+        return "failure" if has_failure else "success"
+    return "in_progress"
+
+
+def maybe_play_sound(dotfiles_path: Path, sound_name: str) -> None:
+    player = shutil.which("afplay")
+    if not player:
+        return
+
+    sound_map = {
+        "success": dotfiles_path / "sounds" / "alert.mp3",
+        "failure": dotfiles_path / "sounds" / "bark.aiff",
+    }
+    sound_path = sound_map.get(sound_name)
+    if not sound_path or not sound_path.exists():
+        return
+
+    subprocess.Popen([player, str(sound_path)], stdout=DEVNULL, stderr=DEVNULL)
+
+
+def maybe_notify(title: str, message: str) -> None:
+    notifier = shutil.which("osascript")
+    if not notifier:
+        return
+
+    title_escaped = title.replace("\"", "\\\"")
+    message_escaped = message.replace("\"", "\\\"")
+    script = f'display notification "{message_escaped}" with title "{title_escaped}"'
+    subprocess.Popen([notifier, "-e", script], stdout=DEVNULL, stderr=DEVNULL)
+
+
+def main() -> int:
+    ensure_git_repo()
+
+    current_branch = run_git("rev-parse", "--abbrev-ref", "HEAD")
+    current_sha = run_git("rev-parse", "HEAD")
+
+    owner, repo = resolve_repo()
+
+    script_path = Path(__file__).resolve()
+    dotfiles_path = resolve_dotfiles_path(script_path)
+    token = load_token(dotfiles_path)
+
+    print(
+        f"Waiting for GitHub Actions on {owner}/{repo} @ {current_sha[:7]} ({current_branch})"
+    )
+
+    api_url = (
+        f"https://api.github.com/repos/{owner}/{repo}/actions/runs"
+        f"?per_page=50&head_sha={current_sha}"
+    )
+
+    start_time = time.monotonic()
+    last_summary: str | None = None
+
+    while True:
+        data = github_request(api_url, token)
+        runs = [
+            run
+            for run in data.get("workflow_runs", [])
+            if run.get("head_sha") == current_sha
+        ]
+
+        state = compute_state(runs)
+        summary = build_summary(runs) if runs else "Waiting for workflow runs to start..."
+
+        if summary != last_summary:
+            print(summary)
+            last_summary = summary
+
+        if state == "success":
+            maybe_notify("GitHub Actions", f"✔ {owner}/{repo} {current_branch} succeeded")
+            maybe_play_sound(dotfiles_path, "success")
+            return 0
+        if state == "failure":
+            maybe_notify("GitHub Actions", f"✖ {owner}/{repo} {current_branch} failed")
+            maybe_play_sound(dotfiles_path, "failure")
+            return 1
+
+        if POLL_TIMEOUT and time.monotonic() - start_time >= POLL_TIMEOUT:
+            print(
+                f"wait-for-github-actions: timed out after {POLL_TIMEOUT} seconds",
+                file=sys.stderr,
+            )
+            return 1
+
+        time.sleep(POLL_INTERVAL)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

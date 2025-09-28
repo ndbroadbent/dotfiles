@@ -22,6 +22,29 @@ gpsp() (
   [ -f scripts/wait_for_ci_build ] && scripts/wait_for_ci_build
 )
 
+# Push and wait for CI (CircleCI if available, otherwise GitHub Actions)
+gpsw() (
+  set -euo pipefail
+  git push "$@"
+
+  if [ -f scripts/wait_for_ci_build ]; then
+    scripts/wait_for_ci_build
+    return
+  fi
+
+  if [ -d .github/workflows ]; then
+    if command -v wait-for-github-actions >/dev/null 2>&1; then
+      wait-for-github-actions
+    else
+      echo "gpsw: wait-for-github-actions script not found in PATH" >&2
+      return 1
+    fi
+    return
+  fi
+
+  echo "No CI actions detected"
+)
+
 # Push, open PR, approve staging deploy, and wait for CI build to finish
 gpsps() (
   set -euo pipefail
