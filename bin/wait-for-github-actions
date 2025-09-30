@@ -227,10 +227,22 @@ def main() -> int:
             last_summary = summary
 
         if state == "success":
+            print("\n✓ All jobs succeeded")
             maybe_notify("GitHub Actions", f"✔ {owner}/{repo} {current_branch} succeeded")
             maybe_play_sound(dotfiles_path, "success")
             return 0
         if state == "failure":
+            failed_runs = [
+                run for run in runs
+                if run.get("status") == "completed"
+                and (run.get("conclusion") or "").lower() not in SUCCESS_CONCLUSIONS
+            ]
+            print("\n✗ Some jobs failed:")
+            for run in failed_runs:
+                name = run.get("name") or run.get("display_title") or str(run.get("id"))
+                conclusion = run.get("conclusion") or "?"
+                url = run.get("html_url") or ""
+                print(f"  - {name} ({conclusion})" + (f" -> {url}" if url else ""))
             maybe_notify("GitHub Actions", f"✖ {owner}/{repo} {current_branch} failed")
             maybe_play_sound(dotfiles_path, "failure")
             return 1
