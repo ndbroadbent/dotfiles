@@ -147,9 +147,6 @@ main() {
         if [ -n "$worktree_path" ]; then
           echo "  Removing worktree at: $worktree_path"
 
-          # Remove submodules from worktree first to avoid Git errors
-          remove_worktree_submodules "$worktree_path"
-
           # Use remove_worktree script if available, otherwise use git worktree remove
           if has_remove_worktree_script "$main_repo"; then
             (cd "$main_repo" && ./scripts/remove_worktree "$branch")

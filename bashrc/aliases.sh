@@ -95,7 +95,11 @@ function n() {
     EXIT_CODE=$?
     ALERT="$*"
   fi
-  alert
+  if [ "$EXIT_CODE" -eq 0 ]; then
+    alert
+  else
+    bark
+  fi
   (osascript -e "display notification \"$ALERT\" with title \"Command Finished ($EXIT_CODE)\"" &)
   return "$EXIT_CODE"
 }

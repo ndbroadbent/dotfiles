@@ -1,0 +1,112 @@
+#!/bin/bash
+# Fetch GitHub Actions logs for the latest workflow run
+# Saves logs to tmp/ci-logs/ for analysis
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+LOGS_DIR="$PROJECT_ROOT/tmp/ci-logs"
+
+# Check if gh CLI is installed
+if ! command -v gh >/dev/null 2>&1; then
+    echo "Error: GitHub CLI (gh) is not installed"
+    echo "Install it with: brew install gh"
+    exit 1
+fi
+
+# Check if we're in a git repo
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+# Get the latest workflow run
+echo "Fetching latest workflow run..."
+WORKFLOW_RUN=$(gh run list --limit 1 --json databaseId,status,conclusion,name,headBranch,event --jq '.[0]')
+
+if [ -z "$WORKFLOW_RUN" ] || [ "$WORKFLOW_RUN" = "null" ]; then
+    echo "No workflow runs found"
+    exit 1
+fi
+
+RUN_ID=$(echo "$WORKFLOW_RUN" | jq -r '.databaseId')
+STATUS=$(echo "$WORKFLOW_RUN" | jq -r '.status')
+CONCLUSION=$(echo "$WORKFLOW_RUN" | jq -r '.conclusion')
+NAME=$(echo "$WORKFLOW_RUN" | jq -r '.name')
+BRANCH=$(echo "$WORKFLOW_RUN" | jq -r '.headBranch')
+
+echo "Latest run: $NAME (ID: $RUN_ID)"
+echo "Branch: $BRANCH"
+echo "Status: $STATUS"
+echo "Conclusion: $CONCLUSION"
+echo ""
+
+# Create logs directory
+mkdir -p "$LOGS_DIR"
+
+# Get all jobs for this run
+echo "Fetching jobs..."
+JOBS=$(gh run view "$RUN_ID" --json jobs --jq '.jobs[]')
+
+if [ -z "$JOBS" ]; then
+    echo "No jobs found for run $RUN_ID"
+    exit 1
+fi
+
+# Track if we found any failures
+FOUND_FAILURES=false
+
+# Process each job
+echo "$JOBS" | jq -c '.' | while IFS= read -r job; do
+    JOB_NAME=$(echo "$job" | jq -r '.name')
+    JOB_STATUS=$(echo "$job" | jq -r '.status')
+    JOB_CONCLUSION=$(echo "$job" | jq -r '.conclusion')
+    JOB_ID=$(echo "$job" | jq -r '.databaseId')
+
+    # Check if job failed
+    if [ "$JOB_CONCLUSION" = "failure" ] || [ "$JOB_CONCLUSION" = "cancelled" ]; then
+        echo "❌ Found failing job: $JOB_NAME (Status: $JOB_STATUS, Conclusion: $JOB_CONCLUSION)"
+        FOUND_FAILURES=true
+
+        # Sanitize job name for filename
+        SAFE_JOB_NAME=$(echo "$JOB_NAME" | tr ' /' '_' | tr -cd '[:alnum:]_-')
+        LOG_FILE="$LOGS_DIR/${RUN_ID}_${SAFE_JOB_NAME}.log"
+
+        echo "  Downloading logs to: $LOG_FILE"
+
+        # Download job logs
+        if gh run view "$RUN_ID" --log --job "$JOB_ID" > "$LOG_FILE" 2>&1; then
+            echo "  ✓ Downloaded $(wc -l < "$LOG_FILE") lines"
+
+            # Extract failed steps (grep may not find matches, so don't fail on exit code 1)
+            echo "  Failed steps:"
+            grep -E "^##\[error\]|^Error:|FAIL|ERROR" "$LOG_FILE" | head -10 | sed 's/^/    /' || true
+        else
+            echo "  ✗ Failed to download logs"
+        fi
+        echo ""
+    elif [ "$JOB_CONCLUSION" = "success" ]; then
+        echo "✓ Job passed: $JOB_NAME"
+    else
+        echo "⏳ Job $JOB_STATUS: $JOB_NAME (Conclusion: $JOB_CONCLUSION)"
+    fi
+done
+
+echo ""
+echo "Logs saved to: $LOGS_DIR"
+echo ""
+echo "To search for failures, run:"
+echo "  rg -i 'error|fail' $LOGS_DIR"
+echo ""
+echo "To view a specific log:"
+echo "  less $LOGS_DIR/<logfile>.log"
+
+if [ "$FOUND_FAILURES" = false ]; then
+    echo ""
+    echo "No failing jobs found in this run."
+    if [ "$CONCLUSION" != "success" ]; then
+        echo "Note: Overall conclusion is '$CONCLUSION' but no individual job failures detected."
+        echo "This might indicate a workflow-level issue or all logs may not be available yet."
+    fi
+fi
