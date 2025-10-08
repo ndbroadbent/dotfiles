@@ -54,12 +54,20 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 # This is a stupid idea. if you want bat, type bat.
 # alias cat='bat'
 
+function claude_with_env_vars(){
+  export DISABLE_SPRING=1 HIDE_BROWSER=1
+  claude --dangerously-skip-permissions "$@"
+}
+function codex_with_env_vars(){
+  export DISABLE_SPRING=1 HIDE_BROWSER=1
+  codex --dangerously-bypass-approvals-and-sandbox "$@"
+}
+
 alias cl="claude"
-alias clr="claude -r"
-alias cls="claude --dangerously-skip-permissions"
-alias clsr="claude --dangerously-skip-permissions --resume"
-alias clsc="claude --dangerously-skip-permissions --continue"
-alias cdx="codex --dangerously-bypass-approvals-and-sandbox"
+alias cls="claude_with_env_vars"
+alias clsr="claude_with_env_vars --resume"
+alias clsc="claude_with_env_vars --continue"
+alias cdx="codex_with_env_vars"
 
 if [ "$(uname)" = Darwin ]; then
   alias beep="(afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &)"
