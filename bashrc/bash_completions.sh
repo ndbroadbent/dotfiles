@@ -3,7 +3,9 @@
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /etc/bash_completion ]; then
+  if [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+    source /opt/homebrew/etc/profile.d/bash_completion.sh
+  elif [ -f /etc/bash_completion ]; then
     source /etc/bash_completion;
   elif [ -f /usr/local/etc/bash_completion ]; then
     source /usr/local/etc/bash_completion;

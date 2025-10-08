@@ -26,6 +26,10 @@ alias le="less"
 alias psg='ps aux | grep'
 alias sbrc="source ~/.bashrc"
 
+# Task wrapper function (functions work better with tab completion than aliases)
+t() { command task "$@"; }
+complete -F _task t
+
 alias grd="~/code/git-remove-debug/git-remove-debug"
 
 which ack-grep > /dev/null 2>&1 || alias ack-grep="ack"
