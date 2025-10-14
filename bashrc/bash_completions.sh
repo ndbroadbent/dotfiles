@@ -25,3 +25,5 @@ fi
 if [ -f "$DOTFILES_PATH/bash_completions/code_jump.bash" ]; then
   source "$DOTFILES_PATH/bash_completions/code_jump.bash"
 fi
+
+complete -o default -o bashdefault -F _command whichr

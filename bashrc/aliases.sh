@@ -188,7 +188,15 @@ alias cb="simple_clipboard"
 # Copy contents of a file
 alias cbf="simple_clipboard <"
 # Copy SSH public key
-alias cbs="echo 'Copying ~/.ssh/id_rsa.pub to clipboard...' && simple_clipboard < ~/.ssh/id_rsa.pub"
+cbs() {
+  if [ -f ~/.ssh/id_rsa.pub ]; then
+    echo 'Copying ~/.ssh/id_rsa.pub to clipboard...'
+    simple_clipboard < ~/.ssh/id_rsa.pub
+  else
+    echo 'Fetching SSH key from 1Password...'
+    op item get "ssh-key" --fields label=public_key | simple_clipboard
+  fi
+}
 # Copy current working directory
 alias cbd="pwd | simple_clipboard"
 # Copy current git SHA-1
