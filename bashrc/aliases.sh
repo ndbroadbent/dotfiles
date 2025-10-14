@@ -43,6 +43,8 @@ alias agri='ag -i --type=ruby'
 
 alias fl='fastlane'
 
+alias tf='terraform'
+
 alias rn='renamify'
 
 alias ed='c envkey-client-server; ds'
