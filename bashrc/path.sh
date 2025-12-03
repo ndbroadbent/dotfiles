@@ -57,7 +57,7 @@ export PATH="${PATH}:/Users/ndbroadbent/code/depot_tools"
 # export PKG_CONFIG_PATH="/opt/homebrew/opt/postgresql@9.6/lib/pkgconfig"
 
 # Postgres.app
-export PATH="/Applications/Postgres.app/Contents/Versions/15/bin:${PATH}"
+export PATH="/Applications/Postgres.app/Contents/Versions/17/bin:${PATH}"
 
 # Homebrew library paths for compilation (fixes mysql2, nokogiri, etc.)
 export LDFLAGS="${LDFLAGS} -L/opt/homebrew/opt/zstd/lib"

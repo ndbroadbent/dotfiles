@@ -45,12 +45,11 @@ gpsw() (
   echo "No CI actions detected"
 )
 
-# Push, open PR, approve staging deploy, and wait for CI build to finish
+# Push, open PR, approve staging deploy via rack-gateway
 gpsps() (
   set -euo pipefail
   _git_push_create_pr_and_open_pipeline "$@"
-  ./scripts/ci/approve staging
-  [ -f scripts/wait_for_ci_build ] && scripts/wait_for_ci_build
+  rack-gateway deploy-approval wait --rack staging --approve
 )
 
 alias gpssp='gpsps'

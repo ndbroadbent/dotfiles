@@ -22,10 +22,11 @@ alias GFORCE='git add -A && git commit --amend -C HEAD && git push -f'
 # checks out the previous branch, and then rebases onto main.
 alias grbl='MAIN_BRANCH=$((! [ -f .git/config ] && echo "master") || (grep -q '"'"'branch "master"'"'"' .git/config && echo master || echo main)) && git checkout "$MAIN_BRANCH" && git pull && git checkout - && git rebase "$MAIN_BRANCH"'
 
-# Helper function for git push with CI approvals
+# Helper function for git push with rack-gateway deploy approval
 _git_push_and_approve() {
   local push_flags=""
-  local approvals=()
+  local racks="$1"
+  shift
 
   # Check for -f flag
   if [[ "$1" == "-f" ]]; then
@@ -33,23 +34,11 @@ _git_push_and_approve() {
     shift
   fi
 
-  # Collect remaining arguments as approvals
-  approvals=("$@")
-
-  # Execute git push and approvals
-  git push $push_flags && {
-    for approval in "${approvals[@]}"; do
-      ./scripts/ci/approve "$approval" || return 1
-    done
-  }
-
-  ./scripts/wait_for_ci_build
+  git push $push_flags && rack-gateway deploy-approval wait --racks "$racks" --approve
 }
 
-gpss() { _git_push_and_approve "$@" staging; }
-gpsbs() { _git_push_and_approve "$@" build staging; }
-gpsa() { _git_push_and_approve "$@" all; }
-gpsba() { _git_push_and_approve "$@" build all; }
+gpss() { _git_push_and_approve "staging" "$@"; }
+gpsp() { _git_push_and_approve "staging,eu,us" "$@"; }
 
 # Gitlab CI (DocSpring)
 # -------------------------------------------------
