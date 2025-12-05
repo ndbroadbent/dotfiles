@@ -34,7 +34,14 @@ _git_push_and_approve() {
     shift
   fi
 
-  git push $push_flags && rack-gateway deploy-approval wait --racks "$racks" --approve
+  git push $push_flags || return 1
+
+  # Wait for CI to pass before waiting for deploy approval
+  if [ -f scripts/wait_for_ci_build ]; then
+    scripts/wait_for_ci_build || return 1
+  fi
+
+  rack-gateway deploy-approval wait --racks "$racks" --approve
 }
 
 gpss() { _git_push_and_approve "staging" "$@"; }
