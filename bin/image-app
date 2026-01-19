@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# Switch default image handler between Preview and GIMP
+# Usage: image-app [gimp|preview]
+#   No args or "preview" -> Preview (default)
+#   "gimp" -> GIMP
+
+set -e
+
+preview="com.apple.Preview"
+gimp="org.gimp.gimp-2.10"
+
+# Common image UTIs
+image_utis=(
+  public.png
+  public.jpeg
+  public.tiff
+  public.heic
+  public.heif
+  com.compuserve.gif
+  org.webmproject.webp
+  com.microsoft.bmp
+  com.adobe.raw-image
+  public.camera-raw-image
+)
+
+case "${1:-preview}" in
+  gimp|g)
+    app=$gimp
+    app_name="GIMP"
+    ;;
+  preview|p|"")
+    app=$preview
+    app_name="Preview"
+    ;;
+  *)
+    echo "Usage: image-app [gimp|preview]"
+    echo "  gimp, g    - Set GIMP as default image viewer"
+    echo "  preview, p - Set Preview as default (this is the default)"
+    exit 1
+    ;;
+esac
+
+echo "Setting default image handler to $app_name"
+echo "-------------------------------------------"
+
+for uti in "${image_utis[@]}"; do
+  echo "  $uti"
+  duti -s "$app" "$uti" all 2>/dev/null || true
+done
+
+echo ""
+echo "Done! $app_name is now the default for images."
