@@ -62,7 +62,7 @@ alias gmain="git checkout main && git pull --prune && git-clean-branches"
 
 function claude_with_env_vars(){
   export DISABLE_SPRING=1 HIDE_BROWSER=1
-  claude --dangerously-skip-permissions "$@"
+  /Users/ndbroadbent/.local/bin/claude --dangerously-skip-permissions "$@"
 }
 function codex_with_env_vars(){
   export DISABLE_SPRING=1 HIDE_BROWSER=1
