@@ -28,9 +28,10 @@ BASHRC_MODULES=" \
 eval "$(~/.local/bin/mise activate bash)"
 
 # SCM Breeze
-[[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."
-[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
-
+if [[ -z "$CLAUDECODE" ]]; then
+  [[ -n $DEBUG_BASHRC ]] && echo "Loading SCM Breeze..."
+  [[ $- == *i* ]] && [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
+fi
 
 for BASHRC_MODULE in $BASHRC_MODULES; do
   [[ -n $DEBUG_BASHRC ]] && echo "Loading ${BASHRC_MODULE}..."
