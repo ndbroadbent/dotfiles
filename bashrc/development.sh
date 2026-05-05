@@ -41,7 +41,7 @@ _git_push_and_approve() {
     scripts/wait_for_ci_build || return 1
   fi
 
-  rack-gateway deploy-approval wait --racks "$racks" --approve
+  rack-gateway deploy-approval wait --rack "$racks" --approve
 }
 
 gpss() { _git_push_and_approve "staging" "$@"; }
