@@ -10,7 +10,6 @@ alias da='direnv allow'
 
 # pnpm
 alias p="pnpm"
-alias pi="pnpm install"
 
 # Git
 # -------------------------------------------------
