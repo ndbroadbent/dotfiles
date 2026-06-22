@@ -36,8 +36,8 @@ _git_push_and_approve() {
   git push $push_flags || return 1
 
   # Wait for CI to pass before waiting for deploy approval
-  if [ -f scripts/wait_for_ci_build ]; then
-    scripts/wait_for_ci_build || return 1
+  if [ -f scripts/wait_for_ci ]; then
+    scripts/wait_for_ci || return 1
   fi
 
   rack-gateway deploy-approval wait --rack "$racks" --approve

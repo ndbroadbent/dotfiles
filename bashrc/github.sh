@@ -19,7 +19,7 @@ _git_push_create_pr_and_open_pipeline() {
 gpsp() (
   set -euo pipefail
   _git_push_create_pr_and_open_pipeline "$@"
-  [ -f scripts/wait_for_ci_build ] && scripts/wait_for_ci_build
+  [ -f scripts/wait_for_ci ] && scripts/wait_for_ci
 )
 
 # Push and wait for CI (CircleCI if available, otherwise GitHub Actions)
@@ -27,8 +27,8 @@ gpsw() (
   set -euo pipefail
   git push "$@"
 
-  if [ -f scripts/wait_for_ci_build ]; then
-    scripts/wait_for_ci_build
+  if [ -f scripts/wait_for_ci ]; then
+    scripts/wait_for_ci
     return
   fi
 
