@@ -31,18 +31,18 @@ get_worktree_paths_for_branch() {
   local branch="$2"
   git -C "$main_repo" worktree list --porcelain | \
     awk -v branch="$branch" '
-      BEGIN { found = 0 }
-      /^branch refs\/heads\// {
-        # Extract branch name from the line
-        split($0, parts, "refs/heads/")
-        if (parts[2] == branch) {
-          found = 1
-          next
-        }
+      # In porcelain output, the "worktree <path>" line comes BEFORE the
+      # "branch refs/heads/<name>" line for each entry, so remember the
+      # most recent path and print it when the branch line matches.
+      /^worktree / {
+        path = substr($0, length("worktree ") + 1)
+        next
       }
-      found && /^worktree / {
-        print $2
-        found = 0
+      /^branch refs\/heads\// {
+        name = substr($0, length("branch refs/heads/") + 1)
+        if (name == branch) {
+          print path
+        }
       }
     '
 }
