@@ -16,6 +16,7 @@ echo -e "Setting up Mac..."
 source setup/bashrc.sh
 source setup/packages.sh
 ./setup/mac_settings.sh
+./setup/kernel_limits.sh
 ./setup/duti.sh
 source setup/scm_breeze.sh
 
