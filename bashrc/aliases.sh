@@ -20,7 +20,6 @@ alias rmrf='rm -rf'
 alias ldu='du -cks * | sort -rn | head -15' # Lists the size of all the folders
 
 alias s='sudo'
-alias ss='ssh'
 alias ss2='ssh -p2202'
 alias le="less"
 alias psg='ps aux | grep'
@@ -46,8 +45,6 @@ alias fl='fastlane'
 alias tf='terraform'
 
 alias rn='renamify'
-
-alias ed='c envkey-client-server; ds'
 
 alias python="python3"
 alias py="python3"

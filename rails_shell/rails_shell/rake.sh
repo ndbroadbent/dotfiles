@@ -1,13 +1,13 @@
 # Rake aliases
-alias r="bundle_install_wrapper rake"
-# Run all rake commands with bundle exec, and --trace flag
-alias rdc="bundle_install_wrapper  rake db:create"
-alias rdp="bundle_install_wrapper  rake db:drop"
-alias rdm="bundle_install_wrapper  rake db:migrate"
-alias rdu="bundle_install_wrapper  rake db:migrate:up"
-alias rdd="bundle_install_wrapper  rake db:migrate:down"
-alias rdr="bundle_install_wrapper  rake db:rollback"
-alias rdtp="bundle_install_wrapper rake db:test:prepare"
+alias r="bundle_exec_if_possible rake"
+# Run rake commands with bundle exec (when there is a Gemfile)
+alias rdc="bundle_exec_if_possible rake db:create"
+alias rdp="bundle_exec_if_possible rake db:drop"
+alias rdm="bundle_exec_if_possible rake db:migrate"
+alias rdu="bundle_exec_if_possible rake db:migrate:up"
+alias rdd="bundle_exec_if_possible rake db:migrate:down"
+alias rdr="bundle_exec_if_possible rake db:rollback"
+alias rdtp="bundle_exec_if_possible rake db:test:prepare"
 alias  rsp="bundle_install_wrapper test_rake spec"
 alias  rts="bundle_install_wrapper test_rake test"
 

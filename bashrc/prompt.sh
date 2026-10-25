@@ -194,7 +194,9 @@ $env_str\[$_chr_col\] \$ \[$_txt_col\]"
 autoreload_prompt_command+='set_ps1;'
 
 # Set GREP highlight color to lime green
+# GREP_COLOR for BSD grep; GREP_COLORS for GNU grep, which warns on stderr when only GREP_COLOR is set
 export GREP_COLOR='1;32'
+export GREP_COLORS='mt=1;32'
 
 # Custom Xterm/RXVT Title
 case "$TERM" in

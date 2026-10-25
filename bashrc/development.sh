@@ -44,7 +44,6 @@ _git_push_and_approve() {
 }
 
 gpss() { _git_push_and_approve "staging" "$@"; }
-gpsp() { _git_push_and_approve "staging,eu,us" "$@"; }
 
 # Gitlab CI (DocSpring)
 # -------------------------------------------------
@@ -73,15 +72,6 @@ function gbDA() {
 # Create new git branch for a story ID
 alias stb="short st --git-branch-short"
 alias sss="./scripts/start_shortcut_story"
-
-# - Open all development tabs in iTerm2
-# - Start and reset VS Code (close all files, collapse folders)
-# - Start git branch for current story in development
-# - Open story in new Chrome window
-dev() (
-  cd ~/code/docspring || exit
-  ./scripts/dev_iterm
-)
 
 # Git worktree navigation
 # ------------------------------------------------

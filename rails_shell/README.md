@@ -39,7 +39,9 @@ See the [rails_completion README](https://github.com/jweslley/rails_completion/#
 
 ### Auto `bundle exec`
 
-All gem commands (_rails_, _rake_, _rspec_, etc.) are wrapped with `bundle exec`, so you'll never need to type it.
+The short aliases (`r`, `rdm` and the other `rd*` aliases, `rt`, `ro`, `rf`, `rch`) run through `bundle exec` when there's a Gemfile.
+The real `rails`, `rake`, `rspec` and `spring` commands are left alone: wrapping them in functions bypassed project binstubs
+and changed their exit codes for scripts and coding agents.
 
 ### Auto `bundle install` on `GemNotFound` error
 

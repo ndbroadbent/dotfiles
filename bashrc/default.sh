@@ -60,7 +60,8 @@ autoreload_prompt_command+="store_cwd;"
 
 # https://superuser.com/questions/433746/is-there-a-fix-for-the-too-many-open-files-in-system-error-on-os-x-10-7-1
 ulimit -n 1000000
-ulimit -u 2048
+# No `ulimit -u` here: it set the hard limit too (2048, below macOS's 5333 per user),
+# so every shell and agent started from this one could hit "fork: Resource temporarily unavailable".
 
 # Use Touch ID and Apple Watch for sudo
 # From: https://news.ycombinator.com/item?id=26304832

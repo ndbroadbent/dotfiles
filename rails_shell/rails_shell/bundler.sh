@@ -22,31 +22,29 @@ bundle_exec_if_possible() {
 
 # If a bundler exits with status '7' (GemNotFound),
 # then run 'bundle install' and try again.
+# Returns the command's own exit status (or bundle install's, if that fails).
 bundle_install_wrapper() {
   ensure_bundler
   # Try running command
-  if ! "$@"; then
-    exit_code=$?
-    if [ $exit_code = 7 ]; then
-      # If command crashes, try a bundle install
-      echo -e "\033[1;31m'$*' failed with exit code 7."
-      echo    "This probably means that your system is missing gems defined in your Gemfile."
-      echo -e "Executing 'bundle install'...\033[0m"
-      if bundle install; then
-        echo "'bundle install' was successful. Retrying '$*'..."
-        "$@"
-      fi
-    else
-      return $exit_code
-    fi
+  "$@"
+  local exit_code=$?
+  if [ "$exit_code" = 7 ]; then
+    # If command crashes, try a bundle install
+    echo -e "\033[1;31m'$*' failed with exit code 7."
+    echo    "This probably means that your system is missing gems defined in your Gemfile."
+    echo -e "Executing 'bundle install'...\033[0m"
+    bundle install || return $?
+    echo "'bundle install' was successful. Retrying '$*'..."
+    "$@"
+    return $?
   fi
+  return "$exit_code"
 }
 
-# The following is based on https://github.com/gma/bundler-exec
-bundled_commands="rails rake rspec spring"
-for cmd in $bundled_commands; do
-  eval "$cmd() { bundle_exec_if_possible $cmd \"\$@\"; }"
-done
+# rails, rake, rspec and spring are deliberately NOT wrapped in functions here.
+# Shadowing the real commands bypassed project binstubs (bin/rspec) and, through a
+# bug in bundle_install_wrapper, made every failing run exit 0. The short aliases
+# (r, rd*, rt, ro, rf, rch) call bundle_exec_if_possible explicitly instead.
 
 # shellcheck disable=SC2139
 alias b="ensure_bundler; bundle --jobs=$ACTUAL_CPU_CORES"
