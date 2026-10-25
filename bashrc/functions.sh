@@ -13,54 +13,6 @@ restart_loop() (
 # Calculator
 ? () { echo "$*" | bc -l; }  # $ ? 1337 - 1295   => 42
 
-# Grep/Sed - Search and replace strings recursively in a given dir
-gsed() {
-  if [ -n "$2" ]; then
-    if [ -n "$3" ]; then local path="$3"; else local path="."; fi
-    ag -l "$1" "$path" | xargs -I {} -- sed -i "" -e "s%${1//\\/}%$2%g" {}
-  else
-    echo "== Usage: gsed search_string replace_string [path = .]"
-  fi
-}
-
-# Replace all instances of a simple string in all files, as well as renaming any files
-# Use -c option to substitute both lowercase and capitalized search string
-total_replace() {
-  local search replace lowercased capitalized
-
-  if [ -n "$2" ]; then
-    search="$1"
-    replace="$2"
-
-    if [ "$3" = "-c" ] || [ "$4" = "-c" ]; then
-      lowercased=$(echo -n "$search" | sed 's/[^ _-]*/\L&/g')
-      capitalized=$(echo -n "$search" | sed 's/[^ _-]*/\L\u&/g')
-      search="$lowercased $capitalized"
-    fi
-    if [ "$3" = "-c" ]; then
-      # Set default path if path option skipped
-      local path="."
-    else
-      if [ -n "$3" ]; then local path="$3"; else local path="."; fi
-    fi
-
-    for search_string in $search; do
-      gsed "$search_string" "$replace" "$path"
-      # Replace strings in filenames (exclude tmp and git)
-      # Repeat until there are no move failures.
-      local repeat=true
-      while [ $repeat = true ]; do
-        repeat=false
-        for file in $(find "$path" -type d \( -name .git -o -name tmp -o -name log \) -prune -o -name "*$search_string*" -print); do
-          mv "$file" "${file/$search_string/$replace}" > /dev/null 2>&1 || repeat=true
-        done
-      done
-    done
-  else
-    echo "== Usage: total_replace search_string replace_string [path = .] [-c ? replaces both lower case and capitalized strings]"
-  fi
-}
-
 pwgen() {
   ruby -e "require 'securerandom'; puts SecureRandom.hex(${1:-16})"
 }
