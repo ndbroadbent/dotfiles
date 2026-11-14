@@ -31,13 +31,13 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Default editors
-export EDITOR="cursor editor --wait"
-export VISUAL="cursor editor --wait"
-export GUI_EDITOR="cursor editor"
-export REACT_EDITOR="cursor editor"
-export BUNDLER_EDITOR="cursor editor"
+export EDITOR="code --wait"
+export VISUAL="code --wait"
+export GUI_EDITOR="code"
+export REACT_EDITOR="code"
+export BUNDLER_EDITOR="code"
 export GIT_EDITOR="vim"
-export KUBE_EDITOR="cursor editor --wait"
+export KUBE_EDITOR="code --wait"
 
 # GPG
 export GPG_TTY=$(tty)
@@ -47,7 +47,6 @@ export PATH="$PATH:/usr/local/sbin"
 
 # Homebrew updates way too regularly by default
 export HOMEBREW_NO_AUTO_UPDATE=1
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 
 # Don't worry about /var/mail/ notifications
 unset MAILCHECK

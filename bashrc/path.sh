@@ -11,7 +11,7 @@ export PATH="${PATH}:./node_modules/.bin"
 export PATH="$HOME/.npm-global/bin:${PATH}"
 
 # Homebrew
-export PATH="/opt/homebrew/bin:${PATH}"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}"
 
 # Mise (Must come after homebrew so mise shims take precedence)
 export PATH="$HOME/.local/share/mise/shims:${PATH}"
@@ -23,7 +23,7 @@ export PATH="${PATH}:~/.local/bin"
 # export ANDROID_SDK="$ANDROID_HOME"
 export PATH="${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools"
 
-export JAVA_HOME="/opt/homebrew/opt/openjdk@23/libexec/openjdk.jdk/Contents/Home"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
 export PATH="${JAVA_HOME}/bin:${PATH}"
 
 # bun

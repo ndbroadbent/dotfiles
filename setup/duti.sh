@@ -3,7 +3,7 @@
 # Change default editor for the listed filetypes on MacOS.
 # Required duti to be installed. `brew install duti`
 
-#  parent UTIs to bind to Cursor (safe – won’t steal PDFs, Office docs, images, etc.)
+#  parent UTIs to bind to the editor (safe – won’t steal PDFs, Office docs, images, etc.)
 duti_utis=(
   public.source-code      # language files
   public.script           # generic scripts
@@ -20,7 +20,8 @@ duti_utis=(
 # individual extensions & filename-only items to bind directly
 duti_extensions=(
   # ── modern web / frameworks ───────────────────────────────
-  .html .css .astro .svelte .vue .mdx .jsx .tsx .ts .cjs .mjs .cjsx
+  # No .html: macOS moves the http/https handlers (the default browser) along with public.html
+  .css .astro .svelte .vue .mdx .jsx .tsx .ts .cjs .mjs .cjsx
   .graphql .coffee .less .sass .scss .postcss
   .map .js.map .ts.map .tsx.map .jsx.map .scss.map .jsonc
 
@@ -64,8 +65,8 @@ sublime2=com.sublimetext.2
 sublime3=com.sublimetext.3
 macvim=org.vim.MacVim
 
-# editor=$vscode
-editor=$cursor
+editor=$vscode
+# editor=$cursor
 
 # editors=("Atom" "MacVim" "SublimeText2" "SublimeText3" "VisualStudioCode" "VisualStudioCodeInsiders")
 
