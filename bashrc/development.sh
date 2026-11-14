@@ -108,7 +108,12 @@ dw() {
   fi
 }
 
-# Global cache for rust deps
-RUSTC_WRAPPER="$(command -v sccache)"
+# Rust compiler cache: kache (~/.cargo/config.toml sets it as Cargo's rustc-wrapper), which passes what it can't
+# cache to sccache (~/.config/kache/config.toml). Exporting RUSTC_WRAPPER would override kache, so only fall back to
+# sccache when kache isn't installed.
 SCCACHE_DIR="${SCCACHE_DIR:-$HOME/.cache/sccache}"
-export RUSTC_WRAPPER SCCACHE_DIR
+export SCCACHE_DIR
+if ! command -v kache >/dev/null 2>&1 && command -v sccache >/dev/null 2>&1; then
+  RUSTC_WRAPPER="$(command -v sccache)"
+  export RUSTC_WRAPPER
+fi
